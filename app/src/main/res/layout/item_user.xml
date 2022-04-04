@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/iconView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/image" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iconView"
+        android:layout_alignBottom="@id/iconView"
+        android:layout_marginStart="8dp"
+        android:layout_toLeftOf="@id/actionView"
+        android:layout_toEndOf="@id/iconView"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/describeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/describe" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/actionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="@string/action"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

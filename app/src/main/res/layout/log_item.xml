@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/imageView"
+        android:layout_width="25dp"
+        android:clickable="false"
+        android:layout_height="25dp"
+        android:src="@drawable/image" />
+
+    <TextView
+        android:clickable="false"
+        android:id="@+id/logInfoView"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageView"
+        android:layout_toRightOf="@id/imageView"
+        android:text="@string/compilation_prompt" />
+
+</RelativeLayout>

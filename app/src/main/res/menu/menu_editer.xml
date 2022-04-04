@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/text_undo"
+        android:icon="@drawable/undo"
+        android:title="@string/undo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/text_redo"
+        android:icon="@drawable/redo"
+        android:title="@string/redo"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/save_text"
+        android:icon="@drawable/save"
+        android:title="@string/edit_function"
+        app:actionViewClass="view"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/code_navigation"
+        android:title="@string/code_navigation" />
+
+    <item
+        android:id="@+id/open_game_test"
+        android:title="@string/open_game_test" />
+
+    <item
+        android:id="@+id/show_line_number"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/editer_show_line_num" />
+    <item
+        android:id="@+id/word_wrap"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/word_wrap" />
+
+    <item
+        android:id="@+id/turret_design"
+        android:title="@string/turret_design" />
+
+    <item
+        android:id="@+id/search_view"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/convertToTemplate"
+        android:title="@string/convert_template" />
+
+    <item
+        android:id="@+id/clear_code_cache"
+        android:title="@string/clear_code_cache" />
+
+
+</menu>

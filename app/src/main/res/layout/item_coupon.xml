@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/numView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-20%"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/linearLayout"
+        android:text="@string/mod_title"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/descriptionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleView"
+        android:layout_alignLeft="@id/titleView"
+        android:layout_marginTop="8dp"
+        android:text="@string/describe" />
+
+    <TextView
+        android:id="@+id/expirationTimeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionView"
+        android:layout_alignLeft="@id/titleView"
+        android:layout_marginTop="8dp"
+        android:text="@string/time_limit" />
+
+
+</RelativeLayout>

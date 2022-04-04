@@ -1,0 +1,69 @@
+<resources>
+    <!-- 语言条目 -->
+    <string-array name="language_entries">
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>日本語</item>
+        <item>Россия</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>zh</item>
+        <item>zh_TW</item>
+        <item>en</item>
+        <item>ja</item>
+        <item>ru</item>
+    </string-array>
+
+    <string-array name="update_type_entries">
+        <item>@string/web_link</item>
+        <item>@string/qq_group</item>
+    </string-array>
+
+    <string-array name="operation_list">
+        <item>@string/replace_text</item>
+        <item>@string/text_head_additional</item>
+        <item>@string/text_tail_additional</item>
+    </string-array>
+    
+    <string-array name="pay_type_entries">
+        <item>@string/wechat_pay</item>
+        <item>@string/alipay</item>
+        <item>@string/qq_pay</item>
+    </string-array>
+
+    <string-array name="gender_entries">
+        <item>@string/boy</item>
+        <item>@string/girl</item>
+    </string-array>
+
+    <string-array name="scope_entries">
+        <item>@string/scope_global</item>
+        <item>@string/scope_filePath</item>
+        <item>@string/scope_thisfile</item>
+    </string-array>
+
+    <string-array name="screenshot_addType">
+        <item>@string/select_image</item>
+        <item>@string/from_url</item>
+    </string-array>
+
+    <string-array name="dateset_read_entries">
+        <item>@string/read_mode_additional</item>
+        <item>@string/read_mode_update</item>
+        <item>@string/read_mode_append_or_update</item>
+        <item>@string/read_mode_delete</item>
+        <item>@string/read_mode_copy</item>
+    </string-array>
+
+
+    <string-array name="dateset_read_tips">
+        <item>@string/read_mode_additional_tip</item>
+        <item>@string/read_mode_update_tip</item>
+        <item>@string/read_mode_append_or_update_tip</item>
+        <item>@string/read_mode_delete_tip</item>
+        <item>@string/read_mode_copy_tip</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/clear_recovery_station"
+        android:title="@string/clear_recovery_station" />
+
+    <item
+        android:id="@+id/restore_all"
+        android:title="@string/restore_all" />
+</menu>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path
+        name="root"
+        path=""/>
+    <files-path
+        name="files"
+        path="/zlyt"/>
+
+    <cache-path
+        name="cache"
+        path="/zlyt"/>
+
+    <external-path
+        name="external"
+        path="/zlyt"/>
+
+    <external-files-path
+        name="external_file_path"
+        path="/zlyt"/>
+
+    <external-cache-path
+        name="external_cache_path"
+        path="/zlyt"/>
+
+</paths>

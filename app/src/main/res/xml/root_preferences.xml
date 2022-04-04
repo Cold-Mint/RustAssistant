@@ -1,0 +1,257 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <rikka.preference.SimpleMenuPreference
+            app:defaultValue="简体中文"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="@string/setting_app_language"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/appearance">
+        <SwitchPreference
+            android:title="@string/night_mode_follow_system"
+            app:defaultValue="true"
+            app:key="@string/setting_night_mode_follow_system"
+            app:summary="@string/night_mode_follow_system_tip"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/night_mode"
+            app:defaultValue="false"
+            app:key="@string/setting_night_mode"
+            app:summary="@string/night_mode_auto"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/use_the_community_as_the_launch_page"
+            app:defaultValue="true"
+            app:key="@string/setting_use_the_community_as_the_launch_page"
+            app:summary="@string/use_the_community_as_the_launch_page_tip" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/data_transfer">
+
+
+        <SwitchPreference
+            android:title="@string/using_mobile_networks"
+            app:defaultValue="false"
+            app:key="@string/setting_use_mobile_network"
+            app:summary="@string/using_mobile_networks_tip" />
+
+
+        <EditTextPreference
+            app:key="@string/setting_server_address"
+            app:title="@string/server_address_configuration"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:key="editGroup"
+        app:title="@string/edit_title">
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key="@string/setting_english_editing_mode"
+            app:summary="@string/english_editing_mode_describe"
+            app:title="@string/english_editing_mode" />
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_use_jetBrains_mono_font"
+            app:summary="@string/use_jetBrains_mono_font_describe"
+            app:title="@string/use_jetBrains_mono_font" />
+
+        <EditTextPreference
+            app:key="@string/setting_custom_symbol"
+            app:title="@string/custom_symbol"
+            app:useSimpleSummaryProvider="true" />
+
+        <SeekBarPreference
+            android:max="160"
+            app:key="@string/setting_identifiers_prompt_number"
+            app:min="0"
+            app:showSeekBarValue="true"
+            app:title="@string/identifiers_prompt_number"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_auto_save"
+            app:summary="@string/auto_save_describe"
+            app:title="@string/auto_save" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="gamePackGroup"
+        app:title="@string/game_pack">
+
+        <PreferenceScreen
+            app:key="set_game_pack"
+            app:summary="@string/select_the_game_package_description"
+            app:title="@string/select_the_game_pack" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="modGroup"
+        app:title="@string/mod_title">
+
+
+        <EditTextPreference
+            app:key="@string/setting_mod_folder"
+            app:title="@string/mod_folder"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_auto_create_nomedia"
+            app:summaryOff="@string/auto_create_nomedia_off"
+            app:summaryOn="@string/auto_create_nomedia_on"
+            app:title="@string/auto_create_nomedia" />
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_keep_rwmod_file"
+            app:summary="@string/keep_rwmod_file_description"
+            app:title="@string/keep_rwmod_file" />
+
+        <EditTextPreference
+            app:key="@string/setting_pack_directory"
+            app:title="@string/pack_directory"
+            app:useSimpleSummaryProvider="true" />
+
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_enable_recovery_station"
+            app:summary="@string/description_of_the_recovery_station"
+            app:title="@string/enable_the_recovery_station" />
+
+        <EditTextPreference
+            app:dependency="@string/setting_enable_recovery_station"
+            app:key="@string/setting_recovery_station_folder"
+            app:title="@string/recovery_station_folder"
+            app:useSimpleSummaryProvider="true" />
+
+        <SeekBarPreference
+            android:max="30"
+            app:dependency="@string/setting_enable_recovery_station"
+            app:key="@string/setting_recovery_station_file_save_days"
+            app:min="1"
+            app:showSeekBarValue="true"
+            app:title="@string/recovery_station_file_save_days"
+            app:useSimpleSummaryProvider="true" />
+
+        <PreferenceScreen
+            app:dependency="@string/setting_enable_recovery_station"
+            app:key="open_recovery_station"
+            app:summary="@string/description_of_manage_the_recovery_station"
+            app:title="@string/manage_the_recovery_station" />
+
+        <PreferenceScreen
+            app:key="value_type_manager"
+            app:summary="@string/value_type_manager_describe"
+            app:title="@string/value_type_manager" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="mapGroup"
+        app:title="@string/map">
+
+        <EditTextPreference
+            app:key="@string/setting_map_folder"
+            app:title="@string/map_folder"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="templateGroup"
+        app:title="@string/template_title">
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key="@string/setting_only_load_conant_language_temple"
+            app:summaryOff="@string/only_load_coniant_language_template_off"
+            app:summaryOn="@string/only_load_coniant_language_template_off"
+            app:title="@string/only_load_coniant_language_template" />
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/setting_independent_folder"
+            app:summary="@string/independent_folder_description"
+            app:title="@string/independent_folder" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/update_and_iteration"
+        app:key="updateGroup">
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key="@string/setting_check_beta_update"
+            app:summary="@string/check_beta_update_describe"
+            app:title="@string/check_beta_update" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="plan"
+            app:summary="@string/experience_the_plan_describe"
+            app:title="@string/experience_the_plan" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="cacheGroup"
+        app:title="@string/cache">
+
+        <PreferenceScreen
+            app:key="@string/setting_clear_cache"
+            app:summary="@string/clear_cache_description"
+            app:title="@string/clear_cache" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="developerModeGroup"
+        app:title="@string/sync_header">
+
+        <PreferenceScreen
+            app:key="@string/setting_see_error_info"
+            app:summary="@string/see_error_info_tip"
+            app:title="@string/see_error_info" />
+
+        <SwitchPreference
+            app:key="@string/setting_developer_mode"
+            app:summaryOff="@string/developers_mode_off"
+            app:summaryOn="@string/developers_mode_on"
+            app:title="@string/developers_mode" />
+
+        <EditTextPreference
+            app:dependency="@string/setting_developer_mode"
+            app:key="@string/setting_database_directory"
+            app:title="@string/database_directent"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="@string/setting_developer_mode"
+            app:key="@string/setting_template_directory"
+            app:title="@string/template_directent"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.rust.Base" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!--主要颜色-->
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryVariant">@color/blue_200</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!--次要颜色-->
+        <item name="colorSecondary">@color/pink_200</item>
+        <item name="colorSecondaryVariant">@color/pink_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowBackground">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/blue_700</item>
+        <!-- Customize your theme here. -->
+
+    </style>
+
+    <!--AppBarOverlay-->
+
+
+    <style name="Theme.rust.NoActionBar" parent="Theme.rust.Base">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.rust.NoACtionBar.full" parent="Theme.rust.NoActionBar">
+        <item name="android:colorPrimary">@color/white</item>
+    </style>
+
+    <!--设置标签为小写-->
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
+</resources>

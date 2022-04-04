@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.coldmint.rust.pro">
+
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".RustApplication"
+        android:hasFragileUserData="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.rust.Concept"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".TurretDesignActivity"
+            android:theme="@style/Theme.rust.Concept.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".BrowserActivity"
+            android:exported="false"
+            android:label="@string/built_in_browser" /> <!-- 适配全面屏 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" /> <!-- Activity注册 -->
+        <activity
+            android:name=".OrderListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".PayActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ReviewModActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ReportListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ErrorInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".UserListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ActivateActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ThanksActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".WorkManagementActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".FullScreenCoverActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".TagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ReportActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".EditUserInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".UserHomePageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".WebModInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:ignore="WrongManifestParent">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/content_file_provider" />
+        </provider>
+
+        <activity
+            android:name=".ErrorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- <activity -->
+        <!-- android:name=".StartActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/Theme.rust.Concept.SplashScreen"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImporterActivity"
+            android:documentLaunchMode="intoExisting"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/file_importer"
+            android:maxRecents="3"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.rwmod" />
+                <data android:pathPattern=".*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.rwmod" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.rwmod" />
+                <data android:pathPattern=".*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.rwmod" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.rwmod" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.rp" />
+                <data android:pathPattern=".*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.rp" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.rp" />
+                <data android:pathPattern=".*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.rp" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.rp" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="application/zip" />
+                <data android:pathPattern=".*\.zip" />
+                <data android:pathPattern=".*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.zip" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="application/zip" />
+                <data android:pathPattern=".*\.zip" />
+                <data android:pathPattern=".*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.zip" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.zip" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ValueTypeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".GlobalOperationsActivity"
+            android:label="@string/global_operations"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".EditActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/mod_action1"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".CreateModActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UnitsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".OptimizeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FileManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".CreateUnitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TemplateParserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".LibraryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:label="@string/setting"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".TemplateMakerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".CreateTemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CodeTableActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".EditModInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ApplicationListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".GameCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RecyclingStationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".BookmarkManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".ReleaseModActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+        <activity
+            android:name=".PackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+    </application>
+
+</manifest>

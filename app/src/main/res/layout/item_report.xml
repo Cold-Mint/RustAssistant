@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="2dp"
+    card_view:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/headIconView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/head_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/headIconView"
+            android:layout_alignBottom="@id/headIconView"
+            android:layout_marginLeft="8dp"
+            android:layout_toLeftOf="@id/typeView"
+            android:layout_toRightOf="@id/headIconView"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/timeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/time"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/typeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:text="举报模组" />
+
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headIconView"
+            android:layout_marginTop="8dp"
+            android:text="@string/expiration_time_null"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/describeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview"
+            android:layout_marginTop="8dp"
+            android:text="@string/describe" />
+
+        <TextView
+            android:id="@+id/open_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ignoreView"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/ignoreView"
+            android:text="@string/view_the_report_object"
+            android:textColor="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/actionView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/open_view"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/open_view"
+            android:text="@string/operation"
+            android:textColor="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/ignoreView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/describeView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/ignore"
+            android:textColor="?attr/colorPrimary" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

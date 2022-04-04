@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--夜间主题 -->
+    <style name="Theme.rust.Base" parent="Theme.MaterialComponents.DayNight">
+        <!--主要颜色-->
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryVariant">@color/blue_200</item>
+        <item name="colorOnPrimary">@color/white_500</item>
+        <!--次要颜色-->
+        <item name="colorSecondary">@color/pink_200</item>
+        <item name="colorSecondaryVariant">@color/pink_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <!--item name="android:windowBackground">@color/gray_200</item-->
+        <!--item name="android:statusBarColor" tools:targetApi="l">@color/gray_700</item-->
+        <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="Theme.rust.NoActionBar" parent="Theme.rust.Base">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+</resources>

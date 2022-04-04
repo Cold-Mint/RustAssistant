@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (7.1.1)" variant="fatal" version="7.1.1">
+
+    <issue
+        id="ExtraTranslation"
+        message="&quot;dialog_msg&quot; is translated here but not found in default locale"
+        errorLine1="    &lt;string name=&quot;dialog_msg&quot;>We need storage permissions to read module lists, edit source files, import and export modules, and so on.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-en/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ExtraTranslation"
+        message="&quot;dialog_msg&quot; is translated here but not found in default locale"
+        errorLine1="    &lt;string name=&quot;dialog_msg&quot;>Нам нужно сохранить разрешения на чтение списка модулей, редактирование исходных файлов, импорт модулей экспорта и многое другое&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-ru/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ExtraTranslation"
+        message="&quot;dialog_msg&quot; is translated here but not found in default locale"
+        errorLine1="    &lt;string name=&quot;dialog_msg&quot;>モジュールリストの読み込み、ソースファイルの編集、モジュールのインポートとエクスポートなどのための保存権限が必要です。&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-ja/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ExtraTranslation"
+        message="&quot;dialog_msg&quot; is translated here but not found in default locale"
+        errorLine1="    &lt;string name=&quot;dialog_msg&quot;>我們需要存儲權限，用於讀取模組列表，編輯源文件，導入導出模組等等。&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-zh-rTW/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+</issues>

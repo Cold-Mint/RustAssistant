@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/startGame"
+            android:icon="@drawable/start_the_game"
+            android:title="@string/start_game" />
+
+        <item
+            android:id="@+id/activation_item"
+            android:icon="@drawable/store"
+            android:title="@string/activate" />
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/community_item"
+            android:icon="@drawable/community"
+            android:title="@string/community" />
+
+        <item
+            android:id="@+id/mod_item"
+            android:icon="@drawable/mod"
+            android:title="@string/warehouse" />
+
+        <item
+            android:id="@+id/database_item"
+            android:icon="@drawable/database"
+            android:title="@string/menu_title3" />
+
+        <item
+            android:id="@+id/template_item"
+            android:icon="@drawable/template"
+            android:title="@string/template_title" />
+
+    </group>
+
+    <group>
+
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/help"
+            android:title="@string/help" />
+
+        <item
+            android:id="@+id/code_table"
+            android:icon="@drawable/table"
+            android:title="@string/code_table" />
+
+        <!--        <item-->
+        <!--            android:id="@+id/themes"-->
+        <!--            android:icon="@drawable/themes"-->
+        <!--            android:title="@string/themes" />-->
+
+        <item
+            android:id="@+id/set_up"
+            android:icon="@drawable/setup"
+            android:title="@string/set_up" />
+
+        <item
+            android:id="@+id/donation"
+            android:icon="@drawable/donation"
+            android:title="@string/donation" />
+
+        <!--        <item-->
+        <!--            android:id="@+id/feedback"-->
+        <!--            android:icon="@drawable/feedback"-->
+        <!--            android:title="@string/feedback" />-->
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/about"
+            android:title="@string/about" />
+
+
+    </group>
+
+
+</menu>

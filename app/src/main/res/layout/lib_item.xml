@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标题"
+        android:textColor="?colorPrimary"
+        android:textSize="16dp" />
+
+
+    <TextView
+        android:id="@+id/descriptionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleView"
+        android:layout_marginTop="8dp"
+        android:text="描述" />
+
+
+    <TextView
+        android:id="@+id/agreementView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionView"
+        android:layout_marginTop="8dp"
+        android:text="开源协议"
+        android:textSize="13dp" />
+
+    <ImageView
+        android:id="@+id/linkView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/titleView"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/link" />
+
+    <ImageView
+        android:id="@+id/tipView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/titleView"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/titleView"
+        android:src="@drawable/tip"
+        android:tint="?colorPrimary"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

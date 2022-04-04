@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="table_not_exist">[数据库]缺少 %1$s 表，以实现符合您的国家语言的编译。</string>
+    <string name="location_info">位于%1$s第%2$d行：</string>
+    <string name="compiler_error8">缺少必要节%1$s。</string>
+    <string name="compiler_error6">%1$s应当位于%2$s节。</string>
+    <string name="compiler_error1">%1$s 不是合法的%2$s。</string>
+    <string name="compiler_error3">找不到名为%1$s的文件，应位于%2$s。</string>
+    <string name="compiler_error12">引用了游戏内部文件，请同步游戏数据后检查。</string>
+    <string name="compiler_error2">找不到引用的%1$s节。</string>
+    <string name="need_name_error2">%1$s节需要附加名。</string>
+    <string name="need_name_error1">%1$s节不需要附加名。</string>
+    <string name="section_not_find_error">%1$s节没有录入。</string>
+    <string name="compiler_error7">缺少必要代码%1$s，位于%2$s节。</string>
+    <string name="compiler_error9">%1$s没有被录入。</string>
+    <string name="compiler_error10">%1$s缺少必要的值。</string>
+    <string name="compiler_error11">%1$s不存在于任何节内。</string>
+    <string name="compilation_result_tip">编译完成，共%1$d个错误,%2$d个警告,耗时%3$d毫秒。</string>
+    <string name="close">关闭</string>
+    <string name="compilation_result">编译结果</string>
+    <string name="see_compilation_result">查看编译结果</string>
+    <string name="detection_of_deviation">检查结果仅供参考，请以游戏检查为准。</string>
+    <string name="share">分享</string>
+    <string name="please_enter_content">请输入内容。</string>
+    <string name="template_default_description">来源:游戏包数据同步</string>
+    <string name="template_update">请使用游戏包同步功能，更新此模板包。</string>
+    <string name="unknown_type">[数据集]未知的类型标记%1$s。</string>
+    <string name="variable_name">本地变量</string>
+
+</resources>

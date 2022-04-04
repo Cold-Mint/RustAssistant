@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/unitNameInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="255">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/unitNameInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_unit_name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLength="255"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <CheckBox
+        android:id="@+id/advancedSearchBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/advanced_search" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:visibility="gone"
+        android:id="@+id/fileNameInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="255">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fileNameInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_file_name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLength="255"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/matchesFileNamesByReBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/matches_file_names_by_re"
+        android:visibility="gone" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fileContentInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:counterEnabled="true"
+        app:counterMaxLength="255">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fileContentInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_file_text"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:maxLength="255"
+            android:maxLines="3" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <CheckBox
+        android:id="@+id/isCodeBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/is_code"
+        android:visibility="gone" />
+
+</LinearLayout>

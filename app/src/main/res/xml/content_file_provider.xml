@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <cache-path
+        name="share_file"
+        path="share" />
+
+    <external-path
+        name="share_mod"
+        path="rustedWarfare/units" />
+
+    <external-path
+        name="share_map"
+        path="rustedWarfare/maps" />
+
+    <external-path
+        name="bin"
+        path="rustAssistant/bin" />
+
+
+    <external-path
+        name="carsh"
+        path="rustAssistant/carsh" />
+</paths>

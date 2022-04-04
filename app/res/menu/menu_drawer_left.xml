@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mod_item"
+            android:icon="@mipmap/ui_mod"
+            android:title="@string/menu_title1" />
+
+        <item
+            android:id="@+id/database_item"
+            android:icon="@mipmap/ui_database"
+            android:title="@string/menu_title3" />
+
+        <item
+            android:id="@+id/template_item"
+            android:icon="@mipmap/ui_template"
+            android:title="@string/template_title" />
+    </group>
+
+    <group android:id="@+id/set_up_group">
+        <item
+            android:id="@+id/set_up"
+            android:icon="@mipmap/ui_set_up"
+            android:title="@string/set_up" />
+
+    </group>
+
+
+</menu>

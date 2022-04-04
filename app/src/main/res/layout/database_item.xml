@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <TextView
+        android:textSize="16dp"
+        android:id="@+id/database_name_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="数据库名" />
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:textSize="14dp"
+        android:id="@+id/database_introduce"
+        android:layout_below="@+id/database_name_view"
+        android:layout_toLeftOf="@+id/database_use"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介" />
+
+    <TextView
+        android:id="@+id/databaseOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/database_introduce"
+        android:layout_marginTop="8dp"
+        android:text="作者|版本"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/database_use"
+        android:textSize="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="使用"/>
+
+</RelativeLayout>

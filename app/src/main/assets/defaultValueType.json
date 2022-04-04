@@ -1,0 +1,23 @@
+[
+  {
+    "name": "单位联想",
+    "describe": "默认的单位名称联想。",
+    "type": "unitName",
+    "data": "@method readValue(name)",
+    "scope": "global"
+  },
+  {
+    "name": "全局资源联想",
+    "describe": "默认的全局资源联想。",
+    "type": "globalResourceName",
+    "data": "@method absoluteSectionName(global_resource)",
+    "scope": "global"
+  },
+  {
+    "name": "资源联想",
+    "describe": "默认的资源联想。",
+    "type": "resourceName",
+    "data": "@method absoluteSectionName(resource)",
+    "scope": "filePath"
+  }
+]
