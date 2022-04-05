@@ -39,6 +39,7 @@
         android:title="@string/word_wrap" />
 
     <item
+        android:visible="false"
         android:id="@+id/turret_design"
         android:title="@string/turret_design" />
 

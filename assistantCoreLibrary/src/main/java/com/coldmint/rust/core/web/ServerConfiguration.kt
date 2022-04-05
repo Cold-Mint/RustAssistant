@@ -24,7 +24,7 @@ object ServerConfiguration {
     //本地:http://10.0.2.2/
 
     //电脑查 ip [ipconfig]
-    private const val testIp = "http://10.0.2.2/"
+    private const val testIp = "http://10.0.2.2/rust-assistant-backstage/"
     const val defaultIp = "http://39.105.229.249/"
     var website = defaultIp
     const val Success_Code = 0
