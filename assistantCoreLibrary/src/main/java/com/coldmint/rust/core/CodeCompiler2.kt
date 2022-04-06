@@ -161,12 +161,11 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
             val tokenizer = StringTokenizer(code, split, true)
             //缓存翻译数据，以便加速重复数据的翻译
             val translationMap = HashMap<String, String>()
-            //保存是否为注释
-            var isNote = false
             //保存每次代码的翻译结果
             val codeResult = StringBuilder()
             //保存完整的翻译结果
             val translationResult = StringBuilder()
+            var codeBlockType = CompileConfiguration.CodeBlockType.Key
             handler.post {
                 translatorListener.beforeTranslate()
             }
@@ -178,19 +177,26 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                     codeResult.delete(0, codeResult.length)
                     when (code) {
                         "\n" -> {
-                            isNote = false
+                            codeBlockType = CompileConfiguration.CodeBlockType.Key
                             codeResult.append(code)
                         }
                         "\r" -> {
                         }
-                        ":", " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> codeResult.append(
+                        " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> codeResult.append(
                             code
                         )
-                        else -> if (isNote) {
+                        ":" -> {
+                            if (codeBlockType == CompileConfiguration.CodeBlockType.Key) {
+                                codeBlockType =
+                                    CompileConfiguration.CodeBlockType.Value
+                            }
+                            codeResult.append(code)
+                        }
+                        else -> if (codeBlockType == CompileConfiguration.CodeBlockType.Note) {
                             codeResult.append(code)
                         } else {
                             if (code.startsWith("#")) {
-                                isNote = true
+                                codeBlockType = CompileConfiguration.CodeBlockType.Note
                                 codeResult.append(code)
                             } else if (code.startsWith("[") && code.endsWith("]")) {
                                 val symbolPosition = code.lastIndexOf("_")
@@ -245,13 +251,23 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                         codeResult.append(code)
                                     }
                                 } else {
+                                    //是否需要检查值
+                                    if (codeBlockType == CompileConfiguration.CodeBlockType.Key) {
+                                        val type = getValueData(codeInfo.type)
+                                        val tag = type?.tag
+                                        if (!tag.isNullOrBlank()) {
+                                            //如果此类型为特殊标注，那么设置为注释
+                                            codeBlockType =
+                                                CompileConfiguration.CodeBlockType.Note
+                                        }
+                                    }
                                     codeResult.append(codeInfo.translate)
                                 }
                             }
                         }
                     }
-                    //如果代码不是注释，也不是换行，那么缓存它。
-                    if (!isNote && code != "\n") {
+                    //如果代码不是注释，也不是换行，不是冒号，那么缓存它。
+                    if (codeBlockType != CompileConfiguration.CodeBlockType.Note && code != ":" && code != "\n") {
                         translationMap[code] = codeResult.toString()
                     }
                     translationResult.append(codeResult.toString())
@@ -324,11 +340,14 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                         compileConfiguration.appendResult(translation)
                     }
                     ":" -> {
-                        if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Value) {
-                            compileConfiguration.appendResult(translation)
-                        } else {
-                            compileConfiguration.codeBlockType =
-                                CompileConfiguration.CodeBlockType.Value
+                        when (compileConfiguration.codeBlockType) {
+                            CompileConfiguration.CodeBlockType.Value -> {
+                                compileConfiguration.appendResult(translation)
+                            }
+                            CompileConfiguration.CodeBlockType.Key -> {
+                                compileConfiguration.codeBlockType =
+                                    CompileConfiguration.CodeBlockType.Value
+                            }
                         }
                         codeResult.append(translation)
                     }
@@ -380,6 +399,16 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                     codeResult.append(translation)
                                 }
                             } else {
+                                //是否需要检查值
+                                if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Key) {
+                                    val type = getValueData(codeInfo.type)
+                                    val tag = type?.tag
+                                    if (!tag.isNullOrBlank()) {
+                                        //如果此类型为特殊标注，那么设置为注释
+                                        compileConfiguration.codeBlockType =
+                                            CompileConfiguration.CodeBlockType.Note
+                                    }
+                                }
                                 codeResult.append(codeInfo.code)
                             }
                             //翻译代码段完毕后，加入行结果集合

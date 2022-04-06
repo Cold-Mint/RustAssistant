@@ -23,15 +23,11 @@ import java.util.*
 abstract class BaseActivity<ViewBingType : ViewBinding> :
     AppCompatActivity() {
 
-//    abstract fun getViewModelObject(viewModelProvider: ViewModelProvider): ViewModelType
 
     abstract fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean)
 
     abstract fun getViewBindingObject(): ViewBingType
 
-//    protected val viewModel: ViewModelType by lazy {
-//        getViewModelObject(ViewModelProvider(this))
-//    }
 
     protected val viewBinding: ViewBingType by lazy {
         getViewBindingObject()
@@ -45,12 +41,13 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        loadLanguage()
         whenCreateActivity(savedInstanceState, false)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         whenCreateActivity(savedInstanceState, true)
-
     }
+
 
 
     /**
@@ -66,8 +63,6 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
      */
     protected fun setReturnButton() {
         if (supportActionBar != null) {
-            //激活返回按钮
-            supportActionBar!!.setHomeButtonEnabled(true)
             //将显示主页设置为已启用
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }

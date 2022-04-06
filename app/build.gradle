@@ -31,7 +31,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 13
-        versionName "2.0 Release 6(2022-3-26)"
+        versionName "2.0 Release 7(2022-4-5)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

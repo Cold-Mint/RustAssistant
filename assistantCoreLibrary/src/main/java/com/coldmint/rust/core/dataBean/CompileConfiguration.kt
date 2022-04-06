@@ -105,6 +105,7 @@ data class CompileConfiguration(
 
     /**
      * 代码块类
+     * 键，值，节，注释，变量名
      */
     enum class CodeBlockType {
         Key, Value, Section, Note, VariableName
