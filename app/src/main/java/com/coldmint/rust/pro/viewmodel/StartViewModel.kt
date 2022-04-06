@@ -299,18 +299,27 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 检查签名是否有错误
      */
     private fun checkSignature(): Boolean {
+        val key = "签名检查"
         val sign = AppOperator.getSignature(context)
         if (BuildConfig.DEBUG) {
+            //是测试模式
             if (GlobalMethod.DEBUG_SIGN != sign) {
+                Log.e(key, "测试打包，签名检查错误" + sign + "不是合法的签名。")
                 signatureErrorLiveData.value = true
+            } else {
+                Log.d(key, "测试打包，签名合法。")
+                signatureErrorLiveData.value = false
             }
         } else {
             if (GlobalMethod.RELEASE_SIGN != sign) {
                 signatureErrorLiveData.value = true
+                Log.e(key, "正式打包，签名检查错误" + sign + "不是合法的签名。")
+            } else {
+                Log.d(key, "正式打包，签名合法。")
+                signatureErrorLiveData.value = false
             }
         }
-        signatureErrorLiveData.value = false
-        return signatureErrorLiveData.value ?: false
+        return signatureErrorLiveData.value ?: true
     }
 
     /**

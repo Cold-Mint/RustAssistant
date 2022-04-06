@@ -812,6 +812,7 @@
     <string name="select_the_image_in_the_album">在相册选择图像</string>
     <string name="turret_design">炮塔设计</string>
     <string name="experience_the_plan">用户体验计划</string>
-    <string name="experience_the_plan_describe">匿名发送软件奔溃信息。</string>
+    <string name="experience_the_plan_describe">匿名发送软件奔溃信息(暂不可用)。</string>
     <string name="update_and_iteration">版本更新与用户体验计划</string>
+    <string name="setting_experience_the_plan">experiencePlan</string>
 </resources>

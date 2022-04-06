@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import android.widget.Toast
 import android.net.Uri
 import android.os.*
+import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.SearchView
@@ -150,6 +151,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val executorService = Executors.newSingleThreadExecutor()
         executorService.submit {
             //检查更新
+            val key = "应用更新"
             val packageInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
             val checkBetaUpdate =
                 appSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
@@ -160,16 +162,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 //版本名不一致，是Beta模式
                 if (packageInfo.versionName != data.versionName) {
                     needShowDialog = true
+                    Log.d(key, "是测试模式,版本名称不一致")
+                } else {
+                    Log.d(key, "是测试模式，并且是Beta版本")
                 }
             } else if (checkBetaUpdate) {
                 //版本名不一致
                 if (packageInfo.versionName != data.versionName) {
                     needShowDialog = true
+                    Log.d(key, "开启了检查Beta版本,版本名称不一致")
+                } else {
+                    Log.d(key, "开启了检查Beta版本,无需更新")
                 }
             } else {
                 //版本号不一致
                 if (packageInfo.versionCode != data.versionNumber) {
                     needShowDialog = true
+                    Log.d(key, "正式打包模式,版本号不一致")
+                } else {
+                    Log.d(key, "正式打包模式,版本号一致无需更新")
                 }
             }
 
@@ -246,7 +257,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 recreate()
                 return
             }
-            startViewModel.verifyingUserInfo()
+            val error = startViewModel.signatureErrorLiveData.value ?: true
+            if (!error) {
+                startViewModel.verifyingUserInfo()
+            }
         }
     }
 
