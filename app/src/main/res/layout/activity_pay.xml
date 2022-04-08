@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="请支付5元"
+                android:text="@string/pay_tip"
                 android:textSize="16sp" />
 
             <Button

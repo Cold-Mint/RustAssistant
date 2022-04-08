@@ -694,7 +694,7 @@
     <string name="payment_reminders">我们会在收到您的订单后24小时内充值进您的账户，请耐心等待。若您的订单未在24小时内处理，请向我们提交您的订单号申请处理.</string>
     <string name="pay">支付</string>
     <string name="pay_type">支付方式:</string>
-    <string name="pay_tip">请支付%1$s元</string>
+    <string name="pay_tip">请在%1$s内，支付%2$s元</string>
     <string name="sava_code_and_copy_id">保存收款码，并复制备注</string>
     <string name="pay_tip2">我们已将二维码图像存放到了您的设备上。是否现在跳转至%1$s付款?</string>
     <string name="qq">QQ</string>
@@ -815,4 +815,10 @@
     <string name="experience_the_plan_describe">匿名发送软件奔溃信息(暂不可用)。</string>
     <string name="update_and_iteration">版本更新与用户体验计划</string>
     <string name="setting_experience_the_plan">experiencePlan</string>
+    <string name="order_timeout">订单超时，无法支付。</string>
+    <string name="is_paid">请问您付款了嘛?（未支付的订单将过期，无法再为其付款）。</string>
+    <string name="paid_yes">是的，我付款了</string>
+    <string name="paid_no">放弃订单</string>
+    <string name="preferential_price">已为您优惠%1$.2f元，仍然放弃订单嘛，放弃订单后不返还优惠券。</string>
+    <string name="paid_continue">继续支付</string>
 </resources>

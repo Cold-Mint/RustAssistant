@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.SpannableString
 import android.text.Spanned
 import android.view.View
@@ -14,6 +15,10 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityPayBinding
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
+import android.view.KeyEvent
+import android.view.MenuItem
+import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.dataBean.OrderDataBean
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -34,6 +39,19 @@ import java.io.IOException
  */
 class PayActivity : BaseActivity<ActivityPayBinding>() {
     val hashMap: HashMap<String, String> = HashMap()
+
+    //是否超时了
+    var past: Boolean = false
+
+    //是否第一次启动
+    var first = true
+
+    //优惠的价格(用于询问退出时使用)
+    var difference = 0.toDouble()
+
+    //倒计时器
+    var countDownTimer: CountDownTimer? = null
+
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.pay)
@@ -164,7 +182,6 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
                 override fun onResponse(t: OrderDataBean) {
                     if (t.code == ServerConfiguration.Success_Code) {
                         val data = t.data
-                        createMoney(data.price)
                         val stringBuilder = StringBuilder()
                         stringBuilder.append("订单名：")
                         stringBuilder.append(data.name)
@@ -179,8 +196,38 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
                             stringBuilder.append("\n原价：")
                             stringBuilder.append(data.originalPrice)
                             stringBuilder.append("元")
+                            difference = data.originalPrice - data.price
                         }
                         viewBinding.info.text = stringBuilder.toString()
+                        val timeBuilder = StringBuilder()
+                        countDownTimer = object : CountDownTimer(600000, 1000) {
+                            override fun onTick(p0: Long) {
+                                //秒
+                                timeBuilder.clear()
+                                val second = p0 / 1000
+                                if (second >= 60) {
+                                    val minute = second / 60
+                                    timeBuilder.append(minute)
+                                    timeBuilder.append("分钟")
+                                    timeBuilder.append(second % 60)
+                                    timeBuilder.append("秒")
+                                } else {
+                                    timeBuilder.append(second)
+                                    timeBuilder.append("秒")
+                                }
+                                setMoney(timeBuilder.toString(), t.data.price)
+                                Log.d("秒", timeBuilder.toString())
+                            }
+
+                            override fun onFinish() {
+                                past = true
+                                viewBinding.typeSpinner.isEnabled = false
+                                viewBinding.baseImageView.isVisible = false
+                                viewBinding.payMoneyView.text = getString(R.string.order_timeout)
+                                viewBinding.saveCode.isEnabled = false
+                            }
+                        }
+                        countDownTimer!!.start()
                     } else {
                         showError(t.message)
                     }
@@ -195,29 +242,106 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        if (first) {
+            first = false
+        } else {
+            if (!past) {
+                MaterialDialog(this).show {
+                    title(R.string.pay).message(R.string.is_paid).positiveButton(R.string.paid_yes)
+                        .positiveButton {
+                            finish()
+                        }
+                        .negativeButton(R.string.paid_no).negativeButton {
+                            askingQuit()
+                        }.cancelable(false).neutralButton(R.string.paid_continue)
+                }
+            }
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+            askingQuit()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            askingQuit()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     /**
-     * 设置显示钱数
+     * 询问是否退出
+     */
+    fun askingQuit() {
+        if (difference == 0.toDouble()) {
+            countDownTimer?.cancel()
+            finish()
+        } else {
+            MaterialDialog(this).show {
+                title(R.string.paid_no).message(
+                    text = String.format(
+                        getString(R.string.preferential_price),
+                        difference
+                    )
+                ).positiveButton(R.string.dialog_ok).positiveButton {
+                    countDownTimer?.cancel()
+                    finish()
+                }.negativeButton(R.string.dialog_cancel).cancelable(false)
+            }
+        }
+    }
+
+
+    /**
+     * 设置显示的钱数以及剩余时间
+     * @param time String
      * @param money Double
      */
-    fun createMoney(money: Double) {
+    fun setMoney(time: String, money: Double) {
         val payMoney = getString(R.string.pay_tip)
         val tipMoney = money.toString()
-        val tip = String.format(payMoney, tipMoney)
-        val start = payMoney.indexOf("%1\$s")
+        val tip = String.format(payMoney, time, tipMoney)
+        val start = tip.indexOf("在") + 1
+        val end = tip.indexOf("内")
+        val start2 = tip.indexOf("付") + 1
+        val end2 = tip.indexOf("元")
         val spannableString = SpannableString(tip)
         val colorSpan = ForegroundColorSpan(Color.parseColor("#0099EE"))
+        val colorSpan2 = ForegroundColorSpan(Color.parseColor("#0099EE"))
         spannableString.setSpan(
             colorSpan,
             start,
-            start + tipMoney.length,
+            end,
             Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         )
         spannableString.setSpan(
             StyleSpan(Typeface.BOLD),
             start,
-            start + tipMoney.length,
+            end,
             Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        );
+        )
+        spannableString.setSpan(
+            colorSpan2,
+            start2,
+            end2,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            StyleSpan(Typeface.BOLD),
+            start2,
+            end2,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
         viewBinding.payMoneyView.text = spannableString
     }
 
