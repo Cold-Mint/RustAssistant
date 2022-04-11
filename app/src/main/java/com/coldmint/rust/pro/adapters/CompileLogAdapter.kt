@@ -35,7 +35,7 @@ class CompileLogAdapter(val context: Context, analysisResults: MutableList<Analy
         position: Int
     ) {
 //        viewBinding.logInfoView.movementMethod = LinkMovementMethod.getInstance()
-        viewBinding.logInfoView.text = data.text
+        viewBinding.logInfoView.text = data.errorInfo
         if (data.icon == null) {
             viewBinding.imageView.isVisible = false
         } else {

@@ -135,6 +135,11 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
     ) {
         executorService.submit {
             val targetFile = modClass.modFile
+            val errorFolder =
+                File(AppSettings.dataRootDirectory + "/modErrorReport/" + modClass.modName)
+            if (errorFolder.exists()) {
+                FileOperator.delete_files(errorFolder)
+            }
             val dataBasePath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 requireActivity().applicationContext.dataDir.absolutePath + "/databases/"
             } else {

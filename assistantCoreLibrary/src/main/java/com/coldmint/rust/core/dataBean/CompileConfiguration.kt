@@ -33,8 +33,10 @@ data class CompileConfiguration(
     private val arrayList: ArrayList<AnalysisResult> = ArrayList(),
     private val errorIcon: Drawable? = context.getDrawable(R.drawable.error),
     private val warningIcon: Drawable? = context.getDrawable(R.drawable.warning),
+    private val lineData: StringBuilder = StringBuilder(),
     //错误记录映射记录表（）
-    private var errorRecordMap: HashMap<CodeIndex, ErrorRecord>? = null
+    private
+    var errorRecordMap: HashMap<CodeIndex, ErrorRecord>? = null
 ) {
 
 
@@ -54,9 +56,12 @@ data class CompileConfiguration(
         when (codeBlockType) {
             CodeBlockType.Key -> {
                 keyBuilder.append(string)
+                lineData.append(string)
+                lineData.append(':')
             }
             CodeBlockType.Value -> {
                 valueBuilder.append(string)
+                lineData.append(string)
             }
         }
     }
@@ -72,6 +77,14 @@ data class CompileConfiguration(
         } else {
             keyBuilder.toString()
         }
+    }
+
+    /**
+     * 获取行内容
+     * @return String
+     */
+    fun getLineData(): String {
+        return lineData.toString()
     }
 
 
@@ -123,7 +136,7 @@ data class CompileConfiguration(
         val info: String,
         var function: ((View) -> Unit)? = null,
         val errorType: ErrorType = ErrorType.Warning,
-        var verifyFunction: ((CompileConfiguration) -> Boolean)? = null
+        var verifyFunction: ((CompileConfiguration) -> Boolean)? = null,
     )
 
 
@@ -180,6 +193,7 @@ data class CompileConfiguration(
         if (!canAddError) {
             arrayList.add(
                 AnalysisResult(
+                    getLineData(),
                     "程序错误:未经许可的方法被调用。$errorRecord",
                     errorIcon, errorType = ErrorType.General
                 )
@@ -192,7 +206,11 @@ data class CompileConfiguration(
             line + 1
         )
         val analysisResult =
-            AnalysisResult(location + errorRecord.info, errorType = errorRecord.errorType)
+            AnalysisResult(
+                getLineData(),
+                location + errorRecord.info,
+                errorType = errorRecord.errorType
+            )
         analysisResult.function = errorRecord.function
         when (errorRecord.errorType) {
             ErrorType.Error -> {
@@ -218,7 +236,7 @@ data class CompileConfiguration(
      * @param string String
      */
     fun addInfo(string: String) {
-        val analysisResult = AnalysisResult(string, errorType = ErrorType.General)
+        val analysisResult = AnalysisResult(getLineData(), string, errorType = ErrorType.General)
         arrayList.add(analysisResult)
     }
 
@@ -247,6 +265,7 @@ data class CompileConfiguration(
         codeBlockType = CodeBlockType.Key
         keyBuilder.clear()
         valueBuilder.clear()
+        lineData.clear()
     }
 
     /**

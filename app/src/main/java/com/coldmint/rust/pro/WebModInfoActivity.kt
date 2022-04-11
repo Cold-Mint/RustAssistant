@@ -125,7 +125,8 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                     val icon = t.data.icon
                     if (icon != null && icon.isNotBlank()) {
                         Glide.with(this@WebModInfoActivity)
-                            .load(ServerConfiguration.getRealLink(icon)).apply(GlobalMethod.getRequestOptions())
+                            .load(ServerConfiguration.getRealLink(icon))
+                            .apply(GlobalMethod.getRequestOptions())
                             .into(viewBinding.iconView)
                     }
                     title = t.data.name
@@ -148,7 +149,8 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                             ) {
                                 if (data != null && holder != null) {
                                     Glide.with(this@WebModInfoActivity)
-                                        .load(ServerConfiguration.getRealLink(data)).apply(GlobalMethod.getRequestOptions())
+                                        .load(ServerConfiguration.getRealLink(data))
+                                        .apply(GlobalMethod.getRequestOptions())
                                         .into(holder.imageView)
                                 }
                             }
@@ -331,51 +333,55 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
      * @param fileLink String
      */
     fun downloadWork(fileLink: String) {
-        viewBinding.button.setText(R.string.installation_ing)
-        val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
-        loadFileLayoutBinding.LinearProgressIndicator.max = 100
-        var progress = 0
-        val materialDialog = MaterialDialog(this).show {
-            title(R.string.downlod).customView(view = loadFileLayoutBinding.root).cancelable(false)
-                .positiveButton(R.string.dialog_close)
-        }
+        GlobalMethod.requestStoragePermissions(this) {
+            if (it) {
+                viewBinding.button.setText(R.string.installation_ing)
+                val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
+                loadFileLayoutBinding.LinearProgressIndicator.max = 100
+                var progress = 0
+                val materialDialog = MaterialDialog(this).show {
+                    title(R.string.downlod).customView(view = loadFileLayoutBinding.root)
+                        .cancelable(false)
+                        .positiveButton(R.string.dialog_close)
+                }
 
-        val fileLoader = FileLoader.getInstantiate(fileLink, targetFile.absolutePath)
-        fileLoader.download(object : ProgressResponseBody.ResponseProgressListener {
-            override fun update(bytesRead: Long, contentLength: Long, done: Boolean) {
-                //计算百分比并更新ProgressBar
-                val numberFormat = NumberFormat.getNumberInstance()
-                numberFormat.maximumFractionDigits = 2
-                val trueProgress =
-                    numberFormat.format(bytesRead.toDouble() / contentLength.toDouble() * 100)
-                progress = trueProgress.toFloat().toInt()
-                runOnUiThread {
-                    val progressTip = String.format(tip, progress)
-                    if (materialDialog.isShowing) {
-                        loadFileLayoutBinding.LinearProgressIndicator.progress = progress
-                        loadFileLayoutBinding.tipView.text = progressTip
+                val fileLoader = FileLoader.getInstantiate(fileLink, targetFile.absolutePath)
+                fileLoader.download(object : ProgressResponseBody.ResponseProgressListener {
+                    override fun update(bytesRead: Long, contentLength: Long, done: Boolean) {
+                        //计算百分比并更新ProgressBar
+                        val numberFormat = NumberFormat.getNumberInstance()
+                        numberFormat.maximumFractionDigits = 2
+                        val trueProgress =
+                            numberFormat.format(bytesRead.toDouble() / contentLength.toDouble() * 100)
+                        progress = trueProgress.toFloat().toInt()
+                        runOnUiThread {
+                            val progressTip = String.format(tip, progress)
+                            if (materialDialog.isShowing) {
+                                loadFileLayoutBinding.LinearProgressIndicator.progress = progress
+                                loadFileLayoutBinding.tipView.text = progressTip
+                            }
+                            viewBinding.button.text = progressTip
+                        }
                     }
-                    viewBinding.button.text = progressTip
-                }
+
+                    override fun downloadFail(exception: Exception?) {
+                        if (materialDialog.isShowing) {
+                            materialDialog.dismiss()
+                        }
+                        viewBinding.button.setText(R.string.installation)
+                    }
+
+                    override fun downloadSuccess() {
+                        if (materialDialog.isShowing) {
+                            materialDialog.dismiss()
+                        }
+                        viewBinding.button.setText(R.string.installated)
+                        WebMod.instance.addDownloadNum(modId)
+                    }
+
+                })
             }
-
-            override fun downloadFail(exception: Exception?) {
-                if (materialDialog.isShowing) {
-                    materialDialog.dismiss()
-                }
-                viewBinding.button.setText(R.string.installation)
-            }
-
-            override fun downloadSuccess() {
-                if (materialDialog.isShowing) {
-                    materialDialog.dismiss()
-                }
-                viewBinding.button.setText(R.string.installated)
-                WebMod.instance.addDownloadNum(modId)
-            }
-
-        })
-
+        }
     }
 
     /**
@@ -419,7 +425,8 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                     val icon = t.data.headIcon
                     if (icon != null) {
                         Glide.with(this@WebModInfoActivity)
-                            .load(ServerConfiguration.getRealLink(icon)).apply(GlobalMethod.getRequestOptions(true))
+                            .load(ServerConfiguration.getRealLink(icon))
+                            .apply(GlobalMethod.getRequestOptions(true))
                             .into(viewBinding.headIconView)
                     }
                     viewBinding.userNameView.text = t.data.userName

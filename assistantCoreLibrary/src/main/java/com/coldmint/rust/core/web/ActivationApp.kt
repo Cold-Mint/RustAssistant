@@ -2,6 +2,7 @@ package com.coldmint.rust.core.web
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.OrderDataBean
 import com.coldmint.rust.core.dataBean.OrderListDataBean
@@ -59,6 +60,7 @@ class ActivationApp private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
+                    Log.d("确认订单", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

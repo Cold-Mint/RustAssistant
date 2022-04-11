@@ -13,7 +13,8 @@ import com.coldmint.rust.core.dataBean.CompileConfiguration
  * @constructor
  */
 data class AnalysisResult(
-    val text: String,
+    val lineData: String,
+    val errorInfo: String,
     var icon: Drawable? = null,
     var function: ((View) -> Unit)? = null,
     val errorType: CompileConfiguration.ErrorType

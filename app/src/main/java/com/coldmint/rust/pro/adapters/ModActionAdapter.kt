@@ -210,7 +210,7 @@ class ModActionAdapter(
                                                                 compileConfiguration.getAnalysisResult()
                                                                     .forEach {
                                                                         if (it.errorType == CompileConfiguration.ErrorType.Warning) {
-                                                                            warningList.add(it.text)
+                                                                            warningList.add("【" + it.lineData + "】" + it.errorInfo)
                                                                         }
                                                                     }
                                                                 FileOperator.writeFile(
@@ -231,7 +231,7 @@ class ModActionAdapter(
                                                                 compileConfiguration.getAnalysisResult()
                                                                     .forEach {
                                                                         if (it.errorType == CompileConfiguration.ErrorType.Error) {
-                                                                            errorList.add(it.text)
+                                                                            errorList.add("【" + it.lineData + "】" + it.errorInfo)
                                                                         }
                                                                     }
                                                                 FileOperator.writeFile(
