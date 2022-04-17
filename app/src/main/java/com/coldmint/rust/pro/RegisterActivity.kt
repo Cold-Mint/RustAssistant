@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import com.coldmint.rust.pro.base.BaseActivity
 import android.view.View
@@ -10,6 +11,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.RegisterRequestData
 import com.coldmint.rust.core.web.User
@@ -84,6 +86,36 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 
         })
 
+        viewBinding.mailHelpTextView.setOnClickListener {
+            //预填充qq号
+            val tail = "@qq.com"
+            val oldEmailValue = viewBinding.emailView.text.toString()
+            val hasOldQQ = oldEmailValue.endsWith(tail)
+            var oldQQ = ""
+            if (hasOldQQ) {
+                oldQQ = oldEmailValue.subSequence(0, oldEmailValue.length - tail.length).toString()
+            }
+            //显示对话框
+            MaterialDialog(this).show {
+                title(R.string.email).message(R.string.mail_helper_tip)
+                    .input(
+                        hintRes = R.string.qq_number,
+                        maxLength = viewBinding.emailInputLayout.counterMaxLength - tail.length,
+                        inputType = InputType.TYPE_CLASS_NUMBER,
+                        prefill = oldQQ
+                    ) { materialDialog, charSequence ->
+                        val email = "${charSequence}${tail}"
+                        viewBinding.emailView.setText(email)
+                        Snackbar.make(
+                            viewBinding.registerButton,
+                            R.string.email_fill_complete,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    .positiveButton(R.string.dialog_ok).negativeButton(R.string.dialog_close)
+            }
+
+        }
 
 
         viewBinding.registerButton.setOnClickListener(View.OnClickListener { v ->
