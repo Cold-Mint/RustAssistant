@@ -63,6 +63,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 } else {
                     viewBinding.root.setBackgroundResource(0)
                 }
+                setLoginButtonEnable()
             }
 
         })
@@ -79,6 +80,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             override fun afterTextChanged(s: Editable?) {
                 val passWord = s.toString()
                 checkPassword(passWord)
+                setLoginButtonEnable()
             }
 
         })
@@ -357,6 +359,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         val agree = appSettings.getValue(AppSettings.Setting.AgreePolicy, false)
         viewBinding.checkbox.isChecked = agree
         viewBinding.checkbox.setOnCheckedChangeListener { p0, p1 ->
+            setLoginButtonEnable()
             appSettings.setValue(AppSettings.Setting.AgreePolicy, p1)
         }
 
@@ -407,38 +410,72 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
     }
 
-    fun checkAccount(account: String): Boolean {
+    /**
+     * 检查账号
+     * @param account String
+     * @param updateView Boolean
+     * @return Boolean
+     */
+    fun checkAccount(account: String, updateView: Boolean = true): Boolean {
         return if (account.isBlank()) {
-            setErrorAndInput(
-                viewBinding.accountView,
-                getString(R.string.please_enter_your_account_or_email),
-                viewBinding.accountInputLayout
-            )
+            if (updateView) {
+                setErrorAndInput(
+                    viewBinding.accountView,
+                    getString(R.string.please_enter_your_account_or_email),
+                    viewBinding.accountInputLayout
+                )
+            }
             false
         } else {
-            viewBinding.accountInputLayout.isErrorEnabled = false
+            if (updateView) {
+                viewBinding.accountInputLayout.isErrorEnabled = false
+            }
             true
         }
     }
 
-    fun checkPassword(passWord: String): Boolean {
+    /**
+     * 设置登录按钮
+     */
+    fun setLoginButtonEnable() {
+        viewBinding.button.isEnabled =
+            checkAccount(viewBinding.accountView.text.toString(), false) && checkPassword(
+                viewBinding.passwordView.text.toString(),
+                false
+            ) && viewBinding.checkbox.isChecked
+    }
+
+
+    /**
+     * 检查密码
+     * @param passWord String
+     * @param updateView Boolean
+     * @return Boolean
+     */
+    fun checkPassword(passWord: String, updateView: Boolean = true): Boolean {
         return if (passWord.isBlank()) {
-            setErrorAndInput(
-                viewBinding.passwordView,
-                getString(R.string.please_enter_your_password),
-                viewBinding.passwordInputLayout
-            )
+            if (updateView) {
+                setErrorAndInput(
+                    viewBinding.passwordView,
+                    getString(R.string.please_enter_your_password),
+                    viewBinding.passwordInputLayout
+                )
+            }
             false
         } else {
             if (passWord.matches(Regex("^[a-zA-Z0-9_]{6,20}\$"))) {
-                viewBinding.passwordInputLayout.isErrorEnabled = false
+                if (updateView) {
+                    viewBinding.passwordInputLayout.isErrorEnabled = false
+                }
                 true
             } else {
-                setErrorAndInput(
-                    viewBinding.passwordView,
-                    getString(R.string.password_error),
-                    viewBinding.passwordInputLayout, false
-                )
+                if (updateView) {
+                    setErrorAndInput(
+                        viewBinding.passwordView,
+                        getString(R.string.password_error),
+                        viewBinding.passwordInputLayout, false
+                    )
+                }
                 false
             }
         }

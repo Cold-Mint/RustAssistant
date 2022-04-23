@@ -118,10 +118,11 @@ data class CompileConfiguration(
 
     /**
      * 代码块类
-     * 键，值，节，注释，变量名
+     * 键，值，节，注释，变量名,引用
+     * Reference 引用是一种特殊的数据类型，编译器会尝试编译此值，若无法编译则使用原始值
      */
     enum class CodeBlockType {
-        Key, Value, Section, Note, VariableName
+        Key, Value, Section, Note, VariableName, Reference
     }
 
     /**

@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordInputLayout"
         android:layout_marginTop="8dp"
+        android:enabled="false"
         android:text="@string/login" />
 
 
@@ -73,7 +74,6 @@
         android:layout_below="@id/button"
         android:layout_marginTop="8dp"
         android:text="@string/agreement_agreed" />
-
 
 
     <RelativeLayout

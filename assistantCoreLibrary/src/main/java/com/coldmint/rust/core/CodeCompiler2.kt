@@ -156,7 +156,6 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                 translatorListener.beforeTranslate()
                 translatorListener.onTranslateComplete(code)
             }
-
         } else {
             val tokenizer = StringTokenizer(code, split, true)
             //缓存翻译数据，以便加速重复数据的翻译
@@ -166,6 +165,8 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
             //保存完整的翻译结果
             val translationResult = StringBuilder()
             var codeBlockType = CompileConfiguration.CodeBlockType.Key
+            //保存资源引用值（应该看做整体处理）
+            val referenceResult = StringBuilder()
             handler.post {
                 translatorListener.beforeTranslate()
             }
@@ -177,23 +178,46 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                     codeResult.delete(0, codeResult.length)
                     when (code) {
                         "\n" -> {
+                            if (codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                                val referenceValue = referenceResult.toString()
+                                val codeInfo =
+                                    codeDataBase.getCodeDao().findCodeByCode(referenceValue)
+                                if (codeInfo == null) {
+                                    translationResult.append(referenceResult)
+                                }else{
+//                                    tr
+                                }
+                            }
                             codeBlockType = CompileConfiguration.CodeBlockType.Key
                             codeResult.append(code)
                         }
                         "\r" -> {
                         }
-                        " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> codeResult.append(
-                            code
-                        )
-                        ":" -> {
-                            if (codeBlockType == CompileConfiguration.CodeBlockType.Key) {
-                                codeBlockType =
-                                    CompileConfiguration.CodeBlockType.Value
+                        " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> {
+                            if (codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                                referenceResult.append(code)
+                            } else {
+                                codeResult.append(
+                                    code
+                                )
                             }
-                            codeResult.append(code)
+                        }
+                        ":" -> {
+                            if (codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                                referenceResult.append(code)
+                            } else {
+                                if (codeBlockType == CompileConfiguration.CodeBlockType.Key) {
+                                    codeBlockType =
+                                        CompileConfiguration.CodeBlockType.Value
+                                }
+                                codeResult.append(code)
+                            }
                         }
                         else -> if (codeBlockType == CompileConfiguration.CodeBlockType.Note) {
                             codeResult.append(code)
+                        } else if (codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                            //资源引用值应该被整体处理
+                            referenceResult.append(code)
                         } else {
                             if (code.startsWith("#")) {
                                 codeBlockType = CompileConfiguration.CodeBlockType.Note
@@ -258,7 +282,7 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                         if (!tag.isNullOrBlank()) {
                                             //如果此类型为特殊标注，那么设置为注释
                                             codeBlockType =
-                                                CompileConfiguration.CodeBlockType.Note
+                                                CompileConfiguration.CodeBlockType.Reference
                                         }
                                     }
                                     codeResult.append(codeInfo.translate)

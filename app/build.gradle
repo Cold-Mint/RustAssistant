@@ -6,9 +6,6 @@ plugins {
 }
 
 android {
-    lintOptions {
-        baseline file("lint-baseline.xml")
-    }
     signingConfigs {
         debug {
             storeFile file('keystore\\coldmint_debug.keystore')
@@ -62,6 +59,9 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+    lint {
+        baseline file('lint-baseline.xml')
     }
 }
 

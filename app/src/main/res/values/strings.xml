@@ -825,4 +825,6 @@
     <string name="qq_number">QQ号</string>
     <string name="mail_helper_tip">建议您使用QQ邮箱注册，请输入QQ号，我们会自动填充您的QQ邮箱。</string>
     <string name="email_fill_complete">邮箱地址填充完成。</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="confirm_password_error">两次密码不一致。</string>
 </resources>
