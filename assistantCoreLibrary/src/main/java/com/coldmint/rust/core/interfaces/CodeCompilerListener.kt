@@ -27,6 +27,7 @@ interface CodeCompilerListener {
      * @param code String 代码
      * @param section String 节
      */
+
     fun onClickKeyNotFoundItem(
         lineNum: Int,
         columnNum: Int,
@@ -42,6 +43,7 @@ interface CodeCompilerListener {
      * @param view View 视图
      * @param valueType ValueTypeInfo 值类型
      */
+
     fun onClickValueTypeErrorItem(
         lineNum: Int,
         columnNum: Int,
@@ -57,6 +59,7 @@ interface CodeCompilerListener {
      * @param view View
      * @param sectionName String
      */
+
     fun onClickSectionIndexError(lineNum: Int, columnNum: Int, view: View, sectionName: String)
 
     /**
@@ -92,6 +95,7 @@ interface CodeCompilerListener {
      * @param sectionName String 节名
      * @param needName Boolean 是否需要附加名
      */
+
     fun onClickSectionNameErrorItem(
         lineNum: Int,
         columnNum: Int,
@@ -107,6 +111,7 @@ interface CodeCompilerListener {
      * @param view View 视图
      * @param sectionName String 节名
      */
+
     fun onClickCodeIndexErrorItem(lineNum: Int, view: View, sectionName: String)
 
     /**

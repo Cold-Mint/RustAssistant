@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
+import android.util.Log
 import com.coldmint.rust.core.dataBean.CompileConfiguration
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.core.database.code.ValueTypeInfo
 import com.coldmint.rust.core.interfaces.*
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.LineParser
 import java.io.File
@@ -70,6 +73,7 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
 
     companion object {
         const val split = "\n ,:()=%{}+*/\r"
+        val debugKey = "代码编译器"
 
         @SuppressLint("StaticFieldLeak")
         private var instance: CodeCompiler2? = null
@@ -175,7 +179,7 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                 if (translationMap.containsKey(code)) {
                     translationResult.append(translationMap[code])
                 } else {
-                    codeResult.delete(0, codeResult.length)
+                    codeResult.clear()
                     when (code) {
                         "\n" -> {
                             if (codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
@@ -184,9 +188,10 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                     codeDataBase.getCodeDao().findCodeByCode(referenceValue)
                                 if (codeInfo == null) {
                                     translationResult.append(referenceResult)
-                                }else{
-//                                    tr
+                                } else {
+                                    translationResult.append(codeInfo.translate)
                                 }
+                                referenceResult.clear()
                             }
                             codeBlockType = CompileConfiguration.CodeBlockType.Key
                             codeResult.append(code)
@@ -295,6 +300,11 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                         translationMap[code] = codeResult.toString()
                     }
                     translationResult.append(codeResult.toString())
+                    DebugHelper.printLog(
+                        debugKey,
+                        "代码[" + code + "]译文[" + codeResult.toString() + "]是否翻译[" + (code != codeResult.toString()) + "]",
+                        "翻译"
+                    )
                 }
             }
             handler.post {
@@ -323,6 +333,11 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
         val codeResult = StringBuilder()
         //保存完整的翻译结果
         val compileResult = StringBuilder()
+        //是否为首次引用冒号值(首次值会直接附加到结果集合内)
+        var isFirstReference = false
+
+        //保存资源引用值（应该看做整体处理）
+        val referenceResult = StringBuilder()
         val context = compileConfiguration.context
         handler.post {
             compilerListener?.beforeCompilation()
@@ -330,7 +345,7 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
         val startTime = System.currentTimeMillis()
         while (tokenizer.hasMoreTokens()) {
             val translation = tokenizer.nextToken()
-            codeResult.delete(0, codeResult.length)
+            codeResult.clear()
             if (compileMap.containsKey(translation)) {
                 //此处仅读取字段缓存，不涉及错误缓存的读取
                 val code = compileMap[translation]
@@ -351,32 +366,67 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
             } else {
                 when (translation) {
                     "\n" -> {
-                        analysisLineCode(compileConfiguration, compilerListener)
+                        if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                            //此段代码将临时引用数据referenceValue 附加到编译结果内，并附加到 值 数据内（附加值数据用于检查）
+                            val referenceValue = referenceResult.toString()
+                            compileConfiguration.appendValue(referenceResult.toString())
+                            val codeInfo = codeDataBase.getCodeDao()
+                                .findCodeByTranslate(referenceResult.toString())
+                            if (codeInfo == null) {
+                                compileResult.append(referenceValue)
+                            } else {
+                                compileResult.append(codeInfo.code)
+                            }
+                            DebugHelper.printLog(
+                                debugKey,
+                                "引用数据[" + referenceValue + "]代码信息存在状态[" + (codeInfo != null) + "]",
+                                "行引用附加"
+                            )
+                            referenceResult.clear()
+                        }
+                        isFirstReference = true
+                        checkLineCode(compileConfiguration, compilerListener)
                         compileConfiguration.nextLine()
                         codeResult.append(translation)
                     }
                     "\r" -> {
                     }
                     " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> {
-                        codeResult.append(
-                            translation
-                        )
-                        compileConfiguration.appendResult(translation)
+                        if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                            referenceResult.append(translation)
+                        } else {
+                            codeResult.append(
+                                translation
+                            )
+                            compileConfiguration.appendResult(translation)
+                        }
                     }
                     ":" -> {
                         when (compileConfiguration.codeBlockType) {
                             CompileConfiguration.CodeBlockType.Value -> {
                                 compileConfiguration.appendResult(translation)
+                                codeResult.append(translation)
                             }
                             CompileConfiguration.CodeBlockType.Key -> {
                                 compileConfiguration.codeBlockType =
                                     CompileConfiguration.CodeBlockType.Value
+                                codeResult.append(translation)
+                            }
+                            CompileConfiguration.CodeBlockType.Reference -> {
+                                if (isFirstReference) {
+                                    codeResult.append(translation)
+                                    isFirstReference = false
+                                } else {
+                                    referenceResult.append(translation)
+                                }
                             }
                         }
-                        codeResult.append(translation)
                     }
                     else -> if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Note) {
                         codeResult.append(translation)
+                    } else if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Reference) {
+                        //资源引用值应该被整体处理
+                        referenceResult.append(translation)
                     } else {
                         if (translation.startsWith("#") && compileConfiguration.codeBlockType ==
                             CompileConfiguration.CodeBlockType.Key
@@ -430,7 +480,7 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                     if (!tag.isNullOrBlank()) {
                                         //如果此类型为特殊标注，那么设置为注释
                                         compileConfiguration.codeBlockType =
-                                            CompileConfiguration.CodeBlockType.Note
+                                            CompileConfiguration.CodeBlockType.Reference
                                     }
                                 }
                                 codeResult.append(codeInfo.code)
@@ -465,15 +515,21 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
         }
     }
 
+
     /**
-     * 解析行数据
+     * 检查行数据，此函数不修改结果集。
      * @param compileConfiguration CompileConfiguration 代码配置
      * @param compilerListener CodeCompilerListener? 代码监听器
      */
-    fun analysisLineCode(
+    fun checkLineCode(
         compileConfiguration: CompileConfiguration,
         compilerListener: CodeCompilerListener? = null
     ) {
+        DebugHelper.printLog(
+            debugKey,
+            "键[" + compileConfiguration.getKey() + "]值[" + compileConfiguration.getValue() + "]",
+            "行处理"
+        )
         compileConfiguration.setCanAddError(true)
         val key = compileConfiguration.getKey()
         //设置了监听器并且key不为空

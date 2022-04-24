@@ -94,6 +94,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
             }
             modId = temId
             if (targetFile.exists()) {
+                viewBinding.button.isEnabled = false
                 viewBinding.button.text = getString(R.string.installated)
             }
             viewBinding.modCommentRecyclerView.layoutManager =
@@ -375,6 +376,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                         if (materialDialog.isShowing) {
                             materialDialog.dismiss()
                         }
+                        viewBinding.button.isEnabled = false
                         viewBinding.button.setText(R.string.installated)
                         WebMod.instance.addDownloadNum(modId)
                     }

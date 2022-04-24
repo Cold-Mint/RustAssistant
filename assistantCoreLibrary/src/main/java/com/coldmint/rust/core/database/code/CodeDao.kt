@@ -37,8 +37,24 @@ interface CodeDao {
     @Query("SELECT * FROM code WHERE translate LIKE '%'||:key||'%' AND (section=:section OR section='all') LIMIT :limitNum")
     fun findCodeByKeyInSection(key: String, section: String, limitNum: Int): List<CodeInfo>?
 
+    /**
+     * 在类型内通过翻译查找代码
+     * @param key String
+     * @param type String
+     * @param limitNum Int
+     * @return List<CodeInfo>?
+     */
     @Query("SELECT * FROM code WHERE translate LIKE '%'||:key||'%' AND type=:type LIMIT :limitNum")
-    fun findCodeByKeyInType(key: String, type: String, limitNum: Int): List<CodeInfo>?
+    fun findCodeByTranslateInType(key: String, type: String, limitNum: Int): List<CodeInfo>?
+    /**
+     * 在类型内通过Code查找代码
+     * @param key String
+     * @param type String
+     * @param limitNum Int
+     * @return List<CodeInfo>?
+     */
+    @Query("SELECT * FROM code WHERE code LIKE '%'||:key||'%' AND type=:type LIMIT :limitNum")
+    fun findCodeByCodeInType(key: String, type: String, limitNum: Int): List<CodeInfo>?
 
     /**
      * 搜索代码

@@ -8,6 +8,7 @@ import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.interfaces.EnglishMode
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
@@ -27,6 +28,7 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
     private val result: ArrayList<CompletionItem> by lazy {
         ArrayList()
     }
+    private val debugKey = "自动完成器"
     private var codeDataBase: CodeDataBase? = null
     private val executorService = Executors.newCachedThreadPool()
     private var fileDataBase: FileDataBase? = null
@@ -63,6 +65,7 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
      * @param sourceFolder String
      */
     fun setSourceFolder(sourceFolder: String) {
+        DebugHelper.printLog(debugKey, "已设置源文件目录" + sourceFolder, "设置源文件目录")
         completionItemConverter.setSourceFilePath(sourceFolder)
     }
 
@@ -214,33 +217,55 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
                     } else {
                         lineData.subSequence(0, keyIndex)
                     }
+
                     val codeInfo =
                         if (isEnglishMode) {
                             codeDataBase!!.getCodeDao().findCodeByCode(keyValue.toString())
                         } else {
                             codeDataBase!!.getCodeDao().findCodeByTranslate(keyValue.toString())
                         }
+                    DebugHelper.printLog(
+                        debugKey,
+                        "值[" + keyValue + "]英文模式[" + isEnglishMode + "]代码信息[" + codeInfo + "]关键字[" + prefix + "]",
+                        "值检查"
+                    )
                     if (codeInfo != null) {
                         val typeInfo = completionItemConverter.getValueType(codeInfo.type)
                         //获取代码的关联列表
                         if (typeInfo != null && typeInfo.list.isNotBlank()) {
+                            DebugHelper.printLog(
+                                debugKey,
+                                "值类型[" + codeInfo.type + "]自动提示列表[" + typeInfo.list + "]", "关联提示"
+                            )
                             lineParser.text = typeInfo.list
                             lineParser.analyse { lineNum, lineData, isEnd ->
                                 //分析关联提示项目
                                 val temCodeInfo =
                                     codeDataBase!!.getCodeDao().findCodeByCode(lineData)
+                                DebugHelper.printLog(
+                                    debugKey,
+                                    "值类型[" + codeInfo.type + "]项目[" + lineData + "]是代码[" + (temCodeInfo != null) + "]",
+                                    "关联提示列表分析"
+                                )
                                 if (temCodeInfo == null) {
                                     if (lineData.startsWith("@file(") && lineData.endsWith(")")) {
                                         val fileType = lineData.subSequence(
                                             lineData.indexOf('(') + 1,
                                             lineData.indexOf(')')
                                         )
+
                                         val fileInfo = fileDataBase!!.getFileInfoDao()
                                             .searchFileInfoByNameAndType(
                                                 prefix,
                                                 fileType.toString(),
                                                 identifiersPromptNumber
                                             )
+                                        DebugHelper.printLog(
+                                            debugKey,
+                                            "值类型[" + codeInfo.type + "]项目[" + lineData + "]搜索了[" + fileType + "]类型的文件，返回了[" + (fileInfo?.size
+                                                ?: -1) + "]个结果",
+                                            "关联提示列表分析"
+                                        )
                                         if (fileInfo != null && fileInfo.isNotEmpty()) {
                                             for (fileTable in fileInfo) {
                                                 result.add(
@@ -277,16 +302,33 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
                                             lineData.indexOf('(') + 1,
                                             lineData.indexOf(')')
                                         ).toString()
-                                        codeDataBase!!.getCodeDao().findCodeByKeyInType(
-                                            prefix,
-                                            type,
-                                            identifiersPromptNumber
-                                        )?.forEach {
-                                            result.add(
-                                                completionItemConverter.codeInfoToCompletionItem(
-                                                    it
-                                                )
+                                        val list = if (isEnglishMode
+                                        ) {
+                                            codeDataBase!!.getCodeDao().findCodeByCodeInType(
+                                                prefix,
+                                                type,
+                                                identifiersPromptNumber
                                             )
+                                        } else {
+                                            codeDataBase!!.getCodeDao().findCodeByTranslateInType(
+                                                prefix,
+                                                type,
+                                                identifiersPromptNumber
+                                            )
+                                        }
+                                        DebugHelper.printLog(
+                                            debugKey,
+                                            "关联了值类型[" + type + "]获取[" + (list?.size ?: -1) + "]个结果",
+                                            "值类型引用"
+                                        )
+                                        if (!list.isNullOrEmpty()) {
+                                            list.forEach {
+                                                result.add(
+                                                    completionItemConverter.codeInfoToCompletionItem(
+                                                        it
+                                                    )
+                                                )
+                                            }
                                         }
                                     } else if (lineData.startsWith("@section") && lineData.endsWith(
                                             ")"
@@ -318,7 +360,18 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
                                         )
                                     }
                                 } else {
-                                    if (temCodeInfo.translate.contains(prefix)) {
+
+                                    val show = if (isEnglishMode) {
+                                        temCodeInfo.code.contains(prefix)
+                                    } else {
+                                        temCodeInfo.translate.contains(prefix)
+                                    }
+                                    DebugHelper.printLog(
+                                        debugKey,
+                                        "值类型[" + codeInfo.type + "]项目[" + lineData + "]是否包含" + prefix + "关键字[" + show + "]",
+                                        "关联提示列表分析"
+                                    )
+                                    if (show) {
                                         result.add(
                                             completionItemConverter.codeInfoToCompletionItem(
                                                 temCodeInfo

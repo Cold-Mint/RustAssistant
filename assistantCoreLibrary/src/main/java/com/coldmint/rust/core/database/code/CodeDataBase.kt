@@ -9,12 +9,8 @@ import androidx.room.RoomDatabase
 import com.coldmint.rust.core.DataSet
 import com.coldmint.rust.core.dataBean.dataset.*
 import com.coldmint.rust.core.database.file.FileDataBase
-import com.coldmint.rust.core.database.file.FileTable
-import com.coldmint.rust.core.database.file.HistoryRecord
-import com.coldmint.rust.core.database.file.ValueTable
 import com.coldmint.rust.core.tool.FileOperator
 import com.google.gson.Gson
-import java.io.File
 import java.util.concurrent.Executors
 
 /**
@@ -226,7 +222,7 @@ abstract class CodeDataBase : RoomDatabase() {
             try {
                 Log.d("数据集加载", "加载值表...")
                 val valueTypeData =
-                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.value_type))
+                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.valueType))
                 if (valueTypeData != null) {
                     val valueTypeDataBean =
                         gson.fromJson<ValueTypeDataBean>(
@@ -286,7 +282,7 @@ abstract class CodeDataBase : RoomDatabase() {
             try {
                 Log.d(datasetTag, "加载链式检查表...")
                 val chainInspectionData =
-                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.chain_inspection))
+                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.chainInspection))
                 if (chainInspectionData != null) {
                     val chainInspectionDataBean = gson.fromJson<ChainInspectionDataBean>(
                         chainInspectionData,
@@ -345,7 +341,7 @@ abstract class CodeDataBase : RoomDatabase() {
             try {
                 Log.d("数据集加载", "加载版本表...")
                 val versionData =
-                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.game_version))
+                    FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.gameVersion))
                 if (versionData != null) {
                     val versionDataBean =
                         gson.fromJson<GameVersionDataBean>(

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.ItemListener
@@ -1179,6 +1180,13 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 goIntent.putExtra("modPath", modPath)
                 goIntent.putExtra("filePath", filePath)
                 startActivity(goIntent)
+            }
+            R.id.display_source_code -> {
+                val file = File(viewModel.getNowOpenFilePath())
+                val code = FileOperator.readFile(file)
+                MaterialDialog(this, BottomSheet()).show {
+                    title(text = file.name).message(text = code).negativeButton(R.string.dialog_ok)
+                }
             }
             R.id.clear_code_cache -> {
                 viewModel.codeCompiler2.clearCache()

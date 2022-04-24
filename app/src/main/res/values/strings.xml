@@ -827,4 +827,5 @@
     <string name="email_fill_complete">邮箱地址填充完成。</string>
     <string name="confirm_password">确认密码</string>
     <string name="confirm_password_error">两次密码不一致。</string>
+    <string name="display_source_code">显示源代码</string>
 </resources>

@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import com.coldmint.rust.core.*
 import java.io.File
@@ -39,6 +40,18 @@ data class CompileConfiguration(
     var errorRecordMap: HashMap<CodeIndex, ErrorRecord>? = null
 ) {
 
+
+    /**
+     * 增加值
+     * @param string String
+     */
+    fun appendValue(string: String) {
+        if (codeBlockType == CodeBlockType.Reference) {
+            valueBuilder.append(string)
+        } else {
+            Log.e(CodeCompiler2.debugKey, "只能在引用语句块设置值。")
+        }
+    }
 
     /**
      * 设置是否可以添加错误（只能在特定的函数内添加错误）

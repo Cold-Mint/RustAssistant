@@ -1,19 +1,35 @@
 package com.coldmint.rust.core.dataBean.dataset
 
+import com.google.gson.annotations.SerializedName
+
 data class DataBaseManifest(
-    val id: String,
+    @SerializedName("author")
     val author: String,
+    @SerializedName("describe")
     val describe: String,
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
     val name: String,
-    val versionNumber: Int,
+    @SerializedName("tables")
+    val tables: Tables,
+    @SerializedName("updateLog")
+    val updateLog: List<String>,
+    @SerializedName("versionName")
     val versionName: String,
-    val tables: Tables
+    @SerializedName("versionNumber")
+    val versionNumber: Int
 ) {
     data class Tables(
-        val chain_inspection: String,
+        @SerializedName("chain_inspection")
+        val chainInspection: String,
+        @SerializedName("code")
         val code: String,
-        val game_version: String,
+        @SerializedName("game_version")
+        val gameVersion: String,
+        @SerializedName("section")
         val section: String,
-        val value_type: String
+        @SerializedName("value_type")
+        val valueType: String
     )
 }
