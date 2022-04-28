@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import com.coldmint.rust.core.*
+import com.coldmint.rust.core.tool.DebugHelper
 import java.io.File
 
 /**
@@ -54,6 +55,18 @@ data class CompileConfiguration(
     }
 
     /**
+     * 增加键
+     * @param string String
+     */
+    fun appendKey(string: String) {
+        if (codeBlockType == CodeBlockType.Reference) {
+            keyBuilder.append(string)
+        } else {
+            Log.e(CodeCompiler2.debugKey, "只能在引用语句块设置键。")
+        }
+    }
+
+    /**
      * 设置是否可以添加错误（只能在特定的函数内添加错误）
      * @param canAddError Boolean
      */
@@ -75,6 +88,13 @@ data class CompileConfiguration(
             CodeBlockType.Value -> {
                 valueBuilder.append(string)
                 lineData.append(string)
+            }
+            else -> {
+                DebugHelper.printLog(
+                    CodeCompiler2.debugKey,
+                    "无法分配[" + string + "]，因为代码类型为" + codeBlockType + "不是Value或Key", "追加结果",
+                    true
+                )
             }
         }
     }

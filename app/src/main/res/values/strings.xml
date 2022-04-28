@@ -828,4 +828,5 @@
     <string name="confirm_password">确认密码</string>
     <string name="confirm_password_error">两次密码不一致。</string>
     <string name="display_source_code">显示源代码</string>
+    <string name="edit_tip">您的账号%1$s，将于%2$s到期。永久激活隐藏此卡片。</string>
 </resources>

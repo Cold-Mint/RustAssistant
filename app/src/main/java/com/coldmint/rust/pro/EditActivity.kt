@@ -35,8 +35,10 @@ import com.coldmint.rust.core.database.code.ValueTypeInfo
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.interfaces.CodeCompilerListener
 import com.coldmint.rust.core.tool.AppOperator
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.LineParser
+import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.adapters.CompileLogAdapter
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
@@ -105,6 +107,34 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
      */
     private val editEndBinding: EditEndBinding by lazy {
         EditEndBinding.bind(viewBinding.root)
+    }
+
+    fun loadRenewalCard() {
+        val debugKey = "续费卡片"
+        val account = appSettings.getValue(AppSettings.Setting.Account, "")
+        val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+        if (time == 0.toLong() || account.isBlank()) {
+            DebugHelper.printLog(debugKey, "没有账号或续费信息，隐藏按钮，显示登录。")
+            viewBinding.editTip.text = getString(R.string.please_login_first)
+            viewBinding.renewalButton.isVisible = false
+        } else {
+            val stringTime = ServerConfiguration.toStringTime(time)
+            if (stringTime == ServerConfiguration.ForeverTime) {
+                DebugHelper.printLog(debugKey, "永久用户无需显示卡片。")
+                viewBinding.tipCardView.isVisible = false
+            } else {
+                DebugHelper.printLog(debugKey, "普通用户，显示到期时间。")
+                val tip = String.format(
+                    getString(R.string.edit_tip), account,
+                    stringTime
+                )
+                viewBinding.editTip.text = tip
+                viewBinding.renewalButton.setOnClickListener {
+                    val intent = Intent(this, ActivateActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     /**
@@ -428,6 +458,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             initCodeToolbar()
             initStartView()
             initEndView()
+            loadRenewalCard()
         } else {
             val thisIntent = intent
             val bundle = thisIntent.getBundleExtra("data")
@@ -1186,6 +1217,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 val code = FileOperator.readFile(file)
                 MaterialDialog(this, BottomSheet()).show {
                     title(text = file.name).message(text = code).negativeButton(R.string.dialog_ok)
+                        .cancelable(false)
                 }
             }
             R.id.clear_code_cache -> {

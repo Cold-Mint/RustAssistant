@@ -138,7 +138,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- <activity -->
+            android:theme="@style/Theme.rust.Concept.NoActionBar" /> <!-- <activity -->
         <!-- android:name=".StartActivity" -->
         <!-- android:exported="true" -->
         <!-- android:screenOrientation="portrait" -->
