@@ -2,34 +2,28 @@ package com.coldmint.rust.pro
 
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
-import android.os.Bundle
-import com.coldmint.rust.pro.databinding.ActivityUserHomePageBinding
-import com.coldmint.rust.pro.base.BaseActivity
-
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.coldmint.rust.core.dataBean.ApiResponse
-import com.coldmint.rust.core.dataBean.follow.FollowUserListData
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.*
 import com.coldmint.rust.pro.adapters.UserHomeStateAdapter
+import com.coldmint.rust.pro.base.BaseActivity
+import com.coldmint.rust.pro.databinding.ActivityUserHomePageBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.appbar.AppBarLayout
@@ -37,8 +31,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.gson.Gson
 import com.gyf.immersionbar.ktx.immersionBar
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
+import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 
 
 class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
@@ -49,6 +45,9 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
     var fans: Int = 0
     val userHomeStateAdapter by lazy {
         UserHomeStateAdapter(this, userId)
+    }
+    val videoHelper by lazy {
+        GSYVideoHelper(this)
     }
 
 
@@ -97,7 +96,22 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
         initButton()
 
+        loadVideo()
+    }
 
+
+    fun loadVideo() {
+        viewBinding.coverView.visibility = View.INVISIBLE
+        viewBinding.appBar.setBackgroundResource(R.drawable.transparent)
+        viewBinding.tabLayout.setBackgroundResource(R.drawable.transparent)
+        viewBinding.videoView.setUp("http://39.105.229.249/resources/mp4/vicious.mp4", true, null)
+        videoHelper.setGsyVideoOptionBuilder(
+            GSYVideoHelper.GSYVideoHelperBuilder().setHideActionBar(true).setHideStatusBar(false)
+        )
+        GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_FULL)
+        viewBinding.videoView.isLooping = true
+        viewBinding.videoView.isAutoFullWithSize = true
+        viewBinding.videoView.startPlayLogic()
     }
 
     /**
@@ -193,9 +207,11 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 
         val gender = spaceInfoData.data.gender
         if (gender > 0) {
-            Glide.with(this).load(R.drawable.boy).apply(GlobalMethod.getRequestOptions()).into(viewBinding.genderView)
+            Glide.with(this).load(R.drawable.boy).apply(GlobalMethod.getRequestOptions())
+                .into(viewBinding.genderView)
         } else {
-            Glide.with(this).load(R.drawable.girl).apply(GlobalMethod.getRequestOptions()).into(viewBinding.genderView)
+            Glide.with(this).load(R.drawable.girl).apply(GlobalMethod.getRequestOptions())
+                .into(viewBinding.genderView)
         }
 
         val permission = spaceInfoData.data.permission
@@ -229,7 +245,8 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 
         val cover = spaceInfoData.data.cover
         if (cover != null) {
-            Glide.with(this).load(ServerConfiguration.getRealLink(cover)).apply(GlobalMethod.getRequestOptions())
+            Glide.with(this).load(ServerConfiguration.getRealLink(cover))
+                .apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.coverView)
         }
 
