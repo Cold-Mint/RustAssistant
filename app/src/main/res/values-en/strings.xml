@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Rust Assistant</string>
     <string name="dialog_title">Application permission</string>
-    <string name="dialog_msg">We need storage permissions to read module lists, edit source files, import and export modules, and so on.</string>
     <string name="dialog_confirm">Authorization</string>
     <string name="dialog_close">Exit</string>
     <string name="dialog_msg29">We need to manage file permissions to read module lists, edit source files, import and export modules, and so on.</string>

@@ -23,7 +23,6 @@ class ReportListActivity : BaseActivity<ActivityReportListBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.report_to_deal)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val account = appSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {

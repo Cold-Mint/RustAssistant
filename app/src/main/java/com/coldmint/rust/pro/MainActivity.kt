@@ -84,7 +84,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     fun useToolbarSetSupportActionBar() {
         tabLayout = viewBinding.tabLayout
-        setSupportActionBar(viewBinding.toolbar)
     }
 
     /**

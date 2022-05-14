@@ -20,7 +20,6 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.setTitle(R.string.special_thanks_to)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
             val list = ArrayList<ThanksDataBean>()

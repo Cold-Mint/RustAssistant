@@ -79,7 +79,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.release)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val layoutManager = LinearLayoutManager(this)
             layoutManager.orientation = RecyclerView.HORIZONTAL

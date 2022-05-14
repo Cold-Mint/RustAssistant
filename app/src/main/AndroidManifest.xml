@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.coldmint.rust.pro">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -26,7 +25,6 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".TurretDesignActivity"
-            android:theme="@style/Theme.rust.Concept.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".BrowserActivity"
@@ -44,82 +42,66 @@
         <activity
             android:name=".OrderListActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SearchActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PayActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReviewModActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReportListActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ErrorInfoActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UserListActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivateActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ThanksActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WorkManagementActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FullScreenCoverActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TagActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReportActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditUserInfoActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UserHomePageActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WebModInfoActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -137,8 +119,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" /> <!-- <activity -->
+            android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".StartActivity" -->
         <!-- android:exported="true" -->
         <!-- android:screenOrientation="portrait" -->
@@ -268,59 +249,49 @@
         <activity
             android:name=".AboutActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ValueTypeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GlobalOperationsActivity"
             android:label="@string/global_operations"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/mod_action1"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CreateModActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UnitsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OptimizeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FileManagerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CreateUnitActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TemplateParserActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LibraryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
             android:label="@string/setting"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TemplateMakerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CreateTemplateActivity"
             android:screenOrientation="portrait" />
@@ -329,39 +300,31 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditModInfoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ApplicationListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GameCheckActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RecyclingStationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BookmarkManagerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReleaseModActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PackActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.rust.Concept.NoActionBar" />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

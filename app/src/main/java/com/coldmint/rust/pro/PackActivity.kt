@@ -53,7 +53,6 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
         if (canUseView)
         {
             viewBinding.toolbar.title = getText(R.string.packmod)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             initData()
             initAction()

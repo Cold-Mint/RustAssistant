@@ -3,7 +3,6 @@
     <string name="app_name">サビアシスタント</string>
     <string name="dialog_title">権限申請</string>
     <string name="dialog_msg29">モジュールリストの読み込み、ソースファイルの編集、モジュールのインポート、エクスポートなどのファイル権限を管理する必要があります。</string>
-    <string name="dialog_msg">モジュールリストの読み込み、ソースファイルの編集、モジュールのインポートとエクスポートなどのための保存権限が必要です。</string>
     <string name="dialog_confirm">オーソライズ</string>
     <string name="dialog_close">退く</string>
     <string name="not_find_mod">モジュールはありません</string>

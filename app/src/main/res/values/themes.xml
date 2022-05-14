@@ -1,14 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--白色主题（适配安卓5.1 SDK 22）-->
-    <style name="Theme.rust.Concept.NoActionBar" parent="Theme.rust.Concept">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="actionBarStyle">@style/ThemeOverlay.rust.Concept.ActionBar</item>
-    </style>
 
     <style name="Theme.rust.Concept.SplashScreen" parent="Theme.SplashScreen">
-        <item name="postSplashScreenTheme">@style/Theme.rust.Concept.NoActionBar</item>
+        <item name="postSplashScreenTheme">@style/Theme.rust.Concept</item>
         <item name="windowSplashScreenAnimationDuration">200</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="windowSplashScreenBackground">@color/white_200</item>
@@ -16,26 +10,29 @@
 
 
     <!--概念主题 -->
-    <style name="Theme.rust.Concept" parent="Theme.Material3.DayNight">
+    <style name="Theme.rust.Concept" parent="Base.rust.Concept">
         <!--主色调-->
-        <item name="colorPrimary">@color/pink_500</item>
+<!--        <item name="colorPrimary">@color/pink_500</item>-->
         <!--主色调变体-->
-        <item name="colorPrimaryVariant">@color/pink_200</item>
+<!--        <item name="colorPrimaryVariant">@color/pink_200</item>-->
         <!--主色调之上-->
-        <item name="colorOnPrimary">@color/white</item>
+<!--        <item name="colorOnPrimary">@color/white</item>-->
 
         <!--次要颜色-->
-        <item name="colorSecondary">@color/blue_500</item>
-        <item name="colorSecondaryVariant">@color/blue_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+<!--        <item name="colorSecondary">@color/blue_500</item>-->
+<!--        <item name="colorSecondaryVariant">@color/blue_700</item>-->
+<!--        <item name="colorOnSecondary">@color/black</item>-->
 
-        <item name="android:statusBarColor">@color/white_200</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="actionBarStyle">@style/ThemeOverlay.rust.Concept.ActionBar</item>
-        <item name="android:windowBackground">@color/white_200</item>
-        <item name="android:navigationBarColor">@color/white_200</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+<!--        <item name="android:statusBarColor">@color/white_200</item>-->
+<!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+<!--        <item name="actionBarStyle">@style/ThemeOverlay.rust.Concept.ActionBar</item>-->
+<!--        <item name="android:windowBackground">@color/white_200</item>-->
+<!--        <item name="android:navigationBarColor">@color/white_200</item>-->
+<!--        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>-->
     </style>
+
+
+    <style name="Base.rust.Concept" parent="Theme.Material3.DayNight.NoActionBar"/>
 
     <!--概念活动栏样式-->
     <style name="ThemeOverlay.rust.Concept.ActionBar" parent="ThemeOverlay.Material3.ActionBar">

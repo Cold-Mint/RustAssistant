@@ -27,7 +27,6 @@ class TurretDesignActivity : BaseActivity<ActivityTurretDesignBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             title = getString(R.string.turret_design)
             val modPath = intent.getStringExtra("modPath")

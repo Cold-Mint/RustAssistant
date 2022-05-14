@@ -31,7 +31,6 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.report)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val bundle = intent.getBundleExtra("data")
             if (bundle == null) {

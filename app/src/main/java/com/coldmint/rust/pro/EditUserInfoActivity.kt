@@ -53,7 +53,6 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
 
     private fun initView() {
         viewBinding.toolbar.title = getText(R.string.editData)
-        setSupportActionBar(viewBinding.toolbar)
         setReturnButton()
         val thisIntent = intent
         val temUserId = thisIntent.getStringExtra("userId")

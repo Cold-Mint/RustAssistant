@@ -23,7 +23,6 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.setTitle(R.string.enable_the_recovery_station)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.backupList.layoutManager =
                 LinearLayoutManager(this@RecyclingStationActivity)

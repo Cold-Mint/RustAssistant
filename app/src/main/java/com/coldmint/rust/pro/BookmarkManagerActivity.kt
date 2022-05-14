@@ -222,7 +222,6 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             setTitle(R.string.bookmark_manager)
             bookmarkManager = BookmarkManager(this@BookmarkManagerActivity)

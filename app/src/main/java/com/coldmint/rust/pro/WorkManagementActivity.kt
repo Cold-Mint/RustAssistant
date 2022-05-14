@@ -251,7 +251,6 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.setTitle(R.string.work_management)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         }

@@ -39,7 +39,6 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val thisIntent = intent
             val bundle = thisIntent.getBundleExtra("data")

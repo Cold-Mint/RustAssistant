@@ -10,6 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
@@ -41,13 +43,19 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        loadLanguage()
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         whenCreateActivity(savedInstanceState, false)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+        val toolBar = findViewById<Toolbar>(R.id.toolbar)
+        if (toolBar == null) {
+            MaterialDialog(this).title(R.string.app_name).message(text = "启动失败，未找到标题栏")
+                .positiveButton(text = "确定").cancelable(false).show()
+        } else {
+            setSupportActionBar(toolBar)
+        }
         whenCreateActivity(savedInstanceState, true)
     }
-
 
 
     /**

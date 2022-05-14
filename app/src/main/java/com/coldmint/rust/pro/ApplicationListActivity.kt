@@ -147,7 +147,6 @@ class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {
      */
     private fun setTitleAndActionBar() {
         viewBinding.toolbar.setTitle(R.string.select_game_pack)
-        setSupportActionBar(viewBinding.toolbar)
         setReturnButton()
     }
 

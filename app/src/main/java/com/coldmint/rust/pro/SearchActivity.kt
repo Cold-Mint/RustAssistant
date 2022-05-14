@@ -18,7 +18,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     lateinit var keyWord: String
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             loadData(keyWord)
             title = String.format(getString(R.string.search_mod_key), keyWord)

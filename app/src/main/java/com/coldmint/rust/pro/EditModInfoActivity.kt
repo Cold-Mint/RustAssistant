@@ -76,7 +76,6 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.mod_action2)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val intent = intent
             val bundle = intent.getBundleExtra("data")

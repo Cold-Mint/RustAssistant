@@ -234,7 +234,6 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.activation_app)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val account = appSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {

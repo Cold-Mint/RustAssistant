@@ -77,7 +77,6 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     private var isOpen = false
 
     private fun initView() {
-        setSupportActionBar(viewBinding.toolbar)
         setReturnButton()
         val activityIntent = intent
         val bundle = activityIntent.getBundleExtra("data")

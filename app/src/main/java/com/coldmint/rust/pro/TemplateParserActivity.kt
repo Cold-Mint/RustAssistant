@@ -421,7 +421,6 @@ class TemplateParserActivity() : BaseActivity<ActivityTemplateParserBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.fab.hide()
             val intent = intent

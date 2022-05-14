@@ -291,7 +291,6 @@ class ValueTypeActivity : BaseActivity<ActivityValueTypeBinding>() {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.value_type_manager)
             viewBinding.valueList.layoutManager = LinearLayoutManager(this@ValueTypeActivity)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             loadList()
             viewBinding.fab.setOnClickListener { showEditDialog(null) }

@@ -155,7 +155,6 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.setTitle(R.string.libs)
-            setSupportActionBar(viewBinding.toolbar)
             //android:label="@string/mod_action1"
             setReturnButton()
             viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)

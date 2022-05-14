@@ -28,7 +28,6 @@ class ErrorInfoActivity : BaseActivity<ActivityErrorInfoBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.see_error_info)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
             val path = AppSettings.dataRootDirectory + "/carsh/"

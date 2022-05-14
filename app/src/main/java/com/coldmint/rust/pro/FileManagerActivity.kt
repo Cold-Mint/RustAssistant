@@ -50,7 +50,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
     private var additionalData: String? = null
     private fun initView() {
         viewBinding.toolbar.setTitle(R.string.file_manager)
-        setSupportActionBar(viewBinding.toolbar)
         setReturnButton()
         viewBinding.fileList.layoutManager = LinearLayoutManager(this@FileManagerActivity)
         val intent = intent

@@ -449,7 +449,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             loadStartObserve()
             loadEndObserve()

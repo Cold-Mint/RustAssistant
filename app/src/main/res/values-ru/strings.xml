@@ -2,7 +2,6 @@
     <string name="app_name">Помощник по ржавчине</string>
     <string name="dialog_title">Заявка на разрешение.</string>
     <string name="dialog_msg29">Нам нужны права диспетчера файлов для чтения списка модулей, редактирования исходных файлов, импорта модулей экспорта и так далее.</string>
-    <string name="dialog_msg">Нам нужно сохранить разрешения на чтение списка модулей, редактирование исходных файлов, импорт модулей экспорта и многое другое</string>
     <string name="dialog_confirm">Разрешите</string>
     <string name="dialog_close">Выйдите.</string>
     <string name="dialog_close2">Фон.</string>

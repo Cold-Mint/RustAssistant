@@ -55,7 +55,6 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.pay)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             val thisIntent = intent
             val uuid = thisIntent.getStringExtra("uuid")

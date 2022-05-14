@@ -329,7 +329,6 @@ class TemplateMakerActivity : BaseActivity<ActivityTemplateMakerBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             viewBinding.tabLayout.setupWithViewPager(viewBinding.viewPager)
             makerView = RecyclerView(this@TemplateMakerActivity)

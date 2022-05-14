@@ -451,7 +451,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.setTitle(R.string.register)
-            setSupportActionBar(viewBinding.toolbar)
             setReturnButton()
             initAction()
         }

@@ -3,7 +3,6 @@
     <string name="dialog_title">權限申請</string>
     <string name="app_name">鐵銹助手</string>
     <string name="dialog_msg29">我們需要管理文件權限，用於讀取模組列表，編輯源文件，導入導出模組等等。</string>
-    <string name="dialog_msg">我們需要存儲權限，用於讀取模組列表，編輯源文件，導入導出模組等等。</string>
     <string name="dialog_confirm">授權</string>
     <string name="dialog_close">退出</string>
     <string name="not_find_mod">沒有模組</string>

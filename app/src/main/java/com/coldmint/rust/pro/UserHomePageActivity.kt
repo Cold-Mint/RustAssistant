@@ -82,7 +82,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             account = temAccount
         }
         viewBinding.toolbar.title = ""
-        setSupportActionBar(viewBinding.toolbar)
         setReturnButton()
         val params = viewBinding.toolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
         params.setMargins(0, statusBarHeight(this), 0, 0)
