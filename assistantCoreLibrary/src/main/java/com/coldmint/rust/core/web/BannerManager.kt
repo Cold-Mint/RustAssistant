@@ -12,6 +12,7 @@ import java.io.IOException
 /**
  * 轮播图管理器
  */
+@Deprecated("已废弃")
 class BannerManager private constructor() {
     companion object {
         val instance: BannerManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {

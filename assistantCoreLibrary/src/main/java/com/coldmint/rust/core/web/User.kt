@@ -21,6 +21,7 @@ import java.lang.NullPointerException
 /**
  * 用户类
  */
+@Deprecated("已废弃")
 object User {
 
     /**
