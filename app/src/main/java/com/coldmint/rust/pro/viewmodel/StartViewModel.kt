@@ -22,6 +22,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.DataSet
 import com.coldmint.rust.core.dataBean.LoginRequestData
+import com.coldmint.rust.core.dataBean.user.ActivationInfo
+import com.coldmint.rust.core.dataBean.user.SocialInfoData
 import com.coldmint.rust.core.dataBean.user.UserData
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -59,7 +61,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 用户数据的LiveData
      */
     val userLiveData by lazy {
-        MutableLiveData<UserData>()
+        MutableLiveData<ActivationInfo>()
     }
 
     /**
@@ -126,34 +128,17 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 验证用户信息
      */
     fun verifyingUserInfo() {
+        val status = appSettings.getValue(AppSettings.Setting.LoginStatus, false)
+        if (!status) {
+            needLoginLiveData.value = true
+            return
+        }
         //验证登录
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
-        val passWord = appSettings.getValue(AppSettings.Setting.PassWord, "")
-        if (account.isBlank() || passWord.isBlank()) {
+        val token = appSettings.getValue(AppSettings.Setting.Token, "")
+        if (token.isBlank()) {
             needLoginLiveData.value = true
         } else {
-            User.login(LoginRequestData(
-                account,
-                passWord, appSettings.getValue(AppSettings.Setting.AppID, "")
-            ), object : ApiCallBack<UserData> {
-                override fun onResponse(userData: UserData) {
-                    if (userData.code == ServerConfiguration.Success_Code) {
-                        userLiveData.value = userData
-                        //更新本地激活时间
-                        val expirationTime = userData.data.expirationTime
-                        val time = ServerConfiguration.toLongTime(expirationTime)
-                        appSettings.forceSetValue(
-                            AppSettings.Setting.ExpirationTime,
-                            time
-                        )
-                        isActivationLiveData.value = userData.data.activation
-                    } else {
-//                        用户登录失败
-                        verifyErrorMsgLiveData.value = userData.message
-                        Log.d("验证失败", userData.message)
-                    }
-                }
-
+            User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
                 override fun onFailure(e: Exception) {
                     val localTime = appSettings.getValue(
                         AppSettings.Setting.ExpirationTime,
@@ -165,6 +150,25 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
                         val nowTime = System.currentTimeMillis()
                         //本地时间大于当前时间 激活
                         isActivationLiveData.value = localTime > nowTime
+                    }
+                }
+
+
+                override fun onResponse(activationInfo: ActivationInfo) {
+                    if (activationInfo.code == ServerConfiguration.Success_Code) {
+                        userLiveData.value = activationInfo
+                        //更新本地激活时间
+                        val expirationTime = activationInfo.data.expirationTime
+                        val time = ServerConfiguration.toLongTime(expirationTime)
+                        appSettings.forceSetValue(
+                            AppSettings.Setting.ExpirationTime,
+                            time
+                        )
+                        isActivationLiveData.value = activationInfo.data.activation
+                    } else {
+//                        用户登录失败
+                        verifyErrorMsgLiveData.value = activationInfo.message
+                        Log.d("验证失败", activationInfo.message)
                     }
                 }
             })
@@ -396,6 +400,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         )
         appSettings.initSetting(AppSettings.Setting.AutoSave, true)
         appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
+        appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
     }
 
     /**

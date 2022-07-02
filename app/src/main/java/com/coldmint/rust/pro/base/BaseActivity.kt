@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.pro.R
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
@@ -43,15 +44,12 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-        whenCreateActivity(savedInstanceState, false)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        whenCreateActivity(savedInstanceState, false)
         setContentView(viewBinding.root)
-        val toolBar = findViewById<Toolbar>(R.id.toolbar)
-        if (toolBar == null) {
-            MaterialDialog(this).title(R.string.app_name).message(text = "启动失败，未找到标题栏")
-                .positiveButton(text = "确定").cancelable(false).show()
-        } else {
+        val toolBar = findViewById<MaterialToolbar>(R.id.toolbar)
+        if (toolBar != null) {
             setSupportActionBar(toolBar)
         }
         whenCreateActivity(savedInstanceState, true)

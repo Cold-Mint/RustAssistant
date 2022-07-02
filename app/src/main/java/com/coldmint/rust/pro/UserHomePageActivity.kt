@@ -32,9 +32,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gyf.immersionbar.ktx.immersionBar
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
-import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper
-import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 
 
 class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
@@ -45,9 +42,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
     var fans: Int = 0
     val userHomeStateAdapter by lazy {
         UserHomeStateAdapter(this, userId)
-    }
-    val videoHelper by lazy {
-        GSYVideoHelper(this)
     }
 
 
@@ -95,23 +89,9 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
         initButton()
 
-        loadVideo()
     }
 
 
-    fun loadVideo() {
-        viewBinding.coverView.visibility = View.INVISIBLE
-        viewBinding.appBar.setBackgroundResource(R.drawable.transparent)
-        viewBinding.tabLayout.setBackgroundResource(R.drawable.transparent)
-        viewBinding.videoView.setUp("http://39.105.229.249/resources/mp4/vicious.mp4", true, null)
-        videoHelper.setGsyVideoOptionBuilder(
-            GSYVideoHelper.GSYVideoHelperBuilder().setHideActionBar(true).setHideStatusBar(false)
-        )
-        GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_FULL)
-        viewBinding.videoView.isLooping = true
-        viewBinding.videoView.isAutoFullWithSize = true
-        viewBinding.videoView.startPlayLogic()
-    }
 
     /**
      * 打开用户列表

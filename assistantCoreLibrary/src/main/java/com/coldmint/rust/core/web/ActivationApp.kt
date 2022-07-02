@@ -16,7 +16,6 @@ import java.io.IOException
  * @author Cold Mint
  * @date 2021/12/22 20:12
  */
-@Deprecated("已废弃")
 class ActivationApp private constructor() {
 
     companion object {

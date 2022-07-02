@@ -106,34 +106,28 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 }
                 val appId = appSettings.getValue(AppSettings.Setting.AppID, "");
                 isLogin = true
-                viewBinding.button.setBackgroundColor(
-                    GlobalMethod.getThemeColor(
-                        this@LoginActivity,
-                        R.attr.colorPrimaryVariant
-                    )
-                )
                 viewBinding.button.setText(R.string.request_data)
                 User.login(LoginRequestData(account, passWord, appId),
                     object : ApiCallBack<UserData> {
                         override fun onResponse(userData: UserData) {
                             isLogin = false
-                            viewBinding.button.setBackgroundColor(GlobalMethod.getColorPrimary(this@LoginActivity))
                             viewBinding.button.setText(R.string.login)
                             if (userData.code == ServerConfiguration.Success_Code) {
                                 appSettings.forceSetValue(
                                     AppSettings.Setting.Account,
-                                    userData.data.account
+                                    account
                                 )
                                 appSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
                                 appSettings.forceSetValue(
-                                    AppSettings.Setting.UserName,
-                                    userData.data.userName
+                                    AppSettings.Setting.Token,
+                                    userData.data.token
                                 )
                                 GlobalMethod.isActive = userData.data.activation
                                 //更新本地激活时间
                                 val expirationTime = userData.data.expirationTime
                                 val time = ServerConfiguration.toLongTime(expirationTime)
                                 appSettings.forceSetValue(AppSettings.Setting.ExpirationTime, time)
+                                appSettings.forceSetValue(AppSettings.Setting.LoginStatus,true)
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 finish()
                             } else {

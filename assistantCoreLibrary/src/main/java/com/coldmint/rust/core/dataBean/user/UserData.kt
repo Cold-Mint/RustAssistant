@@ -1,30 +1,22 @@
 package com.coldmint.rust.core.dataBean.user
 
-/**
- * 用户数据
- * @property code Int
- * @property `data` Data
- * @property message String
- * @constructor
- */
+
+import com.google.gson.annotations.SerializedName
+
 data class UserData(
+    @SerializedName("code")
     val code: Int,
+    @SerializedName("data")
     val `data`: Data,
+    @SerializedName("message")
     val message: String
 ) {
     data class Data(
-        val account: String,
-        val appID: String,
-        val creationTime: String,
-        val email: String,
-        val enable: Boolean,
+        @SerializedName("activation")
+        val activation: Boolean,
+        @SerializedName("expirationTime")
         val expirationTime: String,
-        val gender: Int,
-        val headIcon: String?,
-        val loginTime: String,
-        val password: String,
-        val permission: Int,
-        val userName: String,
-        val activation: Boolean
+        @SerializedName("token")
+        val token: String
     )
 }

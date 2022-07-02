@@ -14,7 +14,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
 
-@Deprecated("已废弃")
 class WebMod private constructor() {
 
     enum class SortMode(private val value: String) {

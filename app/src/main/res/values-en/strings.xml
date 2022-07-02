@@ -48,7 +48,6 @@
     <string name="unit_error">Unable to create, the Unit is exists.</string>
     <string name="mod_action9">Rename</string>
     <string name="open_action1">Edit text</string>
-    <string name="open_action2">Import the mod</string>
     <string name="open_action3">Unzip</string>
     <string name="open_action4">System default mode</string>
     <string name="loading_files">Load files...</string>

@@ -14,7 +14,6 @@ import java.io.IOException
  * @author Cold Mint
  * @date 2022/1/10 20:17
  */
-@Deprecated("已废弃")
 class Coupon {
 
     companion object {

@@ -10,11 +10,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * 网络管理器
  */
+
+@Deprecated("已废弃", level = DeprecationLevel.HIDDEN)
 object NetworkManager {
 
     private var baseUrl: String? = null
 
     private var retrofit: Retrofit? = null
+
 
     const val debugKey = "网络管理器"
 

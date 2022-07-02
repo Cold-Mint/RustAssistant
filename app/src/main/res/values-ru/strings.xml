@@ -53,7 +53,6 @@
     <string name="mod_action9">Переименование.</string>
     <string name="mod_action10">Исправить информационные файлы</string>
     <string name="open_action1">Изменить текст.</string>
-    <string name="open_action2">Импорт модуля.</string>
     <string name="open_action3">Извлеките файл.</string>
     <string name="open_action4">Система включена по умолчанию.</string>
     <string name="not_find_units">Единица не найдена.</string>

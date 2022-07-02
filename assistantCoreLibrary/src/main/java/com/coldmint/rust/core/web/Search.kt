@@ -9,7 +9,6 @@ import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 
-@Deprecated("已过时")
 class Search private constructor() {
 
     companion object {

@@ -3,26 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:background="?android:windowBackground">
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:animateLayoutChanges="true"
-                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
@@ -30,7 +29,6 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:windowBackground"
                 android:visibility="gone"
                 app:tabMode="fixed"
                 app:tabTextAppearance="@style/TabLayoutTextStyle">
@@ -48,7 +46,7 @@
             app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/mainButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,18 +54,18 @@
             android:layout_margin="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/add"
-            app:tint="@color/white" />
+            android:text="@string/create"
+            app:icon="@drawable/add" />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navaiagtion"
-        android:layout_width="260dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?android:windowBackground"
+        android:fitsSystemWindows="true"
         app:menu="@menu/menu_drawer_left" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

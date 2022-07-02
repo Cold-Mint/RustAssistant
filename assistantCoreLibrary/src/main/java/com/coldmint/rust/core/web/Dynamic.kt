@@ -14,7 +14,6 @@ import java.io.IOException
 /**
  * 动态
  */
-@Deprecated("已废弃")
 class Dynamic private constructor() {
 
     companion object {

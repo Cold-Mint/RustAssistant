@@ -9,7 +9,6 @@ import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 
-@Deprecated("已废弃")
 class AppUpdate {
 
     /**

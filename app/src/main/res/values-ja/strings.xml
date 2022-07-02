@@ -51,7 +51,6 @@
     <string name="unit_error">作成できません。この単位はすでに存在します。</string>
     <string name="mod_action9">名前の変更</string>
     <string name="open_action1">テキストの編集</string>
-    <string name="open_action2">モジュールのインポート</string>
     <string name="open_action3">ファイルの解凍</string>
     <string name="open_action4">システムデフォルトでオン</string>
     <string name="loading_files">ファイルをロード...</string>

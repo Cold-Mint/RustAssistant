@@ -314,62 +314,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 val templateItem = getString(R.string.template_title)
                 when (item) {
                     warehouseItem -> {
-                        val popupMenu = PopupMenu(this@MainActivity, viewBinding.mainButton)
-                        popupMenu.menu.add(R.string.create_mod_lable)
-                        val fileManagerMenu = popupMenu.menu.addSubMenu(R.string.open_action2)
-                        fileManagerMenu.add(R.string.file_manager)
-                        fileManagerMenu.add(R.string.packaged_mod)
-                        if (AppOperator.isAppInstalled(this, GlobalMethod.ADM_PACKAGE)) {
-                            fileManagerMenu.add(R.string.from_adm)
-                        }
-                        popupMenu.setOnMenuItemClickListener { item ->
-                            when (item.title.toString()) {
-                                getString(R.string.create_mod_lable) -> {
-                                    startActivity(
-                                        Intent(
-                                            this@MainActivity,
-                                            CreateModActivity::class.java
-                                        )
-                                    )
-                                }
-                                getString(R.string.file_manager) -> {
-                                    val startIntent =
-                                        Intent(this@MainActivity, FileManagerActivity::class.java)
-                                    val fileBundle = Bundle()
-                                    fileBundle.putString("type", "selectFile")
-                                    startIntent.putExtra("data", fileBundle)
-                                    startActivityForResult(startIntent, 1)
-                                }
-                                getString(R.string.packaged_mod) -> {
-                                    val startIntent =
-                                        Intent(this@MainActivity, FileManagerActivity::class.java)
-                                    val fileBundle = Bundle()
-                                    fileBundle.putString("type", "selectFile")
-                                    val packDirectory = appSettings.getValue(
-                                        AppSettings.Setting.PackDirectory,
-                                        AppSettings.dataRootDirectory + "/bin/"
-                                    )
-                                    fileBundle.putString("path", packDirectory)
-                                    fileBundle.putString("rootpath", packDirectory)
-                                    startIntent.putExtra("data", fileBundle)
-                                    startActivityForResult(startIntent, 1)
-                                }
-                                getString(R.string.from_adm) -> {
-                                    val startIntent =
-                                        Intent(this@MainActivity, FileManagerActivity::class.java)
-                                    val fileBundle = Bundle()
-                                    fileBundle.putString("type", "selectFile")
-                                    val packDirectory =
-                                        Environment.getExternalStorageDirectory().absolutePath + "/ADM"
-                                    fileBundle.putString("path", packDirectory)
-                                    fileBundle.putString("rootpath", packDirectory)
-                                    startIntent.putExtra("data", fileBundle)
-                                    startActivityForResult(startIntent, 1)
-                                }
-                            }
-                            true
-                        }
-                        popupMenu.show()
+                        val intent = Intent(this, CreationWizardActivity::class.java)
+                        intent.putExtra("type", "mod")
+                        startActivity(intent)
                     }
                     templateItem -> {
                         val popupMenu = PopupMenu(this@MainActivity, viewBinding.mainButton)

@@ -22,8 +22,8 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.setTitle(R.string.enable_the_recovery_station)
             setReturnButton()
+            title = getString(R.string.enable_the_recovery_station)
             viewBinding.backupList.layoutManager =
                 LinearLayoutManager(this@RecyclingStationActivity)
             val workFolderPath = appSettings.getValue(
@@ -69,7 +69,8 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
                         if (file == null) {
                             return@setOnClickListener
                         }
-                        val popupMenu = PopupMenu(this@RecyclingStationActivity, fileItemBinding.more)
+                        val popupMenu =
+                            PopupMenu(this@RecyclingStationActivity, fileItemBinding.more)
                         popupMenu.menu.add(R.string.recovery_file)
                         popupMenu.menu.add(R.string.delete_title)
                         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->

@@ -30,7 +30,7 @@
     <string name="always_allow">始终允许</string>
     <string name="pay_yes">是的，确实收到了</string>
     <string name="pay_no">不，没有</string>
-
+    <string name="creation_wizard">创建向导</string>
     <string name="dialog_cancel">取消</string>
     <string name="no_longer_prompt">不再提示</string>
     <string name="navigation_tip">共%1$d个项目支持快速导航。</string>
@@ -81,6 +81,7 @@
     <string name="tags_error">请输入标签。</string>
     <string name="mod_tags_help">请使用\",\"分割标签,拥有相同标签的作品会被分到一类。</string>
     <string name="create_mod_lable">创建模组</string>
+    <string name="create_mod_describe">创建一个新模组。</string>
     <string name="filter">过滤</string>
     <string name="activate_the_account">激活账户</string>
     <string name="activate_the_account_ok">激活成功，请重新登录。</string>
@@ -115,8 +116,14 @@
     <string name="mod_action9">重命名</string>
     <string name="mod_action10">修复信息文件</string>
     <string name="open_action1">编辑文本</string>
-    <string name="open_action2">导入模组</string>
+
     <string name="import_template">导入模板包</string>
+    <string name="import_mod">导入模组</string>
+    <string name="import_mod_from_file_manager_describe">从文件管理导入模组。</string>
+    <string name="import_mod_from_recycle_bin">回收站</string>
+    <string name="import_mod_from_recycle_bin_describe">从回收站恢复模组。</string>
+    <string name="import_mod_from_package_directory">打包目录</string>
+    <string name="import_mod_from_package_directory_describe">导入之前打包的模组。</string>
     <string name="open_action3">解压文件</string>
     <string name="open_action4">系统默认方式打开</string>
     <string name="not_find_units">没有找到单位</string>

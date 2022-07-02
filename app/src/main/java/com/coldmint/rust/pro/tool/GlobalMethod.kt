@@ -51,7 +51,6 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
-    const val ADM_PACKAGE = "com.dv.adm.pay"
 
 
     /**
@@ -157,6 +156,7 @@ object GlobalMethod {
      * @param resId   资源id
      * @return 成功返回值，失败返回-1
      */
+    @Deprecated("废弃")
     fun getThemeColor(context: Context, resId: Int): Int {
         val typedValue = TypedValue()
         return if (context.theme.resolveAttribute(resId, typedValue, true)) {
@@ -172,6 +172,7 @@ object GlobalMethod {
      * @param context 上下文环境
      * @return 整数
      */
+    @Deprecated("废弃")
     fun getColorPrimary(context: Context): Int {
         return getThemeColor(context, R.attr.colorPrimary)
     }

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.coldmint.rust.core.dataBean.user.ActivationInfo
 import com.coldmint.rust.core.dataBean.user.UserData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
@@ -103,8 +104,19 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
         super.onResume()
 
         if (account.isNotBlank()) {
-            User.getInfo(account, object : ApiCallBack<UserData> {
-                override fun onResponse(t: UserData) {
+            User.getUserActivationInfo(account, object : ApiCallBack<ActivationInfo> {
+
+
+                override fun onFailure(e: Exception) {
+                    viewBinding.nameView.text = account
+                    loadRecyclerView(3)
+//                    val localTime =
+//                        appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+//                    viewBinding.expirationTimeView.text =
+//                        ServerConfiguration.toStringTime(localTime)
+                }
+
+                override fun onResponse(t: ActivationInfo) {
                     if (t.code == ServerConfiguration.Success_Code) {
                         viewBinding.nameView.text = t.data.userName
                         val icon = t.data.headIcon
@@ -119,15 +131,6 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                         loadRecyclerView(3)
 //                        viewBinding.expirationTimeView.text = t.message
                     }
-                }
-
-                override fun onFailure(e: Exception) {
-                    viewBinding.nameView.text = account
-                    loadRecyclerView(3)
-//                    val localTime =
-//                        appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
-//                    viewBinding.expirationTimeView.text =
-//                        ServerConfiguration.toStringTime(localTime)
                 }
 
             })
@@ -148,7 +151,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
         }
 
         viewBinding.logOutButton.setOnClickListener {
-            requireActivity().finish()
+            appSettings.setValue(AppSettings.Setting.LoginStatus, false)
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
     }

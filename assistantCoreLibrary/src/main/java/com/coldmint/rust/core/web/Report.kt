@@ -15,7 +15,6 @@ import java.io.IOException
  * @author Cold Mint
  * @date 2022/1/6 19:45
  */
-@Deprecated("已废弃")
 class Report private constructor() {
 
     companion object {

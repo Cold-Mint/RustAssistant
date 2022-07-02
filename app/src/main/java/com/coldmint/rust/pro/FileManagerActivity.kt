@@ -156,8 +156,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                             else -> {
                                 val ints = intArrayOf(
                                     R.string.open_action1,
-                                    R.string.open_action2,
-                                    R.string.open_action3,
                                     R.string.open_action4
                                 )
                                 val items = FileAdapter.conversionSymbol(
@@ -235,18 +233,19 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
     //加载文件
     fun loadFiles(file: File) {
         executorService.submit {
+            if (!file.exists()) {
+                runOnUiThread {
+                    viewBinding.fileList.isVisible = false
+                    viewBinding.progressBar.isVisible = false
+                    viewBinding.fileError.isVisible = true
+                    viewBinding.fileError.setText(R.string.unable_to_open_this_directory)
+                    viewBinding.fab.hide()
+                }
+                return@submit
+            }
+
             if (file.isDirectory) {
                 val files = file.listFiles()
-                if (files == null || !file.exists()) {
-                    runOnUiThread {
-                        viewBinding.fileList.isVisible = false
-                        viewBinding.progressBar.isVisible = false
-                        viewBinding.fileError.isVisible = true
-                        viewBinding.fileError.setText(R.string.unable_to_open_this_directory)
-                        viewBinding.fab.hide()
-                    }
-                    return@submit
-                }
                 directs = file
                 val fileArrayList: ArrayList<File?> = ArrayList(listOf(*files))
                 if (file.absolutePath != mRoot.absolutePath) {
@@ -470,7 +469,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         bookmarkManager.load()
         super.onResume()
     }
-
 
 
     /**

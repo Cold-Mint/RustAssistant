@@ -5,6 +5,7 @@ import android.os.Looper
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.LoginRequestData
 import com.coldmint.rust.core.dataBean.RegisterRequestData
+import com.coldmint.rust.core.dataBean.user.ActivationInfo
 import com.coldmint.rust.core.dataBean.user.SocialInfoData
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
 import com.coldmint.rust.core.dataBean.user.UserData
@@ -21,7 +22,6 @@ import java.lang.NullPointerException
 /**
  * 用户类
  */
-@Deprecated("已废弃")
 object User {
 
     /**
@@ -302,6 +302,48 @@ object User {
                         gson.fromJson(data, SpaceInfoData::class.java)
                     handler.post {
                         apiCallBack.onResponse(finalSpaceInfoData)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     * 获取用户激活信息
+     * @param token String
+     * @param apiCallBack ApiCallBack<ActivationInfo>
+     */
+    fun getUserActivationInfo(token : String, apiCallBack: ApiCallBack<ActivationInfo>) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBody: FormBody =
+            FormBody.Builder().add("token", token)
+                .build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/user.php?action=getUserActivationInfo")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    val finalActivationInfo =
+                        gson.fromJson(data, ActivationInfo::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalActivationInfo)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

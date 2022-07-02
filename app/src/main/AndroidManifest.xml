@@ -24,6 +24,9 @@
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CreationWizardActivity"
+            android:exported="false" />
+        <activity
             android:name=".TurretDesignActivity"
             android:exported="false" />
         <activity

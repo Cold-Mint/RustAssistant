@@ -2,4 +2,5 @@
 <resources>
     <color name="red">#D32F2F</color>
     <color name="yellow">#FBC02D</color>
+    <color name="icon_color">#2196F3</color>
 </resources>

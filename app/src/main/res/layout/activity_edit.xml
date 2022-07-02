@@ -27,8 +27,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="?attr/actionBarStyle"
-                    app:popupTheme="@style/ThemeOverlay.rust.Concept.popupTheme" />
+                    android:theme="?attr/actionBarStyle" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
