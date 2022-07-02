@@ -793,6 +793,7 @@
     <string name="log_out">登出</string>
     <string name="user_info">最近登录:%1$s uid:%2$s</string>
     <string name="use_coupon">将使用优惠券创建订单，仍继续嘛?(创建订单完成后，将优惠券消耗)</string>
+    <string name="use">使用</string>
     <string name="account_or_email">账号/电子邮件</string>
     <string name="account_error4">找不到用户，请检查电子邮件地址是否正确。</string>
     <string name="random_recommended">随机推荐</string>

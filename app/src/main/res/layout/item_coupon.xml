@@ -6,8 +6,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
         android:background="@drawable/round_background"
         android:gravity="center"
         android:orientation="horizontal"
@@ -23,32 +24,45 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/titleView"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@id/useButton"
+        android:layout_toEndOf="@id/linearLayout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mod_title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/descriptionView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/describe" />
+
+        <TextView
+            android:id="@+id/expirationTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/time_limit" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/useButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/linearLayout"
-        android:text="@string/mod_title"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/descriptionView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titleView"
-        android:layout_alignLeft="@id/titleView"
-        android:layout_marginTop="8dp"
-        android:text="@string/describe" />
-
-    <TextView
-        android:id="@+id/expirationTimeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionView"
-        android:layout_alignLeft="@id/titleView"
-        android:layout_marginTop="8dp"
-        android:text="@string/time_limit" />
-
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="@string/use" />
 
 </RelativeLayout>

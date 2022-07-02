@@ -11,7 +11,7 @@
         android:background="?android:windowBackground"
         android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -57,7 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/add"
-        app:tint="@color/white" />
+        android:src="@drawable/add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

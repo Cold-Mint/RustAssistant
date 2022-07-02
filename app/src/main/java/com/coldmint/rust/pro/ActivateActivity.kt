@@ -117,7 +117,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
                     viewBinding.couponView.text = couponTip
                     val adapter = CouponAdapter(this@ActivateActivity, list)
                     adapter.setItemEvent { i, itemCouponBinding, viewHolder, data ->
-                        itemCouponBinding.root.setOnClickListener {
+                        itemCouponBinding.useButton.setOnClickListener {
                             val finalPlanAdapter = planAdapter
                             if (finalPlanAdapter != null) {
                                 couponId = data.id
@@ -233,7 +233,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.activation_app)
+            title = getText(R.string.activation_app)
             setReturnButton()
             val account = appSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {
