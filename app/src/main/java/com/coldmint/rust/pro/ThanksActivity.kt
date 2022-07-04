@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.adapters.ThanksAdapter
 import com.coldmint.rust.pro.base.BaseActivity
@@ -19,8 +20,14 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.setTitle(R.string.special_thanks_to)
+            title = getString(R.string.special_thanks_to)
             setReturnButton()
+            viewBinding.recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
             val list = ArrayList<ThanksDataBean>()
             list.add(ThanksDataBean("空调大郎", "帮助翻译俄语版本。", 1491779490))

@@ -50,7 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/subTitleView"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="1500">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditView"
@@ -59,18 +61,18 @@
                 android:hint="@string/error_description"
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
+                android:maxLength="1500"
                 android:maxLines="5" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/shareLogButton"
             android:layout_below="@id/inputLayout"
-            android:layout_marginTop="8dp"
-            app:cardElevation="2dp"
-            card_view:cardCornerRadius="2dp">
+            android:layout_marginTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,10 +93,11 @@
                 </ScrollView>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <Button
             android:id="@+id/shareLogButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/restartButton"

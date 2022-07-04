@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="标题"
         android:textColor="?colorPrimary"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
 
     <TextView
@@ -32,14 +31,14 @@
         android:layout_below="@id/descriptionView"
         android:layout_marginTop="8dp"
         android:text="开源协议"
-        android:textSize="13dp" />
+        android:textSize="13sp" />
 
     <ImageView
         android:id="@+id/linkView"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignBottom="@id/titleView"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:src="@drawable/link" />
 
     <ImageView
@@ -47,11 +46,11 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignBottom="@id/titleView"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/titleView"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/titleView"
         android:src="@drawable/tip"
-        android:tint="?colorPrimary"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:tint="?colorPrimary" />
 
 
 </RelativeLayout>

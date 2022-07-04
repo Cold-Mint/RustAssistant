@@ -23,16 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".CreationWizardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TurretDesignActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BrowserActivity"
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
             android:exported="false"
-            android:label="@string/built_in_browser" /> <!-- 适配全面屏 -->
+            android:grantUriPermissions="true"
+            tools:ignore="WrongManifestParent">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/content_file_provider" />
+        </provider>
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
@@ -42,6 +43,19 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" /> <!-- Activity注册 -->
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".CreationWizardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TurretDesignActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".BrowserActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/built_in_browser" /> <!-- 适配全面屏 -->
         <activity
             android:name=".OrderListActivity"
             android:exported="false"
@@ -88,6 +102,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TagActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReportActivity"
@@ -106,19 +121,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:ignore="WrongManifestParent">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/content_file_provider" />
-        </provider>
 
         <activity
             android:name=".ErrorActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -300,33 +306,43 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CodeTableActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditModInfoActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ApplicationListActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".GameCheckActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RecyclingStationActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".BookmarkManagerActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReleaseModActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PackActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
     </application>
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.MapClass
@@ -135,6 +136,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.mapList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.mapList.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
         val path = appSettings.getValue(AppSettings.Setting.MapFolder, "")
         if (path.isNotBlank()) {
             loadPath(File(path))

@@ -17,6 +17,7 @@ import android.os.Handler
 import android.view.View
 import android.widget.*
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.MainActivity
 import com.coldmint.rust.pro.adapters.ModActionAdapter
@@ -107,6 +108,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                         viewBinding.modError.isVisible = false
                         viewBinding.modErrorIcon.isVisible = false
                         viewBinding.progressBar.isVisible = false
+
                         viewBinding.modList.adapter = modAdapter
                     }, MainActivity.hideViewDelay)
                 } else {
@@ -351,5 +353,11 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.modList.layoutManager = LinearLayoutManager(context)
+        viewBinding.modList.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 }

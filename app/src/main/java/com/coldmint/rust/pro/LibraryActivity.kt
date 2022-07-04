@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.coldmint.rust.pro.base.BaseActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.adapters.LibAdapter
@@ -137,14 +138,14 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
                 "Apache License 2.0"
             )
         )
-        libInfoArrayList.add(
-            LibInfo(
-                "material-dialogs",
-                "A beautiful, fluid, and extensible dialogs API for Kotlin & Android.",
-                "https://github.com/afollestad/material-dialogs",
-                "Apache License 2.0"
-            )
-        )
+//        libInfoArrayList.add(
+//            LibInfo(
+//                "material-dialogs",
+//                "A beautiful, fluid, and extensible dialogs API for Kotlin & Android.",
+//                "https://github.com/afollestad/material-dialogs",
+//                "Apache License 2.0"
+//            )
+//        )
         return libInfoArrayList
     }
 
@@ -154,9 +155,14 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.setTitle(R.string.libs)
-            //android:label="@string/mod_action1"
             setReturnButton()
+            title = getString(R.string.libs)
+            viewBinding.libsView.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
             viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)
             val libAdapter = LibAdapter(this@LibraryActivity, getLibInfoList())
             viewBinding.libsView.adapter = libAdapter

@@ -24,6 +24,7 @@
     <string name="create_uniting">正在构建单位...</string>
     <string name="dialog_ok">确定</string>
     <string name="activation_app">激活铁锈助手</string>
+    <string name="activation_app_tip">您的激活时间已过，请激活铁锈助手。</string>
     <string name="choose_plan">套餐</string>
     <string name="all_function">全部功能</string>
     <string name="only_one">仅此一次</string>
@@ -671,6 +672,8 @@
     <string name="use_the_community_as_the_launch_page">使用社区作为启动页面</string>
     <string name="use_the_community_as_the_launch_page_tip">默认启用</string>
     <string name="renewal">续费</string>
+    <string name="renewal_tip_title">续费提醒</string>
+    <string name="renewal_tip_msg">您的账号(%1$s)将于%2$d天后到期。</string>
     <string name="forever_time">永久激活</string>
     <string name="can_t_activate">您已永久激活。</string>
     <string name="report">举报</string>
@@ -836,5 +839,4 @@
     <string name="confirm_password">确认密码</string>
     <string name="confirm_password_error">两次密码不一致。</string>
     <string name="display_source_code">显示源代码</string>
-    <string name="edit_tip">您的账号%1$s，将于%2$s到期。永久激活隐藏此卡片。</string>
 </resources>

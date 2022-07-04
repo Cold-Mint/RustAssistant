@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * 仪器测试，将在Android设备上执行。
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // 被测试应用程序的上下文。
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.coldmint.rust.pro", appContext.getPackageName());
     }

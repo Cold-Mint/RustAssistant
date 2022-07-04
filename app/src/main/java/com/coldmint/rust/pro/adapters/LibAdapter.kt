@@ -14,24 +14,25 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databean.LibInfo
-import com.coldmint.rust.pro.databinding.LibItemBinding
+import com.coldmint.rust.pro.databinding.ItemLibBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.ArrayList
 
 class LibAdapter(val context: Context, dataList: ArrayList<LibInfo>) :
-    BaseAdapter<LibItemBinding, LibInfo>(context, dataList) {
+    BaseAdapter<ItemLibBinding, LibInfo>(context, dataList) {
 
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,
         parent: ViewGroup,
         viewType: Int
-    ): LibItemBinding {
-        return LibItemBinding.inflate(layoutInflater, parent, false)
+    ): ItemLibBinding {
+        return ItemLibBinding.inflate(layoutInflater, parent, false)
     }
 
     override fun onBingView(
         data: LibInfo,
-        viewBinding: LibItemBinding,
-        viewHolder: BaseAdapter.ViewHolder<LibItemBinding>,
+        viewBinding: ItemLibBinding,
+        viewHolder: BaseAdapter.ViewHolder<ItemLibBinding>,
         position: Int
     ) {
         viewBinding.titleView.text = data.title
@@ -53,9 +54,9 @@ class LibAdapter(val context: Context, dataList: ArrayList<LibInfo>) :
         if (tip != null) {
             viewBinding.tipView.isVisible = true
             viewBinding.tipView.setOnClickListener {
-                MaterialDialog(context).show {
-                    title(R.string.about).message(text = tip).negativeButton(R.string.close)
-                }
+                MaterialAlertDialogBuilder(context).setTitle(R.string.about).setMessage(tip)
+                    .setPositiveButton(R.string.close) { i, tab ->
+                    }.show()
             }
         }
     }

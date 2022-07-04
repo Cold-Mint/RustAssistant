@@ -4,12 +4,15 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize"
+        android:fitsSystemWindows="true" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,12 +22,11 @@
         android:paddingTop="8dp"
         android:paddingRight="16dp">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/appInfoCardView"
+            style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="2dp"
-            card_view:cardCornerRadius="2dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,16 +63,15 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/copyRightView"
             android:layout_below="@id/appInfoCardView"
-            android:layout_marginTop="8dp"
-            app:cardElevation="2dp"
-            card_view:cardCornerRadius="2dp">
+            android:layout_marginTop="8dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -115,7 +116,7 @@
 
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/copyRightView"

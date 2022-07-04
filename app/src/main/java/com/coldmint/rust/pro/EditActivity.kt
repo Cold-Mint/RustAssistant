@@ -58,6 +58,8 @@ import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import io.github.rosemoe.sora.data.CompletionItem
 import java.io.File
@@ -109,29 +111,55 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         EditEndBinding.bind(viewBinding.root)
     }
 
-    fun loadRenewalCard() {
-        val debugKey = "续费卡片"
+    fun showRenewalTip() {
+        val debugKey = "续费提示"
         val account = appSettings.getValue(AppSettings.Setting.Account, "")
         val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
         if (time == 0.toLong() || account.isBlank()) {
-            DebugHelper.printLog(debugKey, "没有账号或续费信息，隐藏按钮，显示登录。")
-            viewBinding.editTip.text = getString(R.string.please_login_first)
-            viewBinding.renewalButton.isVisible = false
+            DebugHelper.printLog(debugKey, "没有账号或续费信息，关闭界面。")
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
+            finish()
         } else {
             val stringTime = ServerConfiguration.toStringTime(time)
             if (stringTime == ServerConfiguration.ForeverTime) {
-                DebugHelper.printLog(debugKey, "永久用户无需显示卡片。")
-                viewBinding.tipCardView.isVisible = false
+                DebugHelper.printLog(debugKey, "永久用户无需处理续费提示。")
             } else {
-                DebugHelper.printLog(debugKey, "普通用户，显示到期时间。")
-                val tip = String.format(
-                    getString(R.string.edit_tip), account,
-                    stringTime
-                )
-                viewBinding.editTip.text = tip
-                viewBinding.renewalButton.setOnClickListener {
-                    val intent = Intent(this, ActivateActivity::class.java)
-                    startActivity(intent)
+                val difference = time - System.currentTimeMillis()
+                if (difference < 0) {
+                    //已经过期
+                    DebugHelper.printLog(debugKey, "此用户的助手已经过期。")
+                    MaterialAlertDialogBuilder(this).setTitle(R.string.activation_app)
+                        .setMessage(
+                            R.string.activation_app_tip
+                        ).setPositiveButton(R.string.activate) { i, i2 ->
+                            finish()
+                            val intent = Intent(this, ActivateActivity::class.java)
+                            startActivity(intent)
+                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                            finish()
+                        }.setCancelable(false).show()
+                } else if (difference < 604800000) {
+                    //如果在7天内到期
+                    val day = difference / 86400000 + 1
+                    DebugHelper.printLog(
+                        debugKey,
+                        "显示续费提醒(" + difference + "/86400000)" + day + "天。"
+                    )
+                    MaterialAlertDialogBuilder(this).setTitle(R.string.renewal_tip_title)
+                        .setMessage(
+                            String.format(
+                                getString(R.string.renewal_tip_msg),
+                                account,
+                                day
+                            )
+                        ).setPositiveButton(R.string.renewal) { i, i2 ->
+                            val intent = Intent(this, ActivateActivity::class.java)
+                            startActivity(intent)
+                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                        }.setCancelable(false).show()
+                } else {
+                    DebugHelper.printLog(debugKey, "还剩余7天以上，无需提示。")
+
                 }
             }
         }
@@ -457,7 +485,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             initCodeToolbar()
             initStartView()
             initEndView()
-            loadRenewalCard()
+            showRenewalTip()
         } else {
             val thisIntent = intent
             val bundle = thisIntent.getBundleExtra("data")
