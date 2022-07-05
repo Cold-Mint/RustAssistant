@@ -733,7 +733,7 @@
     <string name="search_file_name">文件名</string>
     <string name="search_file_text">文件中包含内容</string>
     <string name="search_unit_name">欲搜索单位名</string>
-    <string name="auto_save_describe">请您切换到其他程序时，自动保存代码。</string>
+    <string name="auto_save_describe">当您切换到其他程序时，自动保存代码。</string>
     <string name="auto_save">自动保存</string>
     <string name="setting_auto_save">AutoSave</string>
     <string name="auto_save_toast">已自动保存。</string>

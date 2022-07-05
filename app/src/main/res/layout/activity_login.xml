@@ -17,6 +17,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/accountInputLayout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleView"
@@ -24,7 +25,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="30">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/accountView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

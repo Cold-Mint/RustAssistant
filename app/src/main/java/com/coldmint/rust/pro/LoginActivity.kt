@@ -30,6 +30,7 @@ import com.coldmint.rust.core.web.User.verification
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityLoginBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.EmailAutoCompleteHelper
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.snackbar.Snackbar
 import com.gyf.immersionbar.ktx.immersionBar
@@ -43,6 +44,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 .navigationBarColor(R.color.white_200).navigationBarDarkIcon(true)
         }
         Log.d("应用识别码", appSettings.getValue(AppSettings.Setting.AppID, "无"))
+
         viewBinding.accountView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -67,6 +69,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             }
 
         })
+
+        val emailAutoCompleteHelper = EmailAutoCompleteHelper(this)
+        emailAutoCompleteHelper.onBindAutoCompleteTextView(viewBinding.accountView)
 
         viewBinding.passwordView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -17,6 +17,7 @@ import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.RegisterRequestData
 import com.coldmint.rust.core.web.User
 import com.coldmint.rust.pro.databinding.ActivityRegisterBinding
+import com.coldmint.rust.pro.tool.EmailAutoCompleteHelper
 import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
@@ -106,38 +107,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
             }
 
         })
-
-        viewBinding.mailHelpTextView.setOnClickListener {
-            //预填充qq号
-            val tail = "@qq.com"
-            val oldEmailValue = viewBinding.emailView.text.toString()
-            val hasOldQQ = oldEmailValue.endsWith(tail)
-            var oldQQ = ""
-            if (hasOldQQ) {
-                oldQQ = oldEmailValue.subSequence(0, oldEmailValue.length - tail.length).toString()
-            }
-            //显示对话框
-            MaterialDialog(this).show {
-                title(R.string.email).message(R.string.mail_helper_tip)
-                    .input(
-                        hintRes = R.string.qq_number,
-                        maxLength = viewBinding.emailInputLayout.counterMaxLength - tail.length,
-                        inputType = InputType.TYPE_CLASS_NUMBER,
-                        prefill = oldQQ
-                    ) { materialDialog, charSequence ->
-                        val email = "${charSequence}${tail}"
-                        viewBinding.emailView.setText(email)
-                        Snackbar.make(
-                            viewBinding.registerButton,
-                            R.string.email_fill_complete,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                    .positiveButton(R.string.dialog_ok).negativeButton(R.string.dialog_close)
-            }
-
-        }
-
+        val emailAutoCompleteHelper = EmailAutoCompleteHelper(this)
+        emailAutoCompleteHelper.onBindAutoCompleteTextView(viewBinding.emailView)
 
         viewBinding.registerButton.setOnClickListener(View.OnClickListener { v ->
             inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
@@ -265,7 +236,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
     fun checkEmail(email: String, updateView: Boolean = true): Boolean {
         return if (email.isBlank()) {
             if (updateView) {
-                viewBinding.mailHelpTextView.isVisible = true
                 setErrorAndInput(
                     viewBinding.emailView,
                     String.format(
@@ -279,12 +249,10 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
             if (email.matches(Regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$"))) {
                 if (updateView) {
                     viewBinding.emailInputLayout.isErrorEnabled = false
-                    viewBinding.mailHelpTextView.isVisible = false
                 }
                 true
             } else {
                 if (updateView) {
-                    viewBinding.mailHelpTextView.isVisible = true
                     setErrorAndInput(
                         viewBinding.emailView,
                         getString(R.string.email_error), viewBinding.emailInputLayout, false

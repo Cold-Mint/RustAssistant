@@ -420,10 +420,10 @@ class SourceFile(text: String) {
      * @return 写入结果，键不存在返回假
      */
     fun writeValue(key: String, value: String?): Boolean {
-        var key = key
-        key = "\n${key}:"
+        var keyCode = key
+        keyCode = "\n${keyCode}:"
         val info = "\n${text}\n"
-        val startnum = info.indexOf(key)
+        val startnum = info.indexOf(keyCode)
         if (startnum > -1) {
             val symbolnum = info.indexOf(":", startnum)
             val endnum = info.indexOf("\n", symbolnum)

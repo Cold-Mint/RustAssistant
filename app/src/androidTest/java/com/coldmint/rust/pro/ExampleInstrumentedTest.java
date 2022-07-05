@@ -23,4 +23,6 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.coldmint.rust.pro", appContext.getPackageName());
     }
+
+
 }

@@ -112,13 +112,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/emailInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
                 app:counterMaxLength="30">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/emailView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,14 +129,6 @@
                     android:maxLength="30"
                     android:maxLines="1" />
 
-                <TextView
-                    android:id="@+id/mailHelpTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/mail_helper"
-                    android:textSize="13sp"
-                    android:visibility="gone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
