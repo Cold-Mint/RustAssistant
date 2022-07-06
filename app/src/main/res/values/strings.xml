@@ -119,6 +119,7 @@
     <string name="open_action1">编辑文本</string>
 
     <string name="import_template">导入模板包</string>
+    <string name="import_template_describe">从文件管理导入模板包。</string>
     <string name="import_mod">导入模组</string>
     <string name="import_mod_from_file_manager_describe">从文件管理导入模组。</string>
     <string name="import_mod_from_recycle_bin">回收站</string>
@@ -193,6 +194,7 @@
     <string name="attach">附加</string>
     <string name="template_name">模板名称</string>
     <string name="create_template">创建模板包</string>
+    <string name="create_template_describe">创建一个模板包，用于存放单位动态模板。</string>
     <string name="template_name_error">请输入模板名称。</string>
     <string name="template_developer_error">请输入开发者。</string>
     <string name="template_description_error">请输入描述。</string>

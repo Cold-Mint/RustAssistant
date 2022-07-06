@@ -27,80 +27,135 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         when (temType) {
             "mod" -> {
-                val dataList = ArrayList<GuideData>()
-                dataList.add(
-                    GuideData(
-                        R.string.create_mod_lable,
-                        R.string.create_mod_describe,
-                        R.drawable.ic_outline_create_24
-                    )
-                )
-                dataList.add(
-                    GuideData(
-                        R.string.import_mod,
-                        R.string.import_mod_from_file_manager_describe,
-                        R.drawable.folder
-                    )
-                )
-                dataList.add(
-                    GuideData(
-                        R.string.import_mod_from_package_directory,
-                        R.string.import_mod_from_package_directory_describe,
-                        R.drawable.zip
-                    )
-                )
-                dataList.add(
-                    GuideData(
-                        R.string.import_mod_from_recycle_bin,
-                        R.string.import_mod_from_recycle_bin_describe,
-                        R.drawable.auto_delete
-                    )
-                )
-                val adapter = GuideAdapter(this, dataList)
-                adapter.setItemEvent { i, itemGuideBinding, viewHolder, guideData ->
-                    itemGuideBinding.root.setOnClickListener {
-                        finish()
-                        when (guideData.titleRes) {
-                            R.string.create_mod_lable -> {
-                                startActivity(
-                                    Intent(
-                                        this,
-                                        CreateModActivity::class.java
-                                    )
-                                )
-                            }
-                            R.string.import_mod -> {
-                                val startIntent =
-                                    Intent(this, FileManagerActivity::class.java)
-                                val fileBundle = Bundle()
-                                fileBundle.putString("type", "selectFile")
-                                startIntent.putExtra("data", fileBundle)
-                                startActivity(startIntent)
-                            }
-                            R.string.import_mod_from_package_directory -> {
-                                val startIntent =
-                                    Intent(this, FileManagerActivity::class.java)
-                                val fileBundle = Bundle()
-                                fileBundle.putString("type", "selectFile")
-                                val packDirectory = appSettings.getValue(
-                                    AppSettings.Setting.PackDirectory,
-                                    AppSettings.dataRootDirectory + "/bin/"
-                                )
-                                fileBundle.putString("path", packDirectory)
-                                fileBundle.putString("rootpath", packDirectory)
-                                startIntent.putExtra("data", fileBundle)
-                                startActivity(startIntent)
-                            }
-                            R.string.import_mod_from_recycle_bin -> {
-                                startActivity(Intent(this, RecyclingStationActivity::class.java))
-                            }
-                        }
-                    }
-                }
-
-                viewBinding.recyclerView.adapter = adapter
+                loadMod()
+            }
+            "template" -> {
+                loadTemplate()
             }
         }
+    }
+
+    /**
+     * 加载模板活动
+     */
+    fun loadTemplate() {
+        val dataList = ArrayList<GuideData>()
+        dataList.add(
+            GuideData(
+                R.string.create_template,
+                R.string.create_template_describe,
+                R.drawable.ic_outline_create_24
+            )
+        )
+        dataList.add(
+            GuideData(
+                R.string.import_template,
+                R.string.import_template_describe,
+                R.drawable.folder
+            )
+        )
+        val adapter = GuideAdapter(this, dataList)
+        adapter.setItemEvent { i, itemGuideBinding, viewHolder, guideData ->
+            itemGuideBinding.root.setOnClickListener {
+                finish()
+                when (guideData.titleRes) {
+                    R.string.create_template -> {
+                        startActivity(
+                            Intent(
+                                this,
+                                CreateTemplateActivity::class.java
+                            )
+                        )
+                    }
+                    R.string.import_template -> {
+                        val startIntent =
+                            Intent(this, FileManagerActivity::class.java)
+                        val fileBundle = Bundle()
+                        fileBundle.putString("type", "selectFile")
+                        startIntent.putExtra("data", fileBundle)
+                        startActivity(startIntent )
+                    }
+                }
+            }
+        }
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    /**
+     * 加载模组活动
+     */
+    fun loadMod() {
+        val dataList = ArrayList<GuideData>()
+        dataList.add(
+            GuideData(
+                R.string.create_mod_lable,
+                R.string.create_mod_describe,
+                R.drawable.ic_outline_create_24
+            )
+        )
+        dataList.add(
+            GuideData(
+                R.string.import_mod,
+                R.string.import_mod_from_file_manager_describe,
+                R.drawable.folder
+            )
+        )
+        dataList.add(
+            GuideData(
+                R.string.import_mod_from_package_directory,
+                R.string.import_mod_from_package_directory_describe,
+                R.drawable.zip
+            )
+        )
+        dataList.add(
+            GuideData(
+                R.string.import_mod_from_recycle_bin,
+                R.string.import_mod_from_recycle_bin_describe,
+                R.drawable.auto_delete
+            )
+        )
+        val adapter = GuideAdapter(this, dataList)
+        adapter.setItemEvent { i, itemGuideBinding, viewHolder, guideData ->
+            itemGuideBinding.root.setOnClickListener {
+                finish()
+                when (guideData.titleRes) {
+                    R.string.create_mod_lable -> {
+                        startActivity(
+                            Intent(
+                                this,
+                                CreateModActivity::class.java
+                            )
+                        )
+                    }
+                    R.string.import_mod -> {
+                        val startIntent =
+                            Intent(this, FileManagerActivity::class.java)
+                        val fileBundle = Bundle()
+                        fileBundle.putString("type", "selectFile")
+                        startIntent.putExtra("data", fileBundle)
+                        startActivity(startIntent)
+                    }
+                    R.string.import_mod_from_package_directory -> {
+                        val startIntent =
+                            Intent(this, FileManagerActivity::class.java)
+                        val fileBundle = Bundle()
+                        fileBundle.putString("type", "selectFile")
+                        val packDirectory = appSettings.getValue(
+                            AppSettings.Setting.PackDirectory,
+                            AppSettings.dataRootDirectory + "/bin/"
+                        )
+                        fileBundle.putString("path", packDirectory)
+                        fileBundle.putString("rootpath", packDirectory)
+                        startIntent.putExtra("data", fileBundle)
+                        startActivity(startIntent)
+                    }
+                    R.string.import_mod_from_recycle_bin -> {
+                        startActivity(Intent(this, RecyclingStationActivity::class.java))
+                    }
+                }
+            }
+        }
+        viewBinding.recyclerView.adapter = adapter
     }
 
     override fun getViewBindingObject(): ActivityCreationWizardBinding {

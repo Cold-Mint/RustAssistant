@@ -14,15 +14,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.databinding.ActivityWebModInfoBinding
 import com.coldmint.rust.pro.interfaces.ItemChangeEvent
 import com.coldmint.rust.pro.interfaces.ItemEvent
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import androidx.appcompat.app.AlertDialog
 import androidx.core.text.toSpannable
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
@@ -147,38 +147,39 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
      * @param cancelable Boolean 是否可取消
      * @param checkBoxPrompt 选择框显示的文本
      */
+    @Deprecated("已废弃")
     fun showDeleteItemDialog(
         name: String,
         index: Int,
-        onClickPositiveButton: ((MaterialDialog, Boolean) -> Boolean)? = null,
+        onClickPositiveButton: ((Int, Boolean) -> Boolean)? = null,
         cancelable: Boolean = false,
         checkBoxPrompt: String? = null
-    ): MaterialDialog {
-        var checked = false
-        val dialog = MaterialDialog(context)
-        if (checkBoxPrompt != null) {
-            dialog.checkBoxPrompt(text = checkBoxPrompt, onToggle = {
-                checked = it
-            })
-        }
-        dialog.title(R.string.delete_title).message(
-            text = String.format(
-                context.getString(R.string.delete_prompt),
-                name
-            )
-        ).positiveButton(R.string.dialog_ok).positiveButton {
-            if (onClickPositiveButton == null) {
-                removeItem(index)
-            } else {
-                if (onClickPositiveButton.invoke(dialog, checked)) {
-                    removeItem(index)
-                }
-            }
-        }.negativeButton(R.string.dialog_cancel).cancelable(cancelable)
-        handler.post {
-            dialog.show()
-        }
-        return dialog
+    ) {
+//        var checked = false
+//        val dialog = MaterialAlertDialogBuilder(context)
+//        if (checkBoxPrompt != null) {
+//            dialog.checkBoxPrompt(text = checkBoxPrompt, onToggle = {
+//                checked = it
+//            })
+//        }
+//        dialog.title(R.string.delete_title).message(
+//            text = String.format(
+//                context.getString(R.string.delete_prompt),
+//                name
+//            )
+//        ).positiveButton(R.string.dialog_ok).positiveButton {
+//            if (onClickPositiveButton == null) {
+//                removeItem(index)
+//            } else {
+//                if (onClickPositiveButton.invoke(dialog, checked)) {
+//                    removeItem(index)
+//                }
+//            }
+//        }.negativeButton(R.string.dialog_cancel).cancelable(cancelable)
+//        handler.post {
+//            dialog.show()
+//        }
+//        return dialog
     }
 
     /**

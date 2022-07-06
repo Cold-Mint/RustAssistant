@@ -11,14 +11,14 @@ import android.content.Intent
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
 import com.coldmint.rust.pro.adapters.BookmarkAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.Bookmark
 import com.coldmint.rust.pro.databinding.ActivityBookmarkManagerBinding
 import com.coldmint.rust.pro.databinding.EditBookmarkBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import java.io.File
 import java.util.ArrayList
@@ -46,7 +46,7 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
                     attachFileItemBinding.root.setOnLongClickListener {
                         bookmarkAdapter.showDeleteItemDialog(
                             bookmark.name,
-                            viewHolder.adapterPosition, onClickPositiveButton = { d, b ->
+                            viewHolder.adapterPosition, onClickPositiveButton = { i:Int, b ->
                                 bookmarkManager.removeBookmark(bookmark)
                                 if (list.isEmpty()) {
                                     showNoBookmarkToView()
@@ -113,64 +113,65 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
             startActivityForResult(intent, 1)
         }
 
-        val materialDialog =
-            MaterialDialog(this).title(text = title).customView(view = editBookmarkBinding.root)
-                .positiveButton(R.string.dialog_ok).negativeButton(R.string.dialog_close)
-                .noAutoDismiss().cancelable(false)
-        materialDialog.positiveButton {
-            val newPath = pathView.text.toString()
-            val newName = nameView.text.toString()
-            if (newName.isEmpty()) {
-                setErrorAndInput(nameView, getString(R.string.enter_bookmark_name))
-                return@positiveButton
-            }
-            if (newPath.isEmpty()) {
-                setErrorAndInput(pathView, getString(R.string.enter_file_path))
-                return@positiveButton
-            }
-            val file = File(newPath)
-            if (!file.exists()) {
-                setErrorAndInput(pathView, getString(R.string.bookmark_jump_failed))
-                return@positiveButton
-            }
-            if (name == null) {
-                val addBookmark = bookmarkManager.addBookmark(newPath, newName)
-                if (addBookmark) {
-                    updateView(bookmarkManager.list())
-
-                } else {
-                    setErrorAndInput(
-                        pathView,
-                        getString(R.string.bookmark_already_exists)
-                    )
+        var dialog: AlertDialog? = null
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+            .setView(editBookmarkBinding.root)
+            .setTitle(title)
+            .setPositiveButton(R.string.dialog_ok)
+            { i, i2 ->
+                val newPath = pathView.text.toString()
+                val newName = nameView.text.toString()
+                if (newName.isEmpty()) {
+                    setErrorAndInput(nameView, getString(R.string.enter_bookmark_name))
+                    return@setPositiveButton
                 }
-            } else {
-                if (name == newName && path == newPath) {
-                    materialDialog.dismiss()
+                if (newPath.isEmpty()) {
+                    setErrorAndInput(pathView, getString(R.string.enter_file_path))
+                    return@setPositiveButton
+                }
+                val file = File(newPath)
+                if (!file.exists()) {
+                    setErrorAndInput(pathView, getString(R.string.bookmark_jump_failed))
+                    return@setPositiveButton
+                }
+                if (name == null) {
+                    val addBookmark = bookmarkManager.addBookmark(newPath, newName)
+                    if (addBookmark) {
+                        updateView(bookmarkManager.list())
+
+                    } else {
+                        setErrorAndInput(
+                            pathView,
+                            getString(R.string.bookmark_already_exists)
+                        )
+                    }
                 } else {
-                    if (path != null) {
-                        val oldBookmark = Bookmark(path, name)
-                        val newBookmark = Bookmark(newPath, newName)
-                        val addBookmark =
-                            bookmarkManager.replaceBookmark(oldBookmark, newBookmark)
-                        if (addBookmark) {
-                            updateView(bookmarkManager.list())
-                            materialDialog.dismiss()
-                        } else {
-                            setErrorAndInput(
-                                pathView,
-                                getString(R.string.bookmark_already_exists)
-                            )
+                    if (name == newName && path == newPath) {
+                        dialog?.dismiss()
+                    } else {
+                        if (path != null) {
+                            val oldBookmark = Bookmark(path, name)
+                            val newBookmark = Bookmark(newPath, newName)
+                            val addBookmark =
+                                bookmarkManager.replaceBookmark(oldBookmark, newBookmark)
+                            if (addBookmark) {
+                                updateView(bookmarkManager.list())
+                                dialog?.dismiss()
+                            } else {
+                                setErrorAndInput(
+                                    pathView,
+                                    getString(R.string.bookmark_already_exists)
+                                )
+                            }
                         }
                     }
                 }
             }
-            materialDialog.dismiss()
-        }
-        materialDialog.negativeButton {
-            materialDialog.dismiss()
-        }
-        materialDialog.show()
+            .setNegativeButton(R.string.dialog_close) { i, i2 ->
+                dialog?.dismiss()
+            }
+            .setCancelable(false)
+        dialog = materialAlertDialogBuilder.show()
     }
 
 

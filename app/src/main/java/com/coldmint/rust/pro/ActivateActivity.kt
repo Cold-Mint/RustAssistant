@@ -15,8 +15,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItems
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.CouponListDataBean
 import com.coldmint.rust.core.dataBean.PlanDataBean
@@ -33,6 +31,7 @@ import com.coldmint.rust.pro.databean.FunctionInfo
 import com.coldmint.rust.pro.databinding.ActivityActivateBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
 class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
@@ -283,10 +282,12 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
                     )
                 }
                 if (finalCouponId != null) {
-                    MaterialDialog(this).title(R.string.coupon).message(R.string.use_coupon)
-                        .positiveButton(R.string.dialog_ok).positiveButton {
+                    MaterialAlertDialogBuilder(this).setTitle(R.string.coupon)
+                        .setMessage(R.string.use_coupon)
+                        .setPositiveButton(R.string.dialog_ok) { i, i2 ->
                             func.invoke()
-                        }.negativeButton(R.string.dialog_cancel).show()
+                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                        }.show()
                 } else {
                     func.invoke()
                 }

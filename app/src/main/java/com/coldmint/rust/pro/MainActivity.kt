@@ -2,13 +2,11 @@ package com.coldmint.rust.pro
 
 
 import android.Manifest
+import android.content.DialogInterface
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.tool.GlobalMethod
-import com.coldmint.rust.core.iflynote.SquareBracketData
 import android.content.pm.PackageInfo
 import com.coldmint.rust.pro.tool.AppSettings
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
+import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.TemplatePackage
@@ -42,6 +41,8 @@ import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
 import com.coldmint.rust.pro.viewmodel.StartViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.permissionx.guolindev.PermissionX
@@ -188,23 +189,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             //显示对话框
             runOnUiThread {
-                val materialDialog = MaterialDialog(this@MainActivity, BottomSheet())
-                materialDialog.title(text = data.title).message(text = data.content)
+                val materialAlertDialogBuilder =
+                    MaterialAlertDialogBuilder(this).setTitle(data.title).setMessage(data.content)
                 if (data.forced) {
-                    materialDialog.noAutoDismiss()
                     //禁用点击空白关闭
-                    materialDialog.cancelable(false)
+                    materialAlertDialogBuilder.setCancelable(false)
                 } else {
-                    materialDialog.negativeButton(
+                    materialAlertDialogBuilder.setNegativeButton(
                         R.string.dialog_cancel
-                    )
+                    ) { i, i2 ->
+                    }
                 }
-                materialDialog.positiveButton(
+                materialAlertDialogBuilder.setPositiveButton(
                     R.string.downlod
-                ) {
+                ) { i, i2 ->
                     AppOperator.useBrowserAccessWebPage(this, data.link)
                 }
-                materialDialog.show()
+                materialAlertDialogBuilder.show()
             }
         }
     }
@@ -223,20 +224,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 val versionCode = packageInfo.versionCode
                 //如果在1.15 p3及以上 (159)
                 if (versionCode >= 159) {
-                    MaterialDialog(this).show {
-                        title(R.string.game_configured).message(R.string.unable_to_detect)
-                            .positiveButton(R.string.show_details)
-                            .positiveButton {
-                                startActivity(
-                                    Intent(
-                                        this@MainActivity,
-                                        GameCheckActivity::class.java
-                                    )
+                    MaterialAlertDialogBuilder(this).setTitle(R.string.game_configured)
+                        .setMessage(R.string.unable_to_detect)
+                        .setPositiveButton(R.string.show_details) { i, i2 ->
+                            startActivity(
+                                Intent(
+                                    this@MainActivity,
+                                    GameCheckActivity::class.java
                                 )
-                            }.neutralButton(R.string.no_longer_prompt).neutralButton {
-                                appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
-                            }.negativeButton(R.string.dialog_cancel).cancelable(false)
-                    }
+                            )
+                        }.setNeutralButton(R.string.no_longer_prompt) { i, i2 ->
+                            appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
+                        }.setNeutralButton(R.string.dialog_cancel) { i, i2 ->
+                        }.setCancelable(false).show()
                 } else {
                     appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                 }
@@ -319,29 +319,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         startActivity(intent)
                     }
                     templateItem -> {
-                        val popupMenu = PopupMenu(this@MainActivity, viewBinding.mainButton)
-                        popupMenu.menu.add(R.string.create_template)
-                        popupMenu.menu.add(R.string.import_template)
-                        popupMenu.setOnMenuItemClickListener { item ->
-                            val title = item.title.toString()
-                            if (title == getString(R.string.create_template)) {
-                                startActivity(
-                                    Intent(
-                                        this@MainActivity,
-                                        CreateTemplateActivity::class.java
-                                    )
-                                )
-                            } else if (title == getString(R.string.import_template)) {
-                                val startIntent =
-                                    Intent(this@MainActivity, FileManagerActivity::class.java)
-                                val fileBundle = Bundle()
-                                fileBundle.putString("type", "selectFile")
-                                startIntent.putExtra("data", fileBundle)
-                                startActivityForResult(startIntent, 2)
-                            }
-                            true
-                        }
-                        popupMenu.show()
+                        val intent = Intent(this, CreationWizardActivity::class.java)
+                        intent.putExtra("type", "template")
+                        startActivity(intent)
                     }
                     else -> {
                         Toast.makeText(this@MainActivity, "请设置事件", Toast.LENGTH_SHORT).show()
@@ -581,17 +561,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                     if (newInfo.versionNum < oldInfo.versionNum) {
                         handler.post {
-                            MaterialDialog(this).show {
-                                title(text = oldInfo.name).cancelable(false).message(
-                                    text = String.format(
-                                        getString(R.string.covers_the_import),
-                                        newInfo.versionName, oldInfo.versionName
-                                    )
-                                ).positiveButton(R.string.dialog_ok).positiveButton {
-                                    FileOperator.delete_files(templateDirectory)
-                                    importTemplate(formFile, templateDirectory)
-                                }.negativeButton(R.string.dialog_cancel)
-                            }
+                            MaterialAlertDialogBuilder(this).setTitle(oldInfo.name).setMessage(
+                                String.format(
+                                    getString(R.string.covers_the_import),
+                                    newInfo.versionName, oldInfo.versionName
+                                )
+                            ).setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                                FileOperator.delete_files(templateDirectory)
+                                importTemplate(formFile, templateDirectory)
+                            }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                            }.show()
                         }
                         return@Runnable
                     } else {
@@ -663,16 +642,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-            MaterialDialog(this).show {
-                title(R.string.dialog_close).message(
-                    text = String.format(
-                        getString(R.string.exit_tip),
-                        getString(R.string.app_name)
-                    )
-                ).cancelable(false).positiveButton(R.string.dialog_ok) {
-                    finish()
-                }.negativeButton(R.string.dialog_cancel)
-            }
+            MaterialAlertDialogBuilder(this).setTitle(R.string.dialog_close).setMessage(
+                String.format(
+                    getString(R.string.exit_tip),
+                    getString(R.string.app_name)
+                )
+            ).setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                finish()
+            }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+            }.show()
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -722,19 +700,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.needLoginLiveData.observe(this) {
             if (it) {
-                MaterialDialog(this, BottomSheet()).show {
-                    title(R.string.login).message(R.string.login_tip).cancelable(false)
-                        .positiveButton(R.string.login) {
-                            startActivity(
-                                Intent(
-                                    context,
-                                    LoginActivity::class.java
-                                )
-                            )
-                        }.negativeButton(R.string.dialog_close).negativeButton {
-                            finish()
-                        }
-                }
+                MaterialAlertDialogBuilder(this).setTitle(R.string.login)
+                    .setMessage(R.string.login_tip).setPositiveButton(R.string.login) { i, i2 ->
+                    startActivity(
+                        Intent(
+                            this,
+                            LoginActivity::class.java
+                        )
+                    )
+                }.setNegativeButton(R.string.dialog_close) { i, i2 ->
+                    finish()
+                }.show()
             } else {
                 showGameConfiguredDialog()
             }
