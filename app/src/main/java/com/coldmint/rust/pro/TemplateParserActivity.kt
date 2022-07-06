@@ -33,6 +33,7 @@ import com.coldmint.rust.core.templateParser.IntroducingParser
 import com.coldmint.rust.core.templateParser.ListParser
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.databinding.ActivityTemplateParserBinding
+import com.coldmint.rust.pro.tool.UnitAutoCompleteHelper
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import java.io.File
@@ -171,40 +172,8 @@ class TemplateParserActivity() : BaseActivity<ActivityTemplateParserBinding>() {
     }
 
     private fun initAction() {
-        viewBinding.fileNameInputView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val text = s.toString()
-                val index = text.lastIndexOf('.')
-                if (index > -1 && index != text.length - 1) {
-                    val type = text.substring(index + 1)
-                    if (fileTypeTip("ini", type, text))
-                    else if (fileTypeTip(
-                            "template",
-                            type,
-                            text
-                        )
-                    ) else if (fileTypeTip("txt", type, text))
-                    else {
-                        viewBinding.fileTypeTip.isVisible = false
-
-                    }
-                    viewBinding.fileNameInputLayout.helperText =
-                        String.format(getString(R.string.file_type_tip), type)
-
-                } else {
-                    viewBinding.fileNameInputLayout.helperText =
-                        getString(R.string.file_type_define)
-                    viewBinding.fileTypeTip.isVisible = false
-                }
-            }
-        })
-
+        val unitAutoCompleteHelper = UnitAutoCompleteHelper(this)
+        unitAutoCompleteHelper.onBindAutoCompleteTextView(viewBinding.fileNameInputView)
         viewBinding.fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 if (working) {
@@ -361,37 +330,6 @@ class TemplateParserActivity() : BaseActivity<ActivityTemplateParserBinding>() {
         })
     }
 
-    /**
-     * 文件名提示
-     */
-    fun fileTypeTip(key: String, type: String, text: String): Boolean {
-        if (key.startsWith(type) && key != type) {
-            val spannableString =
-                SpannableString(String.format(getString(R.string.file_type_tip2), key))
-            val clickableSpan = object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    val need = key.substring(type.length)
-                    val newText = text + need
-                    viewBinding.fileNameInputView.setText(newText)
-                    viewBinding.fileNameInputView.setSelection(newText.length)
-                    viewBinding.fileTypeTip.isVisible = false
-                }
-            }
-            val start = spannableString.indexOf(key)
-            val len = key.length
-            spannableString.setSpan(
-                clickableSpan,
-                start,
-                start + len,
-                SpannableString.SPAN_INCLUSIVE_EXCLUSIVE
-            )
-            viewBinding.fileTypeTip.movementMethod = LinkMovementMethod.getInstance()
-            viewBinding.fileTypeTip.text = spannableString
-            viewBinding.fileTypeTip.isVisible = true
-            return true
-        }
-        return false
-    }
 
     override fun setErrorAndInput(
         editText: EditText,

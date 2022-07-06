@@ -342,9 +342,17 @@ object User {
                     val data = response.body!!.string()
                     val finalActivationInfo =
                         gson.fromJson(data, ActivationInfo::class.java)
-                    handler.post {
-                        apiCallBack.onResponse(finalActivationInfo)
+                    if (finalActivationInfo==null)
+                    {
+                        handler.post {
+                            apiCallBack.onFailure(Exception("激活信息错误"))
+                        }
+                    }else{
+                        handler.post {
+                            apiCallBack.onResponse(finalActivationInfo)
+                        }
                     }
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                     handler.post {
