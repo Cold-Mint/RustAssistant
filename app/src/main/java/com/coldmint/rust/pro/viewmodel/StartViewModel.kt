@@ -16,7 +16,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.MutableLiveData
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
@@ -37,6 +36,7 @@ import com.coldmint.rust.pro.base.BaseAndroidViewModel
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.BookmarkManager
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.util.*
@@ -401,6 +401,11 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         appSettings.initSetting(AppSettings.Setting.AutoSave, true)
         appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
         appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
+        //如果启用动态颜色
+        appSettings.initSetting(
+            AppSettings.Setting.DynamicColor,
+            DynamicColors.isDynamicColorAvailable()
+        )
     }
 
     /**

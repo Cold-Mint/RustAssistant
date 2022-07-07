@@ -1,5 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory app:title="@string/messages_header">
 
@@ -15,6 +16,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/appearance">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:summary="@string/dynamic_color_tip"
+            android:title="@string/dynamic_color"
+            app:key="@string/setting_dynamic_color"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreference
             android:title="@string/night_mode_follow_system"
             app:defaultValue="true"
@@ -207,8 +216,8 @@
             app:title="@string/check_beta_update" />
 
         <SwitchPreference
-            android:enabled="false"
             android:defaultValue="false"
+            android:enabled="false"
             android:key="@string/setting_experience_the_plan"
             app:summary="@string/experience_the_plan_describe"
             app:title="@string/experience_the_plan" />

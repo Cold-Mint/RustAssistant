@@ -43,7 +43,7 @@ class AppSettings private constructor(val mContext: Context) {
     private val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor
     }
 
 
@@ -294,6 +294,7 @@ class AppSettings private constructor(val mContext: Context) {
             mContext.getString(R.string.setting_use_the_community_as_the_launch_page)
         map[Setting.AutoSave] = mContext.getString(R.string.setting_auto_save)
         map[Setting.ServerAddress] = mContext.getString(R.string.setting_server_address)
+        map[Setting.DynamicColor] = mContext.getString(R.string.setting_dynamic_color)
         //仅保存不可显示
         map[Setting.SetGameStorage] = "SetGameStorage"
         map[Setting.AppID] = "AppId"

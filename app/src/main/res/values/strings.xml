@@ -841,4 +841,8 @@
     <string name="confirm_password">确认密码</string>
     <string name="confirm_password_error">两次密码不一致。</string>
     <string name="display_source_code">显示源代码</string>
+    <string name="dynamic_color">动态颜色</string>
+    <string name="setting_dynamic_color">DynamicColor</string>
+    <string name="dynamic_color_tip">跟随设备壁纸更换主题色。</string>
+    <string name="dynamic_color_disabled">此设备不支持动态颜色。</string>
 </resources>

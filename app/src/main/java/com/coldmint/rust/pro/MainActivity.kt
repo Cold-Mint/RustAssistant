@@ -17,7 +17,6 @@ import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.SearchView
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +39,7 @@ import com.coldmint.rust.core.web.AppUpdate
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
+import com.coldmint.rust.pro.dialog.DialogManager
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -767,8 +767,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
+            DialogManager.getDialog(this).setTitle("你好").setMessage("消息").setNegativeButton("确定"){
+
+            }.show()
         } else {
-            installSplashScreen()
             startViewModel.initAllData()
         }
     }

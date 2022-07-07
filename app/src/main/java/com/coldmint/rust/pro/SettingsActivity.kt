@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.databinding.ActivitySettingsBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.color.DynamicColors
 import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
@@ -47,6 +48,14 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
 
             val english_editing_mode =
                 manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_english_editing_mode))
+
+            val dynamicColor =
+                manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_dynamic_color))
+            if (!DynamicColors.isDynamicColorAvailable()) {
+                //动态颜色不可用
+                dynamicColor?.summary = getString(R.string.dynamic_color_disabled)
+                dynamicColor?.isEnabled = false
+            }
 
             val errorInfo =
                 manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_see_error_info))

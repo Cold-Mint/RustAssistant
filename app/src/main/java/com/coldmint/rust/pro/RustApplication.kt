@@ -2,7 +2,9 @@ package com.coldmint.rust.pro
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import cat.ereza.customactivityoncrash.config.CaocConfig
+import com.coldmint.rust.pro.tool.AppSettings
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 
@@ -15,8 +17,12 @@ class RustApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        UMConfigure.preInit(this, appId, channel)
-//        DynamicColors.applyToActivitiesIfAvailable(this)
+        //动态颜色
+        val options = DynamicColorsOptions.Builder().setPrecondition { activity, theme ->
+            AppSettings.getInstance(this)
+                .getValue(AppSettings.Setting.DynamicColor, DynamicColors.isDynamicColorAvailable())
+        }.build()
+        DynamicColors.applyToActivitiesIfAvailable(this, options)
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //default: CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM
             .enabled(true) //default: true
