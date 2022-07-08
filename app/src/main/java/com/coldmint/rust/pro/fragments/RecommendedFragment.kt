@@ -24,6 +24,7 @@ import com.coldmint.rust.pro.databinding.RecommendedFragmentBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
+import com.google.android.material.color.DynamicColors
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
@@ -100,17 +101,21 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
         if (account.isNotBlank()) {
             WebMod.instance.soleRecommended(account, object : ApiCallBack<WebModListData> {
                 override fun onResponse(t: WebModListData) {
-                    val data = t.data?.toMutableList()
-                    if (!data.isNullOrEmpty()) {
-                        viewBinding.soleRecommendedCardView.isVisible = true
-                        viewBinding.soleRecommendedProgressIndicator.isVisible = false
-                        viewBinding.soleRecommendedRecyclerView.adapter = createAdapter(data)
+                    if (isAdded) {
+                        val data = t.data?.toMutableList()
+                        if (!data.isNullOrEmpty()) {
+                            viewBinding.soleRecommendedCardView.isVisible = true
+                            viewBinding.soleRecommendedProgressIndicator.isVisible = false
+                            viewBinding.soleRecommendedRecyclerView.adapter = createAdapter(data)
+                        }
                     }
                 }
 
                 override fun onFailure(e: Exception) {
-                    viewBinding.soleRecommendedCardView.isVisible = false
-                    viewBinding.soleRecommendedProgressIndicator.isVisible = false
+                    if (isAdded) {
+                        viewBinding.soleRecommendedCardView.isVisible = false
+                        viewBinding.soleRecommendedProgressIndicator.isVisible = false
+                    }
                 }
 
             }, limit = "6")
@@ -150,7 +155,8 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
                                 size: Int
                             ) {
                                 if (holder != null && data != null) {
-                                    Glide.with(holder.itemView).load(data.picture).apply(GlobalMethod.getRequestOptions())
+                                    Glide.with(holder.itemView).load(data.picture)
+                                        .apply(GlobalMethod.getRequestOptions())
                                         .into(holder.imageView)
                                     holder.imageView.setOnClickListener {
                                         val type = textStyleMaker.getType(data.link)
@@ -173,9 +179,12 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
                         })
                         viewBinding.banner.setBannerGalleryEffect(16, 16, 8)
                         viewBinding.banner.addPageTransformer(AlphaPageTransformer())
-                        viewBinding.banner.addBannerLifecycleObserver(requireActivity())
-                        viewBinding.banner.indicator = CircleIndicator(requireContext())
-                        viewBinding.banner.setIndicatorSelectedColorRes(R.color.blue_500)
+                        if (activity != null) {
+                            viewBinding.banner.addBannerLifecycleObserver(activity)
+                            viewBinding.banner.indicator = CircleIndicator(activity)
+//                            viewBinding.banner.setIndicatorSelectedColorRes(R.color.pink_500)
+
+                        }
                     }
                 } else {
 

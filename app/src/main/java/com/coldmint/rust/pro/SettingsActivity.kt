@@ -40,8 +40,10 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                         )
                     val newLanguage = newValue.toString()
                     if (oldLanguage != newLanguage) {
-                        appSettings.setLanguage(newValue.toString())
-                        requireActivity().recreate()
+                        val restart = appSettings.setLanguage(newValue.toString())
+                        if (restart) {
+                            requireActivity().recreate()
+                        }
                     }
                     true
                 }

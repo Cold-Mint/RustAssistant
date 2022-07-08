@@ -40,6 +40,8 @@ import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
 import com.coldmint.rust.pro.dialog.DialogManager
+import com.coldmint.rust.pro.dialog.InputDialog
+import com.coldmint.rust.pro.dialog.RustDialog
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -702,15 +704,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (it) {
                 MaterialAlertDialogBuilder(this).setTitle(R.string.login)
                     .setMessage(R.string.login_tip).setPositiveButton(R.string.login) { i, i2 ->
-                    startActivity(
-                        Intent(
-                            this,
-                            LoginActivity::class.java
+                        startActivity(
+                            Intent(
+                                this,
+                                LoginActivity::class.java
+                            )
                         )
-                    )
-                }.setNegativeButton(R.string.dialog_close) { i, i2 ->
-                    finish()
-                }.show()
+                    }.setNegativeButton(R.string.dialog_close) { i, i2 ->
+                        finish()
+                    }.show()
             } else {
                 showGameConfiguredDialog()
             }
@@ -742,19 +744,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.verifyErrorMsgLiveData.observe(this) {
             if (it.isNotBlank()) {
-                MaterialDialog(this).show {
-                    title(R.string.login).message(text = it)
-                        .cancelable(false).positiveButton(R.string.login) {
-                            startActivity(
-                                Intent(
-                                    context,
-                                    LoginActivity::class.java
-                                )
+                RustDialog(this).setTitle(R.string.login).setMessage(it)
+                    .setCancelable(false).setPositiveButton(R.string.login) {
+                        startActivity(
+                            Intent(
+                                this,
+                                LoginActivity::class.java
                             )
-                        }.negativeButton(R.string.close) {
-                            finish()
-                        }
-                }
+                        )
+                    }.setNegativeButton(R.string.close) {
+                        finish()
+                    }.show()
             }
         }
 
@@ -767,9 +767,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
-            DialogManager.getDialog(this).setTitle("你好").setMessage("消息").setNegativeButton("确定"){
-
-            }.show()
         } else {
             startViewModel.initAllData()
         }

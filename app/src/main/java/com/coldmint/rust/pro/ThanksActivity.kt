@@ -7,6 +7,7 @@ import com.coldmint.rust.pro.adapters.ThanksAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.ThanksDataBean
 import com.coldmint.rust.pro.databinding.ActivityThanksBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 /**
  * @author Cold Mint
@@ -23,9 +24,9 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
             title = getString(R.string.special_thanks_to)
             setReturnButton()
             viewBinding.recyclerView.addItemDecoration(
-                DividerItemDecoration(
+                MaterialDividerItemDecoration(
                     this,
-                    DividerItemDecoration.VERTICAL
+                    MaterialDividerItemDecoration.VERTICAL
                 )
             )
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)

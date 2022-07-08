@@ -7,6 +7,7 @@ import com.coldmint.rust.pro.R
 import kotlin.Throws
 import android.os.Environment
 import android.util.Log
+import com.hjq.language.MultiLanguages
 import java.lang.NullPointerException
 import java.util.*
 
@@ -101,18 +102,11 @@ class AppSettings private constructor(val mContext: Context) {
 
     /**
      * 设置语言
-     *
-     * @param language 语言
+     * @param language String
+     * @return Boolean 是否需要重启App
      */
-    fun setLanguage(language: String) {
-        val locale = toLocaleValue(language)
-        val resources = mContext.resources
-        val dm = resources.displayMetrics
-        val config = resources.configuration
-        // 应用用户选择语言
-        config.locale = locale
-        resources.updateConfiguration(config, dm)
-        Locale.setDefault(locale)
+    fun setLanguage(language: String): Boolean {
+        return MultiLanguages.setAppLanguage(mContext, toLocaleValue(language))
     }
 
 

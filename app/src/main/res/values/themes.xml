@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-<!--    <style name="Theme.rust.Concept.SplashScreen" parent="Theme.SplashScreen">-->
-<!--        <item name="postSplashScreenTheme">@style/Theme.rust.Concept</item>-->
-<!--        <item name="windowSplashScreenAnimationDuration">200</item>-->
-<!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
-<!--        <item name="windowSplashScreenBackground">@color/white_200</item>-->
-<!--    </style>-->
+    <!--    <style name="Theme.rust.Concept.SplashScreen" parent="Theme.SplashScreen">-->
+    <!--        <item name="postSplashScreenTheme">@style/Theme.rust.Concept</item>-->
+    <!--        <item name="windowSplashScreenAnimationDuration">200</item>-->
+    <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+    <!--        <item name="windowSplashScreenBackground">@color/white_200</item>-->
+    <!--    </style>-->
 
 
     <!--概念主题 -->
@@ -14,6 +14,8 @@
 
 
     <style name="Base.rust.Concept" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="md_corner_radius">28dp</item>
+        <item name="md_background_color">?attr/colorSurface</item>
     </style>
 
     <!--设置标签为小写-->

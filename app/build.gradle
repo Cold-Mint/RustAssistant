@@ -68,7 +68,8 @@ android {
 
 
 dependencies {
-
+    // 语种切换框架：https://github.com/getActivity/MultiLanguages
+    implementation 'com.github.getActivity:MultiLanguages:8.0'
     //权限申请
     implementation 'com.guolindev.permissionx:permissionx:1.6.1'
     implementation "androidx.room:room-runtime:2.4.0"

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.adapters.LibAdapter
 import com.coldmint.rust.pro.databean.LibInfo
 import com.coldmint.rust.pro.databinding.ActivityLibraryBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.util.ArrayList
 
 class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
@@ -138,6 +139,14 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
                 "Apache License 2.0"
             )
         )
+        libInfoArrayList.add(
+            LibInfo(
+                "MultiLanguages",
+                "Android 多语种适配框架，兼容高版本，适配第三方库语种",
+                "https://github.com/getActivity/MultiLanguages",
+                "Apache License 2.0"
+            )
+        )
 //        libInfoArrayList.add(
 //            LibInfo(
 //                "material-dialogs",
@@ -158,9 +167,9 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
             setReturnButton()
             title = getString(R.string.libs)
             viewBinding.libsView.addItemDecoration(
-                DividerItemDecoration(
+                MaterialDividerItemDecoration(
                     this,
-                    DividerItemDecoration.VERTICAL
+                    MaterialDividerItemDecoration.VERTICAL
                 )
             )
             viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)

@@ -645,7 +645,7 @@
     <string name="using_mobile_networks">允许使用数据网络</string>
     <string name="using_mobile_networks_tip">使用移动网络上传下载模组，可能会产生额外的流量费用。</string>
     <string name="using_mobile_networks_msg">使用移动网络上传下载模组，可能会产生额外的流量费用。仍然继续嘛?</string>
-    <string name="setting_use_mobile_network">usingMobileNetwork</string>
+    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">请先关注你喜欢的作者</string>
     <string name="my_follow">我的关注</string>
     <string name="no_dynamic">没有动态</string>
@@ -663,9 +663,9 @@
     <string name="warehouse">仓库</string>
     <string name="not_find_map">没有找到地图</string>
     <string name="del_map">删除</string>
-    <string name="setting_map_folder">MapFolder</string>
+    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">地图目录</string>
-    <string name="setting_mod_folder">ModFolder</string>
+    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">模组目录</string>
     <string name="edit_map">编辑地图</string>
     <string name="edit_map_tip">我们推荐使用NotTiled作为地图编辑工具。</string>
@@ -827,8 +827,8 @@
     <string name="experience_the_plan">用户体验计划</string>
     <string name="experience_the_plan_describe">匿名发送软件奔溃信息(暂不可用)。</string>
     <string name="update_and_iteration">版本更新与用户体验计划</string>
-    <string name="setting_experience_the_plan">experiencePlan</string>
-    <string name="order_timeout">订单超时，无法支付。</string>
+    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
+    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">请问您付款了嘛?（未支付的订单将过期，无法再为其付款）。</string>
     <string name="paid_yes">是的，我付款了</string>
     <string name="paid_no">放弃订单</string>
@@ -842,7 +842,8 @@
     <string name="confirm_password_error">两次密码不一致。</string>
     <string name="display_source_code">显示源代码</string>
     <string name="dynamic_color">动态颜色</string>
-    <string name="setting_dynamic_color">DynamicColor</string>
+    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
     <string name="dynamic_color_tip">跟随设备壁纸更换主题色。</string>
     <string name="dynamic_color_disabled">此设备不支持动态颜色。</string>
+    <string name="title">标题</string>
 </resources>

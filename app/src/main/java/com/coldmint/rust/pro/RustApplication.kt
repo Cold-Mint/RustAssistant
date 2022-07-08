@@ -7,6 +7,7 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.coldmint.rust.pro.tool.AppSettings
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
+import com.hjq.language.MultiLanguages
 
 class RustApplication : Application() {
 
@@ -17,12 +18,14 @@ class RustApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         //动态颜色
         val options = DynamicColorsOptions.Builder().setPrecondition { activity, theme ->
             AppSettings.getInstance(this)
                 .getValue(AppSettings.Setting.DynamicColor, DynamicColors.isDynamicColorAvailable())
         }.build()
         DynamicColors.applyToActivitiesIfAvailable(this, options)
+        //程序崩溃
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //default: CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM
             .enabled(true) //default: true
@@ -35,7 +38,12 @@ class RustApplication : Application() {
             .restartActivity(MainActivity::class.java) //default: null (your app's launch activity)
             .errorActivity(ErrorActivity::class.java) //default: null (default error activity)
             .apply()
+
+        MultiLanguages.init(this);
+
     }
 
-
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(MultiLanguages.attach(base))
+    }
 }

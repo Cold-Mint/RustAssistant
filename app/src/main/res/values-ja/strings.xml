@@ -291,4 +291,5 @@
     <string name="bookmark_jump_failed">しおりが指し示す書類は存在しない。</string>
     <string name="unit_directory">単位目録</string>
     <string name="user_name">ユーザー名</string>
+    <string name="dynamic_color">ダイナミックカラー</string>
 </resources>

@@ -59,7 +59,6 @@ import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import io.github.rosemoe.sora.data.CompletionItem
 import java.io.File

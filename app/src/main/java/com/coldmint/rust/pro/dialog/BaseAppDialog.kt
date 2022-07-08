@@ -2,20 +2,17 @@ package com.coldmint.rust.pro.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.view.View
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
  * 基础App对话框
  */
-class BaseAppDialog : AppDialog {
+abstract class BaseAppDialog(context: Context) : AppDialog {
 
-    private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
-
-    override fun init(context: Context): AppDialog {
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-        return this
+    protected val materialAlertDialogBuilder: MaterialAlertDialogBuilder by lazy {
+        MaterialAlertDialogBuilder(context)
     }
-
 
 
     override fun setTitle(string: String): AppDialog {
@@ -90,5 +87,25 @@ class BaseAppDialog : AppDialog {
         return this
     }
 
+    override fun setIcon(iconRes: Int): AppDialog {
+        materialAlertDialogBuilder.setIcon(iconRes)
+        return this
+    }
 
+    override fun setSingleChoiceItems(
+        singleItems: Array<CharSequence>,
+        func: (Int, CharSequence) -> Unit,
+        checkedItem: Int
+    ): AppDialog {
+        materialAlertDialogBuilder.setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+            func.invoke(which, singleItems[which])
+        }
+        return this
+    }
+
+
+    override fun setView(view: View): AppDialog {
+        materialAlertDialogBuilder.setView(view)
+        return this
+    }
 }

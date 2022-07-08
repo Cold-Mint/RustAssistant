@@ -249,14 +249,5 @@
     <string name="optimization">Оптимизация.</string>
     <string name="keep_rwmod_file_description">Сохраняйте исходный файл при распаковке модуля.</string>
     <string name="keep_rwmod_file">Сохраните исходный файл.</string>
-    <string name="setting_database_path" translatable="false">DatabasePath</string>
-    <string name="setting_app_language" translatable="false">AppLanguage</string>
-    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
-    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
-    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
-    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
-    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
-    <string name="setting_app_version" translatable="false">AppVersion</string>
-    <string name="setting_game_package" translatable="false">GamePackage</string>
-    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
+    <string name="dynamic_color">Динамический цвет</string>
 </resources>

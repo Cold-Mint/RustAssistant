@@ -2,18 +2,12 @@ package com.coldmint.rust.pro.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.view.View
 
 /**
  * App对话框接口
  */
 interface AppDialog {
-
-    /**
-     * 初始化对话框
-     * @param context Context
-     * @return AppDialog
-     */
-    fun init(context: Context): AppDialog
 
 
     /**
@@ -77,5 +71,34 @@ interface AppDialog {
      * @return AppDialog
      */
     fun setCancelable(cancelable: Boolean): AppDialog
+
+
+    /**
+     * 设置图标
+     * @param iconRes Int
+     * @return AppDialog
+     */
+    fun setIcon(iconRes: Int): AppDialog
+
+    /**
+     * 设置单选按钮
+     * @param singleItems List<String>
+     * @param func Function0<Unit>
+     * @param checkedItem Int
+     * @return AppDialog
+     */
+    fun setSingleChoiceItems(
+        singleItems: Array<CharSequence>,
+        func: (Int, CharSequence) -> Unit,
+        checkedItem: Int = 0
+    ): AppDialog
+
+
+    /**
+     * 设置视图
+     * @param view View
+     * @return AppDialog
+     */
+    fun setView(view: View): AppDialog
 
 }

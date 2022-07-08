@@ -26,6 +26,7 @@ import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.ModDialogBinding
 import com.coldmint.rust.pro.databinding.ModFragmentBinding
 import com.coldmint.rust.pro.databinding.ModListItemBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
 import java.util.ArrayList
 import java.util.concurrent.Executors
@@ -354,9 +355,9 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.modList.layoutManager = LinearLayoutManager(context)
         viewBinding.modList.addItemDecoration(
-            DividerItemDecoration(
+            MaterialDividerItemDecoration(
                 requireContext(),
-                DividerItemDecoration.VERTICAL
+                MaterialDividerItemDecoration.VERTICAL
             )
         )
     }

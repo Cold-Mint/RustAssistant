@@ -1,5 +1,6 @@
 package com.coldmint.rust.pro.base
 
+import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import com.coldmint.rust.pro.tool.AppSettings
@@ -22,6 +23,7 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.hjq.language.MultiLanguages
 import java.util.*
 
 /*主活动，所有活动都应该继承于此*/
@@ -175,4 +177,7 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MultiLanguages.attach(newBase))
+    }
 }
