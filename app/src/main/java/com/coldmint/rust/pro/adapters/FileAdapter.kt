@@ -101,6 +101,7 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
                     }
                 })
             }
+            else -> {}
         }
     }
 

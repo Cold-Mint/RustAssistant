@@ -270,6 +270,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
             AppOperator.NetWorkType.NetWorkType_Wifi -> {
                 downloadWork(fileLink)
             }
+            else -> {}
         }
 
     }

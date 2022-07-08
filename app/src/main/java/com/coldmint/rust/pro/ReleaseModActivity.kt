@@ -837,6 +837,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         )
                     }
                 }
+                else -> {}
             }
         }
     }

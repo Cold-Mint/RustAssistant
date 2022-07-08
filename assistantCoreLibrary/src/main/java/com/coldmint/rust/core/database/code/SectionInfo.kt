@@ -2,6 +2,7 @@ package com.coldmint.rust.core.database.code
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -16,4 +17,7 @@ data class SectionInfo(
     @ColumnInfo(name = "need_name") val needName: Boolean = false,
     @ColumnInfo(name = "is_visible") val isVisible: Boolean = true,
     @ColumnInfo(name = "is_available") val isAvailable: Boolean = true
-)
+) {
+    @Ignore
+    constructor() : this("")
+}

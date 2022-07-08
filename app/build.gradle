@@ -93,6 +93,7 @@ dependencies {
     implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
     implementation files('libs/editor_0.8.aar')
     implementation project(path: ':assistantCoreLibrary')
+    implementation project(path: ':dialog')
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
 

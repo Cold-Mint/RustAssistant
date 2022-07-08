@@ -20,10 +20,14 @@ class RustApplication : Application() {
         super.onCreate()
 
         //动态颜色
-        val options = DynamicColorsOptions.Builder().setPrecondition { activity, theme ->
-            AppSettings.getInstance(this)
-                .getValue(AppSettings.Setting.DynamicColor, DynamicColors.isDynamicColorAvailable())
-        }.build()
+        val options = DynamicColorsOptions.Builder()
+            .setPrecondition { activity, theme ->
+                AppSettings.getInstance(this)
+                    .getValue(
+                        AppSettings.Setting.DynamicColor,
+                        DynamicColors.isDynamicColorAvailable()
+                    )
+            }.build()
         DynamicColors.applyToActivitiesIfAvailable(this, options)
         //程序崩溃
         CaocConfig.Builder.create()

@@ -435,6 +435,9 @@ class CodeCompiler2 private constructor(val context: Context) : CodeCompilerInte
                                     referenceResult.append(translation)
                                 }
                             }
+                            else -> {
+
+                            }
                         }
                     }
                     else -> if (compileConfiguration.codeBlockType == CompileConfiguration.CodeBlockType.Note) {

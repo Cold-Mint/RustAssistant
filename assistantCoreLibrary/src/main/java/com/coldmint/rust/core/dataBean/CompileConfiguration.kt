@@ -255,6 +255,7 @@ data class CompileConfiguration(
                 analysisResult.icon = warningIcon
                 warningNumber++
             }
+            else -> {}
         }
         if (errorRecordMap == null) {
             throw NullPointerException("错误记录表未同步。")

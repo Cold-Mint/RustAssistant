@@ -1,8 +1,6 @@
 package com.coldmint.rust.pro
 
 
-import android.Manifest
-import android.content.DialogInterface
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.tool.GlobalMethod
 import android.content.pm.PackageInfo
@@ -11,11 +9,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import com.google.android.material.snackbar.Snackbar
 import android.widget.Toast
-import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.view.*
-import android.widget.PopupMenu
 import android.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -24,39 +20,25 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.TemplatePackage
 import com.coldmint.rust.core.dataBean.AppUpdateData
-import com.coldmint.rust.core.dataBean.iflynote.NoteData
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
-import com.coldmint.rust.core.database.code.CodeDataBase
-import com.coldmint.rust.core.iflynote.IFlyNoteAPi
 import com.coldmint.rust.core.interfaces.ApiCallBack
-import com.coldmint.rust.core.interfaces.LineParserEvent
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.*
 import com.coldmint.rust.core.web.AppUpdate
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
-import com.coldmint.rust.pro.dialog.DialogManager
-import com.coldmint.rust.pro.dialog.InputDialog
-import com.coldmint.rust.pro.dialog.RustDialog
 import com.coldmint.rust.pro.viewmodel.StartViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
-import com.permissionx.guolindev.PermissionX
-import com.permissionx.guolindev.callback.ExplainReasonCallback
-import com.permissionx.guolindev.callback.ForwardToSettingsCallback
-import com.permissionx.guolindev.callback.RequestCallback
-import com.permissionx.guolindev.dialog.RationaleDialog
-import com.permissionx.guolindev.request.ExplainScope
-import com.permissionx.guolindev.request.ForwardScope
 import org.json.JSONObject
 import java.io.File
-import java.util.ArrayList
 import java.util.concurrent.Executors
 import java.util.zip.ZipEntry
 
@@ -744,7 +726,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.verifyErrorMsgLiveData.observe(this) {
             if (it.isNotBlank()) {
-                RustDialog(this).setTitle(R.string.login).setMessage(it)
+                CoreDialog(this).setTitle(R.string.login).setMessage(it)
                     .setCancelable(false).setPositiveButton(R.string.login) {
                         startActivity(
                             Intent(
@@ -760,6 +742,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     }
 
+    fun inputName() {
+
+        InputDialog(this).setInputCanBeEmpty(false).setTitle("姓名")
+            .setPositiveButton("确定") {
+
+            }.setNegativeButton("取消") {
+
+            }.setCancelable(false).show()
+    }
+
+
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             oldLanguage = appSettings.getValue(AppSettings.Setting.AppLanguage, "en")
@@ -767,6 +760,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
+            inputName()
         } else {
             startViewModel.initAllData()
         }

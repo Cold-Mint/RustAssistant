@@ -10,12 +10,15 @@
 
 
     <!--概念主题 -->
-    <style name="Theme.rust.Concept" parent="Base.rust.Concept" />
 
+    <style name="Theme.rust.Concept" parent="Base.rust.Concept"/>
 
     <style name="Base.rust.Concept" parent="Theme.Material3.DayNight.NoActionBar">
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
         <item name="md_corner_radius">28dp</item>
-        <item name="md_background_color">?attr/colorSurface</item>
+<!--        <item name="md_background_color">@color/material_on_surface_emphasis_medium</item>-->
+
     </style>
 
     <!--设置标签为小写-->
