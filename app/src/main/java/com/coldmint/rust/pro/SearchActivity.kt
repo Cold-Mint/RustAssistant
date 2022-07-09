@@ -1,85 +1,84 @@
 package com.coldmint.rust.pro
 
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.coldmint.rust.core.dataBean.SearchResultDataBean
+import com.coldmint.rust.core.dataBean.SearchSuggestionsData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.Search
-import com.coldmint.rust.core.web.ServerConfiguration
-import com.coldmint.rust.pro.adapters.SearchResultAdapter
+import com.coldmint.rust.pro.adapters.SearchSuggestionsAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivitySearchBinding
 
 /**
- * 搜索activity
+ * 搜索界面
  */
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
-    lateinit var keyWord: String
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
-        if (canUseView) {
-            setReturnButton()
-            loadData(keyWord)
-            title = String.format(getString(R.string.search_mod_key), keyWord)
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        } else {
-            val thisIntent = intent
-            val key = thisIntent.getStringExtra("key")
-            if (key == null) {
-                showError("key为null")
-                return
-            }
-            keyWord = key
-        }
-    }
+        title = getString(R.string.search)
+        setReturnButton()
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-    /**
-     * 加载数据
-     * @param keyWord String
-     */
-    fun loadData(keyWord: String) {
-        Search.instance.searchAll(keyWord, object : ApiCallBack<SearchResultDataBean> {
-            override fun onResponse(t: SearchResultDataBean) {
-                if (t.code == ServerConfiguration.Success_Code) {
-                    val list = t.data
-                    if (list != null && list.isNotEmpty()) {
-                        val adapter = SearchResultAdapter(this@SearchActivity, keyWord, list)
-                        viewBinding.progressBar.isVisible = false
-                        viewBinding.tipView.isVisible = false
-                        viewBinding.recyclerView.isVisible = true
-                        viewBinding.recyclerView.adapter = adapter
-                        title = String.format(
-                            getString(R.string.search_mod_key),
-                            keyWord
-                        ) + "(" + list.size + ")"
-                    } else {
-                        showInfoToView(t.message)
-                    }
-                } else {
-                    showInfoToView(t.message)
+        viewBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null && query.isNotBlank()) {
+                    val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
+                    intent.putExtra("key", query)
+                    startActivity(intent)
                 }
+                return true
             }
 
-            override fun onFailure(e: Exception) {
-                showInfoToView(this@SearchActivity.getString(R.string.network_error))
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null && newText.isNotBlank()) {
+                    Search.instance.suggestions(newText,
+                        object : ApiCallBack<SearchSuggestionsData> {
+                            override fun onResponse(t: SearchSuggestionsData) {
+                                val dataList = t.data
+                                if (dataList.isNullOrEmpty()) {
+                                    viewBinding.recyclerView.isVisible = false
+                                } else {
+                                    val adapter =
+                                        SearchSuggestionsAdapter(
+                                            this@SearchActivity,
+                                            newText,
+                                            dataList
+                                        )
+                                    adapter.setItemEvent { i, itemSearchSuggestionsBinding, viewHolder, s ->
+                                        itemSearchSuggestionsBinding.root.setOnClickListener {
+                                            val intent = Intent(
+                                                this@SearchActivity,
+                                                SearchResultActivity::class.java
+                                            )
+                                            intent.putExtra("key", s)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                    viewBinding.recyclerView.adapter = adapter
+                                    viewBinding.recyclerView.isVisible = true
+                                }
+                            }
+
+                            override fun onFailure(e: Exception) {
+                                viewBinding.recyclerView.isVisible = false
+                            }
+
+                        })
+                } else {
+                    viewBinding.recyclerView.isVisible = false
+                }
+                return true
             }
 
         })
     }
 
-    /**
-     * 显示信息到视图
-     * @param text String
-     */
-    fun showInfoToView(text: String) {
-        viewBinding.tipView.isVisible = true
-        viewBinding.tipView.text = text
-        viewBinding.progressBar.isVisible = false
-        viewBinding.recyclerView.isVisible = false
-    }
-
-
     override fun getViewBindingObject(): ActivitySearchBinding {
         return ActivitySearchBinding.inflate(layoutInflater)
     }
+
 }

@@ -190,20 +190,20 @@ class WebMod private constructor() {
     //audit
     /**
      * 审核模组
-     * @param account String 账号（管理员）
+     * @param token String 令牌（管理员）
      * @param modId String 模组id
      * @param state Boolean 通过状态
      * @param apiCallBack ApiCallBack<ApiResponse> 回调接口
      */
     fun auditMod(
-        account: String,
+        token: String,
         modId: String,
         state: Boolean,
         apiCallBack: ApiCallBack<ApiResponse>
     ) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBodyBuilder: FormBody.Builder =
-            FormBody.Builder().add("account", account).add("modId", modId)
+            FormBody.Builder().add("token", token).add("modId", modId)
                 .add("state", state.toString())
         val requestBody = requestBodyBuilder.build()
         val request =
@@ -239,14 +239,14 @@ class WebMod private constructor() {
 
     /**
      * 重新审核模组
-     * @param account String 账号
+     * @param token String 令牌
      * @param modId String 模组id
      * @param apiCallBack ApiCallBack<ApiResponse> 回调接口
      */
-    fun afreshAuditMod(account: String, modId: String, apiCallBack: ApiCallBack<ApiResponse>) {
+    fun afreshAuditMod(token: String, modId: String, apiCallBack: ApiCallBack<ApiResponse>) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBodyBuilder: FormBody.Builder =
-            FormBody.Builder().add("account", account).add("modId", modId)
+            FormBody.Builder().add("token", token).add("modId", modId)
         val requestBody = requestBodyBuilder.build()
         val request =
             Request.Builder()
@@ -515,22 +515,20 @@ class WebMod private constructor() {
 
     /**
      * 发布评论
-     * @param account String 账号
-     * @param appId String appid
+     * @param token String token
      * @param modId String 模组id
      * @param content String 评论内容
      * @param apiCallBack ApiCallBack<ApiResponse> 结果
      */
     fun sendComment(
-        account: String,
-        appId: String,
+        token: String,
         modId: String,
         content: String,
         apiCallBack: ApiCallBack<ApiResponse>
     ) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBody: FormBody =
-            FormBody.Builder().add("account", account).add("appId", appId).add("modId", modId)
+            FormBody.Builder().add("token", token).add("modId", modId)
                 .add("content", content).build()
         val request =
             Request.Builder().url(ServerConfiguration.website + "php/mod.php?action=comments")
@@ -565,13 +563,13 @@ class WebMod private constructor() {
 
     /**
      * 查看模组信息
-     * @param account String 账号
+     * @param token String 令牌
      * @param modId String 模组Id
      */
-    fun getInfo(account: String, modId: String, apiCallBack: ApiCallBack<WebModInfoData>) {
+    fun getInfo(token: String, modId: String, apiCallBack: ApiCallBack<WebModInfoData>) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBody: FormBody =
-            FormBody.Builder().add("account", account).add("modId", modId).build()
+            FormBody.Builder().add("token", token).add("modId", modId).build()
         val request =
             Request.Builder().url(ServerConfiguration.website + "php/mod.php?action=getInfo")
                 .post(requestBody).build()
@@ -587,6 +585,7 @@ class WebMod private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
+                    Log.d("模组信息",data)
                     val finalWebModInfoData =
                         gson.fromJson(data, WebModInfoData::class.java)
                     handler.post {
@@ -871,7 +870,7 @@ class WebMod private constructor() {
 
     /**
      * 发布模组
-     * @param account String 账号
+     * @param token String 账号
      * @param modName String 模组名称
      * @param describe String 描述
      * @param tags String 标签
@@ -881,7 +880,7 @@ class WebMod private constructor() {
     fun releaseMod(
         appId: String,
         modId: String,
-        account: String,
+        token: String,
         modName: String,
         describe: String,
         tags: String,
@@ -896,7 +895,7 @@ class WebMod private constructor() {
         val builder =
             MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("appID", appId)
                 .addFormDataPart("modId", modId)
-                .addFormDataPart("account", account).addFormDataPart("modName", modName)
+                .addFormDataPart("token", token).addFormDataPart("modName", modName)
                 .addFormDataPart("describe", describe).addFormDataPart("tags", tags)
                 .addFormDataPart("versionName", versionName)
                 .addFormDataPart("unitNumber", unitNum.toString())
@@ -958,6 +957,7 @@ class WebMod private constructor() {
                     val body = response.body
                     if (body != null) {
                         val data = body.string()
+                        Log.d("发布模组响应",data)
                         val finalApiResponse = gson.fromJson(data, ApiResponse::class.java)
                         handler.post {
                             apiCallBack.onResponse(finalApiResponse)

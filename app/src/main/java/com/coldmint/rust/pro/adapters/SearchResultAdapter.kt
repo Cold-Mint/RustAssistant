@@ -2,26 +2,17 @@ package com.coldmint.rust.pro.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.coldmint.rust.core.dataBean.SearchResultDataBean
+import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.UserHomePageActivity
 import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.ItemSearchResultBinding
-import com.coldmint.rust.pro.edit.RustAutoComplete2
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
 import java.util.*
@@ -35,9 +26,9 @@ import java.util.*
 class SearchResultAdapter(
     val context: Context,
     val keyWord: String,
-    dataList: MutableList<SearchResultDataBean.Data>
+    dataList: MutableList<SearchResultDataBean.Data.Total>
 ) :
-    BaseAdapter<ItemSearchResultBinding, SearchResultDataBean.Data>(context, dataList) {
+    BaseAdapter<ItemSearchResultBinding, SearchResultDataBean.Data.Total>(context, dataList) {
 
 
     override fun getViewBindingObject(
@@ -49,7 +40,7 @@ class SearchResultAdapter(
     }
 
     override fun onBingView(
-        data: SearchResultDataBean.Data,
+        data: SearchResultDataBean.Data.Total,
         viewBinding: ItemSearchResultBinding,
         viewHolder: ViewHolder<ItemSearchResultBinding>,
         position: Int

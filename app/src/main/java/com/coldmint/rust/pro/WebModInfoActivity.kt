@@ -68,8 +68,8 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         val modFilePath = "$modFolderPath$modId.rwmod"
         File(modFilePath)
     }
-    val account by lazy {
-        appSettings.getValue(AppSettings.Setting.Account, "")
+    val token by lazy {
+        appSettings.getValue(AppSettings.Setting.Token, "")
     }
     var developer: String? = null
 
@@ -105,7 +105,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
 
     private fun initData() {
 
-        if (account.isBlank()) {
+        if (token.isBlank()) {
             viewBinding.progressBar.isVisible = false
             viewBinding.tipView.isVisible = true
             viewBinding.tipView.setText(R.string.please_login_first)
@@ -115,7 +115,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         loadModCommentList(modId)
 
 
-        WebMod.instance.getInfo(account, modId, object : ApiCallBack<WebModInfoData> {
+        WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
             override fun onResponse(t: WebModInfoData) {
                 if (t.code == ServerConfiguration.Success_Code) {
                     developer = t.data.developer
@@ -287,26 +287,13 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         when (item.itemId) {
             R.id.report_item -> {
                 if (isOpen) {
-                    //不能举报自己的模组
-                    if (developer != null && developer == account) {
-                        Snackbar.make(
-                            viewBinding.button,
-                            R.string.unable_to_report2,
-                            Snackbar.LENGTH_SHORT
-                        ).setAction(R.string.open) {
-                            val gotoIntent =
-                                Intent(this, WorkManagementActivity::class.java)
-                            startActivity(gotoIntent)
-                        }.show()
-                    } else {
-                        val thisIntent = Intent(this, ReportActivity::class.java)
-                        val bundle = Bundle()
-                        bundle.putString("target", modId)
-                        bundle.putString("type", "mod")
-                        bundle.putString("name", viewBinding.titleView.text.toString())
-                        thisIntent.putExtra("data", bundle)
-                        startActivity(thisIntent)
-                    }
+                    val thisIntent = Intent(this, ReportActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putString("target", modId)
+                    bundle.putString("type", "mod")
+                    bundle.putString("name", viewBinding.titleView.text.toString())
+                    thisIntent.putExtra("data", bundle)
+                    startActivity(thisIntent)
                 } else {
                     //不能举报未公开的模组
                     Snackbar.make(
@@ -492,8 +479,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                         val text = inputField.text.toString()
                         if (!text.isBlank()) {
                             WebMod.instance.sendComment(
-                                account,
-                                appSettings.getValue(AppSettings.Setting.AppID, ""),
+                                appSettings.getValue(AppSettings.Setting.Token, ""),
                                 modId,
                                 text,
                                 object : ApiCallBack<ApiResponse> {

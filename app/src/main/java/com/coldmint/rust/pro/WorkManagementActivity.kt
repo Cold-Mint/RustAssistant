@@ -175,7 +175,11 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
                                                             .positiveButton(R.string.dialog_ok)
                                                             .positiveButton {
                                                                 WebMod.instance.afreshAuditMod(
-                                                                    data.developer,
+                                                                    AppSettings.getInstance(this@WorkManagementActivity)
+                                                                        .getValue(
+                                                                            AppSettings.Setting.Token,
+                                                                            ""
+                                                                        ),
                                                                     data.id,
                                                                     object :
                                                                         ApiCallBack<ApiResponse> {

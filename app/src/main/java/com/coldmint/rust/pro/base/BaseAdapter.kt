@@ -37,7 +37,7 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
         Handler(Looper.getMainLooper())
     }
     private val spannableStringBuilder: SpannableStringBuilder = SpannableStringBuilder()
-    private val colorSpan: ForegroundColorSpan = ForegroundColorSpan(Color.parseColor("#2196F3"))
+    private val colorSpan: ForegroundColorSpan = ForegroundColorSpan(Color.parseColor("#e91e63"))
     private val bold = StyleSpan(Typeface.BOLD)
 
 

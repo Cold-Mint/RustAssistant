@@ -22,15 +22,15 @@ import com.google.android.material.snackbar.Snackbar
  * @date 2022/1/9 16:50
  */
 class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
-    val account: String by lazy {
-        appSettings.getValue(AppSettings.Setting.Account, "")
+    val token by lazy {
+        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
     }
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             viewBinding.toolbar.title = getText(R.string.review_mod)
             setReturnButton()
-            if (account.isBlank()) {
+            if (token.isBlank()) {
                 showInfoToView(resId = R.string.please_login_first)
                 return
             }
@@ -65,7 +65,7 @@ class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
                         }
                         itemAuditModBinding.consentView.setOnClickListener {
                             WebMod.instance.auditMod(
-                                account,
+                                token,
                                 data.id,
                                 true,
                                 object : ApiCallBack<ApiResponse> {
@@ -93,8 +93,9 @@ class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
                                 })
                         }
                         itemAuditModBinding.refusedView.setOnClickListener {
+
                             WebMod.instance.auditMod(
-                                account,
+                                token,
                                 data.id,
                                 false,
                                 object : ApiCallBack<ApiResponse> {

@@ -11,6 +11,7 @@
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".RustApplication"
@@ -23,6 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -44,24 +49,24 @@
             android:name="notch.config"
             android:value="portrait|landscape" /> <!-- Activity注册 -->
         <activity
-            android:screenOrientation="portrait"
             android:name=".CreationWizardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TurretDesignActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BrowserActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:label="@string/built_in_browser" /> <!-- 适配全面屏 -->
+            android:label="@string/built_in_browser"
+            android:screenOrientation="portrait" /> <!-- 适配全面屏 -->
         <activity
             android:name=".OrderListActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".SearchResultActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -120,8 +125,6 @@
             android:name=".WebModInfoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".ErrorActivity"
             android:exported="false"

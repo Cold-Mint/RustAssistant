@@ -21,7 +21,6 @@ import androidx.navigation.ui.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
-import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.TemplatePackage
 import com.coldmint.rust.core.dataBean.AppUpdateData
@@ -452,46 +451,46 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 初始化搜索项目事件
      */
-    private fun initSearchItem(newSearchView: SearchView) {
-        val navigationIcon = viewBinding.toolbar.navigationIcon
-        var oldTile: CharSequence = viewBinding.toolbar.title
-        val hideView: (collapsed: Boolean) -> Unit = {
-            if (it) {
-                newSearchView.onActionViewCollapsed()
-            }
-            viewBinding.toolbar.navigationIcon = navigationIcon
-            viewBinding.toolbar.title = oldTile
-        }
-        newSearchView.queryHint = getString(R.string.search_hint)
-        newSearchView.setOnCloseListener {
-            hideView.invoke(false)
-            return@setOnCloseListener false
-        }
-        newSearchView.setOnSearchClickListener {
-            oldTile = viewBinding.toolbar.title
-            viewBinding.toolbar.navigationIcon = null
-            viewBinding.toolbar.title = getString(R.string.search)
-        }
-
-        newSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                hideView.invoke(true)
-                val key = query
-                if (key != null) {
-                    val goIntent = Intent(this@MainActivity, SearchActivity::class.java)
-                    goIntent.putExtra("key", key)
-                    startActivity(goIntent)
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-
-        })
-        searchView = newSearchView
-    }
+//    private fun initSearchItem(newSearchView: SearchView) {
+//        val navigationIcon = viewBinding.toolbar.navigationIcon
+//        var oldTile: CharSequence = viewBinding.toolbar.title
+//        val hideView: (collapsed: Boolean) -> Unit = {
+//            if (it) {
+//                newSearchView.onActionViewCollapsed()
+//            }
+//            viewBinding.toolbar.navigationIcon = navigationIcon
+//            viewBinding.toolbar.title = oldTile
+//        }
+//        newSearchView.queryHint = getString(R.string.search_hint)
+//        newSearchView.setOnCloseListener {
+//            hideView.invoke(false)
+//            return@setOnCloseListener false
+//        }
+//        newSearchView.setOnSearchClickListener {
+//            oldTile = viewBinding.toolbar.title
+//            viewBinding.toolbar.navigationIcon = null
+//            viewBinding.toolbar.title = getString(R.string.search)
+//        }
+//
+//        newSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                hideView.invoke(true)
+//                val key = query
+//                if (key != null) {
+//                    val goIntent = Intent(this@MainActivity, SearchResultActivity::class.java)
+//                    goIntent.putExtra("key", key)
+//                    startActivity(goIntent)
+//                }
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return false
+//            }
+//
+//        })
+//        searchView = newSearchView
+//    }
 
     /**
      * 导入模板
@@ -643,8 +642,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
-        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        initSearchItem(searchView)
+//        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
+//        initSearchItem(searchView)
         return true
     }
 
@@ -655,6 +654,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
         return false
     }
 
@@ -693,8 +695,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             )
                         )
                     }.setNegativeButton(R.string.dialog_close) {
-                    finish()
-                }.setCancelable(false).show()
+                        finish()
+                    }.setCancelable(false).show()
             } else {
                 showGameConfiguredDialog()
             }

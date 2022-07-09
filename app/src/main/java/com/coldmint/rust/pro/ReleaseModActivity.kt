@@ -866,7 +866,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 .positiveButton(R.string.dialog_ok).cancelable(false)
         }
         WebMod.instance.releaseMod(appSettings.getValue(AppSettings.Setting.AppID, ""), modId,
-            account,
+            appSettings.getValue(AppSettings.Setting.Token, ""),
             modName,
             modDescribe,
             tagsBuilder.toString(),
