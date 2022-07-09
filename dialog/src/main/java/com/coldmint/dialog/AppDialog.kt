@@ -18,6 +18,7 @@ interface AppDialog {
     fun setTitle(string: String): AppDialog
     fun setTitle(stringRes: Int): AppDialog
 
+    fun dismiss()
 
     /**
      * 设置消息
@@ -101,4 +102,10 @@ interface AppDialog {
      */
     fun setView(view: View): AppDialog
 
+    /**
+     * 设置是否可以自动关闭
+     * @param enable Boolean
+     * @return AppDialog
+     */
+    fun setAutoDismiss(enable: Boolean): AppDialog
 }

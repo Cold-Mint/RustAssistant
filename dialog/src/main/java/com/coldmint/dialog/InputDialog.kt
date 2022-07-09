@@ -7,26 +7,63 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import com.coldmint.dialog.databinding.DialogInputBinding
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * 输入对话框
  * @property dialogInputBinding [@androidx.annotation.NonNull] DialogInputBinding
  * @constructor
  */
-class InputDialog(context: Context) : BaseAppDialog(context) {
+class InputDialog(context: Context) : BaseAppDialog<InputDialog>(context) {
 
-    val dialogInputBinding by lazy {
+    private val dialogInputBinding by lazy {
         DialogInputBinding.inflate(LayoutInflater.from(context))
     }
 
     private var autoDismiss: Boolean = true
     private var inputCanBeEmpty: Boolean = true
+    private var errorTipFunction: ((String, TextInputLayout) -> Unit)? = null
+
+    /**
+     * 设置错误提示，若设置了错误提示，按钮空检查将失效
+     * @param func Function2<String, TextInputLayout, Boolean>?
+     */
+    fun setErrorTip(func: ((String, TextInputLayout) -> Unit)?): InputDialog {
+        errorTipFunction = func
+        dialogInputBinding.positiveButton.isEnabled = func == null
+        return this
+    }
+
+    /**
+     * 设置编辑框文本
+     * @param string String
+     * @return InputDialog
+     */
+    fun setText(string: String):InputDialog{
+        dialogInputBinding.textInputEditText.setText(string)
+        return this
+    }
+
+    /**
+     * 设置最大输入数量
+     * @param number Int 小于0禁用
+     * @return InputDialog
+     */
+    fun setMaxNumber(number: Int): InputDialog {
+        if (number > 0) {
+            dialogInputBinding.textInputLayout.counterMaxLength = number
+            dialogInputBinding.textInputLayout.isCounterEnabled = true
+        } else {
+            dialogInputBinding.textInputLayout.isCounterEnabled = false
+        }
+        return this
+    }
 
     /**
      * 设置是否自动关闭
      * @param enable Boolean
      */
-    fun setAutoDismiss(enable: Boolean): InputDialog {
+    override fun setAutoDismiss(enable: Boolean): InputDialog {
         autoDismiss = enable
         return this
     }
@@ -56,38 +93,61 @@ class InputDialog(context: Context) : BaseAppDialog(context) {
 
             override fun afterTextChanged(p0: Editable?) {
                 val text = p0.toString()
-                dialogInputBinding.positiveButton.isEnabled = !(text.isBlank() && !inputCanBeEmpty)
+                if (errorTipFunction != null) {
+                    errorTipFunction!!.invoke(text, dialogInputBinding.textInputLayout)
+                } else {
+                    dialogInputBinding.positiveButton.isEnabled =
+                        !(text.isBlank() && !inputCanBeEmpty)
+                }
+//如果启用计数并且，超过最大字数
+                if (dialogInputBinding.textInputLayout.isCounterEnabled && text.length > dialogInputBinding.textInputLayout.counterMaxLength) {
+                    dialogInputBinding.textInputLayout.isErrorEnabled = true
+                }
+                //如果处于错误状态禁用按钮
+                dialogInputBinding.positiveButton.isEnabled =
+                    !dialogInputBinding.textInputLayout.isErrorEnabled
             }
 
         })
     }
 
 
-    override fun setTitle(string: String): AppDialog {
+    fun setHint(string: String): InputDialog {
+        dialogInputBinding.textInputLayout.hint = string
+        return this
+    }
+
+    fun setHint(stringRes: Int): InputDialog {
+        dialogInputBinding.textInputLayout.setHint(stringRes)
+        return this
+    }
+
+    override fun setTitle(string: String): InputDialog {
         dialogInputBinding.titleView.isVisible = true
         dialogInputBinding.titleView.text = string
         return this
     }
 
-    override fun setTitle(stringRes: Int): AppDialog {
+    override fun setTitle(stringRes: Int): InputDialog {
         dialogInputBinding.titleView.isVisible = true
         dialogInputBinding.titleView.setText(stringRes)
         return this
     }
 
-    override fun setMessage(stringRes: Int): AppDialog {
+    override fun setMessage(stringRes: Int): InputDialog {
         dialogInputBinding.messageView.isVisible = true
         dialogInputBinding.messageView.setText(stringRes)
         return this
     }
 
-    override fun setMessage(string: String): AppDialog {
+    override fun setMessage(string: String): InputDialog {
         dialogInputBinding.messageView.isVisible = true
         dialogInputBinding.messageView.text = string
         return this
     }
 
-    override fun setPositiveButton(text: String, func: () -> Unit): AppDialog {
+    @Deprecated("已废弃")
+    override fun setPositiveButton(text: String, func: () -> Unit): InputDialog {
         dialogInputBinding.buttonContainer.isVisible = true
         dialogInputBinding.positiveButton.isVisible = true
         dialogInputBinding.positiveButton.text = text
@@ -100,7 +160,8 @@ class InputDialog(context: Context) : BaseAppDialog(context) {
         return this
     }
 
-    override fun setPositiveButton(textRes: Int, func: () -> Unit): AppDialog {
+    @Deprecated("已废弃")
+    override fun setPositiveButton(textRes: Int, func: () -> Unit): InputDialog {
         dialogInputBinding.buttonContainer.isVisible = true
         dialogInputBinding.positiveButton.isVisible = true
         dialogInputBinding.positiveButton.setText(textRes)
@@ -113,7 +174,45 @@ class InputDialog(context: Context) : BaseAppDialog(context) {
         return this
     }
 
-    override fun setNegativeButton(text: String, func: () -> Unit): AppDialog {
+    fun setPositiveButton(text: String, func: (String) -> Boolean): InputDialog {
+        dialogInputBinding.buttonContainer.isVisible = true
+        dialogInputBinding.positiveButton.isVisible = true
+        dialogInputBinding.positiveButton.text = text
+        dialogInputBinding.positiveButton.setOnClickListener {
+            val d = func.invoke(
+                dialogInputBinding.textInputEditText.text.toString()
+            )
+            if (d) {
+                dialog.dismiss()
+                return@setOnClickListener
+            }
+            if (autoDismiss) {
+                dialog.dismiss()
+            }
+        }
+        return this
+    }
+
+    fun setPositiveButton(textRes: Int, func: (String) -> Boolean): InputDialog {
+        dialogInputBinding.buttonContainer.isVisible = true
+        dialogInputBinding.positiveButton.isVisible = true
+        dialogInputBinding.positiveButton.setText(textRes)
+        dialogInputBinding.positiveButton.setOnClickListener {
+            val d = func.invoke(
+                dialogInputBinding.textInputEditText.text.toString()
+            )
+            if (d) {
+                dialog.dismiss()
+                return@setOnClickListener
+            }
+            if (autoDismiss) {
+                dialog.dismiss()
+            }
+        }
+        return this
+    }
+
+    override fun setNegativeButton(text: String, func: () -> Unit): InputDialog {
         dialogInputBinding.buttonContainer.isVisible = true
         dialogInputBinding.negativeButton.isVisible = true
         dialogInputBinding.negativeButton.text = text
@@ -126,7 +225,7 @@ class InputDialog(context: Context) : BaseAppDialog(context) {
         return this
     }
 
-    override fun setNegativeButton(textRes: Int, func: () -> Unit): AppDialog {
+    override fun setNegativeButton(textRes: Int, func: () -> Unit): InputDialog {
         dialogInputBinding.buttonContainer.isVisible = true
         dialogInputBinding.negativeButton.isVisible = true
         dialogInputBinding.negativeButton.setText(textRes)
@@ -140,22 +239,22 @@ class InputDialog(context: Context) : BaseAppDialog(context) {
     }
 
 
-    @Deprecated("输入对话框无法使用。")
-    override fun setIcon(iconRes: Int): AppDialog {
+    @Deprecated("无法使用。")
+    override fun setIcon(iconRes: Int): InputDialog {
         return super.setIcon(iconRes)
     }
 
-    @Deprecated("输入对话框无法使用。")
-    override fun setView(view: View): AppDialog {
+    @Deprecated("无法使用。")
+    override fun setView(view: View): InputDialog {
         return super.setView(view)
     }
 
-    @Deprecated("输入对话框无法使用。")
+    @Deprecated("无法使用。")
     override fun setSingleChoiceItems(
         singleItems: Array<CharSequence>,
         func: (Int, CharSequence) -> Unit,
         checkedItem: Int
-    ): AppDialog {
+    ): InputDialog {
         return super.setSingleChoiceItems(singleItems, func, checkedItem)
     }
 }

@@ -217,7 +217,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.setTitle(R.string.set_up)
+            title = getString(R.string.set_up)
             setReturnButton()
             val settingsFragment = SettingsFragment()
             supportFragmentManager

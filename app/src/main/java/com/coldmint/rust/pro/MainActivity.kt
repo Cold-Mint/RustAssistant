@@ -684,17 +684,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.needLoginLiveData.observe(this) {
             if (it) {
-                MaterialAlertDialogBuilder(this).setTitle(R.string.login)
-                    .setMessage(R.string.login_tip).setPositiveButton(R.string.login) { i, i2 ->
+                CoreDialog(this).setTitle(R.string.login).setMessage(R.string.login_tip)
+                    .setPositiveButton(R.string.login) {
                         startActivity(
                             Intent(
                                 this,
                                 LoginActivity::class.java
                             )
                         )
-                    }.setNegativeButton(R.string.dialog_close) { i, i2 ->
-                        finish()
-                    }.show()
+                    }.setNegativeButton(R.string.dialog_close) {
+                    finish()
+                }.setCancelable(false).show()
             } else {
                 showGameConfiguredDialog()
             }
@@ -742,16 +742,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     }
 
-    fun inputName() {
-
-        InputDialog(this).setInputCanBeEmpty(false).setTitle("姓名")
-            .setPositiveButton("确定") {
-
-            }.setNegativeButton("取消") {
-
-            }.setCancelable(false).show()
-    }
-
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
@@ -760,7 +750,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
-            inputName()
         } else {
             startViewModel.initAllData()
         }

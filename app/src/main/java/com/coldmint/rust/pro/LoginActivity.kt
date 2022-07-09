@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.LoginRequestData
 import com.coldmint.rust.core.dataBean.user.UserData
@@ -132,7 +133,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                 val expirationTime = userData.data.expirationTime
                                 val time = ServerConfiguration.toLongTime(expirationTime)
                                 appSettings.forceSetValue(AppSettings.Setting.ExpirationTime, time)
-                                appSettings.forceSetValue(AppSettings.Setting.LoginStatus,true)
+                                appSettings.forceSetValue(AppSettings.Setting.LoginStatus, true)
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 finish()
                             } else {
@@ -371,30 +372,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             )
         }
         viewBinding.changeServerView.setOnClickListener {
-            MaterialDialog(this@LoginActivity).show {
-                title(R.string.changing_the_server).message(R.string.changing_the_server_tip)
-                    .cancelable(false)
-                input(
-                    maxLength = 255,
-                    waitForPositiveButton = false,
-                    prefill = appSettings.getValue(
+            InputDialog(this).setTitle(R.string.changing_the_server)
+                .setMessage(R.string.changing_the_server_tip).setMaxNumber(255).setText(
+                    appSettings.getValue(
                         AppSettings.Setting.ServerAddress,
                         ServerConfiguration.website
                     )
-                ) { dialog, text ->
-                    if (text.startsWith("http://") || text.startsWith("https://")) {
-                        dialog.setActionButtonEnabled(
-                            WhichButton.POSITIVE,
-                            true
-                        )
-                    } else {
-                        dialog.setActionButtonEnabled(
-                            WhichButton.POSITIVE,
-                            false
-                        )
-                    }
-                }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                    val input = dialog.getInputField().text.toString()
+                ).setHint(R.string.server_address_configuration).setErrorTip { s, textInputLayout ->
+                    textInputLayout.isErrorEnabled =
+                        !(s.startsWith("http://") || s.startsWith("https://"))
+                }.setPositiveButton(R.string.dialog_ok) { input ->
                     if (input.isNotBlank()) {
                         appSettings.setValue(AppSettings.Setting.ServerAddress, input)
                         ServerConfiguration.website = input
@@ -403,9 +390,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             R.string.change_server_complete,
                             Snackbar.LENGTH_SHORT
                         ).show()
+                        return@setPositiveButton true
+                    } else {
+                        return@setPositiveButton false
                     }
-                }.negativeButton(R.string.dialog_close)
-            }
+                }.setNegativeButton(R.string.dialog_close) {
+                }.show()
         }
     }
 

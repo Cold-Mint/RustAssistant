@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/titleView"
-            style="@style/TextAppearance.Material3.HeadlineSmall"
+            style="@style/MaterialAlertDialog.Material3.Title.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title"
@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/messageView"
-            style="@style/TextAppearance.Material3.BodyMedium"
+            style="@style/MaterialAlertDialog.Material3.Body.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -30,7 +30,7 @@
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:hint="@string/title">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -42,23 +42,24 @@
 
         <RelativeLayout
             android:id="@+id/buttonContainer"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
+            android:layout_marginTop="24dp"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/negativeButton"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@id/positiveButton"
                 android:text="@string/title"
                 android:visibility="gone" />
 
             <Button
+                android:layout_marginLeft="8dp"
                 android:id="@+id/positiveButton"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
