@@ -1,14 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--概念主题 -->
-    <style name="Theme.rust.Concept" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.rust.Concept" parent="Base.rust.Concept">
     </style>
-
-
-    <!--概念活动栏样式-->
-<!--    <style name="ThemeOverlay.rust.Concept.ActionBar" parent="ThemeOverlay.Material3.ActionBar">-->
-<!--        <item name="colorPrimary">@color/dark_background</item>-->
-<!--        <item name="android:textColorPrimary">@color/white</item>-->
-<!--    </style>-->
 
 </resources>

@@ -15,7 +15,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="?android:windowBackground"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleCollapseMode="scale"
             app:titleEnabled="false">
@@ -54,14 +54,13 @@
 
                 <TextView
                     android:id="@+id/nameView"
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/headIconView"
-                    android:layout_alignLeft="@id/headIconView"
+                    android:layout_alignStart="@id/headIconView"
                     android:layout_marginTop="8dp"
-                    android:text="@string/name"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:text="@string/name" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
@@ -97,38 +96,39 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_alignBottom="@id/cardView"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/cardView"
                     android:src="@drawable/boy" />
 
 
                 <TextView
                     android:id="@+id/describeView"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/nameView"
-                    android:layout_alignLeft="@id/headIconView"
+                    android:layout_alignStart="@id/headIconView"
                     android:layout_marginTop="8dp"
                     android:text="@string/describe" />
 
                 <TextView
                     android:id="@+id/loginTimeView"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/describeView"
-                    android:layout_alignLeft="@id/headIconView"
+                    android:layout_alignStart="@id/headIconView"
                     android:layout_marginTop="8dp"
-                    android:text="@string/user_info"
-                    android:textSize="13sp" />
+                    android:text="@string/user_info" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignTop="@id/baseInfoView"
                     android:layout_alignBottom="@id/headIconView"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@id/headIconView"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toEndOf="@id/headIconView"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -146,18 +146,18 @@
 
                             <TextView
                                 android:id="@+id/fansNumView"
+                                style="@style/TextAppearance.Material3.BodyLarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="0"
-                                android:textSize="16sp" />
+                                android:text="0" />
 
                             <TextView
+                                style="@style/TextAppearance.Material3.BodySmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/fans"
-                                android:textSize="13sp" />
+                                android:text="@string/fans" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -170,18 +170,18 @@
 
                             <TextView
                                 android:id="@+id/followNumView"
+                                style="@style/TextAppearance.Material3.BodyLarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="0"
-                                android:textSize="16sp" />
+                                android:text="0" />
 
                             <TextView
+                                style="@style/TextAppearance.Material3.BodySmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/follow"
-                                android:textSize="13sp" />
+                                android:text="@string/follow" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -193,18 +193,18 @@
 
                             <TextView
                                 android:id="@+id/praiseNumView"
+                                style="@style/TextAppearance.Material3.BodyLarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="0"
-                                android:textSize="16sp" />
+                                android:text="0" />
 
                             <TextView
+                                style="@style/TextAppearance.Material3.BodySmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/praise_number"
-                                android:textSize="13sp" />
+                                android:text="@string/praise_number" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -217,8 +217,7 @@
                         android:layout_below="@id/numberLayout"
                         android:layout_alignParentBottom="true"
                         android:layout_gravity="bottom"
-                        android:text="@string/request_data"
-                        android:theme="@style/Theme.rust.Concept" />
+                        android:text="@string/request_data" />
 
                 </RelativeLayout>
 

@@ -9,12 +9,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.core.view.isVisible
 import com.coldmint.rust.pro.adapters.ApplicationListAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityApplicationListBinding
-import com.coldmint.rust.pro.tool.Decoration
 import java.util.ArrayList
 
 class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {

@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
 
-    <ImageView
-        android:id="@+id/mod_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/image" />
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mod_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/image" />
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/mod_name_View"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="模组名称"
-            android:textSize="16sp" />
+            android:text="模组名称" />
 
         <TextView
             android:id="@+id/mod_introduction_view"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="介绍"
-            android:textSize="14sp" />
+            android:text="介绍" />
 
         <TextView
             android:id="@+id/modInfo"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/web_mod_info"
-            android:textSize="14dp" />
+            android:text="@string/web_mod_info" />
 
     </LinearLayout>
 

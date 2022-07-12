@@ -38,10 +38,6 @@
 
     <group>
 
-        <item
-            android:id="@+id/help"
-            android:icon="@drawable/help"
-            android:title="@string/help" />
 
         <item
             android:id="@+id/code_table"
@@ -58,15 +54,12 @@
             android:icon="@drawable/setup"
             android:title="@string/set_up" />
 
-        <item
-            android:id="@+id/donation"
-            android:icon="@drawable/donation"
-            android:title="@string/donation" />
 
         <!--        <item-->
-        <!--            android:id="@+id/feedback"-->
-        <!--            android:icon="@drawable/feedback"-->
-        <!--            android:title="@string/feedback" />-->
+        <!--            android:id="@+id/donation"-->
+        <!--            android:icon="@drawable/donation"-->
+        <!--            android:title="@string/donation" />-->
+
 
         <item
             android:id="@+id/about"

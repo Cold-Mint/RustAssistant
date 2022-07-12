@@ -636,7 +636,6 @@
     <string name="activate">активирова</string>
     <string name="money">1$.2f</string>
     <string name="discount_prompt">$1 % сэкономлено $2%2f</string>
-    <string name="setting_night_mode_follow_system">Ночной РежимПодключениеСистема</string>
     <string name="night_mode_follow_system">Следуйте за системой в темном режиме</string>
     <string name="night_mode_follow_system_tip">Следуйте за системой включения или выключения темного режима</string>
     <string name="downlod">загрузк</string>
@@ -825,7 +824,7 @@
     <string name="select_the_image_in_the_album">Выберите фотографии в фотоальбоме</string>
     <string name="turret_design">Проектирование башни</string>
     <string name="experience_the_plan">Программа пользовательского опыта</string>
-    <string name="experience_the_plan_describe">Анонимная отправка программного обеспечения для уничтожения информации (временно недоступной).</string>
+    <string name="experience_the_plan_describe">Анонимная отправка программного обеспечения для уничтожения информации.</string>
     <string name="update_and_iteration">Обновление версии с программой пользовательского опыта</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>

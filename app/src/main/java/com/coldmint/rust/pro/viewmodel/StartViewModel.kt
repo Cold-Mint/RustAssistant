@@ -177,6 +177,78 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
 
     /**
+     * 初始化设置
+     */
+    private fun initSetting() {
+        appSettings.initSetting(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
+        appSettings.initSetting(AppSettings.Setting.DeveloperMode, false)
+        appSettings.initSetting(
+            AppSettings.Setting.DatabaseDirectory,
+            context.filesDir.absolutePath + "/database/"
+        )
+        appSettings.initSetting(
+            AppSettings.Setting.TemplateDirectory,
+            context.filesDir.absolutePath + "/template/"
+        )
+        appSettings.initSetting(AppSettings.Setting.CustomSymbol, "[],:='*_$%@#{}()")
+        appSettings.initSetting(AppSettings.Setting.AutoCreateNomedia, true)
+        appSettings.initSetting(AppSettings.Setting.OnlyLoadConantLanguageTemple, true)
+        appSettings.initSetting(AppSettings.Setting.NightMode, isNightMode())
+        appSettings.initSetting(
+            AppSettings.Setting.GamePackage,
+            GlobalMethod.DEFAULT_GAME_PACKAGE
+        )
+        appSettings.initSetting(AppSettings.Setting.KeepRwmodFile, true)
+        appSettings.initSetting(AppSettings.Setting.RecoveryStationFileSaveDays, 7)
+        appSettings.initSetting(AppSettings.Setting.EnableRecoveryStation, true)
+        appSettings.initSetting(AppSettings.Setting.UseMobileNetwork, false)
+        appSettings.initSetting(AppSettings.Setting.ExperiencePlan, true)
+        appSettings.initSetting(
+            AppSettings.Setting.RecoveryStationFolder,
+            context.filesDir.absolutePath + "/backup/"
+        )
+        appSettings.initSetting(
+            AppSettings.Setting.PackDirectory,
+            AppSettings.dataRootDirectory + "/bin/"
+        )
+        appSettings.initSetting(AppSettings.Setting.IndependentFolder, true)
+        appSettings.initSetting(AppSettings.Setting.IdentifiersPromptNumber, 40)
+        appSettings.initSetting(AppSettings.Setting.UseJetBrainsMonoFont, true)
+        appSettings.initSetting(AppSettings.Setting.AppID, UUID.randomUUID().toString())
+        appSettings.initSetting(AppSettings.Setting.CheckBetaUpdate, false)
+        appSettings.initSetting(AppSettings.Setting.SetGameStorage, false)
+        appSettings.initSetting(AppSettings.Setting.ShareTip, true)
+        appSettings.initSetting(AppSettings.Setting.EnglishEditingMode, false)
+        appSettings.initSetting(AppSettings.Setting.NightModeFollowSystem, true)
+        appSettings.initSetting(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
+        appSettings.initSetting(
+            AppSettings.Setting.ServerAddress,
+            ServerConfiguration.defaultIp
+        )
+        ServerConfiguration.website =
+            appSettings.getValue(
+                AppSettings.Setting.ServerAddress,
+                ServerConfiguration.defaultIp
+            )
+        appSettings.initSetting(
+            AppSettings.Setting.MapFolder,
+            Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/maps/"
+        )
+        appSettings.initSetting(
+            AppSettings.Setting.ModFolder,
+            Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/"
+        )
+        appSettings.initSetting(AppSettings.Setting.AutoSave, true)
+        appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
+        appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
+        //如果启用动态颜色
+        appSettings.initSetting(
+            AppSettings.Setting.DynamicColor,
+            DynamicColors.isDynamicColorAvailable()
+        )
+    }
+
+    /**
      * 初始化资源
      */
     private fun initRes() {
@@ -337,76 +409,6 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         }
     }
 
-    /**
-     * 初始化设置
-     */
-    private fun initSetting() {
-        appSettings.initSetting(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
-        appSettings.initSetting(AppSettings.Setting.DeveloperMode, false)
-        appSettings.initSetting(
-            AppSettings.Setting.DatabaseDirectory,
-            context.filesDir.absolutePath + "/database/"
-        )
-        appSettings.initSetting(
-            AppSettings.Setting.TemplateDirectory,
-            context.filesDir.absolutePath + "/template/"
-        )
-        appSettings.initSetting(AppSettings.Setting.CustomSymbol, "[],:='*_$%@#{}()")
-        appSettings.initSetting(AppSettings.Setting.AutoCreateNomedia, true)
-        appSettings.initSetting(AppSettings.Setting.OnlyLoadConantLanguageTemple, true)
-        appSettings.initSetting(AppSettings.Setting.NightMode, isNightMode())
-        appSettings.initSetting(
-            AppSettings.Setting.GamePackage,
-            GlobalMethod.DEFAULT_GAME_PACKAGE
-        )
-        appSettings.initSetting(AppSettings.Setting.KeepRwmodFile, true)
-        appSettings.initSetting(AppSettings.Setting.RecoveryStationFileSaveDays, 7)
-        appSettings.initSetting(AppSettings.Setting.EnableRecoveryStation, true)
-        appSettings.initSetting(AppSettings.Setting.UseMobileNetwork, false)
-        appSettings.initSetting(
-            AppSettings.Setting.RecoveryStationFolder,
-            context.filesDir.absolutePath + "/backup/"
-        )
-        appSettings.initSetting(
-            AppSettings.Setting.PackDirectory,
-            AppSettings.dataRootDirectory + "/bin/"
-        )
-        appSettings.initSetting(AppSettings.Setting.IndependentFolder, true)
-        appSettings.initSetting(AppSettings.Setting.IdentifiersPromptNumber, 40)
-        appSettings.initSetting(AppSettings.Setting.UseJetBrainsMonoFont, true)
-        appSettings.initSetting(AppSettings.Setting.AppID, UUID.randomUUID().toString())
-        appSettings.initSetting(AppSettings.Setting.CheckBetaUpdate, false)
-        appSettings.initSetting(AppSettings.Setting.SetGameStorage, false)
-        appSettings.initSetting(AppSettings.Setting.ShareTip, true)
-        appSettings.initSetting(AppSettings.Setting.EnglishEditingMode, false)
-        appSettings.initSetting(AppSettings.Setting.NightModeFollowSystem, true)
-        appSettings.initSetting(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
-        appSettings.initSetting(
-            AppSettings.Setting.ServerAddress,
-            ServerConfiguration.defaultIp
-        )
-        ServerConfiguration.website =
-            appSettings.getValue(
-                AppSettings.Setting.ServerAddress,
-                ServerConfiguration.defaultIp
-            )
-        appSettings.initSetting(
-            AppSettings.Setting.MapFolder,
-            Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/maps/"
-        )
-        appSettings.initSetting(
-            AppSettings.Setting.ModFolder,
-            Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/"
-        )
-        appSettings.initSetting(AppSettings.Setting.AutoSave, true)
-        appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
-        appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
-        //如果启用动态颜色
-        appSettings.initSetting(
-            AppSettings.Setting.DynamicColor,
-            DynamicColors.isDynamicColorAvailable()
-        )
-    }
 
     /**
      * 加载夜间设置

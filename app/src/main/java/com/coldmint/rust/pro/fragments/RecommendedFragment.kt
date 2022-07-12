@@ -84,7 +84,7 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
             }
 
             override fun onFailure(e: Exception) {
-                showToast { e.toString() }
+                e.printStackTrace()
                 viewBinding.randomRecommendedProgressIndicator.isVisible = false
             }
 

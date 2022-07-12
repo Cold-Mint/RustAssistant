@@ -147,12 +147,12 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
             val nightMode: SwitchPreference? =
                 manager.findPreference<SwitchPreference>(getString(R.string.setting_night_mode))
             nightMode?.setOnPreferenceChangeListener { preference, newValue ->
-                val booleanValue = newValue as Boolean
-                if (booleanValue) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
+                    val booleanValue = newValue as Boolean
+                    if (booleanValue) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
                 true
             }
 

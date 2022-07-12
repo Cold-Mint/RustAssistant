@@ -2,19 +2,19 @@ package com.coldmint.rust.pro
 
 import android.app.Application
 import android.content.Context
+import android.os.Environment
 import android.util.Log
 import cat.ereza.customactivityoncrash.config.CaocConfig
+import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.hjq.language.MultiLanguages
+import java.util.*
 
 class RustApplication : Application() {
 
-//    companion object {
-//        val appId = "61853bf9e0f9bb492b4f7eba"
-//        val channel = "Umeng"
-//    }
 
     override fun onCreate() {
         super.onCreate()
@@ -46,6 +46,8 @@ class RustApplication : Application() {
         MultiLanguages.init(this);
 
     }
+
+
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(MultiLanguages.attach(base))

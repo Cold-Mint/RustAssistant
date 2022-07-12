@@ -143,7 +143,6 @@ object FileOperator {
             intent.setDataAndType(uri, type)
             context.startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
     }

@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="8dp">
+    android:paddingHorizontal="8dp">
 
 
     <ProgressBar
@@ -32,24 +32,28 @@
         android:visibility="visible">
 
         <LinearLayout
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -62,17 +66,20 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.HeadlineSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:text="@string/random_recommended"
-                            android:textSize="16sp" />
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/random_recommended" />
 
-                        <TextView
+                        <Button
                             android:id="@+id/changeRandomRecommended"
+                            style="@style/Widget.Material3.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
                             android:text="@string/change_random_recommended" />
                     </RelativeLayout>
 
@@ -92,18 +99,15 @@
                         android:layout_marginTop="8dp"
                         android:visibility="gone" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/latestReleaseCard"
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,10 +116,10 @@
                     android:padding="8dp">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/latest_release"
-                        android:textSize="16sp" />
+                        android:text="@string/latest_release" />
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/latestReleaseProgressIndicator"
@@ -135,13 +139,10 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/soleRecommendedCardView"
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,10 +151,10 @@
                     android:padding="8dp">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pay_attention_new"
-                        android:textSize="16sp" />
+                        android:text="@string/pay_attention_new" />
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/soleRecommendedProgressIndicator"

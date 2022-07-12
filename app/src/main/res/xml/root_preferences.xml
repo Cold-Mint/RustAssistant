@@ -216,8 +216,7 @@
             app:title="@string/check_beta_update" />
 
         <SwitchPreference
-            android:defaultValue="false"
-            android:enabled="false"
+            android:defaultValue="true"
             android:key="@string/setting_experience_the_plan"
             app:summary="@string/experience_the_plan_describe"
             app:title="@string/experience_the_plan" />

@@ -2,20 +2,29 @@ package com.coldmint.rust.pro.tool
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ImageSpan
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.coldmint.rust.core.tool.AppOperator
-import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.*
+import com.google.android.material.chip.ChipDrawable
 
 
+/**
+ * 字体样式制作器
+ */
 class TextStyleMaker private constructor() {
     companion object {
         val instance: TextStyleMaker by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -23,32 +32,121 @@ class TextStyleMaker private constructor() {
         }
     }
 
+//    /**
+//     * 生成可点击的字体
+//     * @param text String
+//     * @param funOnClick Function1<String, Unit>
+//     * @return SpannableString
+//     */
+//    private fun generate(text: String, funOnClick: (String, String) -> Unit): SpannableString {
+//        val spannableString = SpannableString(text)
+//        val start = "@"
+//        val start2 = "{"
+//        val start3 = "}"
+//        var startIndex = text.indexOf(start)
+//        while (startIndex > -1) {
+//            val start2Index = text.indexOf(start2, startIndex)
+//            if (start2Index > -1) {
+//                val start3Index = text.indexOf(start3, start2Index + start2.length)
+//                if (start3Index > -1) {
+//                    val num1 = startIndex
+//                    val num2 = start2Index
+//                    val num3 = start3Index
+//                    spannableString.setSpan(
+//                        object : ClickableSpan() {
+//                            override fun onClick(p0: View) {
+//                                funOnClick.invoke(
+//                                    text.subSequence(num1 + start.length, num2).toString(),
+//                                    text.subSequence(num2 + start2.length, num3).toString()
+//                                )
+//                            }
+//                        },
+//                        startIndex,
+//                        start3Index + start3.length,
+//                        Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+//                    )
+//                } else {
+//                    break
+//                }
+//            } else {
+//                break
+//            }
+//            startIndex = text.indexOf(start, startIndex + start.length)
+//        }
+//        return spannableString
+//    }
+
     /**
-     * 生成可点击的字体
-     * @param text String
-     * @param funOnClick Function1<String, Unit>
-     * @return SpannableString
+     * 对文本设置样式，可用于编辑框
+     * @param editable Editable
+     * @param funOnClick Function2<String, String, Unit>
      */
-    private fun generate(text: String, funOnClick: (String, String) -> Unit): SpannableString {
-        val spannableString = SpannableString(text)
+    fun setStyle(
+        spannable: Spannable,
+        funOnClick: (String, String) -> Unit,
+        context: Context
+    ) {
         val start = "@"
         val start2 = "{"
         val start3 = "}"
-        var startIndex = text.indexOf(start)
+        var startIndex = spannable.indexOf(start)
         while (startIndex > -1) {
-            val start2Index = text.indexOf(start2, startIndex)
+            val start2Index = spannable.indexOf(start2, startIndex)
             if (start2Index > -1) {
-                val start3Index = text.indexOf(start3, start2Index + start2.length)
+                val start3Index = spannable.indexOf(start3, start2Index + start2.length)
                 if (start3Index > -1) {
                     val num1 = startIndex
                     val num2 = start2Index
                     val num3 = start3Index
-                    spannableString.setSpan(
+                    val type = spannable.subSequence(num1 + start.length, num2).toString()
+                    val data: String = spannable.subSequence(num2 + start2.length, num3).toString()
+                    val chipDrawable = ChipDrawable.createFromResource(context, R.xml.chip)
+                    when (type) {
+                        "mod" -> {
+                            chipDrawable.chipIcon = context.getDrawable(R.drawable.mod)
+                        }
+                        "user" -> {
+                            Glide.with(context)
+                                .load(ServerConfiguration.website + "user/" + data + "/icon.png")
+                                .into(
+                                    object : CustomTarget<Drawable>() {
+                                        override fun onResourceReady(
+                                            resource: Drawable,
+                                            transition: Transition<in Drawable>?
+                                        ) {
+                                            chipDrawable.chipIcon = resource
+                                        }
+
+                                        override fun onLoadCleared(placeholder: Drawable?) {
+
+                                        }
+
+                                    }
+                                )
+                        }
+                        else -> {
+                            R.drawable.image
+                        }
+                    }
+                    chipDrawable.closeIcon = null
+                    chipDrawable.text = data
+                    chipDrawable.setBounds(
+                        0,
+                        0,
+                        chipDrawable.intrinsicWidth,
+                        chipDrawable.intrinsicHeight
+                    )
+                    val span = ImageSpan(chipDrawable)
+                    spannable.setSpan(
+                        span, startIndex,
+                        start3Index + start3.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    spannable.setSpan(
                         object : ClickableSpan() {
                             override fun onClick(p0: View) {
                                 funOnClick.invoke(
-                                    text.subSequence(num1 + start.length, num2).toString(),
-                                    text.subSequence(num2 + start2.length, num3).toString()
+                                    type,
+                                    data
                                 )
                             }
                         },
@@ -62,20 +160,20 @@ class TextStyleMaker private constructor() {
             } else {
                 break
             }
-            startIndex = text.indexOf(start, startIndex + start.length)
+            startIndex = spannable.indexOf(start, startIndex + start.length)
         }
-        return spannableString
     }
 
     /**
-     * 加载
+     * 加载文本框文本样式，会重新生成对象。
      * @param textView TextView
      * @param funOnClick Function1<String, Unit>
      */
     fun load(textView: TextView, data: String? = null, funOnClick: (String, String) -> Unit) {
-        val text = data ?: textView.text.toString()
-        val sp = generate(text, funOnClick)
-        textView.text = sp
+        val text = data ?: textView.text
+        val spannableString = SpannableString(text)
+        setStyle(spannableString, funOnClick, textView.context)
+        textView.text = spannableString
         textView.movementMethod = LinkMovementMethod()
     }
 
@@ -153,10 +251,9 @@ class TextStyleMaker private constructor() {
                 context.startActivity(thisIntent)
             }
             "link" -> {
-                val thisIntent = Intent(context,BrowserActivity::class.java)
-                thisIntent.putExtra("link",data)
+                val thisIntent = Intent(context, BrowserActivity::class.java)
+                thisIntent.putExtra("link", data)
                 context.startActivity(thisIntent)
-//                AppOperator.useBrowserAccessWebPage(context, data)
             }
             "qqGroup" -> {
                 try {

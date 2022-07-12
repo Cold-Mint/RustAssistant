@@ -8,11 +8,9 @@ import com.coldmint.rust.pro.tool.AppSettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.google.android.material.snackbar.Snackbar
-import android.widget.Toast
 import android.os.*
 import android.util.Log
 import android.view.*
-import android.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +18,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.TemplatePackage
@@ -48,7 +47,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var oldLanguage: String? = null
     private var first = true
     var tabLayout: TabLayout? = null
-    lateinit var searchView: SearchView
     val headLayout by lazy {
         HeadLayoutBinding.inflate(layoutInflater)
     }
@@ -86,9 +84,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 viewBinding.mainButton.hide()
                 R.id.community_item
             } else {
-                viewBinding.toolbar.postDelayed({
-                    searchView.isVisible = false
-                }, linkInterval)
                 R.id.mod_item
             }
             navController.graph = this
@@ -256,11 +251,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val codeTable = menu.findItem(R.id.code_table)
         val mod = menu.findItem(R.id.mod_item)
         val community = menu.findItem(R.id.community_item)
-        val help = menu.findItem(R.id.help)
+//        val help = menu.findItem(R.id.help)
         //管理可见性
         dataBase.isVisible = isActive
         template.isVisible = isActive
-        help.isVisible = isActive
+//        help.isVisible = isActive
         codeTable.isVisible = isActive
         if (mod.isChecked) {
             viewBinding.mainButton.isVisible = isActive
@@ -272,7 +267,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     viewBinding.tabLayout.isVisible = false
                     viewBinding.mainButton.hide()
                 }, hideViewDelay)
-                searchView.isVisible = false
                 false
             }
 
@@ -281,7 +275,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     viewBinding.tabLayout.isVisible = false
                     viewBinding.mainButton.show()
                 }, hideViewDelay)
-                searchView.isVisible = false
                 false
             }
 
@@ -307,7 +300,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         startActivity(intent)
                     }
                     else -> {
-                        Toast.makeText(this@MainActivity, "请设置事件", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -318,7 +310,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (it) {
                     viewBinding.mainButton.postOnAnimationDelayed({
                         viewBinding.tabLayout.isVisible = true
-                        searchView.isVisible = false
                         if (isActive) {
                             viewBinding.mainButton.show()
                         }
@@ -330,7 +321,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         community.setOnMenuItemClickListener {
             viewBinding.mainButton.postOnAnimationDelayed({
-                searchView.isVisible = true
                 viewBinding.tabLayout.isVisible = true
                 viewBinding.mainButton.hide()
             }, hideViewDelay)
@@ -364,18 +354,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             false
         }
 
-        help.setOnMenuItemClickListener {
-            AppOperator.useBrowserAccessWebPage(
-                this,
-                "https://www.kancloud.cn/coldmint/rust_assistant"
-            )
-            false
-        }
-
-        menu.findItem(R.id.donation).setOnMenuItemClickListener {
-            AppOperator.useBrowserAccessWebPage(this@MainActivity, "https://afdian.net/@coldmint")
-            false
-        }
         //激活暂时不可用
         val longTime = appSettings.getValue(
             AppSettings.Setting.ExpirationTime,
@@ -752,6 +730,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
+            CommentDialog(this).show()
         } else {
             startViewModel.initAllData()
         }

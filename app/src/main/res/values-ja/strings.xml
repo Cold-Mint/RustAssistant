@@ -636,7 +636,6 @@
     <string name="activate">活性化</string>
     <string name="money">￥% 1ドル.2f</string>
     <string name="discount_prompt">%1$s省%2$.2f元</string>
-    <string name="setting_night_mode_follow_system">ナイトモードフォローシステム</string>
     <string name="night_mode_follow_system">システム追従ダークモード</string>
     <string name="night_mode_follow_system_tip">ダークモードをオンまたはオフします</string>
     <string name="downlod">ダウンロード</string>
@@ -825,7 +824,7 @@
     <string name="select_the_image_in_the_album">アルバムで画像を選択する</string>
     <string name="turret_design">砲塔の設計</string>
     <string name="experience_the_plan">ユーザー体験プログラム</string>
-    <string name="experience_the_plan_describe">匿名送信ソフト奔砕情報(利用不可)。</string>
+    <string name="experience_the_plan_describe">匿名送信ソフト奔砕情報。</string>
     <string name="update_and_iteration">アップデートとユーザー体験プログラム</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>

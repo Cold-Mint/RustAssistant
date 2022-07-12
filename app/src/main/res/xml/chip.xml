@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:text="@string/title"
+    app:chipIcon="@drawable/image"
+    style="@style/Widget.Material3.Chip.Input"/>
+
+

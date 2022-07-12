@@ -444,7 +444,7 @@
     <string name="view_the_report_object">查看(%1$s)</string>
     <string name="bookmark_already_exists">此书签已存在，请更换路径。</string>
     <string name="feedback">意见反馈</string>
-    <string name="setting_use_jetBrains_mono_font">UseJetBrainsMonoFont</string>
+    <string name="setting_use_jetBrains_mono_font" translatable="false">UseJetBrainsMonoFont</string>
     <string name="use_jetBrains_mono_font">使用JetBrains Mono字体</string>
     <string name="use_jetBrains_mono_font_describe">助手内置的字体，强烈推荐使用。</string>
     <string name="directory_does_not_exist">目录不存在。</string>
@@ -455,7 +455,7 @@
     <string name="please_login_first">请先登录。</string>
     <string name="network_error">网络错误。</string>
     <string name="check_update_failure">检查更新失败。</string>
-    <string name="setting_check_beta_update">CheckBetaUpdate</string>
+    <string name="setting_check_beta_update" translatable="false">CheckBetaUpdate</string>
     <string name="check_beta_update">检查Beta更新</string>
     <string name="check_beta_update_describe">仅在Release版本生效，Beta版本，采用强制更新。</string>
     <string name="loading_values">加载数值...</string>
@@ -531,7 +531,7 @@
     <string name="file_type_define">默认创建ini文件。</string>
     <string name="file_type_tip2">您可能想输入\"%1$s\"?</string>
     <string name="is_building">正在加载单位数据，请尝试加载完毕后使用此功能。</string>
-    <string name="setting_english_editing_mode">EnglishEditingMode</string>
+    <string name="setting_english_editing_mode" translatable="false">EnglishEditingMode</string>
     <string name="english_editing_mode_describe">使用英文编写您的模组，并带有中文提示，语法高亮。</string>
     <string name="english_editing_mode">原生开发模式</string>
     <string name="mt_installed">您是否使用英文作为您的开发语言?相比在\"MT管理器\"上工作，助手有英文代码提示功能，以及针对模组环境的智能提示。</string>
@@ -607,11 +607,6 @@
     <string name="mod_package">模组包</string>
     <string name="restart_to_take_effect">检查到您更换了图像，由于Glide缓存机制，助手需要重启才能展示新图像。很抱歉给您带来的不便。</string>
     <string name="extension">扩展</string>
-    <string name="use_adm">Adm多线程下载</string>
-    <string name="use_adm_tip">允许调用Adm下载器，进行多线程下载。</string>
-    <string name="setting_use_adm">useAdm</string>
-    <string name="no_adm_installed">请先安装Adm。</string>
-    <string name="from_adm">Adm下载目录</string>
     <string name="word_wrap">自动换行</string>
     <string name="database_error">json结果集长度为0</string>
     <string name="mod_icon_transition">ModIconTransition</string>
@@ -636,7 +631,7 @@
     <string name="activate">激活</string>
     <string name="money">￥%1$.2f</string>
     <string name="discount_prompt">%1$s 已省%2$.2f元</string>
-    <string name="setting_night_mode_follow_system">NightModeFollowSystem</string>
+    <string name="setting_night_mode_follow_system" translatable="false">NightModeFollowSystem</string>
     <string name="night_mode_follow_system">跟随系统开启深色模式</string>
     <string name="night_mode_follow_system_tip">跟随系统开启或关闭深色模式</string>
     <string name="downlod">下载</string>
@@ -670,7 +665,7 @@
     <string name="edit_map">编辑地图</string>
     <string name="edit_map_tip">我们推荐使用NotTiled作为地图编辑工具。</string>
     <string name="downlod_nottiled">下载NotTiled</string>
-    <string name="setting_use_the_community_as_the_launch_page">UseTheCommunityAsTheLaunchPage</string>
+    <string name="setting_use_the_community_as_the_launch_page" translatable="false">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">使用社区作为启动页面</string>
     <string name="use_the_community_as_the_launch_page_tip">默认启用</string>
     <string name="renewal">续费</string>
@@ -723,7 +718,7 @@
     <string name="delete_source_file_check">删除源文件</string>
     <string name="init_all_units">初始化单位列表...</string>
     <string name="clear_cache">清理缓存</string>
-    <string name="setting_clear_cache">ClearCache</string>
+    <string name="setting_clear_cache" translatable="false">ClearCache</string>
     <string name="clear_cache_description">缓存在应用使用过程中产生，助手通过读取缓存加速。</string>
     <string name="cache">缓存与存储空间</string>
     <string name="history_cache">文件打开记录</string>
@@ -737,7 +732,7 @@
     <string name="search_unit_name">欲搜索单位名</string>
     <string name="auto_save_describe">当您切换到其他程序时，自动保存代码。</string>
     <string name="auto_save">自动保存</string>
-    <string name="setting_auto_save">AutoSave</string>
+    <string name="setting_auto_save" translatable="false">AutoSave</string>
     <string name="auto_save_toast">已自动保存。</string>
     <string name="is_code">是代码</string>
     <string name="search_tip">撤销搜索</string>
@@ -757,13 +752,13 @@
     <string name="synchronous_ok">同步成功。</string>
     <string name="synchronous_failure">同步失败。</string>
     <string name="synchronous_ing">正在同步...</string>
-    <string name="setting_server_address">ServerAddress</string>
+    <string name="setting_server_address" translatable="false">ServerAddress</string>
     <string name="server_address_configuration">服务器地址配置</string>
     <string name="associated_tip">来自%1$s的关联提示</string>
     <string name="login_tip">登录后，您可以:\n-上传，下载模组。\n-在社区内与朋友们畅聊。\n-使用中文编辑您的模组！\n-关注您喜爱的创作者</string>
     <string name="error_description">那时您正在做什么?</string>
     <string name="no_error">没有错误</string>
-    <string name="setting_see_error_info">SeeErrorInfo</string>
+    <string name="setting_see_error_info" translatable="false">SeeErrorInfo</string>
     <string name="see_error_info">崩溃日志</string>
     <string name="see_error_info_tip">查看此设备上的崩溃记录。</string>
     <string name="can_not_tip_value">抱歉，目前无法提示值。</string>
@@ -825,7 +820,7 @@
     <string name="select_the_image_in_the_album">在相册选择图像</string>
     <string name="turret_design">炮塔设计</string>
     <string name="experience_the_plan">用户体验计划</string>
-    <string name="experience_the_plan_describe">匿名发送软件奔溃信息(暂不可用)。</string>
+    <string name="experience_the_plan_describe">匿名发送软件奔溃信息。</string>
     <string name="update_and_iteration">版本更新与用户体验计划</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
@@ -853,5 +848,6 @@
     <string name="search_type_mod_versions">模组更新日志</string>
     <string name="search_type_purchase_plan">套餐</string>
     <string name="search_type_mod_all">全部</string>
+    <string name="hotSearch">热门搜索</string>
 
 </resources>

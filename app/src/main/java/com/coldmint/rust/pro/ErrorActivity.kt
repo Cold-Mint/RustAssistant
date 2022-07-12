@@ -5,12 +5,17 @@ import android.content.Intent
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.coldmint.rust.pro.tool.AppSettings
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isVisible
+import com.coldmint.rust.core.dataBean.ApiResponse
+import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.core.web.ErrorReport
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databean.ErrorInfo
 import com.coldmint.rust.pro.databinding.ActivityErrorBinding
@@ -47,6 +52,25 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                 }
                 viewBinding.errorInfo.text = errorInfo.allErrorDetails
                 Log.e("错误日志", errorInfo.allErrorDetails)
+                if (appSettings.getValue(AppSettings.Setting.ExperiencePlan, true)) {
+                    val info = packageManager.getPackageInfo(packageName, 0)
+                    ErrorReport.instance.send(
+                        errorInfo.allErrorDetails,
+                        info.versionName,
+                        info.versionCode,
+                        object : ApiCallBack<ApiResponse> {
+                            override fun onResponse(t: ApiResponse) {
+                                if (t.code == ServerConfiguration.Success_Code) {
+                                    viewBinding.shareLogButton.isVisible = false
+                                }
+                            }
+
+                            override fun onFailure(e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                        })
+                }
                 saveLog()
             }
         }

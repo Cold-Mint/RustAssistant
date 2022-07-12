@@ -6,9 +6,11 @@ import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.coldmint.rust.core.dataBean.HotSearchData
 import com.coldmint.rust.core.dataBean.SearchSuggestionsData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.Search
+import com.coldmint.rust.pro.adapters.HotSearchAdapter
 import com.coldmint.rust.pro.adapters.SearchSuggestionsAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivitySearchBinding
@@ -21,7 +23,34 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         title = getString(R.string.search)
         setReturnButton()
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.hotSearchView.layoutManager = LinearLayoutManager(this)
+        loadSearchView()
+        loadHotSearch()
+    }
 
+
+    private fun loadHotSearch() {
+        Search.instance.hotSearch(object : ApiCallBack<HotSearchData> {
+            override fun onResponse(t: HotSearchData) {
+                val adapter = HotSearchAdapter(this@SearchActivity, t.data)
+                adapter.setItemEvent { i, itemHotSearchBinding, viewHolder, data ->
+                    itemHotSearchBinding.root.setOnClickListener {
+                        val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
+                        intent.putExtra("key", data.keyword)
+                        startActivity(intent)
+                    }
+                }
+                viewBinding.hotSearchView.adapter = adapter
+            }
+
+            override fun onFailure(e: Exception) {
+
+            }
+
+        })
+    }
+
+    private fun loadSearchView() {
         viewBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

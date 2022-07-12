@@ -636,7 +636,6 @@
     <string name="activate">The activation</string>
     <string name="money">￥%1$.2f</string>
     <string name="discount_prompt">%1$s has saved %2$.2f</string>
-    <string name="setting_night_mode_follow_system">NightModeFollowSystem</string>
     <string name="night_mode_follow_system">Follow the system to turn on the dark mode</string>
     <string name="night_mode_follow_system_tip">Follow the system to turn on or off the dark mode</string>
     <string name="downlod">download</string>
@@ -825,7 +824,7 @@
     <string name="select_the_image_in_the_album">Select the image in the album</string>
     <string name="turret_design">Turret design</string>
     <string name="experience_the_plan">User Experience Plan</string>
-    <string name="experience_the_plan_describe">Send software crash message anonymously (temporarily unavailable).</string>
+    <string name="experience_the_plan_describe">Send software crash message anonymously .</string>
     <string name="update_and_iteration">Version update and user experience planning</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>

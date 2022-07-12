@@ -123,8 +123,7 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
                         fileWriter.close()
                         finish()
                     } catch (e: IOException) {
-                        Toast.makeText(this@CreateModActivity, e.toString(), Toast.LENGTH_SHORT)
-                            .show()
+                        e.printStackTrace()
                     }
                 } else {
                     Toast.makeText(this@CreateModActivity, "你的手机拒绝创建目录", Toast.LENGTH_SHORT).show()
