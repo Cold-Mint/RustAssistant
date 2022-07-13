@@ -152,7 +152,7 @@ class TextStyleMaker private constructor() {
                         },
                         startIndex,
                         start3Index + start3.length,
-                        Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 } else {
                     break

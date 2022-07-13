@@ -730,7 +730,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             checkAppUpdate()
-            CommentDialog(this).show()
+//            CommentDialog(this).show()
         } else {
             startViewModel.initAllData()
         }
