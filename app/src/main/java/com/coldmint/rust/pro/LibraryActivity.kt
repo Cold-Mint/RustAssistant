@@ -167,9 +167,9 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
             setReturnButton()
             title = getString(R.string.libs)
             viewBinding.libsView.addItemDecoration(
-                MaterialDividerItemDecoration(
+                DividerItemDecoration(
                     this,
-                    MaterialDividerItemDecoration.VERTICAL
+                    DividerItemDecoration.VERTICAL
                 )
             )
             viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)

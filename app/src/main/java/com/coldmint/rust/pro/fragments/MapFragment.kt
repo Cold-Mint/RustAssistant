@@ -138,9 +138,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.mapList.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.mapList.addItemDecoration(
-            MaterialDividerItemDecoration(
+            DividerItemDecoration(
                 requireContext(),
-                MaterialDividerItemDecoration.VERTICAL
+                DividerItemDecoration.VERTICAL
             )
         )
         val path = appSettings.getValue(AppSettings.Setting.MapFolder, "")

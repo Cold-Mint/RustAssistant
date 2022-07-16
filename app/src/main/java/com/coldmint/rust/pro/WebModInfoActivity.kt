@@ -43,6 +43,7 @@ import com.coldmint.rust.pro.databinding.ActivityWebModInfoBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.LoadFileLayoutBinding
+import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
 import com.google.android.material.snackbar.Snackbar
@@ -377,7 +378,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
      * 加载评论列表
      * @param modId String
      */
-    fun loadModCommentList(modId: String, delay: Long = 0) {
+    fun loadModCommentList(modId: String) {
         viewBinding.commentLinearProgressIndicator.isVisible = true
         WebMod.instance.getCommentsList(modId, object : ApiCallBack<WebModCommentData> {
             override fun onResponse(t: WebModCommentData) {
@@ -471,52 +472,36 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 return@setOnClickListener
             }
 
-            MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-                input(maxLength = 255).title(R.string.send_discussion)
-                    .positiveButton(R.string.dialog_ok)
-                    .positiveButton {
-                        val inputField: EditText = it.getInputField()
-                        val text = inputField.text.toString()
-                        if (!text.isBlank()) {
-                            WebMod.instance.sendComment(
-                                appSettings.getValue(AppSettings.Setting.Token, ""),
-                                modId,
-                                text,
-                                object : ApiCallBack<ApiResponse> {
-                                    override fun onResponse(t: ApiResponse) {
-                                        if (t.code == ServerConfiguration.Success_Code) {
-                                            loadModCommentList(modId)
-                                            Snackbar.make(
-                                                viewBinding.button,
-                                                R.string.release_ok,
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                        } else {
-                                            Snackbar.make(
-                                                viewBinding.button,
-                                                t.message,
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    }
 
-                                    override fun onFailure(e: Exception) {
-                                        showInternetError(viewBinding.button, e)
-                                    }
-
-                                })
+            CommentDialog(this).setSubmitFun { button, textInputLayout, s, alertDialog ->
+                button.isEnabled = false
+                WebMod.instance.sendComment(
+                    appSettings.getValue(AppSettings.Setting.Token, ""),
+                    modId,
+                    s,
+                    object : ApiCallBack<ApiResponse> {
+                        override fun onResponse(t: ApiResponse) {
+                            if (t.code == ServerConfiguration.Success_Code) {
+                                alertDialog.dismiss()
+                                loadModCommentList(modId)
+                                Snackbar.make(
+                                    viewBinding.button,
+                                    R.string.release_ok,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                textInputLayout.error = t.message
+                            }
                         }
-                    }.negativeButton(R.string.dialog_cancel)
 
-                val editText = this.getInputField()
-                editText.inputType =
-                    EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-                editText.minLines = 3
-                editText.gravity = Gravity.TOP
-                editText.isSingleLine = false
-            }
+                        override fun onFailure(e: Exception) {
+                            textInputLayout.error = e.toString()
+                        }
 
+                    })
+            }.show()
         }
+
     }
 
     override fun getViewBindingObject(): ActivityWebModInfoBinding {

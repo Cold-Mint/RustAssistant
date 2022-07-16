@@ -5,10 +5,7 @@ import android.os.Looper
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.LoginRequestData
 import com.coldmint.rust.core.dataBean.RegisterRequestData
-import com.coldmint.rust.core.dataBean.user.ActivationInfo
-import com.coldmint.rust.core.dataBean.user.SocialInfoData
-import com.coldmint.rust.core.dataBean.user.SpaceInfoData
-import com.coldmint.rust.core.dataBean.user.UserData
+import com.coldmint.rust.core.dataBean.user.*
 
 import com.google.gson.Gson
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -123,6 +120,52 @@ object User {
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {
                         apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     * 获取用户头像
+     * @param account String
+     * @param apiCallBack ApiCallBack<IconData>
+     */
+    @Deprecated("不建议使用")
+    fun getIcon(
+        account: String,
+        apiCallBack: ApiCallBack<IconData>,
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBody: FormBody =
+            FormBody.Builder().add("account", account)
+                .build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/user.php?action=getUserIcon")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    val finalUserIcon =
+                        gson.fromJson(data, IconData::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalUserIcon)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

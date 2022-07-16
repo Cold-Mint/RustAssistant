@@ -111,6 +111,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
         return this as DialogType
     }
 
+    override fun setAutoDismiss(enable: Boolean): DialogType {
+        return this as DialogType
+    }
 
     override fun setView(view: View): DialogType {
         materialAlertDialogBuilder.setView(view)

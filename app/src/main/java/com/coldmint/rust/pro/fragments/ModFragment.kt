@@ -355,9 +355,9 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.modList.layoutManager = LinearLayoutManager(context)
         viewBinding.modList.addItemDecoration(
-            MaterialDividerItemDecoration(
+            DividerItemDecoration(
                 requireContext(),
-                MaterialDividerItemDecoration.VERTICAL
+                DividerItemDecoration.VERTICAL
             )
         )
     }

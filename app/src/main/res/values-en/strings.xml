@@ -633,7 +633,7 @@
     <string name="export_this">Export to the</string>
     <string name="preview_static_code">Looking at static code</string>
     <string name="set_note">Set the annotation</string>
-    <string name="activate">The activation</string>
+    <string name="activate">Activation</string>
     <string name="money">￥%1$.2f</string>
     <string name="discount_prompt">%1$s has saved %2$.2f</string>
     <string name="night_mode_follow_system">Follow the system to turn on the dark mode</string>

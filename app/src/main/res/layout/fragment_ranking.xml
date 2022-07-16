@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/no_content"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView

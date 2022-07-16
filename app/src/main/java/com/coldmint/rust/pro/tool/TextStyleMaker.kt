@@ -14,10 +14,14 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.coldmint.rust.core.dataBean.user.IconData
+import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.web.ServerConfiguration
+import com.coldmint.rust.core.web.User
 import com.coldmint.rust.pro.*
 import com.google.android.material.chip.ChipDrawable
 
@@ -101,35 +105,59 @@ class TextStyleMaker private constructor() {
                     val type = spannable.subSequence(num1 + start.length, num2).toString()
                     val data: String = spannable.subSequence(num2 + start2.length, num3).toString()
                     val chipDrawable = ChipDrawable.createFromResource(context, R.xml.chip)
+                    chipDrawable.text = data
                     when (type) {
                         "mod" -> {
                             chipDrawable.chipIcon = context.getDrawable(R.drawable.mod)
                         }
                         "user" -> {
-                            Glide.with(context)
-                                .load(ServerConfiguration.website + "user/" + data + "/icon.png")
-                                .into(
-                                    object : CustomTarget<Drawable>() {
-                                        override fun onResourceReady(
-                                            resource: Drawable,
-                                            transition: Transition<in Drawable>?
-                                        ) {
-                                            chipDrawable.chipIcon = resource
-                                        }
-
-                                        override fun onLoadCleared(placeholder: Drawable?) {
-
-                                        }
-
-                                    }
-                                )
+                            chipDrawable.chipIcon = context.getDrawable(R.drawable.head_icon)
+//                            User.getIcon(data, object : ApiCallBack<IconData> {
+//                                override fun onResponse(t: IconData) {
+//                                    val data2 = t.data
+//                                    if (data2 != null) {
+//                                        chipDrawable.text = data2.userName
+//
+//                                        Glide.with(context)
+//                                            .load(ServerConfiguration.getRealLink(data2.headIcon!!))
+//                                            .apply(GlobalMethod.getRequestOptions(true))
+//                                            .into(
+//                                                object : CustomTarget<Drawable>() {
+//                                                    override fun onResourceReady(
+//                                                        resource: Drawable,
+//                                                        transition: Transition<in Drawable>?
+//                                                    ) {
+//                                                        chipDrawable.chipIcon = resource
+//                                                    }
+//
+//                                                    override fun onLoadCleared(placeholder: Drawable?) {
+//
+//                                                    }
+//
+//                                                }
+//                                            )
+//                                    }
+//                                }
+//
+//                                override fun onFailure(e: Exception) {
+//                                }
+//
+//                            })
+                        }
+                        "activate"->{
+                            chipDrawable.chipIcon =
+                                context.getDrawable(R.drawable.store)
+                            chipDrawable.text = context.getString(R.string.activate)
+                        }
+                        "link" -> {
+                            chipDrawable.chipIcon =
+                                context.getDrawable(R.drawable.ic_baseline_link_24)
                         }
                         else -> {
-                            R.drawable.image
+                            chipDrawable.chipIcon = context.getDrawable(R.drawable.image)
                         }
                     }
                     chipDrawable.closeIcon = null
-                    chipDrawable.text = data
                     chipDrawable.setBounds(
                         0,
                         0,

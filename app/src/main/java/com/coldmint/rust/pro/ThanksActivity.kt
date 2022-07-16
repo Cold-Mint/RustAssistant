@@ -24,9 +24,9 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
             title = getString(R.string.special_thanks_to)
             setReturnButton()
             viewBinding.recyclerView.addItemDecoration(
-                MaterialDividerItemDecoration(
+                DividerItemDecoration(
                     this,
-                    MaterialDividerItemDecoration.VERTICAL
+                    DividerItemDecoration.VERTICAL
                 )
             )
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)

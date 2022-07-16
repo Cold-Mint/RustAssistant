@@ -24,7 +24,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/appInfoCardView"
-            style="@style/Widget.Material3.CardView.Filled"
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -36,19 +36,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <TextView
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/app_name"
-                    android:textSize="24dp" />
+                    android:text="@string/app_name" />
 
                 <TextView
                     android:id="@+id/versionView"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -56,6 +57,7 @@
 
                 <TextView
                     android:id="@+id/expirationTimeView"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -65,69 +67,70 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Filled"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_above="@id/copyRightView"
             android:layout_below="@id/appInfoCardView"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp">
 
-            <RelativeLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp">
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/libsView"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/aboutView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="关于" />
-
-                </ScrollView>
-
+                android:layout_above="@id/action_divider"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp">
 
                 <TextView
-                    android:id="@+id/specialThanksTo"
+                    android:id="@+id/aboutView"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@id/libsView"
-                    android:text="@string/special_thanks_to"
-                    android:textColor="?colorPrimary" />
+                    android:text="关于" />
 
-                <TextView
-                    android:id="@+id/libsView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/libs"
-                    android:textColor="?colorPrimary" />
+            </androidx.core.widget.NestedScrollView>
 
-            </RelativeLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/action_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/privacyPolicyView" />
+
+            <Button
+                android:id="@+id/serviceAgreementView"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@id/privacyPolicyView"
+                android:text="@string/service_agreement" />
+
+            <Button
+                android:id="@+id/privacyPolicyView"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="8dp"
+                android:text="@string/privacy_policy" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/copyRightView"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="版权"
-            android:textSize="8dp" />
+            android:text="版权" />
 
     </RelativeLayout>
 

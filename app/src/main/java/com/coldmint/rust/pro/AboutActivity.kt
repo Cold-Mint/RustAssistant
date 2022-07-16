@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Html
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.base.BaseActivity
@@ -12,17 +14,17 @@ import com.coldmint.rust.pro.tool.AppSettings
 import java.text.SimpleDateFormat
 
 class AboutActivity : BaseActivity<ActivityAboutBinding>() {
-   fun initView() {
-       try {
-           val packageInfo = packageManager.getPackageInfo(packageName, 0)
-           viewBinding.versionView.text = "v." + packageInfo.versionName
-       } catch (e: PackageManager.NameNotFoundException) {
-           e.printStackTrace()
-       }
-       val year = Integer.valueOf(SimpleDateFormat("yyyy").format(System.currentTimeMillis()))
-       val copyright = String.format(getString(R.string.copyright), year)
-       viewBinding.copyRightView.text = copyright
-       val aboutText = """<h6>起源</h6>
+    fun initView() {
+        try {
+            val packageInfo = packageManager.getPackageInfo(packageName, 0)
+            viewBinding.versionView.text = "v." + packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        val year = Integer.valueOf(SimpleDateFormat("yyyy").format(System.currentTimeMillis()))
+        val copyright = String.format(getString(R.string.copyright), year)
+        viewBinding.copyRightView.text = copyright
+        val aboutText = """<h6>起源</h6>
             |<p>2020年我发现了这款游戏《Rusted Warfare》，并开始学习制作简单的模组。</p>
             |
             |<p>因为之前有开发过App的经验，积累了一点技术。导致某天突发奇想，"这个游戏的模组制作好简单，或许可以制作一款App来降低模组的开发门槛。"于是就起手开发1.x版本的铁锈助手了。在某些方面也受到了《铁锈工具》的影响，那时铁圈用的辅助大多数都是《铁锈工具》。中文转换功能很方便。</p>
@@ -57,39 +59,58 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
             |
             |
         """.trimMargin()
-       viewBinding.aboutView.text = Html.fromHtml(aboutText)
-       val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
-       if (time == 0.toLong()) {
-           viewBinding.expirationTimeView.text = getString(R.string.please_login_first)
-       } else {
-           val stringTime = ServerConfiguration.toStringTime(time)
-           viewBinding.expirationTimeView.text =
-               if (stringTime == ServerConfiguration.ForeverTime) {
-                   getString(R.string.forever_time)
-               } else {
-                   String.format(
-                       getString(R.string.expiration_time_tip),
-                       stringTime
-                   )
-               }
-       }
-    }
-
-    fun initAction(){
-        viewBinding.specialThanksTo.setOnClickListener {
-            val gotoIntent = Intent(this, ThanksActivity::class.java)
-            startActivity(gotoIntent)
+        viewBinding.aboutView.text = Html.fromHtml(aboutText)
+        val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+        if (time == 0.toLong()) {
+            viewBinding.expirationTimeView.text = getString(R.string.please_login_first)
+        } else {
+            val stringTime = ServerConfiguration.toStringTime(time)
+            viewBinding.expirationTimeView.text =
+                if (stringTime == ServerConfiguration.ForeverTime) {
+                    getString(R.string.forever_time)
+                } else {
+                    String.format(
+                        getString(R.string.expiration_time_tip),
+                        stringTime
+                    )
+                }
         }
-        viewBinding.libsView.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@AboutActivity,
-                    LibraryActivity::class.java
-                )
-            )
-        })
     }
 
+    fun initAction() {
+        viewBinding.privacyPolicyView.setOnClickListener {
+            val link =
+                ServerConfiguration.getRealLink("/resources/agreement/privacy_policy.html")
+            val thisIntent = Intent(this, BrowserActivity::class.java)
+            thisIntent.putExtra("link", link)
+            startActivity(thisIntent)
+        }
+        viewBinding.serviceAgreementView.setOnClickListener {
+            val link =
+                ServerConfiguration.getRealLink("/resources/agreement/service_agreement.html")
+            val thisIntent = Intent(this, BrowserActivity::class.java)
+            thisIntent.putExtra("link", link)
+            startActivity(thisIntent)
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_about, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.thanks -> {
+                startActivity(Intent(this, ThanksActivity::class.java))
+            }
+            R.id.libs -> {
+                startActivity(Intent(this, LibraryActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun getViewBindingObject(): ActivityAboutBinding {
         return ActivityAboutBinding.inflate(layoutInflater)
