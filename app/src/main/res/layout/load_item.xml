@@ -13,8 +13,8 @@
         android:id="@+id/titleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="8dp"
         android:text="@string/loading_data"
-        android:textSize="16dp" />
+        style="@style/TextAppearance.Material3.TitleMedium" />
 
 </LinearLayout>

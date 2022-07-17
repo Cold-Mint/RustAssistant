@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/titleView"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="标题"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp" />
+        android:text="标题" />
 
 
     <TextView
         android:id="@+id/descriptionView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleView"
@@ -26,12 +26,12 @@
 
     <TextView
         android:id="@+id/agreementView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/descriptionView"
         android:layout_marginTop="8dp"
-        android:text="开源协议"
-        android:textSize="13sp" />
+        android:text="开源协议" />
 
     <ImageView
         android:id="@+id/linkView"

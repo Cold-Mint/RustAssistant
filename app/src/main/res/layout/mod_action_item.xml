@@ -6,9 +6,9 @@
 
     <TextView
         android:id="@+id/operation"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/mod_tags"
-        android:textSize="16dp" />
+        android:text="@string/mod_tags" />
 
 </LinearLayout>

@@ -8,15 +8,16 @@
 
 
     <TextView
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:id="@+id/nameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="模板名称"
-        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:id="@+id/developerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:text="描述（错误信息)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/developerView" />

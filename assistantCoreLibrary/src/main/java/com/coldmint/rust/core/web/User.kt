@@ -180,7 +180,7 @@ object User {
 
     /**
      * 更新用户资料
-     * @param account String 账号
+     * @param token String 令牌
      * @param userName String 用户名
      * @param introduce String 介绍
      * @param gender Int 性别(1为男生，-1为女生)
@@ -189,7 +189,7 @@ object User {
      * @param coverLink String? 封面链接（内部自行转换文件）
      */
     fun updateSpaceInfo(
-        account: String,
+        token: String,
         userName: String,
         introduce: String,
         gender: Int, apiCallBack: ApiCallBack<ApiResponse>,
@@ -199,7 +199,7 @@ object User {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBuilder =
             MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("account", account).addFormDataPart("userName", userName)
+                .addFormDataPart("token", token).addFormDataPart("userName", userName)
                 .addFormDataPart("introduce", introduce)
                 .addFormDataPart("gender", gender.toString())
         if (iconLink != null) {

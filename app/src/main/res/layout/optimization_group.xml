@@ -11,24 +11,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:text="优化项目"
-        android:textSize="16dp" />
+        android:layout_marginStart="16dp"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:text="优化项目" />
 
     <TextView
         android:id="@+id/numView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/groupCheckBox"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_toStartOf="@id/groupCheckBox"
         android:text="@string/filenum" />
 
     <CheckBox
         android:id="@+id/groupCheckBox"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
         android:checked="false"
         android:focusable="false"/>
 

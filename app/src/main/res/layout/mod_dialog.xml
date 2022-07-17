@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/round_angle"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
-        <ImageView
-            android:id="@+id/mod_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/image" />
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/mod_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/image" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <LinearLayout
             android:id="@+id/mod_linearlayout"
@@ -27,19 +35,19 @@
 
             <TextView
                 android:id="@+id/mod_name_View"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="模组名称"
-                android:textSize="16dp" />
+                android:text="模组名称" />
 
             <TextView
                 android:id="@+id/modNameDescription"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="介绍"
-                android:textSize="14dp" />
+                android:text="介绍" />
 
 
         </LinearLayout>
@@ -53,3 +61,5 @@
 
 
 </LinearLayout>
+
+

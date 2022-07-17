@@ -22,7 +22,7 @@ import com.coldmint.rust.pro.tool.AppSettings
 class ReportListActivity : BaseActivity<ActivityReportListBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.report_to_deal)
+            title = getText(R.string.report_to_deal)
             setReturnButton()
             val account = appSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {

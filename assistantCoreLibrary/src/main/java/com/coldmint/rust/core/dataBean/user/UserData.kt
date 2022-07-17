@@ -17,6 +17,8 @@ data class UserData(
         @SerializedName("expirationTime")
         val expirationTime: String,
         @SerializedName("token")
-        val token: String
+        val token: String,
+        @SerializedName("account")
+        val account:String
     )
 }

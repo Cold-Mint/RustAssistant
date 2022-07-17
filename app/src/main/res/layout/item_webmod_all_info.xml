@@ -15,49 +15,49 @@
         android:src="@drawable/image" />
 
     <LinearLayout
-        android:layout_toLeftOf="@id/more"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/mod_icon"
+        android:layout_toStartOf="@id/more"
+        android:layout_toEndOf="@id/mod_icon"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/mod_name_View"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="模组名称"
-            android:textSize="16sp" />
+            android:text="模组名称" />
 
         <TextView
             android:id="@+id/mod_introduction_view"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="介绍"
-            android:textSize="14sp" />
+            android:text="介绍" />
 
     </LinearLayout>
 
-<!--    <TextView-->
-<!--        android:id="@+id/soldOutModView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/linearLayout"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:text="@string/sold_out_mod" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/soldOutModView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/linearLayout"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:text="@string/sold_out_mod" />-->
 
     <ImageView
         android:id="@+id/more"
-        android:layout_centerVertical="true"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:padding="12dp"
-        android:src="@drawable/more"
-        android:layout_alignParentRight="true"/>
+        android:src="@drawable/more" />
 
 
 </RelativeLayout>

@@ -5,9 +5,7 @@
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardElevation="2dp"
-    card_view:cardCornerRadius="2dp">
+    android:layout_marginBottom="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,23 +37,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
-                android:textSize="16sp" />
+                style="@style/TextAppearance.Material3.TitleMedium" />
 
             <TextView
                 android:id="@+id/modInfo"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/publisher_information"
-                android:textSize="14sp" />
+                android:text="@string/publisher_information" />
 
             <TextView
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:id="@+id/mod_introduction_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/describe"
-                android:textSize="14dp" />
+                android:text="@string/describe" />
 
         </LinearLayout>
 
@@ -65,23 +63,19 @@
             android:layout_below="@id/infoLayout"
             android:orientation="horizontal">
 
-            <TextView
+            <Button
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:id="@+id/refusedView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/refused"
-                android:textColor="?colorPrimary" />
+                android:text="@string/refused" />
 
             <Button
                 android:id="@+id/consentView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_weight="1"
                 android:text="@string/consent" />
 

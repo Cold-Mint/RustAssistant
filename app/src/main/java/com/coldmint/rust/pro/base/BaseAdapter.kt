@@ -22,6 +22,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.toSpannable
+import com.coldmint.dialog.CoreDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -39,7 +40,6 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
     private val spannableStringBuilder: SpannableStringBuilder = SpannableStringBuilder()
     private val colorSpan: ForegroundColorSpan = ForegroundColorSpan(Color.parseColor("#e91e63"))
     private val bold = StyleSpan(Typeface.BOLD)
-
 
 
     /**
@@ -147,7 +147,6 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
      * @param cancelable Boolean 是否可取消
      * @param checkBoxPrompt 选择框显示的文本
      */
-    @Deprecated("已废弃")
     fun showDeleteItemDialog(
         name: String,
         index: Int,
@@ -155,6 +154,24 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
         cancelable: Boolean = false,
         checkBoxPrompt: String? = null
     ) {
+        val coreDialog = CoreDialog(context).setTitle(R.string.delete_title).setMessage(
+            String.format(
+                context.getString(R.string.delete_prompt),
+                name
+            )
+        ).setNegativeButton(R.string.dialog_cancel) {}
+        coreDialog.setCancelable(cancelable)
+        coreDialog.setCheckboxBox(checkBoxPrompt)
+        coreDialog.setPositiveButton(R.string.dialog_ok) {
+            if (onClickPositiveButton == null) {
+                removeItem(index)
+            } else {
+                if (onClickPositiveButton.invoke(index, coreDialog.isChecked())) {
+                    removeItem(index)
+                }
+            }
+        }.show()
+
 //        var checked = false
 //        val dialog = MaterialAlertDialogBuilder(context)
 //        if (checkBoxPrompt != null) {

@@ -4,13 +4,13 @@
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="false">
 
     <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -65,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
+        app:elevation="2dp"
+        android:fitsSystemWindows="false"
         app:menu="@menu/menu_drawer_left" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

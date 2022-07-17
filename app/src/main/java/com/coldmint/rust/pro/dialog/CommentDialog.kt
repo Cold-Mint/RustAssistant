@@ -111,6 +111,15 @@ class CommentDialog(context: Context) : BaseAppDialog<CommentDialog>(context) {
         }
     }
 
+    override fun setTitle(string: String): CommentDialog {
+        viewBinding.titleView.text = string
+        return this
+    }
+
+    override fun setTitle(stringRes: Int): CommentDialog {
+        viewBinding.titleView.setText(stringRes)
+        return this    }
+
     /**
      * 设置提交函数
      * 返回true则结束对话框

@@ -51,6 +51,7 @@
                         android:text="@string/name" />
 
                     <TextView
+                        android:id="@+id/emailView"
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -66,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
+                    android:src="@drawable/ic_baseline_chevron_right_24"
+                    app:tint="?attr/colorControlNormal" />
 
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>

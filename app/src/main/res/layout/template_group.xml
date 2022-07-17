@@ -6,17 +6,17 @@
 
     <TextView
         android:id="@+id/template_name"
-        android:textSize="16dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="16dp"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="模板名"/>
 
     <TextView
+        style="@style/TextAppearance.Material3.BodySmall"
         android:id="@+id/template_num"
-        android:textSize="14dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="项目数"/>

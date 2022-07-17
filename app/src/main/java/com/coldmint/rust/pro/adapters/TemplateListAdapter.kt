@@ -263,7 +263,7 @@ class TemplateListAdapter(
             val exportFile = context.getString(R.string.export)
             viewBinding.onTouchView.setOnClickListener {
                 val bottomSheetDialog =
-                    BottomSheetDialog(context, R.style.BottomSheetDialog)
+                    BottomSheetDialog(context)
                 val templateBottomDialogBinding =
                     TemplateBottomDialogBinding.inflate(LayoutInflater.from(context))
                 bottomSheetDialog.setContentView(templateBottomDialogBinding.root)

@@ -31,7 +31,6 @@
     <string name="always_allow">Всегда.</string>
     <string name="pay_yes">Да, получил</string>
     <string name="pay_no">Нет.</string>
-    <string name="creation_wizard">Создание проводника</string>
     <string name="dialog_cancel">отмен</string>
     <string name="no_longer_prompt">Никаких подсказок.</string>
     <string name="navigation_tip">В общей сложности 1 % проектов поддерживают быструю навигацию.</string>
@@ -531,7 +530,6 @@
     <string name="file_type_define">По умолчанию создаётся файл ini.</string>
     <string name="file_type_tip2">Вы, наверное, хотите напечатать \"% $\"\?</string>
     <string name="is_building">Загружаю единицу данных, пожалуйста, попробуйте использовать эту функцию после загрузки.</string>
-    <string name="setting_english_editing_mode">АнглийскийРедактированиеРежим</string>
     <string name="english_editing_mode_describe">Напишите свою моду на английском языке, с китайской подсказок и грамматикой.</string>
     <string name="english_editing_mode">Модель развития прототипа</string>
     <string name="mt_installed">Вы используете английский в качестве языка разработки\? В отличие от работы в \ \\"MT management \", ассистенты имеют возможность давать советы по английскому коду, а также умные советы, направленные на окружающую среду модуля.</string>
@@ -644,7 +642,6 @@
     <string name="using_mobile_networks">Разрешите использовать сеть данных</string>
     <string name="using_mobile_networks_tip">Использование мобильной сети для загрузки модулей может привести к дополнительным расходам.</string>
     <string name="using_mobile_networks_msg">Использование мобильной сети для загрузки модулей может привести к дополнительным расходам. Все еще\?</string>
-    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">Сосредоточьтесь на авторе, который вам нравится</string>
     <string name="my_follow">Мое внимание.</string>
     <string name="no_dynamic">Ничего.</string>
@@ -662,14 +659,11 @@
     <string name="warehouse">склад</string>
     <string name="not_find_map">Карты нет.</string>
     <string name="del_map">удал</string>
-    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">Каталог карт</string>
-    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">Групповой каталог</string>
     <string name="edit_map">Редактировать карту</string>
     <string name="edit_map_tip">Мы рекомендуем NotTiled в качестве инструмента редактирования карт.</string>
     <string name="downlod_nottiled">загрузка</string>
-    <string name="setting_use_the_community_as_the_launch_page">Использование межэтнической общности</string>
     <string name="use_the_community_as_the_launch_page">Используйте сообщество в качестве стартовой страницы</string>
     <string name="use_the_community_as_the_launch_page_tip">По умолчанию.</string>
     <string name="renewal">продлен</string>
@@ -722,7 +716,6 @@
     <string name="delete_source_file_check">Удаление исходного файла</string>
     <string name="init_all_units">Инициализированный список единиц...</string>
     <string name="clear_cache">Очистка кэша</string>
-    <string name="setting_clear_cache">КлирКэш</string>
     <string name="clear_cache_description">Возникает при медленном использовании приложений, а помощник ускоряется, читая кэш.</string>
     <string name="cache">Кэш и место хранения</string>
     <string name="history_cache">Открыть файл</string>
@@ -736,7 +729,6 @@
     <string name="search_unit_name">Поиск названия</string>
     <string name="auto_save_describe">Автоматическое сохранение кода при переключении на другие программы.</string>
     <string name="auto_save">Автоматическое сохранение</string>
-    <string name="setting_auto_save">3. Автосаве</string>
     <string name="auto_save_toast">Автоматическое сохранение.</string>
     <string name="is_code">Это код.</string>
     <string name="search_tip">Прекратить поиск</string>
@@ -756,13 +748,11 @@
     <string name="synchronous_ok">Синхронизация завершена.</string>
     <string name="synchronous_failure">Синхронизация не работает.</string>
     <string name="synchronous_ing">Синхронизирую...</string>
-    <string name="setting_server_address">Адрес сервера</string>
     <string name="server_address_configuration">Размещение адреса сервера</string>
     <string name="associated_tip">Контактный совет от $1 %</string>
     <string name="login_tip">После логина вы можете: загрузка, загрузка модульной группы. · плавно разговаривая с друзьями внутри сообщества. Редактировать вашу моду на китайском языке! Обрати внимание на своего любимого создателя</string>
     <string name="error_description">Что вы делали в это время\?</string>
     <string name="no_error">Никаких ошибок.</string>
-    <string name="setting_see_error_info">См. ОшибкаИнфо</string>
     <string name="see_error_info">Журнал аварии</string>
     <string name="see_error_info_tip">Проверьте записи о авариях на этом устройстве.</string>
     <string name="can_not_tip_value">Извините, сейчас не могу сказать.</string>
@@ -826,8 +816,6 @@
     <string name="experience_the_plan">Программа пользовательского опыта</string>
     <string name="experience_the_plan_describe">Анонимная отправка программного обеспечения для уничтожения информации.</string>
     <string name="update_and_iteration">Обновление версии с программой пользовательского опыта</string>
-    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
-    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">Вы заплатили\? (неоплаченный заказ будет просрочен и не сможет больше платить за него).</string>
     <string name="paid_yes">Да, я заплатил за него</string>
     <string name="paid_no">Отставить приказ.</string>
@@ -841,7 +829,6 @@
     <string name="confirm_password_error">Два разных пароля.</string>
     <string name="display_source_code">Покажи исходный код.</string>
     <string name="dynamic_color">Динамический цвет</string>
-    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
     <string name="dynamic_color_tip">Следуйте за обоями устройства для замены тематического цвета.</string>
     <string name="dynamic_color_disabled">Это устройство не поддерживает динамические цвета.</string>
     <string name="title">заголовк</string>

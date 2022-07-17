@@ -38,7 +38,7 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.order_list)
+            title = getText(R.string.order_list)
             setReturnButton()
             if (account.isBlank()) {
                 showError(getString(R.string.please_login_first))

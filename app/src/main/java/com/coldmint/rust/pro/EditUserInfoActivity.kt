@@ -29,6 +29,7 @@ import com.coldmint.rust.core.web.User
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityEditModInfoBinding
 import com.coldmint.rust.pro.databinding.ActivityEditUserInfoBinding
+import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.snackbar.Snackbar
 import com.yalantis.ucrop.UCrop
@@ -52,7 +53,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
     }
 
     private fun initView() {
-        viewBinding.toolbar.title = getText(R.string.editData)
+        title = getText(R.string.editData)
         setReturnButton()
         val thisIntent = intent
         val temUserId = thisIntent.getStringExtra("userId")
@@ -254,8 +255,10 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                             R.attr.colorPrimaryVariant
                         )
                     )
+                    val token =
+                        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
                     User.updateSpaceInfo(
-                        userId,
+                        token,
                         userName,
                         introduce,
                         gender,

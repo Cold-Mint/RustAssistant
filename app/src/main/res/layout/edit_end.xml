@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -21,11 +22,10 @@
                 app:cardElevation="2dp">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/compilation_prompt"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:text="@string/compilation_prompt" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -41,16 +41,17 @@
                 android:id="@+id/imageview"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/log" />
+                android:src="@drawable/log"
+                app:tint="?attr/colorControlNormal" />
 
             <TextView
                 android:id="@+id/textview"
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="@string/compilation_prompt"
-                android:textSize="15dp" />
+                android:text="@string/compilation_prompt" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/logView"

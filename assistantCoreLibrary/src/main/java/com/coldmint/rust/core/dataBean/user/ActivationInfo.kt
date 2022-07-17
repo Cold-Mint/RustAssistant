@@ -3,6 +3,13 @@ package com.coldmint.rust.core.dataBean.user
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * 用户激活信息
+ * @property code Int
+ * @property `data` Data
+ * @property message String
+ * @constructor
+ */
 data class ActivationInfo(
     @SerializedName("code")
     val code: Int,

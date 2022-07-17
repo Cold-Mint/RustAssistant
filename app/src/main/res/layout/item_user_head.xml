@@ -7,13 +7,16 @@
 
     <ImageView
         android:id="@+id/headIconView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:src="@drawable/head_icon" />
 
     <TextView
         android:id="@+id/nameView"
         android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name" />

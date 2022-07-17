@@ -11,37 +11,38 @@
         android:src="@drawable/head_icon" />
 
     <LinearLayout
+        android:id="@+id/headLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/iconView"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/iconView"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/iconView"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/nameView"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="@string/name"
-            android:textSize="13sp" />
+            android:text="@string/name" />
 
         <TextView
             android:id="@+id/timeView"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/expiration_time_null"
-            android:textSize="10sp" />
+            android:text="@string/expiration_time_null" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/contentView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iconView"
+        android:layout_below="@id/headLayout"
         android:layout_marginTop="8dp"
         android:text="@string/no_content" />
 

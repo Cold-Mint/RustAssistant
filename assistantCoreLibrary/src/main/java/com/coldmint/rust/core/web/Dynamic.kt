@@ -172,18 +172,17 @@ class Dynamic private constructor() {
 
     /**
      * 发布动态
-     * @param account String 账号
+     * @param token String 令牌
      * @param context String 内容
      */
     fun send(
-        account: String,
-        appId: String,
+        token: String,
         context: String,
         apiCallBack: ApiCallBack<ApiResponse>
     ) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBodyBuilder: FormBody.Builder =
-            FormBody.Builder().add("account", account).add("context", context).add("appId", appId)
+            FormBody.Builder().add("token", token).add("context", context)
         val requestBody = requestBodyBuilder.build()
         val request = Request.Builder()
             .url(ServerConfiguration.website + "php/dynamic.php?action=send")

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/not_find_mod"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView

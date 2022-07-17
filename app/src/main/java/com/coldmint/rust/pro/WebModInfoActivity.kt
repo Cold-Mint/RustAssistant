@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
@@ -99,6 +100,9 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
             }
             viewBinding.modCommentRecyclerView.layoutManager =
                 LinearLayoutManager(this@WebModInfoActivity)
+            viewBinding.modCommentRecyclerView.addItemDecoration(
+                DividerItemDecoration(this@WebModInfoActivity, DividerItemDecoration.VERTICAL)
+            )
             tip = getString(R.string.file_download_progress)
 
         }
@@ -473,33 +477,34 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
             }
 
 
-            CommentDialog(this).setSubmitFun { button, textInputLayout, s, alertDialog ->
-                button.isEnabled = false
-                WebMod.instance.sendComment(
-                    appSettings.getValue(AppSettings.Setting.Token, ""),
-                    modId,
-                    s,
-                    object : ApiCallBack<ApiResponse> {
-                        override fun onResponse(t: ApiResponse) {
-                            if (t.code == ServerConfiguration.Success_Code) {
-                                alertDialog.dismiss()
-                                loadModCommentList(modId)
-                                Snackbar.make(
-                                    viewBinding.button,
-                                    R.string.release_ok,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                textInputLayout.error = t.message
+            CommentDialog(this).setCancelable(false)
+                .setSubmitFun { button, textInputLayout, s, alertDialog ->
+                    button.isEnabled = false
+                    WebMod.instance.sendComment(
+                        appSettings.getValue(AppSettings.Setting.Token, ""),
+                        modId,
+                        s,
+                        object : ApiCallBack<ApiResponse> {
+                            override fun onResponse(t: ApiResponse) {
+                                if (t.code == ServerConfiguration.Success_Code) {
+                                    alertDialog.dismiss()
+                                    loadModCommentList(modId)
+                                    Snackbar.make(
+                                        viewBinding.button,
+                                        R.string.release_ok,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    textInputLayout.error = t.message
+                                }
                             }
-                        }
 
-                        override fun onFailure(e: Exception) {
-                            textInputLayout.error = e.toString()
-                        }
+                            override fun onFailure(e: Exception) {
+                                textInputLayout.error = e.toString()
+                            }
 
-                    })
-            }.show()
+                        })
+                }.show()
         }
 
     }

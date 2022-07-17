@@ -189,18 +189,22 @@ class TemplateParserActivity() : BaseActivity<ActivityTemplateParserBinding>() {
                     working = true
                     val filename = viewBinding.fileNameInputView.text.toString()
                     var needFileType = true
+                    val index = filename.lastIndexOf('.')
+                    //文件夹名
+                    var folderName = filename
                     if (filename.isBlank()) {
                         setErrorAndInput(
                             viewBinding.fileNameInputView,
                             getString(R.string.unit_name_error), viewBinding.fileNameInputLayout
                         )
                         return@submit
-                    } else if (filename.contains(".")) {
+                    } else if (index > -1) {
                         needFileType = false
+                        folderName = filename.substring(0 until index)
                     }
                     //真实创建目录
                     val authenticallyCreateDirectory: String = if (mCreateIndependentFolder) {
-                        "$mCreatePath/$filename"
+                        "$mCreatePath/$folderName"
                     } else {
                         mCreatePath
                     }

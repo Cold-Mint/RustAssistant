@@ -28,7 +28,7 @@ class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.review_mod)
+            title = getText(R.string.review_mod)
             setReturnButton()
             if (token.isBlank()) {
                 showInfoToView(resId = R.string.please_login_first)

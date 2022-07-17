@@ -119,11 +119,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             isLogin = false
                             viewBinding.button.setText(R.string.login)
                             if (userData.code == ServerConfiguration.Success_Code) {
+                                appSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
                                 appSettings.forceSetValue(
                                     AppSettings.Setting.Account,
-                                    account
+                                    userData.data.account
                                 )
-                                appSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
                                 appSettings.forceSetValue(
                                     AppSettings.Setting.Token,
                                     userData.data.token

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardElevation="2dp"
-    card_view:cardCornerRadius="2dp">
+    android:layout_marginBottom="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/headIconView"
@@ -20,86 +19,87 @@
             android:src="@drawable/head_icon" />
 
         <LinearLayout
+            android:id="@+id/headLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/headIconView"
-            android:layout_alignBottom="@id/headIconView"
-            android:layout_marginLeft="8dp"
-            android:layout_toLeftOf="@id/typeView"
-            android:layout_toRightOf="@id/headIconView"
+            android:layout_marginStart="8dp"
+            android:layout_toStartOf="@id/typeView"
+            android:layout_toEndOf="@id/headIconView"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/nameView"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name"
-                android:textSize="16sp" />
+                android:text="@string/user_name" />
 
             <TextView
                 android:id="@+id/timeView"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/time"
-                android:textSize="10sp" />
+                android:text="@string/time" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/typeView"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:text="举报模组" />
 
         <TextView
             android:id="@+id/textview"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/headIconView"
+            android:layout_below="@id/headLayout"
             android:layout_marginTop="8dp"
-            android:text="@string/expiration_time_null"
-            android:textSize="16sp" />
+            android:text="@string/expiration_time_null" />
 
         <TextView
             android:id="@+id/describeView"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textview"
             android:layout_marginTop="8dp"
             android:text="@string/describe" />
 
-        <TextView
+        <Button
             android:id="@+id/open_view"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/ignoreView"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/ignoreView"
-            android:text="@string/view_the_report_object"
-            android:textColor="?attr/colorPrimary" />
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/ignoreView"
+            android:text="@string/view_the_report_object" />
 
-        <TextView
+        <Button
             android:id="@+id/actionView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/open_view"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/open_view"
-            android:text="@string/operation"
-            android:textColor="?attr/colorPrimary" />
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/open_view"
+            android:text="@string/operation" />
 
-        <TextView
+        <Button
             android:id="@+id/ignoreView"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/describeView"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
-            android:text="@string/ignore"
-            android:textColor="?attr/colorPrimary" />
+            android:text="@string/ignore" />
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

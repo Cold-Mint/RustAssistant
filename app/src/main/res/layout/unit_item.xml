@@ -10,24 +10,25 @@
 
     <ImageView
         android:id="@+id/iconView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:src="@drawable/image" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:id="@+id/unitNameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="单位名称"
-            android:textSize="16dp" />
+            android:text="单位名称" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:id="@+id/unitDescribeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,6 +36,7 @@
             android:text="单位描述" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodySmall"
             android:id="@+id/unitTimeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

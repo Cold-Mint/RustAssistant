@@ -21,7 +21,6 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 
 class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
-    lateinit var token: String
     lateinit var account: String
 
     /**
@@ -103,10 +102,9 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
     override fun onResume() {
         super.onResume()
-
+        val token = appSettings.getValue(AppSettings.Setting.Token, "")
         if (token.isNotBlank()) {
             User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
-
 
                 override fun onFailure(e: Exception) {
                     viewBinding.nameView.text = account
@@ -126,9 +124,11 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                                 .apply(GlobalMethod.getRequestOptions(true))
                                 .into(viewBinding.headIconView)
                         }
+                        viewBinding.emailView.text = t.data.email
                         loadRecyclerView(t.data.permission)
                     } else {
-                        viewBinding.nameView.text = t.data.userName
+//                        Toast.makeText(requireContext(), t.toString(), Toast.LENGTH_SHORT).show()
+                        viewBinding.nameView.text = account
                         loadRecyclerView(3)
                     }
                 }
@@ -138,7 +138,6 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        token = appSettings.getValue(AppSettings.Setting.Token, "")
         account = appSettings.getValue(AppSettings.Setting.Account, "")
         viewBinding.myHomeView.setOnClickListener {
             val intent = Intent(

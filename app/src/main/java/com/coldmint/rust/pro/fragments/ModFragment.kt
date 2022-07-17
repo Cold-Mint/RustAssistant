@@ -1,34 +1,39 @@
 package com.coldmint.rust.pro.fragments
 
-import com.coldmint.rust.core.ModClass
-import android.view.LayoutInflater
-import android.os.Bundle
-import com.coldmint.rust.pro.R
-import androidx.recyclerview.widget.LinearLayoutManager
-import android.os.Looper
-import com.coldmint.rust.pro.tool.GlobalMethod
-import com.coldmint.rust.pro.tool.AppSettings
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.coldmint.rust.core.dataBean.ModConfigurationData
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
-import android.view.View
-import android.widget.*
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.Window
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.coldmint.rust.core.ModClass
+import com.coldmint.rust.core.dataBean.ModConfigurationData
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.MainActivity
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.ModActionAdapter
 import com.coldmint.rust.pro.adapters.ModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.ModDialogBinding
 import com.coldmint.rust.pro.databinding.ModFragmentBinding
 import com.coldmint.rust.pro.databinding.ModListItemBinding
-import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
-import java.util.ArrayList
 import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
@@ -248,12 +253,15 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         loadMods()
     }
 
+    @SuppressLint("RestrictedApi")
     fun onClickItemWork(viewBinding: ModListItemBinding, modClass: ModClass) {
         val context = requireContext()
         val modDialogBinding =
             ModDialogBinding.inflate(LayoutInflater.from(context))
         val bottomSheetDialog =
-            BottomSheetDialog(context, R.style.BottomSheetDialog)
+            BottomSheetDialog(context)
+
+
         modDialogBinding.modNameView.text = viewBinding.modNameView.text
         modDialogBinding.modNameDescription.text = viewBinding.modIntroductionView.text
         val configurationManager = modClass.modConfigurationManager

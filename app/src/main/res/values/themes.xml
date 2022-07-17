@@ -26,15 +26,6 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <!--实现BottomSheetDialog圆角效果-->
-    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
-    </style>
-
-    <!--实现BottomSheetDialog圆角效果-组件-->
-    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
 
 
 </resources>

@@ -225,7 +225,7 @@ class UnitsActivity : BaseActivity<ActivityUnitsBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.setTitle(R.string.mod_action1)
+            title = getString(R.string.mod_action1)
             setReturnButton()
             val intent = intent
             val bundle = intent.getBundleExtra("data")

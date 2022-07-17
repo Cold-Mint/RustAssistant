@@ -17,7 +17,7 @@
         android:layout_alignTop="@id/iconView"
         android:layout_alignBottom="@id/iconView"
         android:layout_marginStart="8dp"
-        android:layout_toLeftOf="@id/actionView"
+        android:layout_toStartOf="@id/actionView"
         android:layout_toEndOf="@id/iconView"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -27,9 +27,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
-            android:textSize="16sp" />
+            style="@style/TextAppearance.Material3.TitleMedium" />
 
         <TextView
+            android:singleLine="true"
+            android:ellipsize="end"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:id="@+id/describeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,8 +40,9 @@
             android:text="@string/describe" />
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/actionView"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

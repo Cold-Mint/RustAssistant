@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Material3.CardView.Elevated"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:padding="16dp">
 
-    <RelativeLayout
-        android:id="@+id/rootLayout"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/image" />
+
+    <TextView
+        android:id="@+id/titleView"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_alignTop="@id/imageView"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/imageView"
+        android:text="@string/mod_title" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/image" />
+    <TextView
+        android:id="@+id/contentView"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleView"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/imageView"
+        android:text="@string/no_content" />
 
-        <TextView
-            android:id="@+id/titleView"
-            style="@style/TextAppearance.Material3.BodyLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/imageView"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/imageView"
-            android:text="@string/mod_title" />
+</RelativeLayout>
 
-        <TextView
-            android:id="@+id/contentView"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titleView"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_toEndOf="@id/imageView"
-            android:text="@string/no_content" />
-
-    </RelativeLayout>
-
-</com.google.android.material.card.MaterialCardView>

@@ -16,11 +16,11 @@
     <TextView
         android:clickable="false"
         android:id="@+id/logInfoView"
-        android:textSize="14sp"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imageView"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toEndOf="@id/imageView"
         android:text="@string/compilation_prompt" />
 
 </RelativeLayout>

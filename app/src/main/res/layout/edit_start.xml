@@ -23,11 +23,10 @@
                 app:cardElevation="2dp">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/file_manager"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:text="@string/file_manager" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -40,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:id="@+id/unableOpenView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,12 +58,11 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:src="@drawable/add"
-            android:visibility="gone"
-            app:tint="@color/white" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 </merge>

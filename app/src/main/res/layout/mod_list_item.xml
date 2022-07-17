@@ -31,27 +31,27 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:id="@+id/mod_name_View"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="模组名称"
-            android:textSize="16sp" />
+            android:text="模组名称" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:id="@+id/mod_introduction_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="介绍"
-            android:textSize="14sp" />
+            android:text="介绍" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodySmall"
             android:id="@+id/mod_up_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="更新时间"
-            android:textSize="14sp" />
+            android:text="更新时间" />
 
     </LinearLayout>
 

@@ -313,7 +313,6 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        importingTemplatePackage("ling.rp")
         importingTemplatePackage("baseTemplate.rp")
     }
 

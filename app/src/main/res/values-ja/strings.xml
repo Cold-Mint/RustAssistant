@@ -31,7 +31,6 @@
     <string name="always_allow">あくまでも許可する</string>
     <string name="pay_yes">はい,確かに受け取りました</string>
     <string name="pay_no">いや、ない</string>
-    <string name="creation_wizard">ガイド作成</string>
     <string name="dialog_cancel">キャンセル</string>
     <string name="no_longer_prompt">もう提示しない</string>
     <string name="navigation_tip">全%1$d項目でクイックナビゲーションに対応。</string>
@@ -531,7 +530,6 @@
     <string name="file_type_define">iniファイルをデフォルトで作成する。</string>
     <string name="file_type_tip2">「%1$s\」と入力したいかもしれません。</string>
     <string name="is_building">単位データをロードしているので、ロードしてからこの机能を使ってみてください。</string>
-    <string name="setting_english_editing_mode">英語編集モード</string>
     <string name="english_editing_mode_describe">英語を使用してあなたのモジュールを書いて、そして中国語のヒントを持って、文法はすばらしいです。</string>
     <string name="english_editing_mode">ネイティブ開発モデル</string>
     <string name="mt_installed">開発言語として英語を使用していますか\?\\"MTマネージャ\\"上で仕事をするより、ヘルパーは英文コードのヒント机能と、モジュール環境のインテリジェントなヒントがあります。</string>
@@ -644,7 +642,6 @@
     <string name="using_mobile_networks">データネットワークを使って</string>
     <string name="using_mobile_networks_tip">モバイルネットワークを使用してモジュールをアップロードすると、追加の通信料金が発生する可能性があります。</string>
     <string name="using_mobile_networks_msg">モバイルネットワークを使用してモジュールをアップロードすると、追加の通信料金が発生する可能性があります。続けますか\?</string>
-    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">まずは好きな著者に注目してください</string>
     <string name="my_follow">私の関心は</string>
     <string name="no_dynamic">動きがない</string>
@@ -662,14 +659,11 @@
     <string name="warehouse">倉庫</string>
     <string name="not_find_map">地図が見つからない</string>
     <string name="del_map">削除</string>
-    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">地図目次</string>
-    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">モジュールカタログ</string>
     <string name="edit_map">地図を編集する</string>
     <string name="edit_map_tip">地図編集ツールとしてNotTiledをお勧めします。</string>
     <string name="downlod_nottiled">NotTiledをダウンロードする</string>
-    <string name="setting_use_the_community_as_the_launch_page">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">コミュニティを立ち上げページとして使う</string>
     <string name="use_the_community_as_the_launch_page_tip">デフォルトの有効化</string>
     <string name="renewal">続料</string>
@@ -722,7 +716,6 @@
     <string name="delete_source_file_check">ソースファイルを削除する</string>
     <string name="init_all_units">初期化ユニットの一覧</string>
     <string name="clear_cache">キャッシュの清算</string>
-    <string name="setting_clear_cache">キャッシュのクリア</string>
     <string name="clear_cache_description">キャッシュはアプリケーションの使用中に生成され、ヘルパーはキャッシュを読み取って加速する。</string>
     <string name="cache">キャッシュとストレージ</string>
     <string name="history_cache">ファイル開封記録</string>
@@ -736,7 +729,6 @@
     <string name="search_unit_name">単位名を検索したい</string>
     <string name="auto_save_describe">他のプログラムに切り替えると、自動的にコードが保存されます。</string>
     <string name="auto_save">自動保存</string>
-    <string name="setting_auto_save">自動保存機能</string>
     <string name="auto_save_toast">自動保存されています。</string>
     <string name="is_code">コードだ</string>
     <string name="search_tip">検索を取り消す</string>
@@ -756,13 +748,11 @@
     <string name="synchronous_ok">シンクロ成功。</string>
     <string name="synchronous_failure">シンクロ失敗。</string>
     <string name="synchronous_ing">シンクロしてる…</string>
-    <string name="setting_server_address">ServerAddress</string>
     <string name="server_address_configuration">サーバアドレス構成</string>
     <string name="associated_tip">%1$sからの関連性のヒント</string>
     <string name="login_tip">ログイン后、あなたは:\n-アップロード、モジュールをダウンロードすることができます。\n-コミュニティ内で友達とおしゃべりをする。\n-使用中文編集你的模組!\n-好きなクリエイターに注目</string>
     <string name="error_description">何をなさっていたのですか。</string>
     <string name="no_error">まちがいはない</string>
-    <string name="setting_see_error_info">エラー情報を参照してください。</string>
     <string name="see_error_info">クラッシュログ</string>
     <string name="see_error_info_tip">このデバイスのクラッシュ記録を確認します。</string>
     <string name="can_not_tip_value">申し訳ありませんが、現時点で値を提示できません。</string>
@@ -826,8 +816,6 @@
     <string name="experience_the_plan">ユーザー体験プログラム</string>
     <string name="experience_the_plan_describe">匿名送信ソフト奔砕情報。</string>
     <string name="update_and_iteration">アップデートとユーザー体験プログラム</string>
-    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
-    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">お支払いはされましたか\?未払いの注文は期限が切れ、支払いができなくなります。</string>
     <string name="paid_yes">はい、支払いました</string>
     <string name="paid_no">注文を放棄する</string>
@@ -841,7 +829,6 @@
     <string name="confirm_password_error">パスワードが二度一致しなかった。</string>
     <string name="display_source_code">ソースコードを表示する</string>
     <string name="dynamic_color">ダイナミックカラー</string>
-    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
     <string name="dynamic_color_tip">壁紙に合わせてテーマカラーを変更します。</string>
     <string name="dynamic_color_disabled">この装置は動的色をサポートしない。</string>
     <string name="title">タイトル</string>

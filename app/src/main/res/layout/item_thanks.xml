@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mod_title"
-            android:textSize="16sp" />
+            style="@style/TextAppearance.Material3.TitleMedium" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:id="@+id/descriptionView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

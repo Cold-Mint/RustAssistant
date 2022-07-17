@@ -14,18 +14,18 @@
         android:src="@drawable/image" />
 
     <LinearLayout
-        android:layout_marginStart="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/mapNameView"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="模组名称"
-            android:textSize="16sp" />
+            android:text="模组名称" />
 
         <!--            <TextView-->
         <!--                android:visibility="gone"-->
@@ -37,11 +37,11 @@
 
         <TextView
             android:id="@+id/mapUpTime"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="更新时间"
-            android:textSize="14sp" />
+            android:text="更新时间" />
 
 
     </LinearLayout>

@@ -889,10 +889,9 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         //发布动态
                         val check = viewBinding.checkbox.isChecked
                         if (check) {
-                            val appId = appSettings.getValue(AppSettings.Setting.AppID, "")
+                            val token = appSettings.getValue(AppSettings.Setting.Token, "")
                             Dynamic.instance.send(
-                                account,
-                                appId,
+                                token,
                                 String.format(getString(R.string.auto_send), modId),
                                 object : ApiCallBack<ApiResponse> {
                                     override fun onResponse(t: ApiResponse) {
@@ -1003,10 +1002,9 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         //发布动态
                         val check = viewBinding.checkbox.isChecked
                         if (check) {
-                            val appId = appSettings.getValue(AppSettings.Setting.AppID, "")
+                            val token = appSettings.getValue(AppSettings.Setting.Token, "")
                             Dynamic.instance.send(
-                                account,
-                                appId,
+                                token,
                                 String.format(
                                     getString(R.string.auto_send2),
                                     modId,

@@ -49,7 +49,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
     private val bookmarkManager: BookmarkManager by lazy { BookmarkManager(this) }
     private var additionalData: String? = null
     private fun initView() {
-        viewBinding.toolbar.setTitle(R.string.file_manager)
+        title = getString(R.string.file_manager)
         setReturnButton()
         viewBinding.fileList.layoutManager = LinearLayoutManager(this@FileManagerActivity)
         val intent = intent

@@ -12,17 +12,17 @@
 
         <TextView
             android:id="@+id/titleView"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="标题"
-            android:textSize="16dp" />
+            android:layout_alignParentStart="true"
+            android:text="标题" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             app:cardBackgroundColor="@color/blue_500"
             app:cardCornerRadius="3dp">
@@ -30,15 +30,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="1dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/scopeView"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="作用域"
-                    android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textColor="@color/white" />
             </LinearLayout>
 
 
@@ -47,33 +47,33 @@
 
     <TextView
         android:id="@+id/descriptionView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="描述" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="8dp">
 
-        <TextView
+        <Button
             android:id="@+id/editView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/removeView"
-            android:text="@string/edit"
-            android:textColor="?colorPrimary" />
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/removeView"
+            android:text="@string/edit" />
 
 
-        <TextView
+        <Button
             android:id="@+id/removeView"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/remove"
-            android:textColor="?colorPrimary" />
+            android:layout_alignParentEnd="true"
+            android:text="@string/remove" />
 
     </RelativeLayout>
 

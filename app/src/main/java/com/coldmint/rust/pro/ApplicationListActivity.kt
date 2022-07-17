@@ -144,7 +144,7 @@ class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {
      * 设置标题和活动栏
      */
     private fun setTitleAndActionBar() {
-        viewBinding.toolbar.setTitle(R.string.select_game_pack)
+        title = getString(R.string.select_game_pack)
         setReturnButton()
     }
 

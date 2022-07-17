@@ -17,6 +17,7 @@
             android:text="@string/title"
             android:visibility="gone" />
 
+
         <TextView
             android:id="@+id/messageView"
             style="@style/MaterialAlertDialog.Material3.Body.Text"
@@ -25,6 +26,15 @@
             android:layout_marginTop="16dp"
             android:text="@string/title"
             android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title"
+            android:visibility="gone" />
+
 
         <RelativeLayout
             android:id="@+id/buttonContainer"
@@ -43,12 +53,12 @@
                 android:visibility="gone" />
 
             <Button
-                android:layout_marginLeft="8dp"
                 android:id="@+id/positiveButton"
                 style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginLeft="8dp"
                 android:text="@string/title"
                 android:visibility="gone" />
 

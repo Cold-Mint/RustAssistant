@@ -24,6 +24,7 @@ import com.coldmint.rust.core.web.*
 import com.coldmint.rust.pro.adapters.UserHomeStateAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityUserHomePageBinding
+import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.appbar.AppBarLayout
@@ -45,19 +46,15 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
     }
 
 
-    val appID by lazy {
-        appSettings.getValue(AppSettings.Setting.AppID, "")
-    }
-
     //旧的备份数据
     var oldSpaceInfoData: SpaceInfoData? = null
 
     @SuppressLint("CheckResult")
     private fun initView() {
-        immersionBar {
-            transparentStatusBar().statusBarDarkFont(true)
-                .navigationBarColor(R.color.white_200).navigationBarDarkIcon(true)
-        }
+//        immersionBar {
+//            transparentStatusBar().statusBarDarkFont(true)
+//                .navigationBarColor(R.color.white_200).navigationBarDarkIcon(true)
+//        }
 
         val thisIntent = intent
         val temUserId = thisIntent.getStringExtra("userId")
@@ -77,9 +74,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
         viewBinding.toolbar.title = ""
         setReturnButton()
-        val params = viewBinding.toolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
-        params.setMargins(0, statusBarHeight(this), 0, 0)
-        viewBinding.toolbar.layoutParams = params
         viewBinding.followLayout.setOnClickListener {
             openUserList(userId, true)
 
@@ -90,7 +84,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         initButton()
 
     }
-
 
 
     /**
@@ -292,7 +285,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         super.onResume()
         User.getSpaceInfo(userId, object : ApiCallBack<SpaceInfoData> {
             override fun onResponse(t: SpaceInfoData) {
-
                 if (t.code == ServerConfiguration.Success_Code) {
                     showUserdataIfNeed(t)
                 } else {
@@ -307,67 +299,74 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         })
     }
 
-    /**
-     * 获取状态栏高度
-     * @param context Context
-     * @return Int
-     */
-    fun statusBarHeight(context: Context): Int {
-        var height = 0
-        val res = context.resources
-        val resId = res.getIdentifier("status_bar_height", "dimen", "android")
-        if (resId > 0) {
-            height = res.getDimensionPixelSize(resId)
-        }
-        return height
-    }
+//    /**
+//     * 获取状态栏高度
+//     * @param context Context
+//     * @return Int
+//     */
+//    fun statusBarHeight(context: Context): Int {
+//        var height = 0
+//        val res = context.resources
+//        val resId = res.getIdentifier("status_bar_height", "dimen", "android")
+//        if (resId > 0) {
+//            height = res.getDimensionPixelSize(resId)
+//        }
+//        return height
+//    }
 
     private fun initAction() {
         viewBinding.fab.setOnClickListener {
-            MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-                input(maxLength = 255).title(R.string.send_dynamic)
-                    .positiveButton(R.string.dialog_ok)
-                    .positiveButton {
-                        val inputField: EditText = it.getInputField()
-                        val text = inputField.text.toString()
-                        if (!text.isBlank()) {
-                            Dynamic.instance.send(
-                                account,
-                                appID,
-                                text,
-                                object : ApiCallBack<ApiResponse> {
-                                    override fun onResponse(t: ApiResponse) {
-                                        if (t.code == ServerConfiguration.Success_Code) {
-                                            Snackbar.make(
-                                                viewBinding.button,
-                                                R.string.release_ok,
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                            userHomeStateAdapter.updataDynamicList()
-                                        } else {
-                                            Snackbar.make(
-                                                viewBinding.button,
-                                                t.message,
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                        }
+            CommentDialog(this).setTitle(R.string.send_dynamic).setCancelable(false)
+                .setSubmitFun { button, textInputLayout, s, alertDialog ->
+                    val token =
+                        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
+                    if (!s.isBlank()) {
+                        Dynamic.instance.send(
+                            token,
+                            s,
+                            object : ApiCallBack<ApiResponse> {
+                                override fun onResponse(t: ApiResponse) {
+                                    if (t.code == ServerConfiguration.Success_Code) {
+                                        alertDialog.dismiss()
+                                        Snackbar.make(
+                                            viewBinding.button,
+                                            R.string.release_ok,
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        userHomeStateAdapter.updataDynamicList()
+                                    } else {
+                                        Snackbar.make(
+                                            viewBinding.button,
+                                            t.message,
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
                                     }
+                                }
 
-                                    override fun onFailure(e: Exception) {
-                                        showInternetError(viewBinding.button, e)
-                                    }
+                                override fun onFailure(e: Exception) {
+                                    showInternetError(viewBinding.button, e)
+                                }
 
-                                })
-                        }
-                    }.negativeButton(R.string.dialog_cancel)
-
-                val editText = this.getInputField()
-                editText.inputType =
-                    EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-                editText.minLines = 3
-                editText.gravity = Gravity.TOP
-                editText.isSingleLine = false
-            }
+                            })
+                    }
+                }.show()
+//            MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+//                input(maxLength = 255).title()
+//                    .positiveButton(R.string.dialog_ok)
+//                    .positiveButton {
+//                        val inputField: EditText = it.getInputField()
+//                        val text = inputField.text.toString()
+//
+//                        }
+//                    }.negativeButton(R.string.dialog_cancel)
+//
+//                val editText = this.getInputField()
+//                editText.inputType =
+//                    EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+//                editText.minLines = 3
+//                editText.gravity = Gravity.TOP
+//                editText.isSingleLine = false
+//            }
         }
         viewBinding.button.setOnClickListener {
             when (val type = viewBinding.button.text.toString()) {
@@ -393,7 +392,11 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                                 viewBinding.button.text = getString(R.string.followed)
                             } else {
                                 viewBinding.button.text = type
-                                Snackbar.make(viewBinding.button, t.message, Snackbar.LENGTH_SHORT)
+                                Snackbar.make(
+                                    viewBinding.button,
+                                    t.message,
+                                    Snackbar.LENGTH_SHORT
+                                )
                                     .show()
 
                             }

@@ -38,6 +38,27 @@ class CoreDialog(context: Context) : BaseAppDialog<CoreDialog>(context) {
         return this
     }
 
+    /**
+     * 设置选择按钮
+     * @param title String?
+     * @return CoreDialog
+     */
+    fun setCheckboxBox(title: String? = null): CoreDialog {
+        dialogCoreBinding.checkbox.isVisible = title != null
+        if (title != null) {
+            dialogCoreBinding.checkbox.text = title
+        }
+        return this
+    }
+
+    /**
+     * 是否选择了
+     * @return Boolean
+     */
+    fun isChecked():Boolean{
+        return dialogCoreBinding.checkbox.isChecked
+    }
+
     override fun setTitle(stringRes: Int): CoreDialog {
         dialogCoreBinding.titleView.isVisible = true
         dialogCoreBinding.titleView.setText(stringRes)

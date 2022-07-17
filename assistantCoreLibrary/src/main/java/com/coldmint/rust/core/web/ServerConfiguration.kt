@@ -189,8 +189,12 @@ object ServerConfiguration {
                 "/data/"
             )
         ) {
-            //如果不是源文件目录的子目录话，设置为上级目录
-            path = "../" + path
+            if (string.startsWith("http://") || string.startsWith("https://")) {
+                return string
+            } else {
+                //如果不是源文件目录的子目录话，设置为上级目录
+                path = "../" + path
+            }
         }
         return path
     }

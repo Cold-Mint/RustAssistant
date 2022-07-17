@@ -3,18 +3,18 @@
     <string name="dialog_title">Access Request</string>
     <string name="dialog_msg29">We need file management permissions to read the mod list, edit source files, import and export mods.</string>
     <string name="dialog_confirm">Authorize</string>
-    <string name="dialog_close">quit</string>
+    <string name="dialog_close">Quit</string>
     <string name="dialog_close2">Backstage</string>
     <string name="verification">Device verification</string>
     <string name="dialog_close_tip">It has been decompressed in the background.</string>
-    <string name="open_type">open way</string>
+    <string name="open_type">Open With</string>
     <string name="parse_file_exception">file parsing exception</string>
-    <string name="select_directents">select directory</string>
-    <string name="select_file">Select the file</string>
-    <string name="select_file_ok">Selected\\"%1$s\\"</string>
-    <string name="select_image">select image</string>
-    <string name="change_image">change image</string>
-    <string name="del_image">remove image</string>
+    <string name="select_directents">Select Directory</string>
+    <string name="select_file">Select File</string>
+    <string name="select_file_ok">Selected\"%1$s\"</string>
+    <string name="select_image">Select Image</string>
+    <string name="change_image">Change Image</string>
+    <string name="del_image">Remove Image</string>
     <string name="remove">remove</string>
     <string name="remove_image_item">Remove image at \\"%1$s\\"\?</string>
     <string name="open">Open</string>
@@ -31,7 +31,7 @@
     <string name="always_allow">always allow</string>
     <string name="pay_yes">Yes, did receive</string>
     <string name="pay_no">no, no</string>
-    <string name="creation_wizard">Create wizard</string>
+    <string name="creation_assistant">Create Assistant</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="no_longer_prompt">Do not remind again</string>
     <string name="navigation_tip">A total of %1$d items support quick navigation.</string>
@@ -51,7 +51,7 @@
     <string name="repair_complete">Repair done</string>
     <string name="dialog_unziping">Extracting %1$s…</string>
     <string name="not_find_mod">no mods</string>
-    <string name="menu_title1">module</string>
+    <string name="menu_title1">Mod</string>
     <string name="file_name">file name:</string>
     <string name="file">document</string>
     <string name="menu_title3">data set</string>
@@ -81,7 +81,7 @@
     <string name="mod_tags">Label</string>
     <string name="tags_error">Please enter a label.</string>
     <string name="mod_tags_help">Please use \\",\\" to separate tags, works with the same tag will be classified into one category.</string>
-    <string name="create_mod_lable">Create mods</string>
+    <string name="create_mod_lable">Create mod</string>
     <string name="create_mod_describe">Create a new mod.</string>
     <string name="filter">filter</string>
     <string name="activate_the_account">Activate account</string>
@@ -94,7 +94,7 @@
     <string name="enter_bookmark_name">Please enter a bookmark name.</string>
     <string name="enter_file_path">Please enter a file path.</string>
     <string name="create_bookmark">Create bookmarks</string>
-    <string name="name_error">Please enter a module name.</string>
+    <string name="name_error">Please enter a mod name.</string>
     <string name="unit_name_error">Please enter a unit name.</string>
     <string name="action_name_error">Please enter an event name.</string>
     <string name="database_null">This dataset could not be loaded, error: %1$s.</string>
@@ -109,7 +109,7 @@
     <string name="cannot_be_accessed_this_directory">You do not have permission to access this directory.</string>
     <string name="unable_to_open_this_directory">This directory cannot be opened.</string>
     <string name="select_game_pack">Choose a game pack</string>
-    <string name="sold_out_mod">Remove the module</string>
+    <string name="sold_out_mod">Remove the mod</string>
     <string name="set_game_pack">Set up game packs</string>
     <string name="mod_action1">Editing unit</string>
     <string name="mod_action2">Edit information</string>
@@ -120,12 +120,12 @@
 
     <string name="import_template">Importing a Template Package</string>
     <string name="import_template_describe">Import the template package from file management.</string>
-    <string name="import_mod">The import module,</string>
-    <string name="import_mod_from_file_manager_describe">Import modules from file management.</string>
-    <string name="import_mod_from_recycle_bin">The recycle bin</string>
-    <string name="import_mod_from_recycle_bin_describe">Restore modules from the recycle bin.</string>
+    <string name="import_mod">Import mod</string>
+    <string name="import_mod_from_file_manager_describe">Import mods from file management.</string>
+    <string name="import_mod_from_recycle_bin">Recycle bin</string>
+    <string name="import_mod_from_recycle_bin_describe">Restore mods from the recycle bin.</string>
     <string name="import_mod_from_package_directory">Package directory</string>
-    <string name="import_mod_from_package_directory_describe">Import the previously packaged modules.</string>
+    <string name="import_mod_from_package_directory_describe">Import the previously packaged mods.</string>
     <string name="open_action3">Unzip the files</string>
     <string name="open_action4">The default mode is enabled</string>
     <string name="not_find_units">No unit found</string>
@@ -168,7 +168,7 @@
     <string name="copy_file_name">Copy file name</string>
     <string name="copy_file_path">Copy file path</string>
     <string name="error">error</string>
-    <string name="load_mod_file">Module file at \\"%1$s\\" has been read.</string>
+    <string name="load_mod_file">Mod file at \\"%1$s\\" has been read.</string>
     <string name="file_operation">File operations</string>
     <string name="operation">operation</string>
     <string name="copy_file_absolutely_path">Copy the absolute path (starting with ROOT)</string>
@@ -176,7 +176,7 @@
     <string name="unexpected_error">An unexpected error occurred and the soft keyboard recall failed</string>
     <string name="create_folder">Creating a folder</string>
     <string name="photo_album">Photo album</string>
-    <string name="unable_load_mod_info">Unable to load module information, please %1$s.</string>
+    <string name="unable_load_mod_info">Unable to load mod information, please %1$s.</string>
     <string name="unit_and_downloadnum">Unit number: % 1 $d | downloads | version name: % 2 $d % 3 $s</string>
     <string name="unit_num">Unit number: % 1 $d</string>
     <string name="system_file_manager">file manager</string>
@@ -247,7 +247,7 @@
     <string name="import_failed">%1$s import failed.</string>
     <string name="app_version_error">%1$s was developed for advanced assistant and cannot be imported.</string>
     <string name="import_failed2">Unable to read message file.</string>
-    <string name="import_tip2">Import this module (%1$s)\?</string>
+    <string name="import_tip2">Import this mod (%1$s)\?</string>
     <string name="import_tip3">Import this template package (%1$s)\?</string>
     <string name="editer_show_line_num">Show line Numbers</string>
     <string name="empty_file">Empty file</string>
@@ -276,7 +276,7 @@
 
     <!-- Preference Titles -->
     <string name="sync_header">Developer options</string>
-    <string name="mod_title">module</string>
+    <string name="mod_title">Mods</string>
     <string name="edit_title">The code editor</string>
     <string name="template_title">The template package</string>
     <string name="close">Shut down</string>
@@ -315,11 +315,11 @@
     <string name="plain_text_tip">Plain text works under Android 7.0.</string>
     <string name="html_text_error">Your system does not support displaying Html.</string>
     <string name="icon_tip">Template icon:</string>
-    <string name="mod_icon">Module icon:</string>
+    <string name="mod_icon">Mod icon:</string>
     <string name="background_music">The background music</string>
-    <string name="map">The map</string>
+    <string name="map">Maps</string>
     <string name="add">add</string>
-    <string name="play_exclusively">Play exclusively when using this module</string>
+    <string name="play_exclusively">Play exclusively when using this mod</string>
     <string name="add_extra_maps">Add additional maps for paths</string>
     <string name="disabled">disable</string>
     <string name="enabled">To enable the</string>
@@ -330,7 +330,7 @@
     <string name="compilation_prompt">Compile the log</string>
     <string name="compilationing">Compile...</string>
     <string name="section">section</string>
-    <string name="update_database">Update the dataset using existing module data.</string>
+    <string name="update_database">Update the dataset using existing mod data.</string>
     <string name="update_off">update</string>
     <string name="update_on">Update in the...</string>
     <string name="update_num">%1$s records have been updated.</string>
@@ -361,17 +361,17 @@
     <string name="choose_color">Choose a color</string>
     <string name="game_pack">The game package</string>
     <string name="select_the_game_pack">Choose a game pack</string>
-    <string name="enable_the_recovery_station">Module recycle bin</string>
+    <string name="enable_the_recovery_station">Mod recycle bin</string>
     <string name="manage_the_recovery_station">Manage the recycle bin</string>
     <string name="manages_files">Manage files</string>
     <string name="description_of_manage_the_recovery_station">Manage your recycle bin files.</string>
-    <string name="description_of_the_recovery_station">When you delete a module, it is backed up to the recycle bin.</string>
+    <string name="description_of_the_recovery_station">When you delete a mod, it is backed up to the recycle bin.</string>
     <string name="select_the_game_package_description">Set up the game pack in your app list.</string>
     <string name="recovery_station_file_save_days">Retention days</string>
     <string name="recovery_station_folder">Recycle bin directory</string>
     <string name="donation">donation</string>
     <string name="optimization">To optimize the</string>
-    <string name="keep_rwmod_file_description">When unpacking the module, keep the source files.</string>
+    <string name="keep_rwmod_file_description">When unpacking the mod, keep the source files.</string>
     <string name="keep_rwmod_file">Keep source files</string>
     <string name="clear_recovery_station">Empty the recycle bin</string>
     <string name="setting_database_path" translatable="false">DatabasePath</string>
@@ -398,8 +398,8 @@
     <string name="recovery_prompt">\\"%1$s\\" has been moved to the recycle bin.</string>
     <string name="recoverying_prompt">Moving \\"%1$s\\"...</string>
     <string name="open_directory_of_file">Open the file directory</string>
-    <string name="unable_to_detect">Your modules may not be checked by the game.</string>
-    <string name="failed_to_check_descripiton">For 1.15 and later, set the storage to Internal(read/write) and External. The game reads and writes internal modules, while external modules are managed by assistants.</string>
+    <string name="unable_to_detect">Your mods may not be checked by the game.</string>
+    <string name="failed_to_check_descripiton">For 1.15 and later, set the storage to Internal(read/write) and External. The game reads and writes internal mods, while external mods are managed by assistants.</string>
     <string name="start_game">Start the game</string>
     <string name="complete_settings">Setup complete</string>
     <string name="open_in_foolfactory">Use the idiot factory editor</string>
@@ -409,7 +409,7 @@
     <string name="restore_all">All reduction</string>
     <string name="all_saves_are_completed">%1$D files saved.</string>
     <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
-    <string name="about">about</string>
+    <string name="about">About</string>
     <string name="libs">Open source license</string>
     <string name="additional_selection">Additional items</string>
     <string name="delete_source_file">Delete the source file after the package is complete</string>
@@ -439,7 +439,7 @@
     <string name="unit_directory">The unit directory</string>
     <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">The user name</string>
-    <string name="report_mod">Report module</string>
+    <string name="report_mod">Report mod</string>
     <string name="report_user">To report the user</string>
     <string name="view_the_report_object">Check (% 1 $s)</string>
     <string name="bookmark_already_exists">The book label already exists. Please change the path.</string>
@@ -462,7 +462,7 @@
     <string name="value_type_manager_describe">Customize the value type and add it to the prompt.</string>
     <string name="value_type_manager">Value type manager</string>
     <string name="share_tip">The sharing function uses the normal packaging mode. To use the advanced packaging function (such as automatically adding Chinese annotations, removing empty files, etc.), please click \\" packaging \".</string>
-    <string name="packaged_mod">Packaged modules</string>
+    <string name="packaged_mod">Packaged mods</string>
     <string name="loading_data">Loading in...</string>
     <string name="advanced_search">Advanced search</string>
     <string name="remove_empty_file_and_folder">Remove empty files and folders</string>
@@ -500,7 +500,7 @@
     <string name="scope_global">global</string>
     <string name="scope_filePath">directory</string>
     <string name="scope_thisfile">document</string>
-    <string name="scope_global_describe">Global scoped values that can be prompted anywhere in the module.</string>
+    <string name="scope_global_describe">Global scoped values that can be prompted anywhere in the mod.</string>
     <string name="scope_filePath_describe">Directory scope, the location under the subdirectory is prompted.</string>
     <string name="scope_thisfile_describe">The file scope can only be prompted within its files.</string>
     <string name="scope">Scope:</string>
@@ -531,16 +531,15 @@
     <string name="file_type_define">Ini files are created by default.</string>
     <string name="file_type_tip2">You might want to type \\"%1$s\\"\?</string>
     <string name="is_building">Unit data is being loaded. Try using this feature after loading.</string>
-    <string name="setting_english_editing_mode">EnglishEditingMode</string>
-    <string name="english_editing_mode_describe">Write your modules in English, with Chinese tips and syntax highlighting.</string>
+    <string name="english_editing_mode_describe">Write your mods in English, with Chinese tips and syntax highlighting.</string>
     <string name="english_editing_mode">Native development model</string>
-    <string name="mt_installed">Do you use English as your development language\? Instead of working on \\"MT manager \\", the assistant has English code hints, as well as intelligent hints for the module environment.</string>
+    <string name="mt_installed">Do you use English as your development language\? Instead of working on \\"MT manager \\", the assistant has English code hints, as well as intelligent hints for the mod environment.</string>
     <string name="expiration_time_null">Unknown activation duration</string>
     <string name="expiration_time_tip">Due time :%1$s</string>
     <string name="community">community</string>
-    <string name="recommended">recommended</string>
-    <string name="ranking">ranking</string>
-    <string name="my">my</string>
+    <string name="recommended">Recommend</string>
+    <string name="ranking">Ranking</string>
+    <string name="my">My</string>
     <string name="latest_release">The latest release</string>
     <string name="describe_tip">Too long content displayed in the list will be truncated.</string>
     <string name="describe_tip2">\\"%1$s\\" will be truncated as the list subheading.</string>
@@ -553,18 +552,18 @@
     <string name="from_url">From the url to add</string>
     <string name="sign_error">Security verification</string>
     <string name="sign_error_message">The assistant has been tampered with by a third party. To protect your device, the process has been terminated. You are recommended to install the official version, mint long-term support, research and development of new functions.</string>
-    <string name="id_tip">Used to identify your module and cannot be modified after publication.</string>
-    <string name="mod_id">Module Id</string>
-    <string name="auto_send">I uploaded a new module \@mod{%1$s}, check it out</string>
-    <string name="auto_send2">Module \@mod{%1$s}, %2$s Update log \n:%3$s</string>
+    <string name="id_tip">Used to identify your mod and cannot be modified after publication.</string>
+    <string name="mod_id">Mod Id</string>
+    <string name="auto_send">I uploaded a new mod \@mod{%1$s}, check it out</string>
+    <string name="auto_send2">Mod \@mod{%1$s}, %2$s Update log \n:%3$s</string>
     <string name="default_tags">Assistant exclusive,%1$S creation</string>
-    <string name="mod_id_error2">The module Id can contain only letters and digits and underscores (_).</string>
+    <string name="mod_id_error2">The mod Id can contain only letters and digits and underscores (_).</string>
     <string name="installation">The installation</string>
     <string name="installation_ing">In the installation...</string>
     <string name="installated">Has been installed</string>
     <string name="work_of_home_page">Check the work</string>
-    <string name="audit">This module is hidden from the outside and only visible to you and your administrator.</string>
-    <string name="follow">Focus on</string>
+    <string name="audit">This mod is hidden from the outside and only visible to you and your administrator.</string>
+    <string name="follow">Follow</string>
     <string name="infinite">infinite</string>
     <string name="transition_cover">cover</string>
     <string name="fans">fans</string>
@@ -601,10 +600,10 @@
     <string name="user_name_error">The user name has been occupied.</string>
     <string name="email_error2">The mailbox is occupied.</string>
     <string name="mod_id_error3">ModID has been occupied.</string>
-    <string name="mod_name_error">The module name is in use.</string>
+    <string name="mod_name_error">The mod name is in use.</string>
     <string name="account_error3">The user cannot be found. Please check if the account is correct.</string>
     <string name="password_error2">The password is incorrect.</string>
-    <string name="mod_package">Module package</string>
+    <string name="mod_package">Mod package</string>
     <string name="restart_to_take_effect">I found that you have changed the image. Due to Glide cache mechanism, the assistant needs to restart to display the new image. Sorry for the inconvenience.</string>
     <string name="extension">extension</string>
     <string name="use_adm">Adm Multithreaded download</string>
@@ -642,16 +641,15 @@
     <string name="file_download_progress">Downloading %1$S %%</string>
     <string name="data_transfer">The data transfer</string>
     <string name="using_mobile_networks">Data network is allowed</string>
-    <string name="using_mobile_networks_tip">Uploading and downloading modules over a mobile network may incur additional data charges.</string>
-    <string name="using_mobile_networks_msg">Uploading and downloading modules over a mobile network may incur additional data charges. Still going\?</string>
-    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
+    <string name="using_mobile_networks_tip">Uploading and downloading mods over a mobile network may incur additional data charges.</string>
+    <string name="using_mobile_networks_msg">Uploading and downloading mods over a mobile network may incur additional data charges. Still going\?</string>
     <string name="no_followers">Please follow your favorite author first</string>
     <string name="my_follow">My attention</string>
     <string name="no_dynamic">There is no dynamic</string>
     <string name="send_dynamic">Release the dynamic</string>
     <string name="time">time</string>
     <string name="download_progress">Download progress</string>
-    <string name="download_progress_tip">Push notifications when you download modules</string>
+    <string name="download_progress_tip">Push notifications when you download mods</string>
     <string name="share_to_dynamic">Share to dynamic</string>
     <string name="all_dynamic">All of the dynamic</string>
     <string name="pay_attention_new">Pay attention to new</string>
@@ -662,14 +660,11 @@
     <string name="warehouse">warehouse</string>
     <string name="not_find_map">No map found</string>
     <string name="del_map">delete</string>
-    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">Map directory</string>
-    <string name="setting_mod_folder" translatable="false">ModFolder</string>
-    <string name="mod_folder">Module directory</string>
+    <string name="mod_folder">Mod directory</string>
     <string name="edit_map">Map editor</string>
     <string name="edit_map_tip">We recommend NotTiled as a map editing tool.</string>
     <string name="downlod_nottiled">Download NotTiled</string>
-    <string name="setting_use_the_community_as_the_launch_page">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">Use the community as the launch page</string>
     <string name="use_the_community_as_the_launch_page_tip">Enabled by default</string>
     <string name="renewal">renewal</string>
@@ -680,22 +675,22 @@
     <string name="report">To report</string>
     <string name="report_t">Report - % 1 $s</string>
     <string name="why">The reason:</string>
-    <string name="picture_of_infringement">Stealing material from other modules</string>
+    <string name="picture_of_infringement">Stealing material from other mods</string>
     <string name="erotic_elements">Contains pornographic content</string>
     <string name="bloody_elements">Gory content</string>
     <string name="unauthorized_handling">Unauthorized handling</string>
-    <string name="describe_the_indecent">Module description contains indecent language</string>
+    <string name="describe_the_indecent">Mod description contains indecent language</string>
     <string name="others">other</string>
     <string name="boy">male</string>
     <string name="girl">female</string>
     <string name="search_hint">Please enter your search content</string>
     <string name="report_to_deal">To report to deal with</string>
     <string name="banned_mod">Because of the report, was removed by the administrator.</string>
-    <string name="unable_to_report">This module is hidden and cannot be reported.</string>
-    <string name="unable_to_report2">You cannot report your own modules. If you want to remove a module, please go to \"Work Management\".</string>
+    <string name="unable_to_report">This mod is hidden and cannot be reported.</string>
+    <string name="unable_to_report2">You cannot report your own mods. If you want to remove a mod, please go to \"Work Management\".</string>
     <string name="admin">The administrator</string>
     <string name="super_admin">Super administrator</string>
-    <string name="review_mod">Review the module</string>
+    <string name="review_mod">Review the mod</string>
     <string name="refused">Refused to</string>
     <string name="remove_fans">Remove the fan</string>
     <string name="coupon">coupons</string>
@@ -722,7 +717,6 @@
     <string name="delete_source_file_check">Deleting source Files</string>
     <string name="init_all_units">Initialize the unit list...</string>
     <string name="clear_cache">Clear the cache</string>
-    <string name="setting_clear_cache">ClearCache</string>
     <string name="clear_cache_description">The cache is generated during application use and the helper is accelerated by reading the cache.</string>
     <string name="cache">Cache and storage space</string>
     <string name="history_cache">File opening record</string>
@@ -736,7 +730,6 @@
     <string name="search_unit_name">You want to search by name</string>
     <string name="auto_save_describe">Automatically save the code when you switch to another program.</string>
     <string name="auto_save">Automatically saved</string>
-    <string name="setting_auto_save">AutoSave</string>
     <string name="auto_save_toast">It has been automatically saved.</string>
     <string name="is_code">Is the code</string>
     <string name="search_tip">Cancel the search</string>
@@ -756,13 +749,11 @@
     <string name="synchronous_ok">The synchronization succeeded. Procedure</string>
     <string name="synchronous_failure">Synchronization failed. Procedure</string>
     <string name="synchronous_ing">Synchronizing...</string>
-    <string name="setting_server_address">ServerAddress</string>
     <string name="server_address_configuration">Server Address Configuration</string>
     <string name="associated_tip">Correlation hint from %1$s</string>
-    <string name="login_tip">After login, you can :\n- upload, download modules. \n- Chatting with friends in the community. \n- Edit your modules in Chinese! \n- Follow your favorite creators</string>
+    <string name="login_tip">After login, you can :\n- upload, download mods. \n- Chatting with friends in the community. \n- Edit your mods in Chinese! \n- Follow your favorite creators</string>
     <string name="error_description">What were you doing at that time\?</string>
     <string name="no_error">There is no error</string>
-    <string name="setting_see_error_info">SeeErrorInfo</string>
     <string name="see_error_info">Crash logs</string>
     <string name="see_error_info_tip">View crash logs on this device.</string>
     <string name="can_not_tip_value">Sorry, cannot prompt value at present.</string>
@@ -826,8 +817,6 @@
     <string name="experience_the_plan">User Experience Plan</string>
     <string name="experience_the_plan_describe">Send software crash message anonymously .</string>
     <string name="update_and_iteration">Version update and user experience planning</string>
-    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
-    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">Have you paid yet\? (Unpaid orders will expire and can no longer be paid for).</string>
     <string name="paid_yes">Yes, I did</string>
     <string name="paid_no">Give up the order</string>
@@ -841,8 +830,15 @@
     <string name="confirm_password_error">The passwords are inconsistent.</string>
     <string name="display_source_code">Display source code</string>
     <string name="dynamic_color">Dynamic color</string>
-    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
     <string name="dynamic_color_tip">Follow the device wallpaper to change the theme color.</string>
     <string name="dynamic_color_disabled">Dynamic colors are not supported on this device.</string>
     <string name="title">The title</string>
+    <string name="hotSearch">Top Searches</string>
+    <string name="search_type_mod_all">All</string>
+    <string name="search_type_purchase_plan">plan</string>
+    <string name="search_type_mod_versions">Mod update log</string>
+    <string name="search_type_mod_comments">Mod comments</string>
+    <string name="search_type_dynamic">Dynamics</string>
+    <string name="search_type_user">Users</string>
+    <string name="search_type_mod">Mods</string>
 </resources>

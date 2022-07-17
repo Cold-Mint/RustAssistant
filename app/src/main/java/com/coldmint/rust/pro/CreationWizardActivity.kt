@@ -16,7 +16,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
     lateinit var type: String
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         setReturnButton()
-        title = getString(R.string.creation_wizard)
+        title = getString(R.string.creation_assistant)
         val temType = intent.getStringExtra("type")
         if (temType.isNullOrBlank()) {
             showToast("请传入类型")
