@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.widget.Toast
 import com.coldmint.rust.core.R
 import kotlin.Throws
-import androidx.documentfile.provider.DocumentFile
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
@@ -563,16 +561,15 @@ object FileOperator {
     }
 
     /*获取文件上级目录*/
-    fun getSuperDirectory(file: File, root: File): String {
-        val path = file.absolutePath
-        return if (path == root.absolutePath) {
-            path
+    fun getSuperDirectory(filePath: String, rootPath: String): String {
+        return if (filePath == rootPath) {
+            filePath
         } else {
-            val endNum = path.lastIndexOf("/")
+            val endNum = filePath.lastIndexOf("/")
             if (endNum > 0) {
-                path.substring(0, endNum)
+                filePath.substring(0, endNum)
             } else {
-                path
+                filePath
             }
         }
     }

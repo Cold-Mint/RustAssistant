@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_soft"
+        android:icon="@drawable/ic_outline_sort_24"
+        android:title="@string/soft"
+        app:showAsAction="always">
+        <menu>
+
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/action_sort_by_name"
+                    android:title="@string/file_list_action_sort_by_name" />
+                <item
+                    android:id="@+id/action_sort_by_type"
+                    android:title="@string/file_list_action_sort_by_type" />
+                <item
+                    android:id="@+id/action_sort_by_size"
+                    android:title="@string/file_list_action_sort_by_size" />
+                <item
+                    android:id="@+id/action_sort_by_last_modified"
+                    android:title="@string/file_list_action_sort_by_last_modified" />
+            </group>
+        </menu>
+    </item>
+
     <item
         android:id="@+id/reloadFile"
         android:title="@string/reload_files" />

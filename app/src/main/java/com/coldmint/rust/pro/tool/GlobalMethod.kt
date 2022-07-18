@@ -156,7 +156,6 @@ object GlobalMethod {
      * @param resId   资源id
      * @return 成功返回值，失败返回-1
      */
-    @Deprecated("废弃")
     fun getThemeColor(context: Context, resId: Int): Int {
         val typedValue = TypedValue()
         return if (context.theme.resolveAttribute(resId, typedValue, true)) {
@@ -172,7 +171,6 @@ object GlobalMethod {
      * @param context 上下文环境
      * @return 整数
      */
-    @Deprecated("废弃")
     fun getColorPrimary(context: Context): Int {
         return getThemeColor(context, R.attr.colorPrimary)
     }

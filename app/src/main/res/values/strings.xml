@@ -849,7 +849,12 @@
     <string name="search_type_purchase_plan">套餐</string>
     <string name="search_type_mod_all">全部</string>
     <string name="hotSearch">热门搜索</string>
-<!--    <string name="search_suggestions_null">无搜索建议。</string>-->
+    <string name="soft">排序</string>
+    <string name="file_list_action_sort_by_name">名称</string>
+    <string name="file_list_action_sort_by_type">类型</string>
+    <string name="file_list_action_sort_by_size">大小</string>
+    <string name="file_list_action_sort_by_last_modified">修改时间</string>
+    <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
 <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 
 </resources>

@@ -11,23 +11,24 @@
 
     <TextView
         android:id="@+id/titleView"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mod_title"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textColor="@color/black" />
 
 
     <TextView
         android:id="@+id/priceView"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/money"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp" />
+        android:textColor="?colorPrimary" />
 
     <TextView
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:id="@+id/originalPriceView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

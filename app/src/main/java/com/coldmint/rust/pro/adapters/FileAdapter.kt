@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.FileItemBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
@@ -167,7 +168,6 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
             viewBinding.fileIcon.setImageDrawable(drawable)
             viewBinding.fileName.setText(R.string.return_directents)
             viewBinding.more.isVisible = false
-            viewBinding.fileTime.isVisible = false
         } else {
             viewBinding.more.isVisible = true
             viewBinding.fileName.text = data.name
@@ -219,16 +219,17 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
                             ColorStateList.valueOf(GlobalMethod.getColorPrimary(context))
                         )
                     )
-                    "png", "jpg", "bmp" -> Glide.with(context).load(data).apply(GlobalMethod.getRequestOptions()).into(viewBinding.fileIcon)
+                    "png", "jpg", "bmp" -> Glide.with(context).load(data)
+                        .apply(GlobalMethod.getRequestOptions()).into(viewBinding.fileIcon)
                     else -> {
                         viewBinding.fileIcon.setImageDrawable(context.getDrawable(R.drawable.file))
                     }
                 }
             }
-            viewBinding.fileTime.text = timeStringBuilder.toString()
             if (selectPath != null && data.absolutePath == selectPath) {
-                viewBinding.fileName.setTextColor(Color.GREEN)
-                viewBinding.fileTime.setTextColor(Color.GREEN)
+                viewBinding.fileName.setTextColor(
+                    ColorStateList.valueOf(GlobalMethod.getColorPrimary(context))
+                )
             }
         }
     }

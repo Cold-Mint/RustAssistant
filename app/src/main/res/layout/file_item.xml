@@ -4,22 +4,23 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:padding="5dp"
         android:id="@+id/file_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:padding="5dp"
         android:src="@drawable/file" />
 
     <LinearLayout
+        android:layout_marginStart="16dp"
         android:id="@+id/contentView"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/file_icon"
-        android:layout_toLeftOf="@id/more"
+        android:layout_toEndOf="@id/file_icon"
+        android:layout_toStartOf="@id/more"
         android:orientation="vertical">
 
         <TextView
@@ -27,15 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="文件名"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/file_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="创建时间"
-            android:textSize="14dp" />
+            style="@style/TextAppearance.Material3.TitleMedium" />
 
     </LinearLayout>
 
@@ -46,6 +39,6 @@
         android:layout_height="48dp"
         android:padding="12dp"
         android:src="@drawable/more"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
