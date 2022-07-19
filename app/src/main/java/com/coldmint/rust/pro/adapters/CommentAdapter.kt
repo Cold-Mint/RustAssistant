@@ -18,7 +18,7 @@ import com.coldmint.rust.pro.tool.TextStyleMaker
  * @author Cold Mint
  * @date 2021/12/12 20:50
  */
-class CommentAdapter(val context: Context, val dataList: MutableList<WebModCommentData.Data>) :
+class CommentAdapter(val context: Context,  dataList: MutableList<WebModCommentData.Data>) :
     BaseAdapter<ItemCommentBinding, WebModCommentData.Data>(context, dataList) {
 
     override fun getViewBindingObject(

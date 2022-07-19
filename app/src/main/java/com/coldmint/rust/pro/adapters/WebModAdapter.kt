@@ -12,7 +12,7 @@ import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.WebModItemBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
 
-class WebModAdapter(val context: Context, val dataList: MutableList<WebModListData.Data>) :
+class WebModAdapter(val context: Context,  dataList: MutableList<WebModListData.Data>) :
     BaseAdapter<WebModItemBinding, WebModListData.Data>(context, dataList) {
 
     override fun getViewBindingObject(

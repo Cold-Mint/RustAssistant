@@ -9,7 +9,7 @@ import com.coldmint.rust.pro.databean.FunctionInfo
 import com.coldmint.rust.pro.databinding.ItemFunBinding
 import com.coldmint.rust.pro.databinding.ItemServiceBinding
 
-class FunAdapter(val context: Context, val dataList: MutableList<FunctionInfo>) :
+class FunAdapter(val context: Context,  dataList: MutableList<FunctionInfo>) :
     BaseAdapter<ItemFunBinding, FunctionInfo>(context, dataList) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,

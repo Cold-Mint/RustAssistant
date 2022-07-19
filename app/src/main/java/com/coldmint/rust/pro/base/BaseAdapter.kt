@@ -3,11 +3,8 @@ package com.coldmint.rust.pro.base
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.icu.text.CaseMap
 import android.os.Handler
 import android.os.Looper
-import android.renderscript.Element
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.view.LayoutInflater
@@ -15,20 +12,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.coldmint.rust.pro.R
-import com.coldmint.rust.pro.databinding.ActivityWebModInfoBinding
 import com.coldmint.rust.pro.interfaces.ItemChangeEvent
 import com.coldmint.rust.pro.interfaces.ItemEvent
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import androidx.appcompat.app.AlertDialog
-import androidx.core.text.toSpannable
 import com.coldmint.dialog.CoreDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.github.promeg.pinyinhelper.Pinyin
 
 
 abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
     private val context: Context,
-    private var dataList: MutableList<DataType>
+    protected var dataList: MutableList<DataType>
 ) :
     RecyclerView.Adapter<BaseAdapter.ViewHolder<ViewBindingType>>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -41,6 +35,23 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
     private val colorSpan: ForegroundColorSpan = ForegroundColorSpan(Color.parseColor("#e91e63"))
     private val bold = StyleSpan(Typeface.BOLD)
 
+
+    /**
+     * 获取列表项目的首字母
+     */
+    fun getInitial(string: String): Char {
+        return if (string.isBlank()) {
+            '#'
+        } else {
+            val char = string[0]
+            if (Pinyin.isChinese(char)) {
+                val pinyin = Pinyin.toPinyin(char)
+                pinyin[0].uppercaseChar()
+            } else {
+                char.uppercaseChar()
+            }
+        }
+    }
 
     /**
      * 建立搜索标题，注意当[BaseAdapter.keyWord]为空时永远返回null
@@ -78,11 +89,22 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
     }
 
     /**
-     * 设置数据列表
+     * 设置数据列表(会刷新列表代价很大)
      * @param dataList MutableList<DataType>
      */
-    fun setNewDataList(dataList: MutableList<DataType>) {
+    open fun setNewDataList(dataList: MutableList<DataType>) {
         this.dataList = dataList
+        handler.post {
+            notifyDataSetChanged()
+        }
+    }
+
+    /**
+     * 获取列表项目数据
+     * @return MutableList<DataType>
+     */
+    fun getItemData(index: Int): DataType {
+        return dataList[index]
     }
 
     /**
@@ -171,32 +193,6 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
                 }
             }
         }.show()
-
-//        var checked = false
-//        val dialog = MaterialAlertDialogBuilder(context)
-//        if (checkBoxPrompt != null) {
-//            dialog.checkBoxPrompt(text = checkBoxPrompt, onToggle = {
-//                checked = it
-//            })
-//        }
-//        dialog.title(R.string.delete_title).message(
-//            text = String.format(
-//                context.getString(R.string.delete_prompt),
-//                name
-//            )
-//        ).positiveButton(R.string.dialog_ok).positiveButton {
-//            if (onClickPositiveButton == null) {
-//                removeItem(index)
-//            } else {
-//                if (onClickPositiveButton.invoke(dialog, checked)) {
-//                    removeItem(index)
-//                }
-//            }
-//        }.negativeButton(R.string.dialog_cancel).cancelable(cancelable)
-//        handler.post {
-//            dialog.show()
-//        }
-//        return dialog
     }
 
     /**

@@ -63,7 +63,6 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
             }
             if (fileArrayList.size > 0) {
                 val fileAdapter = FileAdapter(this@RecyclingStationActivity, fileArrayList)
-                fileAdapter.setSortType(FileAdapter.SortType.ModifyDate)
                 fileAdapter.setItemEvent { i, fileItemBinding, viewHolder, file ->
                     fileItemBinding.more.setOnClickListener {
                         if (file == null) {

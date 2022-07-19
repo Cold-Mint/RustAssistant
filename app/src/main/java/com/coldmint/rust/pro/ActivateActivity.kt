@@ -122,7 +122,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
                                 finalPlanAdapter.setCoupon(null)
                                 finalPlanAdapter.setCoupon(data)
                                 selectItemAndLoadInfo(
-                                    finalPlanAdapter.dataList[0],
+                                    finalPlanAdapter.getItemData(0),
                                     finalPlanAdapter,
                                     0
                                 )
@@ -138,7 +138,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
                                             viewBinding.couponDescribeView.text =
                                                 getString(R.string.coupon_not_use)
                                             selectItemAndLoadInfo(
-                                                finalPlanAdapter.dataList[0],
+                                                finalPlanAdapter.getItemData(0),
                                                 finalPlanAdapter,
                                                 0
                                             )

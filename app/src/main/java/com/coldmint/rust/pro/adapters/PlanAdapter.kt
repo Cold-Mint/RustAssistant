@@ -16,7 +16,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2021/12/19 20:32
  */
-class PlanAdapter(context: Context, val dataList: MutableList<PlanDataBean.Data>) :
+class PlanAdapter(context: Context, dataList: MutableList<PlanDataBean.Data>) :
     BaseAdapter<ItemPlanBinding, PlanDataBean.Data>(context, dataList) {
     private val money: String = context.getString(R.string.money)
 

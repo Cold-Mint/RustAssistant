@@ -26,7 +26,7 @@ import java.io.File
 
 class TemplateListAdapter(
     val context: Context,
-    val dataList: ArrayList<TemplatePackage>,
+     dataList: ArrayList<TemplatePackage>,
     private val language: String,
     private val rootPath: String
 ) : BaseAdapter<TemplateListItemBinding, TemplatePackage>(context, dataList) {

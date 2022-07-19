@@ -11,7 +11,7 @@ import com.coldmint.rust.pro.databinding.ModActionItemBinding
  * @property mutableList MutableList<String>
  * @constructor
  */
-class TemplateActionAdapter(context: Context, val dataList: MutableList<String>) :
+class TemplateActionAdapter(context: Context, dataList: MutableList<String>) :
     BaseAdapter<ModActionItemBinding, String>(context, dataList) {
 
     override fun getViewBindingObject(
@@ -29,8 +29,5 @@ class TemplateActionAdapter(context: Context, val dataList: MutableList<String>)
         position: Int
     ) {
         viewBinding.operation.text = data
-//        holder.modActionItemBinding.root.setOnClickListener {
-//            actionListener?.onClickItem(string)
-//        }
     }
 }

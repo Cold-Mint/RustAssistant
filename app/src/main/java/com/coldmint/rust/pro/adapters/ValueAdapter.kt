@@ -13,7 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.lang.StringBuilder
 import java.util.ArrayList
 
-class ValueAdapter(context: Context, var dataList: ArrayList<ValueTypeDataBean>) :
+class ValueAdapter(context: Context, dataList: ArrayList<ValueTypeDataBean>) :
     BaseAdapter<ValueItemBinding, ValueTypeDataBean>(context, dataList) {
 
     override fun getViewBindingObject(

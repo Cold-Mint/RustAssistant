@@ -28,7 +28,7 @@ import java.lang.StringBuilder
  */
 class ReportAdapter(
     val context: Context,
-    val dataList: MutableList<ReportItemDataBean.Data>
+     dataList: MutableList<ReportItemDataBean.Data>
 ) :
     BaseAdapter<ItemReportBinding, ReportItemDataBean.Data>(context, dataList) {
     override fun getViewBindingObject(

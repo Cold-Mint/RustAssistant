@@ -29,6 +29,7 @@ import com.coldmint.rust.pro.databinding.ActivityFileBinding
 import com.coldmint.rust.pro.interfaces.BookmarkListener
 import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 import java.lang.Exception
 import java.util.*
@@ -878,6 +879,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //            initAction()
 //        }
 //    }
+    private lateinit var menuBinding: MenuBinding
     private val viewModel: FileManagerViewModel by lazy {
         ViewModelProvider(this).get(FileManagerViewModel::class.java)
     }
@@ -890,6 +892,12 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this@FileManagerActivity)
             loadTitle()
             loadObserve()
+            FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
+                .setPopupTextProvider(adapter).build()
+            viewBinding.swipeRefreshLayout.setOnRefreshListener {
+                viewModel.loadFiles(viewModel.getCurrentPath())
+                viewBinding.swipeRefreshLayout.isRefreshing = false
+            }
             viewModel.loadFiles()
         } else {
             val bundle = intent.getBundleExtra("data")
@@ -905,6 +913,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 viewModel.setRootPath(bundle.getString("rootpath"))
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuBinding = MenuBinding.inflate(menu, menuInflater)
+        return true
     }
 
     /**
@@ -926,7 +939,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                         if (file == null) {
                             viewModel.returnDirects()
                         } else {
-                            Toast.makeText(this,file.absolutePath,Toast.LENGTH_SHORT).show()
                             if (file.isDirectory) {
                                 viewModel.currentPathLiveData.value = file.absolutePath
                             } else {
@@ -940,7 +952,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 adapter?.setNewDataList(it)
             }
         }
-        viewModel.currentPathLiveData.observe(this){
+        viewModel.currentPathLiveData.observe(this) {
             viewModel.loadFiles(it)
         }
     }
@@ -961,5 +973,26 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 
     override fun getViewBindingObject(): ActivityFileBinding {
         return ActivityFileBinding.inflate(layoutInflater)
+    }
+
+
+    class MenuBinding private constructor(
+        val menu: Menu,
+        val reloadFileItem: MenuItem,
+        val photoAlbumItem: MenuItem,
+        val systemFileManagerItem: MenuItem
+    ) {
+        companion object {
+            //填充
+            fun inflate(menu: Menu, inflater: MenuInflater): MenuBinding {
+                inflater.inflate(R.menu.menu_files, menu)
+                return MenuBinding(
+                    menu,
+                    menu.findItem(R.id.reloadFile),
+                    menu.findItem(R.id.photo_album),
+                    menu.findItem(R.id.system_file_manager)
+                )
+            }
+        }
     }
 }

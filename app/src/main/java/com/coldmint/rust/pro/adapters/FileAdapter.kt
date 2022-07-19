@@ -14,14 +14,16 @@ import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.FileItemBinding
+import com.github.promeg.pinyinhelper.Pinyin
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import me.zhanghai.android.fastscroll.PopupTextProvider
 import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-class FileAdapter(private val context: Context, private var dataList: MutableList<File?>) :
-    BaseAdapter<FileItemBinding, File?>(context, dataList) {
+class FileAdapter(private val context: Context, dataList: MutableList<File?>) :
+    BaseAdapter<FileItemBinding, File?>(context, dataList), PopupTextProvider {
 
     /**
      * 获取选中目录
@@ -38,73 +40,6 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
      */
     var isCopyFile = false
         private set
-
-    enum class SortType {
-        FileName, ModifyDate, FileVolume
-    }
-
-    /**
-     * 设置排序方式
-     * @param type SortType?
-     */
-    fun setSortType(type: SortType?) {
-        when (type) {
-            SortType.FileName -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dataList.sortedWith(java.util.Comparator<File?> { o1, o2 ->
-                    if (o1 == null) {
-                        return@Comparator -1
-                    }
-                    if (o2 == null) {
-                        return@Comparator 1
-                    }
-                    if (o1.isDirectory && o2.isFile) {
-                        -1
-                    } else if (o1.isFile && o2.isDirectory) {
-                        1
-                    } else {
-                        o1.name.compareTo(o2.name)
-                    }
-                })
-            }
-            SortType.ModifyDate -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dataList.sortedWith(java.util.Comparator<File?> { o1, o2 ->
-                    if (o1 == null) {
-                        return@Comparator -1
-                    }
-                    if (o2 == null) {
-                        return@Comparator 1
-                    }
-                    val diff = o1.lastModified() - o2.lastModified()
-                    if (diff > 0) {
-                        1
-                    } else if (diff < 0) {
-                        -1
-                    } else {
-                        0
-                    }
-                })
-            }
-            SortType.FileVolume -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dataList.sortedWith(java.util.Comparator<File?> { o1, o2 ->
-                    if (o1 == null) {
-                        return@Comparator -1
-                    }
-                    if (o2 == null) {
-                        return@Comparator 1
-                    }
-                    val diff = o1.length() - o2.length()
-                    if (diff > 0) {
-                        1
-                    } else if (diff < 0) {
-                        -1
-                    } else {
-                        0
-                    }
-                })
-            }
-            else -> {}
-        }
-    }
 
 
     /**
@@ -131,22 +66,22 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
     }
 
 
-    companion object {
-        /**
-         * 转换后符号将id数组转换为字符串数组
-         *
-         * @param context 上下文环境
-         * @param ints    数组
-         * @return 数据数组
-         */
-        fun conversionSymbol(context: Context, ints: IntArray): Array<String> {
-            val list: MutableList<String> = ArrayList()
-            for (r in ints) {
-                val s = context.getText(r).toString()
-                list.add(s)
-            }
-            return list.toTypedArray()
+//    /**
+//     *
+//     * @param isDescend Boolean
+//     */
+//    fun sortData(isDescend : Boolean){
+//        dataList.sortByDescending {
+//
+//        }
+//    }
+
+    override fun setNewDataList(dataList: MutableList<File?>) {
+        dataList.sortBy {
+            val name = it?.name ?: "#"
+            getInitial(name)
         }
+        super.setNewDataList(dataList)
     }
 
     override fun getViewBindingObject(
@@ -160,7 +95,7 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
     override fun onBingView(
         data: File?,
         viewBinding: FileItemBinding,
-        viewviewBinding: BaseAdapter.ViewHolder<FileItemBinding>,
+        viewHolder: BaseAdapter.ViewHolder<FileItemBinding>,
         position: Int
     ) {
         if (data == null) {
@@ -171,22 +106,11 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
         } else {
             viewBinding.more.isVisible = true
             viewBinding.fileName.text = data.name
-            val update_time = data.lastModified()
-            val timeStringBuilder = StringBuilder()
-            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            timeStringBuilder.append(formatter.format(update_time))
             if (data.isDirectory) {
                 val tem = data.listFiles()
                 if (tem != null) {
                     val fileNum = data.listFiles().size
                     if (fileNum > 0) {
-                        timeStringBuilder.append(" ")
-                        timeStringBuilder.append(
-                            String.format(
-                                (context.getText(R.string.filenum) as String),
-                                fileNum
-                            )
-                        )
                         viewBinding.fileIcon.setImageDrawable(
                             GlobalMethod.tintDrawable(
                                 context.getDrawable(
@@ -232,5 +156,12 @@ class FileAdapter(private val context: Context, private var dataList: MutableLis
                 )
             }
         }
+    }
+
+
+    override fun getPopupText(position: Int): String {
+        val file = dataList[position]
+        val name = file?.name ?: "#"
+        return getInitial(name).toString()
     }
 }

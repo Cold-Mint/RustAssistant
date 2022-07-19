@@ -14,7 +14,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  */
 class CommunityServiceAdapter(
     val context: Context,
-    val dataList: MutableList<CommunityServiceInfo>
+     dataList: MutableList<CommunityServiceInfo>
 ) :
     BaseAdapter<ItemServiceBinding, CommunityServiceInfo>(context, dataList) {
 

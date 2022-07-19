@@ -25,12 +25,20 @@ class FileManagerViewModel : BaseViewModel() {
     private var rootPath: String = directs
 
     /**
-     * 当前打开的目录
+     * 当前打开的目录(获取目录的话，请使用[FileManagerViewModel.getCurrentPath]方法])
      */
     val currentPathLiveData: MutableLiveData<String> by lazy {
         MutableLiveData(rootPath)
     }
 
+
+    /**
+     * 获取当前打开的目录
+     * @return String
+     */
+    fun getCurrentPath(): String {
+        return currentPathLiveData.value ?: rootPath
+    }
 
     /**
      * 加载状态
@@ -58,7 +66,7 @@ class FileManagerViewModel : BaseViewModel() {
 
     /**
      * 加载文件列表
-     * @param path String
+     * @param path String 默认加载根目录
      */
     fun loadFiles(path: String = rootPath) {
         viewModelScope.launch {
