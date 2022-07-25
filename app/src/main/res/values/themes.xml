@@ -14,6 +14,11 @@
     <style name="Theme.rust.Concept" parent="Base.rust.Concept"/>
 
     <style name="Base.rust.Concept" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pink_500</item>
+        <item name="colorPrimaryContainer">@color/pink_200</item>
+        <item name="colorSurfaceVariant">@color/pink_100</item>
+        <item name="colorSecondary">@color/blue_500</item>
+        <item name="colorSecondaryContainer">@color/blue_100</item>
 <!--        <item name="windowActionBar">false</item>-->
 <!--        <item name="windowNoTitle">true</item>-->
         <item name="md_corner_radius">28dp</item>
