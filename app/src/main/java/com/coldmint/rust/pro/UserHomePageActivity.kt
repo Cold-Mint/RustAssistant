@@ -5,6 +5,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -82,7 +83,17 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             openUserList(userId, false)
         }
         initButton()
-
+//        val dlist = ArrayList<Drawable>()
+//        for (i in 1..30) {
+////            dlist.add(getDrawable(R.drawable.emoji_2_3)!!)
+//            dlist.add(getDrawable(R.drawable.emoji_1_3)!!)
+//        }
+//        viewBinding.bubbleView.setDrawableList(dlist)
+//        viewBinding.bubbleView.startAnimation(5000, 5000,30)
+        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_1_3)
+        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_2_3)
+        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_3_3)
+        viewBinding.emojiRainLayout.startDropping()
     }
 
 

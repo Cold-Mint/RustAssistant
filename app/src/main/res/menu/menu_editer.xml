@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/save_text"
-        android:icon="@drawable/save"
+        android:icon="@drawable/ic_outline_save_24"
         android:title="@string/edit_function"
         app:actionViewClass="view"
         app:showAsAction="always" />

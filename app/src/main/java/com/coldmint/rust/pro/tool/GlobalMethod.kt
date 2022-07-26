@@ -1,45 +1,36 @@
 package com.coldmint.rust.pro.tool
 
 import android.Manifest
-import android.app.Activity
-import android.os.Environment
-import android.content.pm.PackageManager
-import android.content.pm.PackageInfo
-import android.content.Intent
-import android.util.TypedValue
-import com.coldmint.rust.pro.tool.GlobalMethod
-import com.coldmint.rust.pro.R
-import android.widget.TextView
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import com.google.android.material.snackbar.Snackbar
-import android.graphics.drawable.Drawable
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Paint
-import android.net.Uri
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.provider.Settings
+import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
 import com.coldmint.rust.core.dataBean.mod.WebModUpdateLogData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.WebMod
-import com.coldmint.rust.pro.MainActivity
+import com.coldmint.rust.pro.R
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.permissionx.guolindev.PermissionX
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.math.BigInteger
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import jp.wasabeef.glide.transformations.*
+import jp.wasabeef.glide.transformations.internal.Utils
 
 /*全局方法类*/
 object GlobalMethod {
@@ -51,18 +42,33 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
+    var temColor = Color.RED
 
 
     /**
      * 获取Glide请求设置
      * @return RequestOptions
      */
-    fun getRequestOptions(circleCrop: Boolean = false): RequestOptions {
-        val requestOptions = if (circleCrop) {
-            RequestOptions.circleCropTransform()
-        } else {
-            RequestOptions().placeholder(R.drawable.image).error(R.drawable.image_not_supported)
+    fun getRequestOptions(circleCrop: Boolean = false, grayscale: Boolean = false): RequestOptions {
+        //变换列表
+        val transformations = ArrayList<BitmapTransformation>()
+        if (circleCrop) {
+            transformations.add(CropCircleWithBorderTransformation(Utils.toDp(4), temColor))
         }
+        if (grayscale) {
+            transformations.add(GrayscaleTransformation())
+        }
+        //请求设置
+        val requestOptions = if (transformations.isNotEmpty()) {
+            val multi = MultiTransformation<Bitmap>(
+                transformations
+            )
+            RequestOptions.bitmapTransform(multi)
+        } else {
+            RequestOptions()
+        }
+        requestOptions.placeholder(R.drawable.image)
+            .error(R.drawable.image_not_supported)
         return requestOptions
     }
 

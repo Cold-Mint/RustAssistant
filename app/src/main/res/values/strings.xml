@@ -359,6 +359,7 @@
     <string name="collapse_info">崩溃信息</string>
     <string name="load_system_application">显示系统应用</string>
     <string name="choose_color">选择颜色</string>
+    <string name="profile_picture_box_color">头像框颜色</string>
     <string name="game_pack">游戏包</string>
     <string name="select_the_game_pack">选择游戏包</string>
     <string name="enable_the_recovery_station">模组回收站</string>
@@ -589,7 +590,7 @@
     <string name="defollow_tip">要取消关注\"%1$s\"嘛?</string>
     <string name="head_icon">头像:</string>
     <string name="signature">个性签名</string>
-    <string name="gender">性别:</string>
+    <string name="gender">性别</string>
     <string name="cover">空间背景:</string>
     <string name="night_mode_auto">深色默认不自动开启</string>
     <string name="account_tip">注册后不能修改。</string>

@@ -93,7 +93,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewBinding.navaiagtion.setupWithNavController(navController)
         viewBinding.navaiagtion.addHeaderView(headLayout.root)
         //actionbar动画
-        val actionToggle = ActionBarDrawerToggle(this,viewBinding.drawerlayout,viewBinding.toolbar,R.string.app_name,R.string.app_name)
+        val actionToggle = ActionBarDrawerToggle(
+            this,
+            viewBinding.drawerlayout,
+            viewBinding.toolbar,
+            R.string.app_name,
+            R.string.app_name
+        )
         viewBinding.drawerlayout.addDrawerListener(actionToggle)
         actionToggle.syncState()
     }
@@ -581,8 +587,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
-//        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-//        initSearchItem(searchView)
         return true
     }
 
@@ -608,12 +612,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     fun observeStartViewModel() {
         startViewModel.userLiveData.observe(this) {
+
             headLayout.nameView.text = it.data.userName
             headLayout.emailView.text = it.data.email
             val headIcon = it.data.headIcon
             if (headIcon != null) {
                 Glide.with(this).load(ServerConfiguration.getRealLink(headIcon))
-                    .apply(GlobalMethod.getRequestOptions(true)).into(headLayout.imageView)
+                    .apply(GlobalMethod.getRequestOptions(true, !it.data.activation))
+                    .into(headLayout.imageView)
             }
             val account = it.data.account
             headLayout.root.setOnClickListener {

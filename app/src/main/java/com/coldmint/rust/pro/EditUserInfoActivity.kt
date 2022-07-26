@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -31,9 +32,12 @@ import com.coldmint.rust.pro.databinding.ActivityEditModInfoBinding
 import com.coldmint.rust.pro.databinding.ActivityEditUserInfoBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.yalantis.ucrop.UCrop
 import java.io.File
+import java.lang.System.out
 
 class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
     lateinit var userId: String
@@ -84,8 +88,11 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     viewBinding.signatureView.setText(introduce)
                     val gender = t.data.gender
                     if (gender < 0) {
-                        viewBinding.updateSpinner.setSelection(1)
+                        viewBinding.sexView.setText(item[1])
+                    } else {
+                        viewBinding.sexView.setText(item[0])
                     }
+                    viewBinding.sexView.setSimpleItems(R.array.gender_entries)
                     viewBinding.button.isVisible = true
                 } else {
                     viewBinding.progressBar.isVisible = false
@@ -104,6 +111,29 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
     }
 
     private fun initAction() {
+        viewBinding.changeColorButton.setOnClickListener {
+            ColorPickerDialogBuilder
+                .with(this)
+                .setTitle(getString(R.string.choose_color))
+                .initialColor(Color.WHITE)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener {
+                    //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
+                }
+                .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
+                    GlobalMethod.temColor = selectedColor
+                    if (iconLink != null) {
+                        Glide.with(this@EditUserInfoActivity)
+                            .load(iconLink)
+                            .apply(GlobalMethod.getRequestOptions(true, !GlobalMethod.isActive))
+                            .into(viewBinding.iconView)
+                    }
+                }
+                .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
+                .build()
+                .show()
+        }
         viewBinding.userNameView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -234,8 +264,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                 getString(R.string.edit_function) -> {
                     val userName = viewBinding.userNameView.text.toString()
                     val introduce = viewBinding.signatureView.text.toString()
-                    val genderPosition = viewBinding.updateSpinner.selectedItemPosition
-                    val genderValue = item[genderPosition]
+                    val genderValue = viewBinding.sexView.text.toString()
                     val boy = getString(R.string.boy)
                     if (!checkUserName(userName)) {
                         return@setOnClickListener
@@ -248,13 +277,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     } else {
                         -1
                     }
-                    viewBinding.button.text = getString(R.string.request_data)
-                    viewBinding.button.setBackgroundColor(
-                        GlobalMethod.getThemeColor(
-                            this,
-                            R.attr.colorPrimaryVariant
-                        )
-                    )
+                    viewBinding.button.hide()
                     val token =
                         AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
                     User.updateSpaceInfo(
@@ -269,22 +292,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                                         Thread {
                                             Glide.get(this@EditUserInfoActivity).clearDiskCache()
                                             runOnUiThread {
-                                                viewBinding.button.text =
-                                                    getString(R.string.edit_function)
-                                                viewBinding.button.setBackgroundColor(
-                                                    GlobalMethod.getColorPrimary(
-                                                        this@EditUserInfoActivity
-                                                    )
-                                                )
                                                 Glide.get(this@EditUserInfoActivity).clearMemory()
-//                                                MaterialDialog(this@EditUserInfoActivity).show {
-//                                                    title(R.string.edit_function).message(R.string.restart_to_take_effect)
-//                                                        .cancelable(false)
-//                                                        .positiveButton(R.string.dialog_ok)
-//                                                        .positiveButton {
-//                                                            finish()
-//                                                        }
-//                                                }
                                                 finish()
                                             }
                                         }.start()
@@ -292,12 +300,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                                         finish()
                                     }
                                 } else {
-                                    viewBinding.button.text = getString(R.string.edit_function)
-                                    viewBinding.button.setBackgroundColor(
-                                        GlobalMethod.getColorPrimary(
-                                            this@EditUserInfoActivity
-                                        )
-                                    )
+                                    viewBinding.button.show()
                                     val data = t.data
                                     if (data != null && ServerConfiguration.isEvent(data)) {
                                         when (data) {
@@ -320,12 +323,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                             }
 
                             override fun onFailure(e: Exception) {
-                                viewBinding.button.text = getString(R.string.edit_function)
-                                viewBinding.button.setBackgroundColor(
-                                    GlobalMethod.getColorPrimary(
-                                        this@EditUserInfoActivity
-                                    )
-                                )
+                                viewBinding.button.show()
                                 showInternetError(viewBinding.button, e)
                             }
 
@@ -400,7 +398,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         val temLink = ServerConfiguration.getRealLink(link)
         iconLink = temLink
         Glide.with(this@EditUserInfoActivity)
-            .load(temLink).apply(GlobalMethod.getRequestOptions(true))
+            .load(temLink).apply(GlobalMethod.getRequestOptions(true, !GlobalMethod.isActive))
             .into(viewBinding.iconView)
     }
 
@@ -414,7 +412,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         val temLink = ServerConfiguration.getRealLink(link)
         coverLink = temLink
         Glide.with(this@EditUserInfoActivity)
-            .load(temLink).apply(GlobalMethod.getRequestOptions())
+            .load(temLink).apply(GlobalMethod.getRequestOptions(grayscale = !GlobalMethod.isActive))
             .into(viewBinding.coverView)
     }
 
