@@ -12,8 +12,10 @@ import android.view.View
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.FileItemBinding
+import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.zhanghai.android.fastscroll.PopupTextProvider
@@ -41,6 +43,8 @@ class FileAdapter(private val context: Context, dataList: MutableList<File?>) :
     var isCopyFile = false
         private set
 
+
+    private var sortType: FileManagerViewModel.SortType = FileManagerViewModel.SortType.BY_NAME
 
     /**
      * 清除选中目录
@@ -76,10 +80,50 @@ class FileAdapter(private val context: Context, dataList: MutableList<File?>) :
 //        }
 //    }
 
+    /**
+     * 设置排序方式
+     * @param sortType SortType
+     */
+    fun setSort(sortType: FileManagerViewModel.SortType) {
+        this.sortType = sortType
+    }
+
     override fun setNewDataList(dataList: MutableList<File?>) {
-        dataList.sortBy {
-            val name = it?.name ?: "#"
-            getInitial(name)
+        when (sortType) {
+            FileManagerViewModel.SortType.BY_NAME -> {
+                dataList.sortBy {
+                    val name = it?.name ?: "#"
+                    getInitial(name)
+                }
+            }
+            FileManagerViewModel.SortType.BY_SIZE -> {
+                dataList.sortBy {
+                    val size = it?.length() ?: 0.toLong()
+                    size
+                }
+            }
+            FileManagerViewModel.SortType.BY_TYPE -> {
+                dataList.sortBy {
+                    val type = if (it != null) {
+                        FileOperator.getFileType(it)
+                    } else {
+                        "#"
+                    }
+                    type
+                }
+            }
+            FileManagerViewModel.SortType.BY_LAST_MODIFIED -> {
+                dataList.sortBy {
+                    val lastModified = it?.lastModified() ?: 0.toLong()
+                    lastModified
+                }
+            }
+            else -> {
+                dataList.sortBy {
+                    val name = it?.name ?: "#"
+                    getInitial(name)
+                }
+            }
         }
         super.setNewDataList(dataList)
     }
@@ -161,7 +205,32 @@ class FileAdapter(private val context: Context, dataList: MutableList<File?>) :
 
     override fun getPopupText(position: Int): String {
         val file = dataList[position]
-        val name = file?.name ?: "#"
-        return getInitial(name).toString()
+        val data = when (sortType) {
+            FileManagerViewModel.SortType.BY_NAME -> {
+                val name = file?.name ?: "#"
+                getInitial(name)
+            }
+            FileManagerViewModel.SortType.BY_SIZE -> {
+                val size = file?.length() ?: 0.toLong()
+                size
+            }
+            FileManagerViewModel.SortType.BY_TYPE -> {
+                val type = if (file != null) {
+                    FileOperator.getFileType(file)
+                } else {
+                    "#"
+                }
+                type
+            }
+            FileManagerViewModel.SortType.BY_LAST_MODIFIED -> {
+                val lastModified = file?.lastModified() ?: 0.toLong()
+                ServerConfiguration.toStringTime(lastModified)
+            }
+            else -> {
+                val name = file?.name ?: "#"
+                getInitial(name)
+            }
+        }.toString()
+        return data
     }
 }

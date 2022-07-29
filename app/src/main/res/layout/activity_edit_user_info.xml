@@ -139,26 +139,26 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/profile_picture_box_color" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:text="@string/profile_picture_box_color" />-->
 
-                <Button
-                    android:id="@+id/changeColorButton"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/choose_color" />
+<!--                <Button-->
+<!--                    android:id="@+id/changeColorButton"-->
+<!--                    style="@style/Widget.Material3.Button.OutlinedButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:text="@string/choose_color" />-->
 
-            </RelativeLayout>
+<!--            </RelativeLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -75,6 +75,9 @@ object ServerConfiguration {
             (-2).toLong() -> {
                 ForeverTime
             }
+            (0).toLong() -> {
+                "#"
+            }
             else -> {
                 val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 formatter.format(longTime)

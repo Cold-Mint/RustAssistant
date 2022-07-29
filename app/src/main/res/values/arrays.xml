@@ -2,7 +2,7 @@
     <!-- 语言条目 -->
     <string-array name="language_entries">
         <item>简体中文</item>
-<!--        <item>繁體中文</item>-->
+        <!--        <item>繁體中文</item>-->
         <item>English</item>
         <item>日本語</item>
         <item>Россия</item>
@@ -10,10 +10,23 @@
 
     <string-array name="language_values">
         <item>zh</item>
-<!--        <item>zh_TW</item>-->
+        <!--        <item>zh_TW</item>-->
         <item>en</item>
         <item>ja</item>
         <item>ru</item>
+    </string-array>
+
+    <string-array name="file_sort_entries">
+        <item>@string/file_list_action_sort_by_name</item>
+        <item>@string/file_list_action_sort_by_type</item>
+        <item>@string/file_list_action_sort_by_size</item>
+        <item>@string/file_list_action_sort_by_last_modified</item>
+    </string-array>
+    <string-array name="file_sort_values">
+        <item>@string/setting_file_list_action_sort_by_name</item>
+        <item>@string/setting_file_list_action_sort_by_type</item>
+        <item>@string/setting_file_list_action_sort_by_size</item>
+        <item>@string/setting_file_list_action_sort_by_last_modified</item>
     </string-array>
 
     <string-array name="update_type_entries">
@@ -26,7 +39,7 @@
         <item>@string/text_head_additional</item>
         <item>@string/text_tail_additional</item>
     </string-array>
-    
+
     <string-array name="pay_type_entries">
         <item>@string/wechat_pay</item>
         <item>@string/alipay</item>

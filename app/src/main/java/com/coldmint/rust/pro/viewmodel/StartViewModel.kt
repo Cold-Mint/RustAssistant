@@ -241,6 +241,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         appSettings.initSetting(AppSettings.Setting.AutoSave, true)
         appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
         appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
+        appSettings.initSetting(AppSettings.Setting.FileSortType,context.getString(R.string.setting_file_list_action_sort_by_name))
         //如果启用动态颜色
         appSettings.initSetting(
             AppSettings.Setting.DynamicColor,

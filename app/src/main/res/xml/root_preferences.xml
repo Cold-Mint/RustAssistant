@@ -5,7 +5,7 @@
     <PreferenceCategory app:title="@string/messages_header">
 
         <rikka.preference.SimpleMenuPreference
-            app:defaultValue="简体中文"
+            app:defaultValue="zh"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="@string/setting_app_language"
@@ -43,6 +43,15 @@
             app:defaultValue="true"
             app:key="@string/setting_use_the_community_as_the_launch_page"
             app:summary="@string/use_the_community_as_the_launch_page_tip" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/file_manager">
+        <rikka.preference.SimpleMenuPreference
+            app:entries="@array/file_sort_entries"
+            app:entryValues="@array/file_sort_values"
+            app:key="@string/setting_file_sort_type"
+            app:title="@string/file_sort_type"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/data_transfer">

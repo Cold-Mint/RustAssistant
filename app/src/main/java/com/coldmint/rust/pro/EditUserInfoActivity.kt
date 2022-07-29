@@ -111,29 +111,29 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
     }
 
     private fun initAction() {
-        viewBinding.changeColorButton.setOnClickListener {
-            ColorPickerDialogBuilder
-                .with(this)
-                .setTitle(getString(R.string.choose_color))
-                .initialColor(Color.WHITE)
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(12)
-                .setOnColorSelectedListener {
-                    //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-                }
-                .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
-                    GlobalMethod.temColor = selectedColor
-                    if (iconLink != null) {
-                        Glide.with(this@EditUserInfoActivity)
-                            .load(iconLink)
-                            .apply(GlobalMethod.getRequestOptions(true, !GlobalMethod.isActive))
-                            .into(viewBinding.iconView)
-                    }
-                }
-                .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
-                .build()
-                .show()
-        }
+//        viewBinding.changeColorButton.setOnClickListener {
+//            ColorPickerDialogBuilder
+//                .with(this)
+//                .setTitle(getString(R.string.choose_color))
+//                .initialColor(Color.WHITE)
+//                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+//                .density(12)
+//                .setOnColorSelectedListener {
+//                    //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
+//                }
+//                .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
+//                    GlobalMethod.temColor = selectedColor
+//                    if (iconLink != null) {
+//                        Glide.with(this@EditUserInfoActivity)
+//                            .load(iconLink)
+//                            .apply(GlobalMethod.getRequestOptions(true, !GlobalMethod.isActive))
+//                            .into(viewBinding.iconView)
+//                    }
+//                }
+//                .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
+//                .build()
+//                .show()
+//        }
         viewBinding.userNameView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

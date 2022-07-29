@@ -42,7 +42,6 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
-    var temColor = Color.RED
 
 
     /**
@@ -53,7 +52,7 @@ object GlobalMethod {
         //变换列表
         val transformations = ArrayList<BitmapTransformation>()
         if (circleCrop) {
-            transformations.add(CropCircleWithBorderTransformation(Utils.toDp(4), temColor))
+            transformations.add(CropCircleTransformation())
         }
         if (grayscale) {
             transformations.add(GrayscaleTransformation())

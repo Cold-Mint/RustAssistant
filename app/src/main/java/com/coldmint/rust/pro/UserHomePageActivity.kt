@@ -90,10 +90,10 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 //        }
 //        viewBinding.bubbleView.setDrawableList(dlist)
 //        viewBinding.bubbleView.startAnimation(5000, 5000,30)
-        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_1_3)
-        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_2_3)
-        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_3_3)
-        viewBinding.emojiRainLayout.startDropping()
+//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_1_3)
+//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_2_3)
+//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_3_3)
+//        viewBinding.emojiRainLayout.startDropping()
     }
 
 

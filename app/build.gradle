@@ -68,7 +68,7 @@ android {
 
 
 dependencies {
-    implementation 'com.luolc:emoji-rain:0.1.1'
+//    implementation 'com.luolc:emoji-rain:0.1.1'
     implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
     // 语种切换框架：https://github.com/getActivity/MultiLanguages
     implementation 'com.github.getActivity:MultiLanguages:8.0'

@@ -27,6 +27,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.databinding.ActivityFileBinding
 import com.coldmint.rust.pro.interfaces.BookmarkListener
+import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
@@ -899,6 +900,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 viewBinding.swipeRefreshLayout.isRefreshing = false
             }
             viewModel.loadFiles()
+            viewModel.loadSortType(this)
         } else {
             val bundle = intent.getBundleExtra("data")
             if (bundle == null) {
@@ -917,8 +919,13 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuBinding = MenuBinding.inflate(menu, menuInflater)
+        val value = viewModel.sortTypeLiveData.value
+        if (value != null) {
+            setSortType(value)
+        }
         return true
     }
+
 
     /**
      * 加载观察者
@@ -929,6 +936,9 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             viewBinding.swipeRefreshLayout.isVisible = !it
             viewBinding.fileError.isVisible = it
             viewBinding.progressBar.isVisible = it
+        }
+        viewModel.sortTypeLiveData.observe(this) {
+            setSortType(it)
         }
         viewModel.fileListLiveData.observe(this) {
             if (adapter == null) {
@@ -958,6 +968,34 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
     }
 
     /**
+     * 设置排序方式
+     * @param sortType SortType
+     */
+    fun setSortType(sortType: FileManagerViewModel.SortType) {
+        if (this::menuBinding.isInitialized) {
+            when (sortType) {
+                FileManagerViewModel.SortType.BY_NAME -> {
+                    menuBinding.actionSortByName.isChecked = true
+                }
+                FileManagerViewModel.SortType.BY_SIZE -> {
+                    menuBinding.actionSortBySize.isChecked = true
+                }
+                FileManagerViewModel.SortType.BY_LAST_MODIFIED -> {
+                    menuBinding.actionSortByLastModified.isChecked = true
+                }
+                FileManagerViewModel.SortType.BY_TYPE -> {
+                    menuBinding.actionSortByType.isChecked = true
+                }
+                else -> {
+                    menuBinding.actionSortByName.isChecked = true
+                }
+            }
+            adapter?.setSort(sortType)
+            viewModel.loadFiles(viewModel.getCurrentPath())
+        }
+    }
+
+    /**
      * 加载页面标题
      */
     fun loadTitle() {
@@ -980,7 +1018,10 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         val menu: Menu,
         val reloadFileItem: MenuItem,
         val photoAlbumItem: MenuItem,
-        val systemFileManagerItem: MenuItem
+        val systemFileManagerItem: MenuItem,
+        val actionSortByName: MenuItem,
+        val actionSortByType: MenuItem,
+        val actionSortBySize: MenuItem, val actionSortByLastModified: MenuItem
     ) {
         companion object {
             //填充
@@ -990,7 +1031,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                     menu,
                     menu.findItem(R.id.reloadFile),
                     menu.findItem(R.id.photo_album),
-                    menu.findItem(R.id.system_file_manager)
+                    menu.findItem(R.id.system_file_manager),
+                    menu.findItem(R.id.action_sort_by_name),
+                    menu.findItem(R.id.action_sort_by_type),
+                    menu.findItem(R.id.action_sort_by_size),
+                    menu.findItem(R.id.action_sort_by_last_modified)
                 )
             }
         }

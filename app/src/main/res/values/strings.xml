@@ -855,7 +855,13 @@
     <string name="file_list_action_sort_by_type">类型</string>
     <string name="file_list_action_sort_by_size">大小</string>
     <string name="file_list_action_sort_by_last_modified">修改时间</string>
+    <string name="setting_file_list_action_sort_by_name" translatable="false">ByName</string>
+    <string name="setting_file_list_action_sort_by_type" translatable="false">ByType</string>
+    <string name="setting_file_list_action_sort_by_size" translatable="false">BySize</string>
+    <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
+    <string name="file_sort_type">文件排序方式</string>
+    <string name="setting_file_sort_type" translatable="false">FileSortType</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
-<!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
+    <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 
 </resources>

@@ -1,11 +1,15 @@
 package com.coldmint.rust.pro.viewmodel
 
+import android.content.Context
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseViewModel
+import com.coldmint.rust.pro.tool.AppSettings
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -17,6 +21,13 @@ class FileManagerViewModel : BaseViewModel() {
      */
     enum class StartType {
         DEFAULT, SELECT_DIRECTORY, EXPORT_FILE, SELECT_FILE
+    }
+
+    /**
+     * 文件排序方式
+     */
+    enum class SortType {
+        BY_NAME, BY_SIZE, BY_TYPE, BY_LAST_MODIFIED
     }
 
     private var directs = Environment.getExternalStorageDirectory().absolutePath
@@ -31,6 +42,41 @@ class FileManagerViewModel : BaseViewModel() {
         MutableLiveData(rootPath)
     }
 
+    /**
+     * 文件排序方式
+     */
+    val sortTypeLiveData: MutableLiveData<SortType> by lazy {
+        MutableLiveData(SortType.BY_NAME)
+    }
+
+    /**
+     * 从设置中读取排序方式
+     */
+    fun loadSortType(context: Context) {
+        val appSettings = AppSettings.getInstance(context)
+        //从设置中读取排序方式
+        val sortType = appSettings.getValue(
+            AppSettings.Setting.FileSortType,
+            context.getString(R.string.setting_file_list_action_sort_by_name)
+        )
+        when (sortType) {
+            context.getString(R.string.setting_file_list_action_sort_by_name) -> {
+                sortTypeLiveData.value = SortType.BY_NAME
+            }
+            context.getString(R.string.setting_file_list_action_sort_by_last_modified) -> {
+                sortTypeLiveData.value = SortType.BY_LAST_MODIFIED
+            }
+            context.getString(R.string.setting_file_list_action_sort_by_size) -> {
+                sortTypeLiveData.value = SortType.BY_SIZE
+            }
+            context.getString(R.string.setting_file_list_action_sort_by_type) -> {
+                sortTypeLiveData.value = SortType.BY_TYPE
+            }
+            else -> {
+                sortTypeLiveData.value = SortType.BY_NAME
+            }
+        }
+    }
 
     /**
      * 获取当前打开的目录
@@ -39,6 +85,7 @@ class FileManagerViewModel : BaseViewModel() {
     fun getCurrentPath(): String {
         return currentPathLiveData.value ?: rootPath
     }
+
 
     /**
      * 加载状态
