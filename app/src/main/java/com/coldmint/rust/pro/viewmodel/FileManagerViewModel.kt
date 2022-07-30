@@ -79,6 +79,35 @@ class FileManagerViewModel : BaseViewModel() {
     }
 
     /**
+     * 保存排序值到设置
+     * @param context Context
+     * @return Boolean
+     */
+    fun saveSortType(context: Context):Boolean {
+        val appSettings = AppSettings.getInstance(context)
+        val value =
+            sortTypeLiveData.value ?: SortType.BY_NAME
+        val text = when (value) {
+            SortType.BY_NAME -> {
+                context.getString(R.string.setting_file_list_action_sort_by_name)
+            }
+            SortType.BY_LAST_MODIFIED -> {
+                context.getString(R.string.setting_file_list_action_sort_by_last_modified)
+            }
+            SortType.BY_SIZE -> {
+                context.getString(R.string.setting_file_list_action_sort_by_size)
+            }
+            SortType.BY_TYPE -> {
+                context.getString(R.string.setting_file_list_action_sort_by_type)
+            }
+            else -> {
+                context.getString(R.string.setting_file_list_action_sort_by_name)
+            }
+        }
+       return appSettings.setValue(AppSettings.Setting.FileSortType,text)
+    }
+
+    /**
      * 获取当前打开的目录
      * @return String
      */

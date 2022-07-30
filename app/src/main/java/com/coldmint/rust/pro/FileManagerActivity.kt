@@ -923,6 +923,22 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         if (value != null) {
             setSortType(value)
         }
+        menuBinding.actionSortByType.setOnMenuItemClickListener {
+            viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_TYPE
+            true
+        }
+        menuBinding.actionSortByName.setOnMenuItemClickListener {
+            viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_NAME
+            true
+        }
+        menuBinding.actionSortBySize.setOnMenuItemClickListener {
+            viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_SIZE
+            true
+        }
+        menuBinding.actionSortByLastModified.setOnMenuItemClickListener {
+            viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_LAST_MODIFIED
+            true
+        }
         return true
     }
 
@@ -992,6 +1008,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             }
             adapter?.setSort(sortType)
             viewModel.loadFiles(viewModel.getCurrentPath())
+            viewModel.saveSortType(this)
         }
     }
 
