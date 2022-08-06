@@ -968,7 +968,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                             if (file.isDirectory) {
                                 viewModel.currentPathLiveData.value = file.absolutePath
                             } else {
-
+                                fileItemBinding.more.setOnClickListener {
+                                    val popupMenu = PopupMenu(this, fileItemBinding.more)
+                                    popupMenu.inflate(R.menu.menu_files)
+                                    popupMenu.show()
+                                }
                             }
                         }
                     }

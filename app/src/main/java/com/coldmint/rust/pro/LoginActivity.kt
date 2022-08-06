@@ -42,7 +42,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private fun initAction() {
         immersionBar {
             transparentStatusBar().statusBarDarkFont(true)
-                .navigationBarColor(R.color.white_200).navigationBarDarkIcon(true)
+                .transparentNavigationBar().navigationBarDarkIcon(true)
         }
         Log.d("应用识别码", appSettings.getValue(AppSettings.Setting.AppID, "无"))
 

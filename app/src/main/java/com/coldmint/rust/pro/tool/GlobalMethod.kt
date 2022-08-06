@@ -43,6 +43,42 @@ object GlobalMethod {
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
 
+    /**
+     * 获取主题色
+     *
+     * @param context 上下文环境
+     * @param resId   资源id
+     * @return 成功返回值，失败返回-1
+     */
+    fun getThemeColor(context: Context, resId: Int): Int {
+        val typedValue = TypedValue()
+        return if (context.theme.resolveAttribute(resId, typedValue, true)) {
+            typedValue.data
+        } else {
+            -1
+        }
+    }
+
+    /**
+     * 获取主要色
+     *
+     * @param context 上下文环境
+     * @return 整数
+     */
+    fun getColorPrimary(context: Context): Int {
+        return getThemeColor(context, R.attr.colorPrimary)
+    }
+
+    /**
+     * 获取暗色主要色
+     *
+     * @param context 上下文环境
+     * @return 整数
+     */
+    fun getDarkColorPrimary(context: Context): Int {
+        return getThemeColor(context, R.attr.colorPrimaryDark)
+    }
+
 
     /**
      * 获取Glide请求设置
@@ -154,41 +190,7 @@ object GlobalMethod {
             }
     }
 
-    /**
-     * 获取主题色
-     *
-     * @param context 上下文环境
-     * @param resId   资源id
-     * @return 成功返回值，失败返回-1
-     */
-    fun getThemeColor(context: Context, resId: Int): Int {
-        val typedValue = TypedValue()
-        return if (context.theme.resolveAttribute(resId, typedValue, true)) {
-            typedValue.data
-        } else {
-            -1
-        }
-    }
 
-    /**
-     * 获取主要色
-     *
-     * @param context 上下文环境
-     * @return 整数
-     */
-    fun getColorPrimary(context: Context): Int {
-        return getThemeColor(context, R.attr.colorPrimary)
-    }
-
-    /**
-     * 获取暗色主要色
-     *
-     * @param context 上下文环境
-     * @return 整数
-     */
-    fun getDarkColorPrimary(context: Context): Int {
-        return getThemeColor(context, R.attr.colorPrimaryDark)
-    }
 
     //设置删除线
     fun addDeleteLine(vararg textViews: TextView?) {
