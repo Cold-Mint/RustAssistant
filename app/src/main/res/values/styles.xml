@@ -7,6 +7,7 @@
         <item name="android:popupMenuStyle">@style/Widget.MaterialFiles.Material3.Preference.SimpleMenuPreference.PopupMenu</item>
     </style>
     <style name="Widget.MaterialFiles.Material3.Preference.SimpleMenuPreference.PopupMenu" parent="Widget.Preference.SimpleMenuPreference.PopupMenu">
+        <item name="android:popupBackground">@drawable/m3_popupmenu_background_overlay</item>
     </style>
 
 <!--    <style name="TextAppearance.MaterialFiles.Material3.ListItem" parent="TextAppearance.Material3.TitleMedium">-->

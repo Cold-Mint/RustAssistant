@@ -24,7 +24,7 @@ import java.util.*
  * @constructor
  */
 class SearchResultAdapter(
-    val context: Context,
+     context: Context,
     val keyWord: String,
     dataList: MutableList<SearchResultDataBean.Data.Total>
 ) :

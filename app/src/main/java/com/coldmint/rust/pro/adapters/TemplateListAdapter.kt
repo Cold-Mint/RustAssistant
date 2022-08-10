@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.io.File
 
 class TemplateListAdapter(
-    val context: Context,
+     context: Context,
      dataList: ArrayList<TemplatePackage>,
     private val language: String,
     private val rootPath: String

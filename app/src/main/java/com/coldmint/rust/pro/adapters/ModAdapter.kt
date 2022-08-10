@@ -15,7 +15,7 @@ import com.coldmint.rust.pro.databinding.ModListItemBinding
 /*模组适配器
  * 此适配器只能使用于ModFragment成员变量按需传递。
  * */
-class ModAdapter(private val context: Context, dataList: MutableList<ModClass>) :
+class ModAdapter(context: Context, dataList: MutableList<ModClass>) :
     BaseAdapter<ModListItemBinding, ModClass>(context, dataList) {
 
     init {
@@ -68,7 +68,8 @@ class ModAdapter(private val context: Context, dataList: MutableList<ModClass>) 
                     )
                 )
             } else {
-                Glide.with(context).load(data.modIcon).apply(GlobalMethod.getRequestOptions()).into(viewBinding.modIcon)
+                Glide.with(context).load(data.modIcon).apply(GlobalMethod.getRequestOptions())
+                    .into(viewBinding.modIcon)
             }
         } else {
             val drawable = context.getDrawable(R.drawable.file)

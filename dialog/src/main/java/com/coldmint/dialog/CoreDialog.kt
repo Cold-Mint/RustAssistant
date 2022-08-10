@@ -17,7 +17,6 @@ class CoreDialog(context: Context) : BaseAppDialog<CoreDialog>(context) {
         DialogCoreBinding.inflate(LayoutInflater.from(context))
     }
 
-    private var autoDismiss: Boolean = true
 
     init {
         setView(dialogCoreBinding.root)

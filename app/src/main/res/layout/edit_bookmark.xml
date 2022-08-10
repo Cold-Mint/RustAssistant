@@ -2,84 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/titleView"
+        style="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title" />
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/nameInputLayout"
+        android:layout_marginTop="24dp"
+        android:hint="@string/name">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
 
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
 
-        <TextView
-            android:id="@+id/pathView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/path" />
-
-        <EditText
-            android:id="@+id/pathEdit"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/pathInputLayout"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/button"
-            android:layout_toRightOf="@id/pathView" />
+            android:layout_toStartOf="@id/button"
+            android:hint="@string/path">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pathEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
             android:text="@string/select_directents" />
 
 
     </RelativeLayout>
 
-<!--    <RelativeLayout-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
+    <RelativeLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
 
-<!--        <TextView-->
-<!--            android:id="@+id/cancelView"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginRight="24dp"-->
-<!--            android:layout_toLeftOf="@id/saveView"-->
-<!--            android:padding="6dp"-->
-<!--            android:text="@string/dialog_cancel"-->
-<!--            android:textColor="?colorPrimary" />-->
+        <Button
+            android:id="@+id/negativeButton"
+            style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/positiveButton"
+            android:text="@string/title" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/saveView"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:layout_marginRight="24dp"-->
-<!--            android:padding="6dp"-->
-<!--            android:text="@string/edit_function"-->
-<!--            android:textColor="?colorPrimary" />-->
+        <Button
+            android:id="@+id/positiveButton"
+            style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:text="@string/title" />
 
-<!--    </RelativeLayout>-->
+    </RelativeLayout>
 
 </LinearLayout>

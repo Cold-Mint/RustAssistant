@@ -29,7 +29,7 @@ import org.w3c.dom.Text
  * @author Cold Mint
  * @date 2021/12/28 18:29
  */
-class DynamicAdapter(val context: Context, dataList: MutableList<DynamicItemDataBean.Data>) :
+class DynamicAdapter( context: Context, dataList: MutableList<DynamicItemDataBean.Data>) :
     BaseAdapter<ItemDynamicBinding, DynamicItemDataBean.Data>(context, dataList) {
 
 

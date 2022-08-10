@@ -16,6 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fileTabNav"
+            android:layout_marginHorizontal="16dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -31,11 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:orientation="vertical">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -61,9 +75,11 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:icon="@drawable/add" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

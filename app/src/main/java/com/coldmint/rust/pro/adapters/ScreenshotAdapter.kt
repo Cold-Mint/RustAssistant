@@ -16,7 +16,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2021/11/20 18:38
  */
-class ScreenshotAdapter(val context: Context,  dataList: ArrayList<String>) :
+class ScreenshotAdapter( context: Context,  dataList: ArrayList<String>) :
     BaseAdapter<ScreenshotItemBinding, String>(context, dataList) {
 
 

@@ -30,7 +30,7 @@ import java.util.ArrayList
 
 
 //模板制作适配器
-class TemplateMakerAdapter(val context: Context, dataList: MutableList<CodeData>) :
+class TemplateMakerAdapter( context: Context, dataList: MutableList<CodeData>) :
     BaseAdapter<MarkItemBinding, CodeData>(context, dataList) {
     private var tags = ArrayList<String>()
 

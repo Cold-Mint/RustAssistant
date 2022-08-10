@@ -27,7 +27,7 @@ import java.lang.StringBuilder
  * @date 2022/1/9 11:03
  */
 class ReportAdapter(
-    val context: Context,
+     context: Context,
      dataList: MutableList<ReportItemDataBean.Data>
 ) :
     BaseAdapter<ItemReportBinding, ReportItemDataBean.Data>(context, dataList) {

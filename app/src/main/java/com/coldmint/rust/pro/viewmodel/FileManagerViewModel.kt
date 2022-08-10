@@ -1,7 +1,11 @@
 package com.coldmint.rust.pro.viewmodel
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,8 +14,11 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseViewModel
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.BookmarkManager
+import com.yalantis.ucrop.util.FileUtils.getPath
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.HashMap
 
 class FileManagerViewModel : BaseViewModel() {
 
@@ -21,6 +28,31 @@ class FileManagerViewModel : BaseViewModel() {
      */
     enum class StartType {
         DEFAULT, SELECT_DIRECTORY, EXPORT_FILE, SELECT_FILE
+    }
+
+    private lateinit var bookmarkManager: BookmarkManager
+
+    /**
+     * 初始化书签管理器
+     * @param context Context
+     * @return Boolean 返回是否初始化成功
+     */
+    fun initBookmarkManager(context: Context): Boolean {
+        return if (!this::bookmarkManager.isInitialized) {
+            bookmarkManager = BookmarkManager(context)
+            bookmarkManager.load()
+        } else {
+            false
+        }
+    }
+
+
+    /**
+     * 获取书签管理器
+     * @return BookmarkManager
+     */
+    fun getBookmarkManager(): BookmarkManager {
+        return bookmarkManager
     }
 
     /**
@@ -83,7 +115,7 @@ class FileManagerViewModel : BaseViewModel() {
      * @param context Context
      * @return Boolean
      */
-    fun saveSortType(context: Context):Boolean {
+    fun saveSortType(context: Context): Boolean {
         val appSettings = AppSettings.getInstance(context)
         val value =
             sortTypeLiveData.value ?: SortType.BY_NAME
@@ -104,7 +136,7 @@ class FileManagerViewModel : BaseViewModel() {
                 context.getString(R.string.setting_file_list_action_sort_by_name)
             }
         }
-       return appSettings.setValue(AppSettings.Setting.FileSortType,text)
+        return appSettings.setValue(AppSettings.Setting.FileSortType, text)
     }
 
     /**
@@ -138,6 +170,63 @@ class FileManagerViewModel : BaseViewModel() {
      */
     fun setRootPath(path: String?) {
         rootPath = path ?: directs
+    }
+
+    /**
+     * 获取Root目录
+     * @return String
+     */
+    fun getRootPath(): String {
+        return rootPath
+    }
+
+    //    /**
+//     * 解析文件路径
+//     *
+//     * @param context 上下文环境
+//     * @param intent  意图
+//     * @return 成功返回文件路径，失败返回null
+//     */
+    fun parseFilePath(context: Context, intent: Intent?): String? {
+        return try {
+            if (intent != null) {
+                val uri = intent.data
+                var chooseFilePath: String? = null
+                if ("file".equals(uri!!.scheme, ignoreCase = true)) { //使用第三方应用打开
+                    chooseFilePath = uri.path
+                    return chooseFilePath
+                }
+                chooseFilePath = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) { //4.4以后
+                    getPath(context, uri)
+                } else { //4.4以下下系统调用方法
+                    getRealPathFromURI(context, uri)
+                }
+                return chooseFilePath
+            }
+            null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 获取uri的绝对路径
+     *
+     * @param context    上下文环境
+     * @param contentUri uri
+     * @return 文件路径
+     */
+    private fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
+        if (null != cursor && cursor.moveToFirst()) {
+            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+            cursor.close()
+        }
+        return res
     }
 
     /**

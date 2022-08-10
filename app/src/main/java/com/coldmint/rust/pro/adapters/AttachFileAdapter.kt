@@ -15,7 +15,7 @@ import com.coldmint.rust.pro.databinding.AttachFileItemBinding
 import java.io.File
 import java.util.ArrayList
 
-class AttachFileAdapter(val context: Context, dataList: MutableList<File>) :
+class AttachFileAdapter( context: Context, dataList: MutableList<File>) :
     BaseAdapter<AttachFileItemBinding, File>(context, dataList) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,

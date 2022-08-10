@@ -17,7 +17,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2021/12/23 22:44
  */
-class UserAdapter(val context: Context, dataList: MutableList<FollowUserListData.Data>) :
+class UserAdapter( context: Context, dataList: MutableList<FollowUserListData.Data>) :
     BaseAdapter<ItemUserBinding, FollowUserListData.Data>(context, dataList) {
     val defaultIntroduced = context.getString(R.string.defaultIntroduced)
     override fun getViewBindingObject(

@@ -18,7 +18,7 @@ import com.coldmint.rust.pro.tool.TextStyleMaker
  * @author Cold Mint
  * @date 2021/12/12 20:50
  */
-class CommentAdapter(val context: Context,  dataList: MutableList<WebModCommentData.Data>) :
+class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.Data>) :
     BaseAdapter<ItemCommentBinding, WebModCommentData.Data>(context, dataList) {
 
     override fun getViewBindingObject(
@@ -37,7 +37,8 @@ class CommentAdapter(val context: Context,  dataList: MutableList<WebModCommentD
     ) {
         val icon = data.headIcon
         if (icon != null) {
-            Glide.with(context).load(ServerConfiguration.getRealLink(icon)).apply(GlobalMethod.getRequestOptions(true))
+            Glide.with(context).load(ServerConfiguration.getRealLink(icon))
+                .apply(GlobalMethod.getRequestOptions(true))
                 .into(viewBinding.iconView)
         }
         viewBinding.nameView.text = data.userName

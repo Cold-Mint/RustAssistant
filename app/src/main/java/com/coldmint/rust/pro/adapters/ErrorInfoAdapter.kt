@@ -12,7 +12,7 @@ import com.coldmint.rust.pro.databean.ErrorInfo
 import com.coldmint.rust.pro.databinding.ItemErrorInfoBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
 
-class ErrorInfoAdapter(val context: Context, dataList: ArrayList<ErrorInfo>) :
+class ErrorInfoAdapter( context: Context, dataList: ArrayList<ErrorInfo>) :
     BaseAdapter<ItemErrorInfoBinding, ErrorInfo>(context, dataList) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,

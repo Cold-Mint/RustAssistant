@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.Exception
 
 class UnitAdapter(
-    private val context: Context,
+      context: Context,
     dataList: MutableList<SourceFile>,
     val key: String
 ) : BaseAdapter<UnitItemBinding, SourceFile>(context, dataList) {

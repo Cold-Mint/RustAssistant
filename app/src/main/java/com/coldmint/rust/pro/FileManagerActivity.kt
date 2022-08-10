@@ -23,13 +23,20 @@ import com.afollestad.materialdialogs.actions.setActionButtonEnabled
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.adapters.FileAdapter
+import com.coldmint.rust.pro.adapters.FileTabAdapter
+import com.coldmint.rust.pro.databean.FileTab
 import com.coldmint.rust.pro.databinding.ActivityFileBinding
 import com.coldmint.rust.pro.interfaces.BookmarkListener
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
+import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.SnackbarContentLayout
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 import java.lang.Exception
@@ -42,15 +49,13 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //    private var mRoot = directs
 //    var filePath = ""
 //
-//    //哈希表映射(名称，路径)
-//    val bookmarkMap = HashMap<String, String>()
-//    val executorService = Executors.newSingleThreadExecutor()
+
+    //    val executorService = Executors.newSingleThreadExecutor()
 //
 //    //type可为默认default，选择文件夹selectDirectents，选择文件selectFile
 //    var mStartType: String? = "default"
 //    private var mFileAdapter: FileAdapter? = null
 //    private var mProcessFiles = false
-//    private val bookmarkManager: BookmarkManager by lazy { BookmarkManager(this) }
 //    private var additionalData: String? = null
 //    private fun initView() {
 //        title = getString(R.string.file_manager)
@@ -409,40 +414,22 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //    }
 //
 //
-//    /**
-//     * 添加书签菜单
-//     */
-//    fun addJumpBookMenu(menu: Menu) {
-//        val bookmarkContent: SubMenu? = if (bookmarkManager.size > 0) {
-//            menu.addSubMenu(R.string.jump_a_bookmark)
-//        } else {
-//            null
-//        }
-//        bookmarkMap.clear()
-//        bookmarkManager.fromList(object : BookmarkListener {
-//            override fun find(path: String, name: String) {
-//                bookmarkMap[name] = path
-//                bookmarkContent!!.add(name)
-//            }
-//
-//        })
-//    }
-//
-//    /**
+
+    //    /**
 //     * 点击书签项目
 //     */
 //    fun loadBook(menuTitle: CharSequence) {
 //        if (bookmarkMap.containsKey(menuTitle)) {
 //            val path = bookmarkMap[menuTitle]
 //            if (path != null) {
-//                val rootPath = mRoot.absolutePath
+//                val rootPath = viewModel.getRootPath()
 //                if (path.startsWith(rootPath)) {
 //                    val newFile = File(path)
 //                    if (newFile.exists()) {
 //                        if (newFile.isDirectory) {
-//                            loadFiles(newFile)
+//                            viewModel.loadFiles(newFile.absolutePath)
 //                        } else {
-//                            tryOpenFile(newFile)
+////                            tryOpenFile(newFile)
 //                        }
 //                    } else {
 //                        Snackbar.make(
@@ -465,71 +452,45 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //
 //
 //    override fun onPause() {
-//        bookmarkManager.save()
+//        viewModel.getBookmarkManager().save()
 //        super.onPause()
 //    }
+
+    override fun onResume() {
+        viewModel.getBookmarkManager().load()
+        loadMineBookmarksMenu()
+        super.onResume()
+    }
 //
-//    override fun onResume() {
-//        bookmarkManager.load()
-//        super.onResume()
-//    }
 //
-//
-//    /**
-//     * 解析文件路径
-//     *
-//     * @param context 上下文环境
-//     * @param intent  意图
-//     * @return 成功返回文件路径，失败返回null
-//     */
-//    private fun parseFilePath(context: Context, intent: Intent?): String? {
-//        return try {
-//            if (intent != null) {
-//                val uri = intent.data
-//                var chooseFilePath: String? = null
-//                if ("file".equals(uri!!.scheme, ignoreCase = true)) { //使用第三方应用打开
-//                    chooseFilePath = uri.path
-//                    Toast.makeText(context, chooseFilePath, Toast.LENGTH_SHORT).show()
-//                    return chooseFilePath
-//                }
-//                chooseFilePath = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) { //4.4以后
-//                    getPath(context, uri)
-//                } else { //4.4以下下系统调用方法
-//                    getRealPathFromURI(context, uri)
-//                }
-//                return chooseFilePath
-//            }
-//            null
-//        } catch (e: Exception) {
-//            Snackbar.make(viewBinding.fab, R.string.parse_file_exception, Snackbar.LENGTH_SHORT)
-//                .show()
-//            null
-//        }
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK) {
-//            if (mStartType == "selectFile" && requestCode == 1) {
-//                val path = FileOperator.parsePicturePath(this@FileManagerActivity, data)
-//                if (path != null) {
-//                    val intent = Intent()
-//                    intent.putExtra("File", path)
-//                    setResult(RESULT_OK, intent)
+
+    //
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (viewModel.startTypeData == FileManagerViewModel.StartType.SELECT_FILE && requestCode == 1) {
+                val path = FileOperator.parsePicturePath(this@FileManagerActivity, data)
+                if (path != null) {
+                    val intent = Intent()
+                    intent.putExtra("File", path)
+                    setResult(RESULT_OK, intent)
 //                    bookmarkManager.save()
-//                    finish()
-//                }
-//            } else if (mStartType == "selectFile" && requestCode == 2) {
-//                val path = parseFilePath(this@FileManagerActivity, data)
-//                if (path != null) {
-//                    val intent = Intent()
-//                    intent.putExtra("File", path)
-//                    setResult(RESULT_OK, intent)
+                    finish()
+                }
+            } else if (viewModel.startTypeData == FileManagerViewModel.StartType.SELECT_FILE && requestCode == 2) {
+                val path = viewModel.parseFilePath(this@FileManagerActivity, data)
+                if (path != null) {
+                    val intent = Intent()
+                    intent.putExtra("File", path)
+                    setResult(RESULT_OK, intent)
 //                    bookmarkManager.save()
-//                    finish()
-//                }
-//            } else if (requestCode == 3) {
-//                //新建源文件
+                    finish()
+                }
+            } else {
+                Toast.makeText(this, "未设置的操作", Toast.LENGTH_SHORT).show()
+            }
+            //            else if (requestCode == 3) {
+            //新建源文件
 //                loadFiles(directs)
 //            } else if (requestCode == 4) {
 //                val file = File(data!!.getStringExtra("File"))
@@ -545,59 +506,61 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                    loadFiles(directs)
 //                }
 //            }
-//        }
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val id = item.itemId
-//        when (id) {
-//            android.R.id.home -> {
+        }
+    }
+
+    //
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
 //                bookmarkManager.save()
-//                finish()
-//                return true
-//            }
-//            R.id.reloadFile -> {
-//                loadFiles(directs)
-//                return true
-//            }
-//            R.id.photo_album -> {
-//                this@FileManagerActivity.startActivityForResult(
-//                    Intent(
-//                        Intent.ACTION_PICK,
-//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                    ), 1
-//                )
-//                return true
-//            }
-//            R.id.system_file_manager -> {
-//                val intent = Intent(Intent.ACTION_GET_CONTENT)
-//                intent.type = "*/*"
-//                intent.addCategory(Intent.CATEGORY_OPENABLE)
-//                this@FileManagerActivity.startActivityForResult(intent, 2)
-//                return true
-//            }
-//            R.id.creteFolder -> {
+                finish()
+                return true
+            }
+            R.id.reloadFile -> {
+                viewModel.loadFiles(viewModel.getCurrentPath())
+                return true
+            }
+            R.id.photo_album -> {
+                this@FileManagerActivity.startActivityForResult(
+                    Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    ), 1
+                )
+                return true
+            }
+            R.id.system_file_manager -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.type = "*/*"
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                this@FileManagerActivity.startActivityForResult(intent, 2)
+                return true
+            }
+            R.id.creteFolder -> {
 //                createFolderAction()
-//                return true
-//            }
-//        }
+                return true
+            }
+        }
 //        loadBook(item.title)
-//        return super.onOptionsItemSelected(item)
-//    }
-//
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-//        return if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-//            if (directs.absolutePath == mRoot.absolutePath) {
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+            if (viewModel.getCurrentPath() == viewModel.getRootPath()) {
 //                bookmarkManager.save()
-//                finish()
-//                true
-//            } else {
-//                returnDirects()
-//                false
-//            }
-//        } else super.onKeyDown(keyCode, event)
-//    }
-//
+                finish()
+                true
+            } else {
+                viewModel.returnDirects()
+                false
+            }
+        } else super.onKeyDown(keyCode, event)
+    }
+
+    //
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //        val inflater = menuInflater
 //        inflater.inflate(R.menu.menu_files, menu)
@@ -615,10 +578,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //        loadFiles(file)
 //    }
 //
-//    fun initAction() {
-//        viewBinding.fab.setOnClickListener {
-//            val intent = Intent()
-//            when (mStartType) {
+    fun initAction() {
+        viewBinding.fab.setOnClickListener {
+            val intent = Intent()
+            val startType = viewModel.startTypeData
+            when (startType) {
 //                "exportFile" -> {
 //                    val oldFile = File(additionalData)
 //                    val result = FileOperator.copyFile(
@@ -642,8 +606,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                    bookmarkManager.save()
 //                    finish()
 //                }
-//                "default" -> {
-//                    val popupMenu = PopupMenu(this@FileManagerActivity, viewBinding.fab)
+                FileManagerViewModel.StartType.SELECT_FILE -> {
+
+                }
+                FileManagerViewModel.StartType.DEFAULT -> {
+                    val popupMenu = PopupMenu(this@FileManagerActivity, viewBinding.fab)
 //                    if (mFileAdapter != null) {
 //                        val selectPath = mFileAdapter!!.selectPath
 //                        if (selectPath != null && mProcessFiles == false) {
@@ -654,37 +621,37 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                            }
 //                        }
 //                    }
-//                    popupMenu.menu.add(R.string.create_unit)
-//                    popupMenu.menu.add(R.string.create_folder)
-//                    popupMenu.menu.add(R.string.select_file)
-//                    popupMenu.setOnMenuItemClickListener { item ->
-//                        val title = item.title
+                    popupMenu.menu.add(R.string.create_unit)
+                    popupMenu.menu.add(R.string.create_folder)
+                    popupMenu.menu.add(R.string.select_file)
+                    popupMenu.setOnMenuItemClickListener { item ->
+                        val title = item.title
 //                        val handler = Handler(Looper.getMainLooper())
-//                        when (title) {
-//                            getText(R.string.create_unit) -> {
-//                                val intent =
-//                                    Intent(this@FileManagerActivity, CreateUnitActivity::class.java)
-//                                val bundle = Bundle()
-//                                bundle.putString("modPath", directs.absolutePath)
-//                                bundle.putString("createPath", directs.absolutePath)
-//                                intent.putExtra("data", bundle)
-//                                startActivityForResult(intent, 3)
-//                            }
-//                            getText(R.string.select_file) -> {
-//                                val bundle = Bundle()
-//                                val intent =
-//                                    Intent(
-//                                        this@FileManagerActivity,
-//                                        FileManagerActivity::class.java
-//                                    )
-//                                bundle.putString("type", "selectFile")
-//                                //bundle.putString("path", modClass.getModFile().getAbsolutePath());
-//                                intent.putExtra("data", bundle)
-//                                startActivityForResult(intent, 4)
-//                            }
-//                            getText(R.string.create_folder) -> {
-//                                createFolderAction()
-//                            }
+                        when (title) {
+                            getText(R.string.create_unit) -> {
+                                val intent =
+                                    Intent(this@FileManagerActivity, CreateUnitActivity::class.java)
+                                val bundle = Bundle()
+                                bundle.putString("modPath", viewModel.getCurrentPath())
+                                bundle.putString("createPath", viewModel.getCurrentPath())
+                                intent.putExtra("data", bundle)
+                                startActivityForResult(intent, 3)
+                            }
+                            getText(R.string.select_file) -> {
+                                val bundle = Bundle()
+                                val intent =
+                                    Intent(
+                                        this@FileManagerActivity,
+                                        FileManagerActivity::class.java
+                                    )
+                                bundle.putString("type", "selectFile")
+                                //bundle.putString("path", modClass.getModFile().getAbsolutePath());
+                                intent.putExtra("data", bundle)
+                                startActivityForResult(intent, 4)
+                            }
+                            getText(R.string.create_folder) -> {
+                                createFolderAction()
+                            }
 //                            getText(R.string.copy_to_this) -> {
 //                                Thread {
 //                                    mProcessFiles = true
@@ -731,14 +698,17 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                                    }
 //                                }.start()
 //                            }
-//                        }
-//                        false
-//                    }
-//                    popupMenu.show()
-//                }
-//            }
-//        }
-//    }
+                        }
+                        false
+                    }
+                    popupMenu.show()
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
 //
 //    /**
 //     * 创建文件夹活动
@@ -771,25 +741,8 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //    }
 //
 //
-//    /**
-//     * 获取uri的绝对路径
-//     *
-//     * @param context    上下文环境
-//     * @param contentUri uri
-//     * @return 文件路径
-//     */
-//    private fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
-//        var res: String? = null
-//        val proj = arrayOf(MediaStore.Images.Media.DATA)
-//        val cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
-//        if (null != cursor && cursor.moveToFirst()) {
-//            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//            res = cursor.getString(column_index)
-//            cursor.close()
-//        }
-//        return res
-//    }
-//
+
+    //
 //    private fun getPath(context: Context, uri: Uri?): String? {
 //        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 //
@@ -885,20 +838,50 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         ViewModelProvider(this).get(FileManagerViewModel::class.java)
     }
 
+
+    /**
+     * 创建文件夹活动
+     */
+    fun createFolderAction() {
+        InputDialog(this).setTitle(R.string.create_folder).setHint(R.string.file_name)
+            .setCancelable(false).setInputCanBeEmpty(false).setMaxNumber(255)
+            .setErrorTip { s, textInputLayout ->
+                val newFolder = File(viewModel.getCurrentPath() + "/" + s)
+                if (newFolder.exists()) {
+                    textInputLayout.error = getString(R.string.folder_error)
+                } else {
+                    textInputLayout.isErrorEnabled = false
+                }
+            }.setPositiveButton(R.string.dialog_ok) { i ->
+                val newFolder = File(viewModel.getCurrentPath() + "/" + i)
+                val res = newFolder.mkdirs()
+                adapter?.addItem(newFolder)
+                res
+            }.setNegativeButton(R.string.dialog_cancel) {
+
+            }.show()
+    }
+
+
     private var adapter: FileAdapter? = null
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             setReturnButton()
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this@FileManagerActivity)
+            val linearLayoutManager = LinearLayoutManager(this)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            viewBinding.fileTabNav.layoutManager = linearLayoutManager
             loadTitle()
             loadObserve()
+            initAction()
             FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
                 .setPopupTextProvider(adapter).build()
             viewBinding.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.loadFiles(viewModel.getCurrentPath())
                 viewBinding.swipeRefreshLayout.isRefreshing = false
             }
+            viewModel.initBookmarkManager(this)
             viewModel.loadFiles()
             viewModel.loadSortType(this)
         } else {
@@ -911,6 +894,17 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             if (bundle.containsKey("path")) {
                 viewModel.currentPathLiveData.value = bundle.getString("path")
             }
+            if (bundle.containsKey("type")) {
+                val type = bundle.getString("type")
+                viewModel.startTypeData = when (type) {
+                    "selectDirectents" -> {
+                        FileManagerViewModel.StartType.SELECT_DIRECTORY
+                    }
+                    else -> {
+                        FileManagerViewModel.StartType.DEFAULT
+                    }
+                }
+            }
             if (bundle.containsKey("rootpath")) {
                 viewModel.setRootPath(bundle.getString("rootpath"))
             }
@@ -922,6 +916,9 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         val value = viewModel.sortTypeLiveData.value
         if (value != null) {
             setSortType(value)
+        }
+        if (viewModel.startTypeData != FileManagerViewModel.StartType.SELECT_FILE) {
+            menu.removeItem(R.id.selectFile)
         }
         menuBinding.actionSortByType.setOnMenuItemClickListener {
             viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_TYPE
@@ -939,7 +936,32 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             viewModel.sortTypeLiveData.value = FileManagerViewModel.SortType.BY_LAST_MODIFIED
             true
         }
+        loadMineBookmarksMenu()
+        menuBinding.bookmarkManagerItem.setOnMenuItemClickListener {
+            val intent = Intent(this, BookmarkManagerActivity::class.java)
+            startActivity(intent)
+            true
+        }
         return true
+    }
+
+
+    /**
+     * 加载我的书签列表
+     */
+    fun loadMineBookmarksMenu() {
+        if (this::menuBinding.isInitialized) {
+            menuBinding.mineBookmarksMenu.subMenu.clear()
+            viewModel.getBookmarkManager().fromList(object : BookmarkListener {
+                override fun find(path: String, name: String) {
+                    val item = menuBinding.mineBookmarksMenu.subMenu.add(name)
+                    item.setOnMenuItemClickListener {
+                        viewModel.currentPathLiveData.value = path
+                        true
+                    }
+                }
+            })
+        }
     }
 
 
@@ -948,7 +970,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
      */
     fun loadObserve() {
         viewModel.loadStateLiveData.observe(this) {
-            viewBinding.recyclerView.isVisible = !it
+            viewBinding.fileTabNav.isVisible = !it
             viewBinding.swipeRefreshLayout.isVisible = !it
             viewBinding.fileError.isVisible = it
             viewBinding.progressBar.isVisible = it
@@ -967,13 +989,106 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                         } else {
                             if (file.isDirectory) {
                                 viewModel.currentPathLiveData.value = file.absolutePath
-                            } else {
-                                fileItemBinding.more.setOnClickListener {
-                                    val popupMenu = PopupMenu(this, fileItemBinding.more)
-                                    popupMenu.inflate(R.menu.menu_files)
-                                    popupMenu.show()
+                            }
+                        }
+                    }
+                    fileItemBinding.more.setOnClickListener {
+                        if (file == null) {
+                            return@setOnClickListener
+                        }
+                        val finalFile = file
+                        val popupMenu = PopupMenu(this, fileItemBinding.more)
+                        popupMenu.inflate(R.menu.menu_files_actions)
+                        val bookAction = popupMenu.menu.findItem(R.id.bookmarkAction)
+                        bookAction.title = if (viewModel.getBookmarkManager().contains(finalFile)) {
+                            getString(R.string.remove_bookmark)
+                        } else {
+                            getString(R.string.add_bookmark)
+                        }
+                        popupMenu.show()
+                        popupMenu.setOnMenuItemClickListener {
+                            when (it.itemId) {
+                                R.id.bookmarkAction -> {
+                                    if (viewModel.getBookmarkManager().contains(finalFile)) {
+                                        val remove =
+                                            viewModel.getBookmarkManager()
+                                                .removeBookmark(finalFile.absolutePath)
+                                        if (remove) {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                R.string.remove_bookmark_success,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                R.string.remove_bookmark_fail,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    } else {
+                                        val add =
+                                            viewModel.getBookmarkManager()
+                                                .addBookmark(finalFile.absolutePath, finalFile.name)
+                                        if (add) {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                R.string.add_bookmark_success,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                R.string.add_bookmark_fail,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                    viewModel.getBookmarkManager().save()
+                                    loadMineBookmarksMenu()
+                                }
+                                R.id.renameAction -> {
+                                    val finalFile =
+                                        adapter!!.getItemData(viewHolder.absoluteAdapterPosition)
+                                    val oldname = finalFile!!.name
+                                    InputDialog(this).setInputCanBeEmpty(false)
+                                        .setTitle(R.string.rename).setMaxNumber(255)
+                                        .setHint(R.string.file_name).setText(oldname)
+                                        .setPositiveButton(R.string.dialog_ok) { string ->
+                                            if (string.isNotEmpty() && string != oldname) {
+                                                val newFile =
+                                                    File(FileOperator.getSuperDirectory(finalFile) + "/" + string)
+                                                finalFile.renameTo(newFile)
+                                                adapter?.replaceItem(
+                                                    newFile,
+                                                    viewHolder.absoluteAdapterPosition
+                                                )
+                                            }
+                                            true
+                                        }.setNegativeButton(R.string.dialog_cancel) {
+
+                                        }.setCancelable(false).show()
+                                }
+                                R.id.deleteAction -> {
+                                    val finalFile =
+                                        adapter!!.getItemData(viewHolder.absoluteAdapterPosition)
+                                    val tip = String.format(
+                                        getString(R.string.delete_prompt),
+                                        finalFile!!.name
+                                    )
+                                    CoreDialog(this).setTitle(R.string.delete_title)
+                                        .setMessage(tip)
+                                        .setPositiveButton(R.string.delete_title) {
+                                            val delete = FileOperator.delete_files(finalFile)
+                                            if (delete) {
+                                                adapter?.removeItem(i)
+                                            }
+                                        }.setNegativeButton(R.string.dialog_cancel) {
+
+                                        }.show()
                                 }
                             }
+                            true
                         }
                     }
                 }
@@ -983,6 +1098,33 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             }
         }
         viewModel.currentPathLiveData.observe(this) {
+            val root = getString(R.string.root_path)
+            val path = root + it.substring(viewModel.getRootPath().length)
+            val lineParser = LineParser(path)
+            lineParser.symbol = "/"
+            lineParser.parserSymbol = true
+            val fileTabList = ArrayList<FileTab>()
+            val stringBuilder = StringBuilder()
+            lineParser.analyse { lineNum, lineData, isEnd ->
+                stringBuilder.append(lineData)
+                if (lineData.isNotBlank() && lineData != lineParser.symbol) {
+                    val tab = FileTab(
+                        lineData,
+                        viewModel.getRootPath() + stringBuilder.toString().substring(root.length)
+                    )
+                    fileTabList.add(tab)
+                }
+                true
+            }
+            val adapter = FileTabAdapter(this, fileTabList)
+            adapter.setItemEvent { i, itemFileTabBinding, viewHolder, fileTab ->
+                itemFileTabBinding.button.setOnClickListener {
+                    viewModel.currentPathLiveData.value = fileTab.path
+                }
+            }
+            val manager = viewBinding.fileTabNav.layoutManager as LinearLayoutManager
+            manager.scrollToPosition(fileTabList.size - 1)
+            viewBinding.fileTabNav.adapter = adapter
             viewModel.loadFiles(it)
         }
     }
@@ -1042,7 +1184,10 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         val systemFileManagerItem: MenuItem,
         val actionSortByName: MenuItem,
         val actionSortByType: MenuItem,
-        val actionSortBySize: MenuItem, val actionSortByLastModified: MenuItem
+        val actionSortBySize: MenuItem,
+        val actionSortByLastModified: MenuItem,
+        val bookmarkItem: MenuItem,
+        val bookmarkManagerItem: MenuItem, val mineBookmarksMenu: MenuItem
     ) {
         companion object {
             //填充
@@ -1056,7 +1201,10 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                     menu.findItem(R.id.action_sort_by_name),
                     menu.findItem(R.id.action_sort_by_type),
                     menu.findItem(R.id.action_sort_by_size),
-                    menu.findItem(R.id.action_sort_by_last_modified)
+                    menu.findItem(R.id.action_sort_by_last_modified),
+                    menu.findItem(R.id.action_bookmark),
+                    menu.findItem(R.id.bookmark_manager),
+                    menu.findItem(R.id.mine_bookmarks)
                 )
             }
         }

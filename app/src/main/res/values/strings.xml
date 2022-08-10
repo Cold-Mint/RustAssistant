@@ -12,6 +12,7 @@
     <string name="select_directents">选择目录</string>
     <string name="select_file">选择文件</string>
     <string name="select_file_ok">已选\"%1$s\"</string>
+    <string name="root_path">根目录</string>
     <string name="select_image">选择图像</string>
     <string name="change_image">更换图像</string>
     <string name="del_image">移除图像</string>
@@ -52,7 +53,7 @@
     <string name="dialog_unziping">正在提取%1$s...</string>
     <string name="not_find_mod">没有模组</string>
     <string name="menu_title1">模组</string>
-    <string name="file_name">文件名:</string>
+    <string name="file_name">文件名</string>
     <string name="file">文件</string>
     <string name="menu_title3">数据集</string>
     <string name="data_array">数据数组(以\"|\"分割):</string>
@@ -114,7 +115,7 @@
     <string name="mod_action1">编辑单位</string>
     <string name="mod_action2">编辑信息</string>
     <string name="mod_action8">解压</string>
-    <string name="mod_action9">重命名</string>
+    <string name="rename">重命名</string>
     <string name="mod_action10">修复信息文件</string>
     <string name="open_action1">编辑文本</string>
 
@@ -427,7 +428,7 @@
     <string name="pack_directory">打包目录</string>
     <string name="info">信息</string>
     <string name="cut_board_operation">剪切板操作</string>
-    <string name="bookmarks_operation">书签操作</string>
+    <string name="mine_bookmarks">我的书签</string>
     <string name="bookmark_manager">书签管理器</string>
     <string name="jump_a_bookmark">跳转书签</string>
     <string name="remove_bookmark">移除书签</string>

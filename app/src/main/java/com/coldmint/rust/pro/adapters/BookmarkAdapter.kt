@@ -7,7 +7,7 @@ import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databean.Bookmark
 import com.coldmint.rust.pro.databinding.AttachFileItemBinding
 
-class BookmarkAdapter(val context: Context, dataList: MutableList<Bookmark>) :
+class BookmarkAdapter( context: Context, dataList: MutableList<Bookmark>) :
     BaseAdapter<AttachFileItemBinding, Bookmark>(context, dataList) {
 
     /**

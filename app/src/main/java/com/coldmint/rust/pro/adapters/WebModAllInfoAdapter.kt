@@ -23,7 +23,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @date 2022/1/4 10:59
  */
 class WebModAllInfoAdapter(
-    val context: Context,
+     context: Context,
     list: MutableList<WebModAllInfoData.Data>
 ) :
     BaseAdapter<ItemWebmodAllInfoBinding, WebModAllInfoData.Data>(context, list) {

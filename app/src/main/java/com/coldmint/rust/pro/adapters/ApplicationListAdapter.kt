@@ -39,7 +39,7 @@ import kotlin.concurrent.thread
  * @constructor
  */
 class ApplicationListAdapter(
-    val context: Context, dataList: MutableList<PackageInfo>
+     context: Context, dataList: MutableList<PackageInfo>
 ) : BaseAdapter<ApplicationItemBinding, PackageInfo>(context, dataList) {
 
     val handler: Handler by lazy {

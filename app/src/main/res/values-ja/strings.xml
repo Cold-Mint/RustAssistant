@@ -51,7 +51,7 @@
     <string name="dialog_unziping">%1$sを引き出しています…</string>
     <string name="not_find_mod">モジュールがない</string>
     <string name="menu_title1">同じ組の</string>
-    <string name="file_name">ファイル名:</string>
+    <string name="file_name">ファイル名</string>
     <string name="file">ファイル</string>
     <string name="menu_title3">データセット</string>
     <string name="data_array">データの配列(\ \" | \分割で):</string>

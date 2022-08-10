@@ -15,7 +15,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2022/1/3 19:39
  */
-class ThanksAdapter(val context: Context, dataList: MutableList<ThanksDataBean>) :
+class ThanksAdapter(context: Context, dataList: MutableList<ThanksDataBean>) :
     BaseAdapter<ItemThanksBinding, ThanksDataBean>(context, dataList) {
 
     override fun getViewBindingObject(

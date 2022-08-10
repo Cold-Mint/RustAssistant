@@ -16,6 +16,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
         MaterialAlertDialogBuilder(context)
     }
 
+    //是否自动关闭
+    protected var autoDismiss : Boolean = true
+
     protected lateinit var dialog: AlertDialog
 
 
@@ -51,6 +54,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setPositiveButton(text: String, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setPositiveButton(text) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -58,6 +64,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setPositiveButton(textRes: Int, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setPositiveButton(textRes) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -65,6 +74,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setNegativeButton(text: String, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setNegativeButton(text) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -72,6 +84,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setNegativeButton(textRes: Int, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setNegativeButton(textRes) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -79,6 +94,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setNeutralButton(text: String, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setNeutralButton(text) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -86,6 +104,9 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     override fun setNeutralButton(textRes: Int, func: () -> Unit): DialogType {
         materialAlertDialogBuilder.setNeutralButton(textRes) { i, i2 ->
             func.invoke()
+            if (autoDismiss){
+                dialog.dismiss()
+            }
         }
         return this as DialogType
     }
@@ -112,6 +133,7 @@ abstract class BaseAppDialog<DialogType : AppDialog>(context: Context) :
     }
 
     override fun setAutoDismiss(enable: Boolean): DialogType {
+        autoDismiss = enable
         return this as DialogType
     }
 

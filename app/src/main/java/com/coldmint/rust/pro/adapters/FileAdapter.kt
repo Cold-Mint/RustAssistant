@@ -24,7 +24,7 @@ import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-class FileAdapter(private val context: Context, dataList: MutableList<File?>) :
+class FileAdapter(  context: Context, dataList: MutableList<File?>) :
     BaseAdapter<FileItemBinding, File?>(context, dataList), PopupTextProvider {
 
     /**

@@ -13,11 +13,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.adapters.BookmarkAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.Bookmark
 import com.coldmint.rust.pro.databinding.ActivityBookmarkManagerBinding
 import com.coldmint.rust.pro.databinding.EditBookmarkBinding
+import com.coldmint.rust.pro.dialog.BookmarkDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import java.io.File
@@ -26,8 +28,26 @@ import java.util.ArrayList
 class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
     private lateinit var bookmarkManager: BookmarkManager
     lateinit var bookmarkAdapter: BookmarkAdapter
-    private lateinit var pathView: EditText
-    private lateinit var nameView: EditText
+    lateinit var bookmarkDialog :BookmarkDialog
+
+    /**
+     * 重新构建对话框（实例化一个对话框，并使成员变量指向他）
+     */
+    fun recreateBookmarkDialog(){
+        bookmarkDialog = BookmarkDialog(this)
+        bookmarkDialog.setButtonAction {
+            val bundle = Bundle()
+            val intent =
+                Intent(this, FileManagerActivity::class.java)
+            bundle.putString("type", "selectDirectents")
+            val thisPath = bookmarkDialog.getPath()
+            if (thisPath.isNotEmpty()) {
+                bundle.putString("path", thisPath)
+            }
+            intent.putExtra("data", bundle)
+            startActivityForResult(intent, 1)
+        }
+    }
 
     /**
      * 升级视图
@@ -46,7 +66,8 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
                     attachFileItemBinding.root.setOnLongClickListener {
                         bookmarkAdapter.showDeleteItemDialog(
                             bookmark.name,
-                            viewHolder.adapterPosition, onClickPositiveButton = { i:Int, b ->
+                            viewHolder.absoluteAdapterPosition,
+                            onClickPositiveButton = { i: Int, b ->
                                 bookmarkManager.removeBookmark(bookmark)
                                 if (list.isEmpty()) {
                                     showNoBookmarkToView()
@@ -88,90 +109,80 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
      * @param path  路径
      */
     fun showEditView(title: String, name: String?, path: String?) {
-        val editBookmarkBinding = EditBookmarkBinding.inflate(layoutInflater)
-        nameView = editBookmarkBinding.nameView
-        pathView = editBookmarkBinding.pathEdit
-
+        recreateBookmarkDialog()
         if (path != null) {
-            editBookmarkBinding.pathEdit.setText(path)
+            bookmarkDialog.setPathViewText(path)
         }
         if (name != null) {
-            editBookmarkBinding.nameView.setText(name)
+            bookmarkDialog.setNameViewText(name)
         }
-
-        editBookmarkBinding.button.setOnClickListener {
-            val bundle = Bundle()
-            val intent =
-                Intent(this@BookmarkManagerActivity, FileManagerActivity::class.java)
-            bundle.putString("type", "selectDirectents")
-            val thisPath = pathView.text.toString()
-            if (thisPath.isNotEmpty()) {
-                bundle.putString("path", thisPath)
+        bookmarkDialog.setTitle(title).setAutoDismiss(false).setCancelable(false)
+        bookmarkDialog.setPositiveButton(R.string.dialog_ok) { editBookmarkBinding ->
+            val newPath = editBookmarkBinding.pathEdit.text.toString()
+            val newName = editBookmarkBinding.nameView.text.toString()
+            if (newName.isEmpty()) {
+                setErrorAndInput(
+                    editBookmarkBinding.nameView,
+                    getString(R.string.enter_bookmark_name), editBookmarkBinding.nameInputLayout
+                )
+                return@setPositiveButton
             }
-            //bundle.putString("rootpath", mRootPath);
-            intent.putExtra("data", bundle)
-            startActivityForResult(intent, 1)
-        }
+            if (newPath.isEmpty()) {
+                setErrorAndInput(
+                    editBookmarkBinding.pathEdit,
+                    getString(R.string.enter_file_path),
+                    editBookmarkBinding.pathInputLayout
+                )
+                return@setPositiveButton
+            }
+            val file = File(newPath)
+            if (!file.exists()) {
+                setErrorAndInput(
+                    editBookmarkBinding.pathEdit,
+                    getString(R.string.bookmark_jump_failed),
+                    editBookmarkBinding.pathInputLayout
+                )
+                return@setPositiveButton
+            }
+            if (name == null) {
+                val addBookmark = bookmarkManager.addBookmark(newPath, newName)
+                if (addBookmark) {
+                    updateView(bookmarkManager.list())
 
-        var dialog: AlertDialog? = null
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
-            .setView(editBookmarkBinding.root)
-            .setTitle(title)
-            .setPositiveButton(R.string.dialog_ok)
-            { i, i2 ->
-                val newPath = pathView.text.toString()
-                val newName = nameView.text.toString()
-                if (newName.isEmpty()) {
-                    setErrorAndInput(nameView, getString(R.string.enter_bookmark_name))
-                    return@setPositiveButton
-                }
-                if (newPath.isEmpty()) {
-                    setErrorAndInput(pathView, getString(R.string.enter_file_path))
-                    return@setPositiveButton
-                }
-                val file = File(newPath)
-                if (!file.exists()) {
-                    setErrorAndInput(pathView, getString(R.string.bookmark_jump_failed))
-                    return@setPositiveButton
-                }
-                if (name == null) {
-                    val addBookmark = bookmarkManager.addBookmark(newPath, newName)
-                    if (addBookmark) {
-                        updateView(bookmarkManager.list())
-
-                    } else {
-                        setErrorAndInput(
-                            pathView,
-                            getString(R.string.bookmark_already_exists)
-                        )
-                    }
                 } else {
-                    if (name == newName && path == newPath) {
-                        dialog?.dismiss()
-                    } else {
-                        if (path != null) {
-                            val oldBookmark = Bookmark(path, name)
-                            val newBookmark = Bookmark(newPath, newName)
-                            val addBookmark =
-                                bookmarkManager.replaceBookmark(oldBookmark, newBookmark)
-                            if (addBookmark) {
-                                updateView(bookmarkManager.list())
-                                dialog?.dismiss()
-                            } else {
-                                setErrorAndInput(
-                                    pathView,
-                                    getString(R.string.bookmark_already_exists)
-                                )
-                            }
+                    setErrorAndInput(
+                        editBookmarkBinding.pathEdit,
+                        getString(R.string.bookmark_already_exists),
+                        editBookmarkBinding.pathInputLayout
+                    )
+                }
+            } else {
+                if (name == newName && path == newPath) {
+                    bookmarkDialog.dismiss()
+                } else {
+                    if (path != null) {
+                        val oldBookmark = Bookmark(path, name)
+                        val newBookmark = Bookmark(newPath, newName)
+                        val addBookmark =
+                            bookmarkManager.replaceBookmark(oldBookmark, newBookmark)
+                        if (addBookmark) {
+                            updateView(bookmarkManager.list())
+                            bookmarkDialog.dismiss()
+                        } else {
+                            setErrorAndInput(
+                                editBookmarkBinding.pathEdit,
+                                getString(R.string.bookmark_already_exists),
+                                editBookmarkBinding.pathInputLayout
+                            )
                         }
                     }
                 }
             }
-            .setNegativeButton(R.string.dialog_close) { i, i2 ->
-                dialog?.dismiss()
-            }
-            .setCancelable(false)
-        dialog = materialAlertDialogBuilder.show()
+        }
+        bookmarkDialog.setNegativeButton(R.string.dialog_close) {
+            bookmarkDialog.dismiss()
+        }
+        bookmarkDialog.show()
     }
 
 
@@ -180,15 +191,15 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
         when (requestCode) {
             1 -> if (resultCode == RESULT_OK) {
                 val path = data!!.getStringExtra("Directents")
-                pathView.setText(path)
-                val oldName = nameView.text.toString()
+                bookmarkDialog.setPathViewText(path)
+                val oldName = bookmarkDialog.getName()
                 if (oldName.isEmpty()) {
                     val endIndex = path!!.lastIndexOf("/")
                     if (endIndex > -1) {
                         val name = path.substring(endIndex + 1, path.length)
-                        nameView.setText(name)
+                        bookmarkDialog.setNameViewText(name)
                     } else {
-                        nameView.setText(path)
+                        bookmarkDialog.setNameViewText(path)
                     }
                 }
             }
@@ -238,6 +249,7 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
                     null
                 )
             }
+
         }
     }
 }

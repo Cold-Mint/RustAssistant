@@ -299,7 +299,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
 
             }
         } else {
-            works.add(getString(R.string.mod_action9))
+            works.add(getString(R.string.rename))
             works.add(getString(R.string.mod_action8))
         }
         works.add(getString(R.string.share_mod))

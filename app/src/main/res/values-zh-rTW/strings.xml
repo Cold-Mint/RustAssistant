@@ -44,12 +44,11 @@
     <string name="create_uniting">正在構建單位...</string>
     <string name="dialog_title2">解壓</string>
     <string name="dialog_unziping">正在解壓%1$s...</string>
-    <string name="file_name">文件名:</string>
+    <string name="file_name">文件名</string>
     <string name="del_moding">正在刪除</string>
     <string name="file_manager">文件管理器</string>
     <string name="unit_error">無法創建，此單位已存在。</string>
     <string name="folder_error">無法創建，此文件夾已存在。</string>
-    <string name="mod_action9">重命名</string>
     <string name="open_action1">編輯文本</string>
     <string name="open_action3">解壓文件</string>
     <string name="open_action4">系統默認方式打開</string>

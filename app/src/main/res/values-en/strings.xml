@@ -52,7 +52,7 @@
     <string name="dialog_unziping">Extracting %1$s…</string>
     <string name="not_find_mod">no mods</string>
     <string name="menu_title1">Mod</string>
-    <string name="file_name">file name:</string>
+    <string name="file_name">file name</string>
     <string name="file">document</string>
     <string name="menu_title3">data set</string>
     <string name="data_array">Data array (separated by \\"|\\"):</string>

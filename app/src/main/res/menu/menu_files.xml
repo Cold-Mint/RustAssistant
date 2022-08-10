@@ -24,6 +24,28 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@drawable/ic_outline_bookmarks_24"
+        android:title="@string/bookmark_manager"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/bookmark_manager"
+                android:title="@string/bookmark_manager" />
+            <item
+                android:id="@+id/mine_bookmarks"
+                android:title="@string/mine_bookmarks">
+
+                <menu>
+<!--                    书签列表-->
+                </menu>
+
+            </item>
+        </menu>
+
+    </item>
 
     <item
         android:id="@+id/reloadFile"

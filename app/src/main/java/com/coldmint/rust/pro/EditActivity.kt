@@ -456,10 +456,10 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             if (need) {
                 viewModel.saveAllFile(
                     viewBinding.tabLayout.selectedTabPosition,
-                    viewBinding.codeEditor.text.toString(), {
-                        Toast.makeText(this, R.string.auto_save_toast, Toast.LENGTH_SHORT).show()
-                    }
-                )
+                    viewBinding.codeEditor.text.toString()
+                ) {
+                    Toast.makeText(this, R.string.auto_save_toast, Toast.LENGTH_SHORT).show()
+                }
             }
         }
         super.onPause()
@@ -692,13 +692,13 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     val popupMenu = PopupMenu(this@EditActivity, it)
                     val cutBoardMenu = popupMenu.menu.addSubMenu(R.string.cut_board_operation)
                     val fileMenu = popupMenu.menu.addSubMenu(R.string.file_operation)
-                    val bookmarksMenu = popupMenu.menu.addSubMenu(R.string.bookmarks_operation)
+                    val bookmarksMenu = popupMenu.menu.addSubMenu(R.string.mine_bookmarks)
                     cutBoardMenu.add(R.string.copy_file_name)
                     cutBoardMenu.add(R.string.copy_file_path)
                     cutBoardMenu.add(R.string.copy_file_absolutely_path)
                     fileMenu.add(R.string.copy)
                     fileMenu.add(R.string.cut_off)
-                    fileMenu.add(R.string.mod_action9)
+                    fileMenu.add(R.string.rename)
                     fileMenu.add(R.string.del_mod)
                     val bookmarkManager = editStartViewModel.bookmarkManager
                     if (bookmarkManager.contains(file)) {
@@ -814,7 +814,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                                 return@OnMenuItemClickListener false
                             }
                             fileAdapter?.setSelectPath(file.absolutePath, false)
-                        } else if (title == getText(R.string.mod_action9)) {
+                        } else if (title == getText(R.string.rename)) {
                             val absolutePath = file.absolutePath
                             var canRename = true
                             if (viewModel.openedSourceFileListLiveData.value.isNotEmpty()) {
@@ -835,7 +835,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             }
                             val oldName = file.name
                             MaterialDialog(this@EditActivity).show {
-                                title(R.string.mod_action9)
+                                title(R.string.rename)
                                 input(
                                     maxLength = 255,
                                     waitForPositiveButton = false, prefill = oldName

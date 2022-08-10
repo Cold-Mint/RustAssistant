@@ -21,7 +21,7 @@ import com.github.promeg.pinyinhelper.Pinyin
 
 
 abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
-    private val context: Context,
+    protected val context: Context,
     protected var dataList: MutableList<DataType>
 ) :
     RecyclerView.Adapter<BaseAdapter.ViewHolder<ViewBindingType>>() {

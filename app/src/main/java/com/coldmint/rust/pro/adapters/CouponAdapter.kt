@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
  * @author Cold Mint
  * @date 2022/1/10 20:47
  */
-class CouponAdapter(val context: Context, dataList: MutableList<CouponListDataBean.Data>) :
+class CouponAdapter( context: Context, dataList: MutableList<CouponListDataBean.Data>) :
     BaseAdapter<ItemCouponBinding, CouponListDataBean.Data>(context, dataList) {
     val timeLimit: String by lazy {
         context.getString(R.string.time_limit)

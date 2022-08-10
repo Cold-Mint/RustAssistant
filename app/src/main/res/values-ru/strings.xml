@@ -51,7 +51,7 @@
     <string name="dialog_unziping">Мы извлекаем 10%...</string>
     <string name="not_find_mod">Нет модуля.</string>
     <string name="menu_title1">модул</string>
-    <string name="file_name">Имя файла:</string>
+    <string name="file_name">Имя файла</string>
     <string name="file">документ</string>
     <string name="menu_title3">Набор данных</string>
     <string name="data_array">Массив Дан (\ \"- да \\" раздел) :</string>

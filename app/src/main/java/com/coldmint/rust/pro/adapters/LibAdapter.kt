@@ -18,7 +18,7 @@ import com.coldmint.rust.pro.databinding.ItemLibBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.ArrayList
 
-class LibAdapter(val context: Context, dataList: ArrayList<LibInfo>) :
+class LibAdapter(context: Context, dataList: ArrayList<LibInfo>) :
     BaseAdapter<ItemLibBinding, LibInfo>(context, dataList) {
 
     override fun getViewBindingObject(

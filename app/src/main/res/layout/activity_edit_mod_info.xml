@@ -32,31 +32,32 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/messages_header"
-                        android:textSize="16sp" />
+                        android:text="@string/messages_header" />
 
                     <!--模组图标-->
                     <LinearLayout
+                        android:layout_marginTop="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mod_icon" />
@@ -114,59 +115,58 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_marginTop="16dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:animateLayoutChanges="true">
 
                     <TextView
                         android:id="@+id/backgroundMusicView"
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/background_music"
-                        android:textSize="16sp" />
+                        android:text="@string/background_music" />
 
 
                     <TextView
                         android:id="@+id/musicPathView"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="未启用" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/enabledMusic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/backgroundMusicView"
                         android:layout_marginTop="8dp"
-                        android:text="@string/enabled"
-                        android:textColor="?attr/colorPrimary" />
+                        android:text="@string/enabled" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/addMusic"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/enabledMusic"
                         android:layout_marginStart="16dp"
                         android:layout_toEndOf="@id/enabledMusic"
-                        android:text="@string/add"
-                        android:textColor="?attr/colorPrimary" />
+                        android:text="@string/add" />
 
                     <ImageView
                         android:id="@+id/expandMusicList"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_below="@id/musicPathView"
                         android:layout_alignBottom="@id/enabledMusic"
                         android:layout_alignParentEnd="true"
@@ -201,62 +201,61 @@
 
 
                 </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:layout_marginTop="16dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:animateLayoutChanges="true">
 
                     <TextView
                         android:id="@+id/mapView"
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/map"
-                        android:textSize="16dp" />
+                        android:text="@string/map" />
 
 
                     <TextView
                         android:id="@+id/mapPathView"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:text="未启用" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/enabledMap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/mapView"
                         android:layout_marginTop="8dp"
-                        android:text="@string/enabled"
-                        android:textColor="?attr/colorPrimary" />
+                        android:text="@string/enabled" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/addMap"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/enabledMap"
                         android:layout_marginStart="16dp"
                         android:layout_toEndOf="@id/enabledMap"
-                        android:text="@string/add"
-                        android:textColor="?attr/colorPrimary" />
+                        android:text="@string/add" />
 
                     <ImageView
                         android:id="@+id/expandMapList"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_below="@id/mapPathView"
                         android:layout_alignBottom="@id/enabledMap"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:src="@drawable/expand_icon"
                         app:tint="?android:colorControlNormal" />
 
@@ -288,7 +287,7 @@
 
 
                 </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

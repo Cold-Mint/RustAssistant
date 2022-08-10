@@ -16,7 +16,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2022/1/10 8:49
  */
-class AuditModAdapter(val context: Context, dataList: MutableList<WebModListData.Data>) :
+class AuditModAdapter( context: Context, dataList: MutableList<WebModListData.Data>) :
     BaseAdapter<ItemAuditModBinding, WebModListData.Data>(context, dataList) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,

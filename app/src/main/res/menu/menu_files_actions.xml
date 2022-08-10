@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/cutOffAction"
+        android:title="@string/cut_off" />
+    <item
+        android:id="@+id/copyAction"
+        android:title="@string/copy" />
+    <item
+        android:id="@+id/renameAction"
+        android:title="@string/rename" />
+    <item
+        android:id="@+id/deleteAction"
+        android:title="@string/delete_title" />
+    <item
+        android:id="@+id/bookmarkAction"
+        android:title="@string/add_bookmark" />
+</menu>

@@ -20,7 +20,6 @@ class InputDialog(context: Context) : BaseAppDialog<InputDialog>(context) {
         DialogInputBinding.inflate(LayoutInflater.from(context))
     }
 
-    private var autoDismiss: Boolean = true
     private var inputCanBeEmpty: Boolean = true
     private var errorTipFunction: ((String, TextInputLayout) -> Unit)? = null
 
@@ -39,7 +38,7 @@ class InputDialog(context: Context) : BaseAppDialog<InputDialog>(context) {
      * @param string String
      * @return InputDialog
      */
-    fun setText(string: String):InputDialog{
+    fun setText(string: String): InputDialog {
         dialogInputBinding.textInputEditText.setText(string)
         return this
     }
@@ -74,8 +73,11 @@ class InputDialog(context: Context) : BaseAppDialog<InputDialog>(context) {
      */
     fun setInputCanBeEmpty(can: Boolean): InputDialog {
         inputCanBeEmpty = can
-        val text = dialogInputBinding.textInputEditText.text.toString()
-        dialogInputBinding.positiveButton.isEnabled = text.isNotBlank()
+        if (!can) {
+            //如果不可空检查是否需要禁用
+            val text = dialogInputBinding.textInputEditText.text.toString()
+            dialogInputBinding.positiveButton.isEnabled = text.isNotBlank()
+        }
         return this
     }
 
@@ -98,10 +100,12 @@ class InputDialog(context: Context) : BaseAppDialog<InputDialog>(context) {
                 } else {
                     dialogInputBinding.positiveButton.isEnabled =
                         !(text.isBlank() && !inputCanBeEmpty)
+                    return
                 }
 //如果启用计数并且，超过最大字数
                 if (dialogInputBinding.textInputLayout.isCounterEnabled && text.length > dialogInputBinding.textInputLayout.counterMaxLength) {
                     dialogInputBinding.textInputLayout.isErrorEnabled = true
+                    return
                 }
                 //如果处于错误状态禁用按钮
                 dialogInputBinding.positiveButton.isEnabled =

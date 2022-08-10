@@ -13,7 +13,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2022/1/5 11:05
  */
-class MapAdapter(val context: Context, dataList: MutableList<MapClass>) :
+class MapAdapter(context: Context, dataList: MutableList<MapClass>) :
     BaseAdapter<ItemMapBinding, MapClass>(context, dataList) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,
@@ -31,7 +31,8 @@ class MapAdapter(val context: Context, dataList: MutableList<MapClass>) :
     ) {
         val icon = data.getIconFile()
         if (icon != null) {
-            Glide.with(context).load(icon).apply(GlobalMethod.getRequestOptions()).into(viewBinding.mapIcon)
+            Glide.with(context).load(icon).apply(GlobalMethod.getRequestOptions())
+                .into(viewBinding.mapIcon)
         }
         viewBinding.mapUpTime.text = data.lastModificationTime
         viewBinding.mapNameView.text = data.getName()

@@ -17,7 +17,7 @@ import com.coldmint.rust.pro.databinding.LogItemBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
 
 //编译日志适配器
-class CompileLogAdapter(val context: Context, analysisResults: MutableList<AnalysisResult>) :
+class CompileLogAdapter( context: Context, analysisResults: MutableList<AnalysisResult>) :
     BaseAdapter<LogItemBinding, AnalysisResult>(context, analysisResults) {
 
     override fun getViewBindingObject(

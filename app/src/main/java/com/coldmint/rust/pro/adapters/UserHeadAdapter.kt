@@ -16,7 +16,7 @@ import com.coldmint.rust.pro.tool.GlobalMethod
  * @author Cold Mint
  * @date 2021/12/28 10:59
  */
-class UserHeadAdapter(val context: Context, list: MutableList<FollowUserListData.Data>) :
+class UserHeadAdapter( context: Context, list: MutableList<FollowUserListData.Data>) :
     BaseAdapter<ItemUserHeadBinding, FollowUserListData.Data>(context, list) {
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,

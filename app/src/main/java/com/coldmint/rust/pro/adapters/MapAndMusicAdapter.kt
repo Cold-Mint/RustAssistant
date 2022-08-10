@@ -16,7 +16,7 @@ import com.coldmint.rust.pro.databinding.MapAndMusicItemBinding
 import java.io.File
 import java.util.ArrayList
 
-class MapAndMusicAdapter(val context: Context, dataList: ArrayList<File>, val isMusic: Boolean) :
+class MapAndMusicAdapter(context: Context, dataList: ArrayList<File>, val isMusic: Boolean) :
     BaseAdapter<MapAndMusicItemBinding, File>(context, dataList) {
     val prefixName = "[noloop]"
 
@@ -36,7 +36,7 @@ class MapAndMusicAdapter(val context: Context, dataList: ArrayList<File>, val is
                 popupMenu.menu.add(R.string.disabled_loop)
             }
         }
-        popupMenu.menu.add(R.string.mod_action9)
+        popupMenu.menu.add(R.string.rename)
         popupMenu.menu.add(R.string.delete_title)
         popupMenu.setOnMenuItemClickListener { item ->
             val title = item.title.toString()
@@ -71,7 +71,7 @@ class MapAndMusicAdapter(val context: Context, dataList: ArrayList<File>, val is
                     }
                 }
                 removeItem(position)
-            } else if (title == context.getString(R.string.mod_action9)) {
+            } else if (title == context.getString(R.string.rename)) {
                 var iconFile: File? = null
                 if (!isMusic) {
                     val path = targetFile.absolutePath
@@ -84,7 +84,7 @@ class MapAndMusicAdapter(val context: Context, dataList: ArrayList<File>, val is
                 val oldName = fileName
                 val finalIconFile = iconFile
                 MaterialDialog(context).show {
-                    title(R.string.mod_action9)
+                    title(R.string.rename)
                     input(
                         maxLength = 255,
                         waitForPositiveButton = false, prefill = oldName

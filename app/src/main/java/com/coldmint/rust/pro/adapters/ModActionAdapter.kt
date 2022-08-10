@@ -25,6 +25,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.*
 import com.google.android.material.snackbar.Snackbar
 import com.coldmint.rust.core.dataBean.CompileConfiguration
@@ -38,6 +39,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.databinding.ModActionItemBinding
 import com.coldmint.rust.pro.fragments.ModFragment
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -118,7 +120,7 @@ class ModActionAdapter(
                 mContext.getString(R.string.mod_action2) -> {
                     editInfoItem()
                 }
-                mContext.getString(R.string.mod_action9) -> {
+                mContext.getString(R.string.rename) -> {
                     renameItem()
                 }
                 mContext.getString(R.string.release) -> {
@@ -441,46 +443,20 @@ class ModActionAdapter(
      * 点击了重命名
      */
     private fun renameItem() {
-        val builder = AlertDialog.Builder(
-            mContext
-        )
-        val dialogview = LayoutInflater.from(mContext).inflate(R.layout.input_dialog, null, false)
-        val editText = dialogview.findViewById<EditText>(R.id.dialog_edit)
         val mod_file = File(mModpath)
         val oldname = ModClass(mod_file).modName
-        editText.setText(oldname)
-        editText.postDelayed(object : Runnable {
-            override fun run() {
-                editText.requestFocus()
-                val imm =
-                    mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                val a = imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-                if (!a) {
-                    Toast.makeText(mContext, R.string.unexpected_error, Toast.LENGTH_SHORT).show()
+        InputDialog(mContext).setInputCanBeEmpty(false).setTitle(R.string.rename).setMaxNumber(255)
+            .setHint(R.string.file_name).setText(oldname)
+            .setPositiveButton(R.string.dialog_ok) { string ->
+                if (string.isNotEmpty() && string != oldname) {
+                    val newFile = File(FileOperator.getSuperDirectory(mod_file) + "/" + string)
+                    mod_file.renameTo(newFile)
+                    mModFragment.loadMods()
                 }
-            }
-        }, 180)
-        val okview = dialogview.findViewById<TextView>(R.id.completion_button)
-        val calview = dialogview.findViewById<TextView>(R.id.cancel_button_view)
-        builder.setTitle(R.string.mod_action9)
-        builder.setCancelable(false)
-        builder.setView(dialogview)
-        val alertDialog = builder.create()
-        alertDialog.show()
-        calview.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                alertDialog.dismiss()
-            }
-        })
-        okview.setOnClickListener {
-            val string = editText.text.toString()
-            if (string.isNotEmpty() && string != oldname) {
-                val newFile = File(FileOperator.getSuperDirectory(mod_file) + "/" + string)
-                mod_file.renameTo(newFile)
-                mModFragment.loadMods()
-            }
-            alertDialog.dismiss()
-        }
+                true
+            }.setNegativeButton(R.string.dialog_cancel) {
+
+            }.setCancelable(false).show()
     }
 
     /**
@@ -489,7 +465,7 @@ class ModActionAdapter(
     private fun editInfoItem() {
         val fileBundle = Bundle()
         val infoIntent = Intent(mContext, EditModInfoActivity::class.java)
-        val modClass = ModClass(File(mModpath))
+//        val modClass = ModClass(File(mModpath))
         //fileBundle.putString("infoPath", modClass.getInfoFile().getAbsolutePath());
         fileBundle.putString("modPath", mModpath)
         infoIntent.putExtra("data", fileBundle)
