@@ -51,7 +51,7 @@ class CommunityFragment : BaseFragment<CommunityFragmentBinding>() {
     }
 
 
-    override fun getViewBindingObject(): CommunityFragmentBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): CommunityFragmentBinding {
         return CommunityFragmentBinding.inflate(layoutInflater)
     }
 

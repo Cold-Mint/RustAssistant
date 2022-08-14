@@ -22,7 +22,7 @@ class WarehouseAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
                 MapFragment()
             }
             else -> {
-                NullObjectFragment()
+                NullFragment()
             }
         }
     }

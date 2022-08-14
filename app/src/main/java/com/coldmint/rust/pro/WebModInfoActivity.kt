@@ -59,7 +59,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     lateinit var modId: String
     lateinit var tip: String
     val targetFile: File by lazy {
-        val modFolderPath = appSettings.getValue(
+        val modFolderPath = AppSettings.getValue(
             AppSettings.Setting.ModFolder,
             Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/"
         )
@@ -71,7 +71,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         File(modFilePath)
     }
     val token by lazy {
-        appSettings.getValue(AppSettings.Setting.Token, "")
+        AppSettings.getValue(AppSettings.Setting.Token, "")
     }
     var developer: String? = null
 
@@ -253,7 +253,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         when (AppOperator.getNetworkType(this)) {
             AppOperator.NetWorkType.NetWorkType_Moble -> {
                 val useMobileNetWork =
-                    appSettings.getValue(AppSettings.Setting.UseMobileNetwork, false)
+                    AppSettings.getValue(AppSettings.Setting.UseMobileNetwork, false)
                 if (useMobileNetWork) {
                     downloadWork(fileLink)
                 } else {
@@ -263,7 +263,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                                 downloadWork(fileLink)
                             }
                         negativeButton(R.string.always_allow) {
-                            appSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
+                            AppSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
                             downloadWork(fileLink)
                         }
                         neutralButton(R.string.dialog_cancel) {
@@ -470,7 +470,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
 
     private fun initAction() {
         viewBinding.sendDiscussion.setOnClickListener {
-            val account = appSettings.getValue(AppSettings.Setting.Account, "")
+            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {
                 showError(getString(R.string.please_login_first))
                 return@setOnClickListener
@@ -481,7 +481,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 .setSubmitFun { button, textInputLayout, s, alertDialog ->
                     button.isEnabled = false
                     WebMod.instance.sendComment(
-                        appSettings.getValue(AppSettings.Setting.Token, ""),
+                        AppSettings.getValue(AppSettings.Setting.Token, ""),
                         modId,
                         s,
                         object : ApiCallBack<ApiResponse> {
@@ -509,7 +509,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
 
     }
 
-    override fun getViewBindingObject(): ActivityWebModInfoBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityWebModInfoBinding {
         return ActivityWebModInfoBinding.inflate(layoutInflater)
     }
 

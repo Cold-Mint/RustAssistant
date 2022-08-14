@@ -167,7 +167,7 @@ class ModActionAdapter(
                             ?: ".+\\.ini|.+\\.template"
                         val codeCompiler2 = CodeCompiler2.getInstance(mContext)
                         val apkFolder = GameSynchronizer.getPackAgeFolder(
-                            mContext, AppSettings.getInstance(mContext).getValue(
+                            mContext, AppSettings.getValue(
                                 AppSettings.Setting.GamePackage,
                                 GlobalMethod.DEFAULT_GAME_PACKAGE
                             )
@@ -539,8 +539,7 @@ class ModActionAdapter(
     private fun shareItem() {
         val file = File(mModpath)
         if (file.isDirectory) {
-            val appSettings = AppSettings.getInstance(mContext)
-            val needShowTip = appSettings.getValue(AppSettings.Setting.ShareTip, true)
+            val needShowTip = AppSettings.getValue(AppSettings.Setting.ShareTip, true)
             if (needShowTip) {
                 val materialDialog = MaterialDialog(mContext, MaterialDialog.DEFAULT_BEHAVIOR)
                 materialDialog.title(R.string.packmod, null)
@@ -556,7 +555,7 @@ class ModActionAdapter(
                     R.string.no_longer_prompt,
                     null
                 ) { materialDialog: MaterialDialog? ->
-                    appSettings.setValue(AppSettings.Setting.ShareTip, false)
+                    AppSettings.setValue(AppSettings.Setting.ShareTip, false)
                     packShare(file)
                     null
                 }
@@ -783,7 +782,7 @@ class ModActionAdapter(
         override fun run() {
             super.run()
             val main_path =
-                AppSettings.getInstance(mContext).getValue(AppSettings.Setting.ModFolder, "")
+                AppSettings.getValue(AppSettings.Setting.ModFolder, "")
             val unzip_path = File(
                 main_path + FileOperator.getPrefixName(
                     File(
@@ -855,17 +854,16 @@ class ModActionAdapter(
 
                 override fun whenUnzipComplete(result: Boolean) {
                     if (result) {
-                        val appSettings = AppSettings.getInstance(mContext)
-                        val keepFile = appSettings.getValue(AppSettings.Setting.KeepRwmodFile, true)
+                        val keepFile = AppSettings.getValue(AppSettings.Setting.KeepRwmodFile, true)
                         if (!keepFile) {
                             val modFile = File(mModpath)
-                            val needRecycling = appSettings.getValue(
+                            val needRecycling = AppSettings.getValue(
                                 AppSettings.Setting.EnableRecoveryStation,
                                 true
                             )
                             if (needRecycling) {
                                 val removeFile: File
-                                val removePath: String = appSettings.getValue(
+                                val removePath: String = AppSettings.getValue(
                                     AppSettings.Setting.RecoveryStationFolder,
                                     mContext.filesDir.absolutePath + "/backup/"
                                 ).toString() + modFile.name

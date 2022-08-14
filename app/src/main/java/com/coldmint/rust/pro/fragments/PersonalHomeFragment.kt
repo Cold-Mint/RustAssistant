@@ -23,7 +23,7 @@ import com.coldmint.rust.pro.databinding.FragmentPersonalHomeBinding
  */
 class PersonalHomeFragment(val userId: String) : BaseFragment<FragmentPersonalHomeBinding>() {
 
-    override fun getViewBindingObject(): FragmentPersonalHomeBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentPersonalHomeBinding {
         return FragmentPersonalHomeBinding.inflate(LayoutInflater.from(requireContext()))
     }
 

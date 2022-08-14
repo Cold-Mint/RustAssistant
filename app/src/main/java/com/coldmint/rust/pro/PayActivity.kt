@@ -17,6 +17,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -344,7 +345,7 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
         viewBinding.payMoneyView.text = spannableString
     }
 
-    override fun getViewBindingObject(): ActivityPayBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityPayBinding {
         return ActivityPayBinding.inflate(layoutInflater)
     }
 }

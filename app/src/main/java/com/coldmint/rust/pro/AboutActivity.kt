@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Html
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -60,7 +61,7 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
             |
         """.trimMargin()
         viewBinding.aboutView.text = Html.fromHtml(aboutText)
-        val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+        val time = AppSettings.getValue(com.coldmint.rust.pro.tool.AppSettings.Setting.ExpirationTime, 0.toLong())
         if (time == 0.toLong()) {
             viewBinding.expirationTimeView.text = getString(R.string.please_login_first)
         } else {
@@ -112,7 +113,7 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun getViewBindingObject(): ActivityAboutBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityAboutBinding {
         return ActivityAboutBinding.inflate(layoutInflater)
     }
 

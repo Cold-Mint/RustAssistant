@@ -34,7 +34,7 @@ class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.databaseList.layoutManager = LinearLayoutManager(requireContext())
-        val database_directory = appSettings.getValue(
+        val database_directory = AppSettings.getValue(
             AppSettings.Setting.DatabaseDirectory,
             requireContext().filesDir.absolutePath + "/database/"
         )
@@ -151,7 +151,7 @@ class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
     }
 
 
-    override fun getViewBindingObject(): DatabaseFragmentBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): DatabaseFragmentBinding {
         return DatabaseFragmentBinding.inflate(layoutInflater)
     }
 }

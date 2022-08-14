@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
@@ -52,7 +53,7 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                 }
                 viewBinding.errorInfo.text = errorInfo.allErrorDetails
                 Log.e("错误日志", errorInfo.allErrorDetails)
-                if (appSettings.getValue(AppSettings.Setting.ExperiencePlan, true)) {
+                if (AppSettings.getValue(AppSettings.Setting.ExperiencePlan, true)) {
                     val info = packageManager.getPackageInfo(packageName, 0)
                     ErrorReport.instance.send(
                         errorInfo.allErrorDetails,
@@ -61,7 +62,8 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                         object : ApiCallBack<ApiResponse> {
                             override fun onResponse(t: ApiResponse) {
                                 if (t.code == ServerConfiguration.Success_Code) {
-                                    viewBinding.shareLogButton.isVisible = false
+                                    viewBinding.shareLogButton.isEnabled = false
+                                    viewBinding.shareLogButton.text = getString(R.string.anonymous_send_completed)
                                 }
                             }
 
@@ -69,7 +71,12 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                                 e.printStackTrace()
                             }
 
-                        })
+                        },
+                        AppSettings.getValue(
+                            AppSettings.Setting.ServerAddress,
+                            ServerConfiguration.website
+                        )
+                    )
                 }
                 saveLog()
             }
@@ -102,7 +109,7 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
      * 创建错误日志
      */
     fun saveLog(): Boolean {
-        errorInfo.describe = viewBinding.inputEditView.text.toString()
+//        errorInfo.describe = viewBinding.inputEditView.text.toString()
         return errorInfo.save()
     }
 
@@ -141,7 +148,7 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityErrorBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityErrorBinding {
         return ActivityErrorBinding.inflate(layoutInflater)
     }
 

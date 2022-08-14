@@ -95,14 +95,14 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
         startActivity(intent)
     }
 
-    override fun getViewBindingObject(): FragmentUserInfoBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentUserInfoBinding {
         return FragmentUserInfoBinding.inflate(layoutInflater)
     }
 
 
     override fun onResume() {
         super.onResume()
-        val token = appSettings.getValue(AppSettings.Setting.Token, "")
+        val token = AppSettings.getValue(AppSettings.Setting.Token, "")
         if (token.isNotBlank()) {
             User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
 
@@ -110,7 +110,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                     viewBinding.nameView.text = account
                     loadRecyclerView(3)
 //                    val localTime =
-//                        appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+//                        AppSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
 //                    viewBinding.expirationTimeView.text =
 //                        ServerConfiguration.toStringTime(localTime)
                 }
@@ -138,7 +138,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        account = appSettings.getValue(AppSettings.Setting.Account, "")
+        account = AppSettings.getValue(AppSettings.Setting.Account, "")
         viewBinding.myHomeView.setOnClickListener {
             val intent = Intent(
                 requireActivity(),
@@ -151,7 +151,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
         }
 
         viewBinding.logOutButton.setOnClickListener {
-            appSettings.setValue(AppSettings.Setting.LoginStatus, false)
+            AppSettings.setValue(AppSettings.Setting.LoginStatus, false)
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
     }

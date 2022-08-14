@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.content.Intent
 
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -226,7 +227,7 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun getViewBindingObject(): ActivityBookmarkManagerBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityBookmarkManagerBinding {
         return ActivityBookmarkManagerBinding.inflate(
             layoutInflater
         )

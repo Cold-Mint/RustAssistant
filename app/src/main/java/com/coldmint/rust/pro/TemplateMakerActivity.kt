@@ -16,7 +16,7 @@ import android.view.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
-import com.coldmint.rust.core.TemplatePackage
+import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.interfaces.LineParserEvent
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.LineParser
@@ -267,11 +267,11 @@ class TemplateMakerActivity : BaseActivity<ActivityTemplateMakerBinding>() {
                 val arrayList = ArrayList<String>()
                 val pathList = ArrayList<String>()
                 val environmentLanguage =
-                    appSettings.getValue(
+                    AppSettings.getValue(
                         AppSettings.Setting.AppLanguage,
                         Locale.getDefault().language
                     )
-                val templateDirectory = appSettings.getValue(
+                val templateDirectory = AppSettings.getValue(
                     AppSettings.Setting.TemplateDirectory,
                     this.filesDir.absolutePath + "/template/"
                 )
@@ -280,7 +280,7 @@ class TemplateMakerActivity : BaseActivity<ActivityTemplateMakerBinding>() {
                     val files = directory.listFiles()
                     if (files.isNotEmpty()) {
                         for (file in files) {
-                            val templateClass = TemplatePackage(file)
+                            val templateClass = LocalTemplatePackage(file)
                             if (templateClass.isTemplate) {
                                 arrayList.add(
                                     templateClass.getName()
@@ -323,7 +323,7 @@ class TemplateMakerActivity : BaseActivity<ActivityTemplateMakerBinding>() {
     class CodeData(val code: String, val section: String?)
 
 
-    override fun getViewBindingObject(): ActivityTemplateMakerBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityTemplateMakerBinding {
         return ActivityTemplateMakerBinding.inflate(layoutInflater)
     }
 

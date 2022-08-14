@@ -183,7 +183,7 @@ class GameSynchronizer(val context: Context, val packageInfo: PackageInfo) {
         val executorService = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
-            val templatePackage = TemplatePackage(File(templateFolder + packageInfo.packageName))
+            val localTemplatePackage = LocalTemplatePackage(File(templateFolder + packageInfo.packageName))
 
             if (folder.exists()) {
                 FileOperator.delete_files(folder)
@@ -208,7 +208,7 @@ class GameSynchronizer(val context: Context, val packageInfo: PackageInfo) {
                             sourceFileList.add(SourceFile(file))
                         } else if (zipEntry.name.endsWith("icon.png")) {
                             hasIcon =
-                                FileOperator.copyFile(file, templatePackage.getFile(defaultIcon))
+                                FileOperator.copyFile(file, localTemplatePackage.getFile(defaultIcon))
                         }
                         return true
                     }
@@ -224,7 +224,7 @@ class GameSynchronizer(val context: Context, val packageInfo: PackageInfo) {
                         }
                         //如果有源文件那么添加到模板包内
                         if (sourceFileList.isNotEmpty()) {
-                            templatePackage.create(
+                            localTemplatePackage.create(
                                 TemplateInfo(
                                     AppOperator.getAppVersionNum(context),
                                     context.getString(R.string.template_default_description),
@@ -266,19 +266,19 @@ class GameSynchronizer(val context: Context, val packageInfo: PackageInfo) {
                                     dataBean.action = action
                                 }
                                 val tagFile =
-                                    templatePackage.getFile(
+                                    localTemplatePackage.getFile(
                                         "/" + FileOperator.getPrefixName(
                                             sourceFile.file
                                         ) + ".json"
                                     )
                                 FileOperator.writeFile(
                                     tagFile,
-                                    templatePackage.gson.toJson(dataBean)
+                                    localTemplatePackage.gson.toJson(dataBean)
                                 )
 
                             }
                         } else {
-                            FileOperator.delete_files(templatePackage.directest)
+                            FileOperator.delete_files(localTemplatePackage.directest)
                         }
 
                         handler.post {

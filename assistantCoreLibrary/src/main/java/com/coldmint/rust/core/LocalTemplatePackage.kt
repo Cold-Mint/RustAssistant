@@ -2,6 +2,7 @@ package com.coldmint.rust.core
 
 import com.coldmint.rust.core.dataBean.TemplateDataBean
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
+import com.coldmint.rust.core.dataBean.template.TemplatePackage
 import com.coldmint.rust.core.tool.FileOperator
 import com.google.gson.Gson
 import java.io.File
@@ -9,7 +10,8 @@ import java.io.File
 /**
  * 模板类
  */
-class TemplatePackage(val directest: File) {
+
+class LocalTemplatePackage(val directest: File) : TemplatePackage {
     /**
      * 获取文件目录
      *
@@ -57,10 +59,12 @@ class TemplatePackage(val directest: File) {
      * 获取模板名称
      * @return String
      */
-    fun getName(): String {
+    override fun getName(): String {
         val info = getInfo()
         return info?.name ?: directest.name
     }
+
+
 
     /**
      * 创建清单文件

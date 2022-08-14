@@ -123,7 +123,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     }
 
 
-    override fun getViewBindingObject(): FragmentRankingBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentRankingBinding {
         return FragmentRankingBinding.inflate(layoutInflater)
     }
 }

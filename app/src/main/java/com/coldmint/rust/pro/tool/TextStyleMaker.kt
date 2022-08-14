@@ -297,7 +297,7 @@ class TextStyleMaker private constructor() {
             }
             "activate" -> {
                 val time = ServerConfiguration.toStringTime(
-                    AppSettings.getInstance(context)
+                    AppSettings
                         .getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
                 )
                 if (time == ServerConfiguration.ForeverTime) {

@@ -52,7 +52,7 @@ class DynamicFragment(val userId: String) : BaseFragment<FragmentDynamicBinding>
     }
 
 
-    override fun getViewBindingObject(): FragmentDynamicBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentDynamicBinding {
         return FragmentDynamicBinding.inflate(layoutInflater)
     }
 

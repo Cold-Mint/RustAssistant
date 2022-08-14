@@ -41,7 +41,7 @@ class CodeTableAdapter(
     //Label点击事件
     var labelFunction: ((Int, View, String) -> Unit)? = null
     private val developerMode by lazy {
-        AppSettings.getInstance(context)
+        AppSettings
             .getValue(AppSettings.Setting.DeveloperMode, false)
     }
 

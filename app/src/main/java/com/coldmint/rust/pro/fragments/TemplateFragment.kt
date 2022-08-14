@@ -6,8 +6,7 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.tool.AppSettings
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.coldmint.rust.core.TemplatePackage
+import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.pro.adapters.TemplateListAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.TemplateFragemntBinding
@@ -21,7 +20,7 @@ class TemplateFragment : BaseFragment<TemplateFragemntBinding>() {
     override fun onResume() {
         super.onResume()
         if (!first) {
-            val directent = appSettings.getValue(
+            val directent = AppSettings.getValue(
                 AppSettings.Setting.TemplateDirectory,
                 requireContext().filesDir.absolutePath + "/template/"
             )
@@ -33,13 +32,13 @@ class TemplateFragment : BaseFragment<TemplateFragemntBinding>() {
 
     fun loadList(path: String) {
         val language =
-            appSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
+            AppSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
         val file = File(path)
         if (file.exists() && file.isDirectory) {
             val files = file.listFiles()
-            val mutableList: ArrayList<TemplatePackage> = ArrayList()
+            val mutableList: ArrayList<LocalTemplatePackage> = ArrayList()
             for (f in files) {
-                val tem = TemplatePackage(f)
+                val tem = LocalTemplatePackage(f)
                 if (tem.isTemplate) {
                     mutableList.add(tem)
                 }
@@ -60,12 +59,12 @@ class TemplateFragment : BaseFragment<TemplateFragemntBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): TemplateFragemntBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): TemplateFragemntBinding {
         return TemplateFragemntBinding.inflate(layoutInflater)
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        val directent = appSettings.getValue(
+        val directent = AppSettings.getValue(
             AppSettings.Setting.TemplateDirectory,
             requireContext().filesDir.absolutePath + "/template/"
         )

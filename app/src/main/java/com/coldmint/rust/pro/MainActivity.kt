@@ -19,10 +19,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
-import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.CompressionManager
-import com.coldmint.rust.core.TemplatePackage
+import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.AppUpdateData
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -80,7 +79,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val navController = findNavController(R.id.baseFragment)
         navController.navInflater.inflate(R.navigation.main_nav).apply {
             val use =
-                appSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
+                AppSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
             startDestination = if (use) {
                 viewBinding.mainButton.hide()
                 R.id.community_item
@@ -114,7 +113,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (t.code == ServerConfiguration.Success_Code && data != null) {
                     val gson = Gson()
                     //同步离线的更新对话框
-                    appSettings.forceSetValue(AppSettings.Setting.UpdateData, gson.toJson(data))
+                    AppSettings.forceSetValue(AppSettings.Setting.UpdateData, gson.toJson(data))
                     ifNeedShowUpdate(data)
                 } else {
                     Snackbar.make(viewBinding.mainButton, t.message, Snackbar.LENGTH_SHORT).show()
@@ -122,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
 
             override fun onFailure(e: Exception) {
-                val updateData = appSettings.getValue(AppSettings.Setting.UpdateData, "")
+                val updateData = AppSettings.getValue(AppSettings.Setting.UpdateData, "")
                 if (updateData.isNotBlank()) {
                     val gson = Gson()
                     val updateDataObj = gson.fromJson(updateData, AppUpdateData.Data::class.java)
@@ -143,7 +142,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val key = "应用更新"
             val packageInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
             val checkBetaUpdate =
-                appSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
+                AppSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
             var needShowDialog = false
             //如果自身是Beta版，则强制更新Beta版本
             if (BuildConfig.DEBUG && packageInfo.versionName.contains("Beta")) {
@@ -204,7 +203,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * 显示游戏配置对话框
      */
     fun showGameConfiguredDialog() {
-        if (!appSettings.getValue(AppSettings.Setting.SetGameStorage, false)) {
+        if (!AppSettings.getValue(AppSettings.Setting.SetGameStorage, false)) {
             try {
                 val packageInfo = packageManager.getPackageInfo(
                     GlobalMethod.DEFAULT_GAME_PACKAGE,
@@ -223,11 +222,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 )
                             )
                         }.setNeutralButton(R.string.no_longer_prompt) { i, i2 ->
-                            appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
+                            AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                         }.setNeutralButton(R.string.dialog_cancel) { i, i2 ->
                         }.setCancelable(false).show()
                 } else {
-                    appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
+                    AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                 }
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
@@ -240,7 +239,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (first) {
             first = false
         } else {
-            val newLanguage = appSettings.getValue(AppSettings.Setting.AppLanguage, "en")
+            val newLanguage = AppSettings.getValue(AppSettings.Setting.AppLanguage, "en")
             if (oldLanguage != newLanguage) {
                 recreate()
                 return
@@ -339,7 +338,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
         menu.findItem(R.id.startGame).setOnMenuItemClickListener {
-            val packName = appSettings.getValue(
+            val packName = AppSettings.getValue(
                 AppSettings.Setting.GamePackage,
                 GlobalMethod.DEFAULT_GAME_PACKAGE
             )
@@ -366,7 +365,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
         //激活暂时不可用
-        val longTime = appSettings.getValue(
+        val longTime = AppSettings.getValue(
             AppSettings.Setting.ExpirationTime,
             0.toLong()
         )
@@ -395,7 +394,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val type = FileOperator.getFileType(from)
             if (requestCode == 1) {
                 if ("rwmod" == type || "zip" == type) {
-                    val modDirectory = appSettings.getValue(AppSettings.Setting.ModFolder, "")
+                    val modDirectory = AppSettings.getValue(AppSettings.Setting.ModFolder, "")
                     val to = File(modDirectory + from.name)
                     if (FileOperator.copyFile(from, to)) {
                         Snackbar.make(
@@ -420,10 +419,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             } else if (requestCode == 2) {
                 if ("rp" == type) {
                     val outputFolder = File(
-                        appSettings.getValue(
+                        AppSettings.getValue(
                             AppSettings.Setting.TemplateDirectory,
                             this.filesDir.absolutePath + "/template/"
-                        ) + TemplatePackage.getAbsoluteFileName(from)
+                        ) + LocalTemplatePackage.getAbsoluteFileName(from)
                     )
                     importTemplate(from, outputFolder)
                 } else {
@@ -449,7 +448,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val compressionManager = CompressionManager.instance
             if (templateDirectory.exists()) {
                 val gson = Gson()
-                val newInfoData = compressionManager.readEntry(formFile, TemplatePackage.INFONAME)
+                val newInfoData = compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
                 if (newInfoData == null) {
                     handler.post {
                         Snackbar.make(
@@ -461,7 +460,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     return@Runnable
                 } else {
                     val newInfo = gson.fromJson(newInfoData, TemplateInfo::class.java)
-                    val templateClass = TemplatePackage(templateDirectory)
+                    val templateClass = LocalTemplatePackage(templateDirectory)
                     val oldInfo = templateClass.getInfo()
                     if (oldInfo == null) {
                         handler.post {
@@ -507,7 +506,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             } else {
                 //常规导入
-                val newInfo = compressionManager.readEntry(formFile, TemplatePackage.INFONAME)
+                val newInfo = compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
                 if (newInfo == null) {
                     handler.post {
                         Snackbar.make(
@@ -603,7 +602,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return false
     }
 
-    override fun getViewBindingObject(): ActivityMainBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
 
@@ -692,7 +691,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            oldLanguage = appSettings.getValue(AppSettings.Setting.AppLanguage, "en")
+            oldLanguage = AppSettings.getValue(AppSettings.Setting.AppLanguage, "en")
             useToolbarSetSupportActionBar()
             initNav()
             observeStartViewModel()

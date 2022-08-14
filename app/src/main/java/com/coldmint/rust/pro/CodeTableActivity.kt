@@ -6,10 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
@@ -189,7 +186,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun getViewBindingObject(): ActivityCodeTableBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {
         return ActivityCodeTableBinding.inflate(layoutInflater)
     }
 }

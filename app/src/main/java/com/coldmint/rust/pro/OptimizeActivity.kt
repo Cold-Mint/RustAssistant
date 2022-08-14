@@ -13,6 +13,7 @@ import android.text.style.ClickableSpan
 import com.afollestad.materialdialogs.MaterialDialog
 import android.text.Spanned
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.view.isVisible
@@ -478,7 +479,7 @@ class OptimizeActivity : BaseActivity<ActivityOptimizeBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityOptimizeBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityOptimizeBinding {
         return ActivityOptimizeBinding.inflate(layoutInflater)
     }
 

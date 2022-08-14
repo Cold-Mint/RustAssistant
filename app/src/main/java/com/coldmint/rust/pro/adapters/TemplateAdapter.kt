@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro.adapters
 
-import com.coldmint.rust.pro.CreateUnitActivity
+import android.app.Activity
+import android.content.Context
 import android.widget.BaseExpandableListAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,18 +15,35 @@ import com.coldmint.rust.pro.TemplateParserActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import com.coldmint.rust.core.TemplatePackage
+import com.bumptech.glide.Glide
+import com.coldmint.rust.core.LocalTemplatePackage
+import com.coldmint.rust.core.dataBean.template.Template
+import com.coldmint.rust.core.dataBean.template.TemplatePackage
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.pro.databinding.TemplateGroupBinding
+import com.coldmint.rust.pro.databinding.TemplateItemBinding
 import java.io.File
 
 class TemplateAdapter(
-    private val mCreateUnitActivity:CreateUnitActivity,
+    private val context: Context,
     private val mGroup: List<TemplatePackage>,
-    private val mItemList: List<List<File>>,
+    private val mItemList: List<List<Template>>,
     mEnvironmentLanguage: String
 ) : BaseExpandableListAdapter() {
-    private val mInflater: LayoutInflater
+    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val mEnvironmentLanguage: String
+    private var createPath: String? = null
+    private val templateNum by lazy {
+        context.getString(R.string.template_num)
+    }
+
+    /**
+     * 设置创建目录
+     * @param path String
+     */
+    fun setCreatePath(path: String) {
+        createPath = path
+    }
 
     //父项的个数
     override fun getGroupCount(): Int {
@@ -67,20 +85,14 @@ class TemplateAdapter(
         parent: ViewGroup
     ): View {
 
-        val convertView: View = if (view == null) {
-            mInflater.inflate(R.layout.template_group, parent, false)
-        } else {
-            view
-        }
-        val nametextView = convertView.findViewById<TextView>(R.id.template_name)
-        val numtextView = convertView.findViewById<TextView>(R.id.template_num)
+        val templateGroupBinding = TemplateGroupBinding.inflate(layoutInflater, parent, false)
         val templateClass = mGroup[groupPosition]
-        nametextView.text = templateClass.getName()
-        numtextView.text = String.format(
-            mCreateUnitActivity.getText(R.string.template_num).toString(),
+        templateGroupBinding.templateName.text = templateClass.getName()
+        templateGroupBinding.templateNum.text = String.format(
+            templateNum,
             mItemList[groupPosition].size
         )
-        return convertView
+        return templateGroupBinding.root
     }
 
     //获取子项的view
@@ -91,83 +103,23 @@ class TemplateAdapter(
         view: View?,
         parent: ViewGroup
     ): View {
-        val convertView: View
-        if (view == null) {
-            convertView = mInflater.inflate(R.layout.template_item, parent, false)
+        val templateItemBinding = TemplateItemBinding.inflate(layoutInflater, parent, false)
+        val templateClass = mItemList[groupPosition][childPosition]
+        templateItemBinding.nameView.text = templateClass.getName(mEnvironmentLanguage)
+        val icon = templateClass.getIcon()
+        if (icon == null) {
+            Glide.with(context).load(R.drawable.template).into(templateItemBinding.templateIconView)
         } else {
-            convertView = view
+            Glide.with(context).load(templateClass.getIcon())
+                .into(templateItemBinding.templateIconView)
         }
-        val templateClass = mGroup[groupPosition]
-        var child: JSONObject? = null
-        try {
-            val s = FileOperator.readFile(mItemList[groupPosition][childPosition])
-            child = JSONObject(s)
-        } catch (exception: JSONException) {
-            exception.printStackTrace()
+        templateItemBinding.root.setOnClickListener {
+            val intent = Intent(context, TemplateParserActivity::class.java)
+            intent.putExtra("link", templateClass.getLink())
+            intent.putExtra("isLocal", templateClass.isLocal())
+            context.startActivity(intent)
         }
-        if (child == null) {
-            return convertView
-        }
-        val textView = convertView.findViewById<TextView>(R.id.name_view)
-        val imageView = convertView.findViewById<ImageView>(R.id.template_icon_view)
-        val rootFolder = templateClass.directest.absolutePath + "/"
-        try {
-            if (child.has("name_$mEnvironmentLanguage")) {
-                textView.text = child.getString("name_$mEnvironmentLanguage")
-            } else {
-                textView.text = child.getString("name")
-            }
-        } catch (exception: JSONException) {
-            exception.printStackTrace()
-        }
-        if (child.has("icon")) {
-            try {
-                val iconFile = File(rootFolder + child.getString("icon"))
-                if (iconFile.exists()) {
-                    val bitmap = BitmapFactory.decodeFile(iconFile.absolutePath)
-                    imageView.setImageBitmap(bitmap)
-                }
-            } catch (exception: JSONException) {
-                exception.printStackTrace()
-            }
-        }
-        /*String modIcon = null;
-        String globalIcon = templateClass.getIconPath();
-        if (!globalIcon.isEmpty()) {
-            File file = new File(rootFolder + globalIcon);
-            if (file.exists()) {
-                modIcon = file.getAbsolutePath();
-            }
-        }
-
-        String icon = null;
-        try {
-            icon = child.getString("icon");
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
-        if (!icon.isEmpty()) {
-            File file = new File(rootFolder + icon);
-            if (file.exists()) {
-                modIcon = file.getAbsolutePath();
-            }
-        }
-
-        if (modIcon != null) {
-            imageView.setImageBitmap(BitmapFactory.decodeFile(modIcon));
-        }*/
-        val finalChild: JSONObject = child
-        convertView.setOnClickListener {
-            val intent = Intent(mCreateUnitActivity, TemplateParserActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString("path", mCreateUnitActivity.getmCreatePath())
-            bundle.putString("rootFolder", rootFolder)
-            bundle.putString("json", finalChild.toString())
-            bundle.putString("templatePath", templateClass.directest.absolutePath)
-            intent.putExtra("data", bundle)
-            mCreateUnitActivity.startActivityForResult(intent, 2)
-        }
-        return convertView
+        return templateItemBinding.root
     }
 
     //子项是否可选中,如果要设置子项的点击事件,需要返回true
@@ -176,7 +128,6 @@ class TemplateAdapter(
     }
 
     init {
-        mInflater = LayoutInflater.from(mCreateUnitActivity)
         this.mEnvironmentLanguage = mEnvironmentLanguage
     }
 }

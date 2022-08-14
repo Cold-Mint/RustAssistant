@@ -9,6 +9,7 @@ import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -279,7 +280,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     }
                     viewBinding.button.hide()
                     val token =
-                        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
+                        AppSettings.getValue(AppSettings.Setting.Token, "")
                     User.updateSpaceInfo(
                         token,
                         userName,
@@ -456,7 +457,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityEditUserInfoBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityEditUserInfoBinding {
         return ActivityEditUserInfoBinding.inflate(layoutInflater)
     }
 

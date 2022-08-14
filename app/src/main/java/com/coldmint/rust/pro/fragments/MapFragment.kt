@@ -131,7 +131,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         viewBinding.mapErrorIcon.isVisible = true
     }
 
-    override fun getViewBindingObject(): FragmentMapBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentMapBinding {
         return FragmentMapBinding.inflate(layoutInflater)
     }
 
@@ -143,7 +143,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                 DividerItemDecoration.VERTICAL
             )
         )
-        val path = appSettings.getValue(AppSettings.Setting.MapFolder, "")
+        val path = AppSettings.getValue(AppSettings.Setting.MapFolder, "")
         if (path.isNotBlank()) {
             loadPath(File(path))
         }

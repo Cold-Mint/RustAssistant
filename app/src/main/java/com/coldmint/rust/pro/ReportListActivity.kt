@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -24,7 +25,7 @@ class ReportListActivity : BaseActivity<ActivityReportListBinding>() {
         if (canUseView) {
             title = getText(R.string.report_to_deal)
             setReturnButton()
-            val account = appSettings.getValue(AppSettings.Setting.Account, "")
+            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {
                 showInfoToView(R.string.please_login_first)
                 return
@@ -153,7 +154,7 @@ class ReportListActivity : BaseActivity<ActivityReportListBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityReportListBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityReportListBinding {
         return ActivityReportListBinding.inflate(layoutInflater)
     }
 }

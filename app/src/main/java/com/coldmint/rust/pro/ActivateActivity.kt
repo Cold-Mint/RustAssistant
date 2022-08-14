@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -206,7 +207,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityActivateBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityActivateBinding {
         return ActivityActivateBinding.inflate(layoutInflater)
     }
 
@@ -233,7 +234,8 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
         if (canUseView) {
             title = getText(R.string.activation_app)
             setReturnButton()
-            val account = appSettings.getValue(AppSettings.Setting.Account, "")
+            val account = AppSettings.getValue(AppSettings.
+            Setting.Account, "")
             if (account.isBlank()) {
                 showError(getString(R.string.please_login_first))
                 return

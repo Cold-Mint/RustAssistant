@@ -69,10 +69,10 @@ class DynamicAdapter( context: Context, dataList: MutableList<DynamicItemDataBea
                         GlobalMethod.copyText(context, data.content, view)
                     }
                     context.getString(R.string.delete_title) -> {
-                        val account = AppSettings.getInstance(context)
-                            .getValue(AppSettings.Setting.Account, "")
+                        val account = AppSettings.
+                            getValue(AppSettings.Setting.Account, "")
                         val appId =
-                            AppSettings.getInstance(context)
+                            AppSettings
                                 .getValue(AppSettings.Setting.AppID, "")
                         Dynamic.instance.deleteDynamic(
                             account,

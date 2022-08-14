@@ -111,7 +111,7 @@ class HistoryUnitFragment(
         val bundle = Bundle()
         val path = file.file.absolutePath
 //        val name = fileClass.getName(
-//            appSettings.getValue(
+//            AppSettings.getValue(
 //                AppSettings.Setting.AppLanguage,
 //                Locale.getDefault().language
 //            )
@@ -140,7 +140,7 @@ class HistoryUnitFragment(
         }
     }
 
-    override fun getViewBindingObject(): FragmentHistoryBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentHistoryBinding {
         return FragmentHistoryBinding.inflate(layoutInflater)
     }
 }

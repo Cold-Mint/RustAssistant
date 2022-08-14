@@ -42,7 +42,7 @@ class RustAutoComplete2(val context: Context) : AutoCompleteProvider, EnglishMod
         tem
     }
     private val identifiersPromptNumber: Int by lazy {
-        AppSettings.getInstance(context).getValue(AppSettings.Setting.IdentifiersPromptNumber, 40)
+        AppSettings.getValue(AppSettings.Setting.IdentifiersPromptNumber, 40)
     }
 
     //类型转换器

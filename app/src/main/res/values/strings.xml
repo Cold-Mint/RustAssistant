@@ -19,6 +19,8 @@
     <string name="remove">移除</string>
     <string name="remove_image_item">移除位于\"%1$s\"的图像?</string>
     <string name="open">打开</string>
+    <string name="open_public">公开</string>
+    <string name="open_private">私有</string>
     <string name="open_nottiled">打开NoTiled</string>
     <string name="create_unit_complete">单位创建完成</string>
     <string name="create_unit_failed">单位创建失败</string>
@@ -202,6 +204,9 @@
     <string name="template_update_error">请输入更新链接。</string>
     <string name="template_version_num_error">请输入版本号。</string>
     <string name="template_version_name_error">请输入版本名。</string>
+    <string name="template_id_error">请输入id。</string>
+    <string name="template_id_error2">id已被占用。</string>
+    <string name="template_name_error2">模板包名称已被占用。</string>
     <string name="template_developer">开发者</string>
     <string name="template_error">无法创建，此模板已存在。</string>
     <string name="consent">同意</string>
@@ -213,6 +218,7 @@
     <string name="update_link">更新链接</string>
     <string name="template_version_name">版本名</string>
     <string name="template_version_num">版本号</string>
+    <string name="open_state">公开状态</string>
     <string name="code_table">代码表</string>
     <string name="upgrade_database">您使用的数据集已过时，是否升级到最新版本?</string>
     <string name="upgrade">升级</string>
@@ -564,6 +570,7 @@
     <string name="installation">安装</string>
     <string name="installation_ing">安装中...</string>
     <string name="installated">已安装</string>
+    <string name="template_community">模板社区</string>
     <string name="work_of_home_page">查看作品</string>
     <string name="audit">此模组对外是隐藏的，仅您和管理员可见。</string>
     <string name="follow">关注</string>
@@ -823,6 +830,7 @@
     <string name="turret_design">炮塔设计</string>
     <string name="experience_the_plan">用户体验计划</string>
     <string name="experience_the_plan_describe">匿名发送软件奔溃信息。</string>
+    <string name="anonymous_send_completed">已匿名发送错误</string>
     <string name="update_and_iteration">版本更新与用户体验计划</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
@@ -862,6 +870,9 @@
     <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">文件排序方式</string>
     <string name="setting_file_sort_type" translatable="false">FileSortType</string>
+    <string name="template_id">模板id</string>
+    <string name="subscription">订阅</string>
+    <string name="de_subscription">退订</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -46,13 +47,13 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityWorkmangementBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityWorkmangementBinding {
         return ActivityWorkmangementBinding.inflate(layoutInflater)
     }
 
     override fun onResume() {
 
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (account.isBlank()) {
             showErrorInView(R.string.please_login_first)
         } else {
@@ -175,7 +176,7 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
                                                             .positiveButton(R.string.dialog_ok)
                                                             .positiveButton {
                                                                 WebMod.instance.afreshAuditMod(
-                                                                    AppSettings.getInstance(this@WorkManagementActivity)
+                                                                    AppSettings
                                                                         .getValue(
                                                                             AppSettings.Setting.Token,
                                                                             ""

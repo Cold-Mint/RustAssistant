@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,7 +114,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         })
     }
 
-    override fun getViewBindingObject(): ActivitySearchBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivitySearchBinding {
         return ActivitySearchBinding.inflate(layoutInflater)
     }
 

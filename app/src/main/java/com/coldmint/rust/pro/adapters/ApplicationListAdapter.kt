@@ -90,8 +90,7 @@ class ApplicationListAdapter(
                         ).show()
                         return@OnMenuItemClickListener false
                     }
-                    val appSettings = AppSettings.getInstance(context)
-                    val result = appSettings.setValue(
+                    val result = AppSettings.setValue(
                         AppSettings.Setting.GamePackage,
                         data.packageName
                     )
@@ -158,7 +157,7 @@ class ApplicationListAdapter(
                     materialDialog.setActionButtonEnabled(WhichButton.POSITIVE, false)
                     val gameSynchronizer = GameSynchronizer(context, data)
                     gameSynchronizer.generateData(
-                        AppSettings.getInstance(context).getValue(
+                        AppSettings.getValue(
                             AppSettings.Setting.TemplateDirectory,
                             context.filesDir.absolutePath + "/template/"
                         ), object : GameSynchronizerListener {

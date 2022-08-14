@@ -14,6 +14,7 @@ import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
@@ -44,7 +45,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             transparentStatusBar().statusBarDarkFont(true)
                 .transparentNavigationBar().navigationBarDarkIcon(true)
         }
-        Log.d("应用识别码", appSettings.getValue(AppSettings.Setting.AppID, "无"))
+        Log.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
 
         viewBinding.accountView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -110,7 +111,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 if (!checkPassword(passWord)) {
                     return@OnClickListener
                 }
-                val appId = appSettings.getValue(AppSettings.Setting.AppID, "");
+                val appId = AppSettings.getValue(AppSettings.Setting.AppID, "");
                 isLogin = true
                 viewBinding.button.setText(R.string.request_data)
                 User.login(LoginRequestData(account, passWord, appId),
@@ -119,12 +120,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             isLogin = false
                             viewBinding.button.setText(R.string.login)
                             if (userData.code == ServerConfiguration.Success_Code) {
-                                appSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
-                                appSettings.forceSetValue(
+                                AppSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
+                                AppSettings.forceSetValue(
                                     AppSettings.Setting.Account,
                                     userData.data.account
                                 )
-                                appSettings.forceSetValue(
+                                AppSettings.forceSetValue(
                                     AppSettings.Setting.Token,
                                     userData.data.token
                                 )
@@ -132,8 +133,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                 //更新本地激活时间
                                 val expirationTime = userData.data.expirationTime
                                 val time = ServerConfiguration.toLongTime(expirationTime)
-                                appSettings.forceSetValue(AppSettings.Setting.ExpirationTime, time)
-                                appSettings.forceSetValue(AppSettings.Setting.LoginStatus, true)
+                                AppSettings.forceSetValue(AppSettings.Setting.ExpirationTime, time)
+                                AppSettings.forceSetValue(AppSettings.Setting.LoginStatus, true)
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 finish()
                             } else {
@@ -356,11 +357,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             viewBinding.checkbox.setHintTextColor(Color.TRANSPARENT)
             viewBinding.checkbox.movementMethod = LinkMovementMethod.getInstance();
         }
-        val agree = appSettings.getValue(AppSettings.Setting.AgreePolicy, false)
+        val agree = AppSettings.getValue(AppSettings.Setting.AgreePolicy, false)
         viewBinding.checkbox.isChecked = agree
         viewBinding.checkbox.setOnCheckedChangeListener { p0, p1 ->
             setLoginButtonEnable()
-            appSettings.setValue(AppSettings.Setting.AgreePolicy, p1)
+            AppSettings.setValue(AppSettings.Setting.AgreePolicy, p1)
         }
 
         viewBinding.registerView.setOnClickListener {
@@ -374,7 +375,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         viewBinding.changeServerView.setOnClickListener {
             InputDialog(this).setTitle(R.string.changing_the_server)
                 .setMessage(R.string.changing_the_server_tip).setMaxNumber(255).setText(
-                    appSettings.getValue(
+                    AppSettings.getValue(
                         AppSettings.Setting.ServerAddress,
                         ServerConfiguration.website
                     )
@@ -383,7 +384,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         !(s.startsWith("http://") || s.startsWith("https://"))
                 }.setPositiveButton(R.string.dialog_ok) { input ->
                     if (input.isNotBlank()) {
-                        appSettings.setValue(AppSettings.Setting.ServerAddress, input)
+                        AppSettings.setValue(AppSettings.Setting.ServerAddress, input)
                         ServerConfiguration.website = input
                         Snackbar.make(
                             viewBinding.button,
@@ -472,8 +473,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
 
     override fun onResume() {
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
-        val passWord = appSettings.getValue(AppSettings.Setting.PassWord, "")
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
+        val passWord = AppSettings.getValue(AppSettings.Setting.PassWord, "")
         val inputAccount = viewBinding.accountView.text.toString()
         val inputPassWord = viewBinding.passwordView.text.toString()
         if (account.isNotBlank() && inputAccount.isEmpty()) {
@@ -485,7 +486,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         super.onResume()
     }
 
-    override fun getViewBindingObject(): ActivityLoginBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityLoginBinding {
         return ActivityLoginBinding.inflate(layoutInflater)
     }
 

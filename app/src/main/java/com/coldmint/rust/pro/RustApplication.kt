@@ -18,11 +18,11 @@ class RustApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        AppSettings.initAppSettings(this)
         //动态颜色
         val options = DynamicColorsOptions.Builder()
             .setPrecondition { activity, theme ->
-                AppSettings.getInstance(this)
+                AppSettings
                     .getValue(
                         AppSettings.Setting.DynamicColor,
                         DynamicColors.isDynamicColorAvailable()
@@ -46,7 +46,6 @@ class RustApplication : Application() {
         MultiLanguages.init(this);
 
     }
-
 
 
     override fun attachBaseContext(base: Context?) {

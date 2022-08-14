@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import com.coldmint.rust.pro.base.BaseActivity
 import android.view.View
 import com.coldmint.rust.core.tool.AppOperator
@@ -15,7 +16,7 @@ import com.coldmint.rust.pro.tool.AppSettings
  */
 class GameCheckActivity : BaseActivity<ActivityGameCheckBinding>() {
 
-    override fun getViewBindingObject(): ActivityGameCheckBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityGameCheckBinding {
         return ActivityGameCheckBinding.inflate(layoutInflater)
     }
 
@@ -40,7 +41,7 @@ class GameCheckActivity : BaseActivity<ActivityGameCheckBinding>() {
                 }
             })
             viewBinding.completionButton.setOnClickListener(View.OnClickListener {
-                appSettings.setValue(AppSettings.Setting.SetGameStorage, true)
+                AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                 finish()
             })
         }

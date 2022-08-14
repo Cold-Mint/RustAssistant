@@ -823,7 +823,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //        return null
 //    }
 //
-//    override fun getViewBindingObject(): ActivityFileBinding {
+//    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityFileBinding {
 //        return ActivityFileBinding.inflate(layoutInflater)
 //    }
 //
@@ -875,15 +875,15 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             loadTitle()
             loadObserve()
             initAction()
-            FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
-                .setPopupTextProvider(adapter).build()
+            viewModel.initBookmarkManager(this)
+            viewModel.loadFiles()
+            viewModel.loadSortType(this)
             viewBinding.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.loadFiles(viewModel.getCurrentPath())
                 viewBinding.swipeRefreshLayout.isRefreshing = false
             }
-            viewModel.initBookmarkManager(this)
-            viewModel.loadFiles()
-            viewModel.loadSortType(this)
+            FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
+                .setPopupTextProvider(adapter).build()
         } else {
             val bundle = intent.getBundleExtra("data")
             if (bundle == null) {
@@ -1098,6 +1098,10 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             }
         }
         viewModel.currentPathLiveData.observe(this) {
+            if (it==null)
+            {
+                return@observe
+            }
             val root = getString(R.string.root_path)
             val path = root + it.substring(viewModel.getRootPath().length)
             val lineParser = LineParser(path)
@@ -1172,7 +1176,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityFileBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityFileBinding {
         return ActivityFileBinding.inflate(layoutInflater)
     }
 

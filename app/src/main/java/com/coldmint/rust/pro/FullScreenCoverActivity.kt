@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityFullScreenCoverBinding
@@ -12,7 +13,7 @@ import com.gyf.immersionbar.ktx.immersionBar
 
 class FullScreenCoverActivity : BaseActivity<ActivityFullScreenCoverBinding>() {
 
-    override fun getViewBindingObject(): ActivityFullScreenCoverBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityFullScreenCoverBinding {
         return ActivityFullScreenCoverBinding.inflate(layoutInflater)
     }
 

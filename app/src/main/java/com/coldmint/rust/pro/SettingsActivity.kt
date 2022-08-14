@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
@@ -32,15 +33,14 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 manager.findPreference<Preference>(getString(R.string.setting_app_language)) as ListPreference?
             listPreference!!.onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { preference, newValue ->
-                    val appSettings = AppSettings.getInstance(requireContext())
                     val oldLanguage =
-                        appSettings.getValue(
+                        AppSettings.getValue(
                             AppSettings.Setting.AppLanguage,
                             Locale.getDefault().language
                         )
                     val newLanguage = newValue.toString()
                     if (oldLanguage != newLanguage) {
-                        val restart = appSettings.setLanguage(newValue.toString())
+                        val restart = AppSettings.setLanguage(newValue.toString())
                         if (restart) {
                             requireActivity().recreate()
                         }
@@ -211,7 +211,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivitySettingsBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivitySettingsBinding {
         return ActivitySettingsBinding.inflate(layoutInflater)
     }
 

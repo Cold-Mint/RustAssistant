@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
-import com.coldmint.rust.core.TemplatePackage
+import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.interfaces.CompressionListener
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
@@ -25,21 +25,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.io.File
 
 class TemplateListAdapter(
-     context: Context,
-     dataList: ArrayList<TemplatePackage>,
+    context: Context,
+    dataList: ArrayList<LocalTemplatePackage>,
     private val language: String,
     private val rootPath: String
-) : BaseAdapter<TemplateListItemBinding, TemplatePackage>(context, dataList) {
+) : BaseAdapter<TemplateListItemBinding, LocalTemplatePackage>(context, dataList) {
 
     /**
      * 编辑信息
      * @param context Context
-     * @param templatePackage TemplatePackage
+     * @param localTemplatePackage LocalTemplatePackage
      */
-    private fun editInfo(context: Context, templatePackage: TemplatePackage) {
+    private fun editInfo(context: Context, localTemplatePackage: LocalTemplatePackage) {
         val bundle = Bundle()
-        bundle.putString("json", FileOperator.readFile(templatePackage.infoFile))
-        bundle.putString("path", templatePackage.infoFile.absolutePath)
+        bundle.putString("json", FileOperator.readFile(localTemplatePackage.infoFile))
+        bundle.putString("path", localTemplatePackage.infoFile.absolutePath)
         val intent = Intent(context, CreateTemplateActivity::class.java)
         intent.putExtra("data", bundle)
         context.startActivity(intent)
@@ -48,9 +48,9 @@ class TemplateListAdapter(
     /**
      * 点击了分享
      * @param context Context
-     * @param templatePackage TemplatePackage
+     * @param localTemplatePackage LocalTemplatePackage
      */
-    private fun share(context: Context, templatePackage: TemplatePackage) {
+    private fun share(context: Context, localTemplatePackage: LocalTemplatePackage) {
         val materialDialog = MaterialDialog(context)
         val handler = Handler(Looper.getMainLooper())
         Thread {
@@ -61,7 +61,7 @@ class TemplateListAdapter(
             }
             val toFile =
                 File(
-                    cacheDirectory.absolutePath + "/" + templatePackage.getName() + "_" + templatePackage.getInfo()?.versionName + ".rp"
+                    cacheDirectory.absolutePath + "/" + localTemplatePackage.getName() + "_" + localTemplatePackage.getInfo()?.versionName + ".rp"
                 )
             if (toFile.exists()) {
                 toFile.delete()
@@ -75,7 +75,7 @@ class TemplateListAdapter(
                 CompressionManager.instance
 
             compressionManager.compression(
-                templatePackage.directest,
+                localTemplatePackage.directest,
                 toFile,
                 object : CompressionListener {
                     override fun whenCompressionFile(file: File): Boolean {
@@ -108,7 +108,7 @@ class TemplateListAdapter(
                                     title(R.string.share_mod).message(
                                         text = String.format(
                                             context.getString(R.string.pack_success),
-                                            templatePackage.getName()
+                                            localTemplatePackage.getName()
                                         )
                                     ).positiveButton(R.string.share) {
                                         FileOperator.shareFile(
@@ -135,9 +135,9 @@ class TemplateListAdapter(
     /**
      * 点击了导出文件
      * @param context Context
-     * @param templatePackage TemplatePackage
+     * @param localTemplatePackage LocalTemplatePackage
      */
-    private fun exportFile(context: Context, templatePackage: TemplatePackage) {
+    private fun exportFile(context: Context, localTemplatePackage: LocalTemplatePackage) {
         val materialDialog = MaterialDialog(context)
         val handler = Handler(Looper.getMainLooper())
         Thread {
@@ -148,7 +148,7 @@ class TemplateListAdapter(
             }
             val toFile =
                 File(
-                    cacheDirectory.absolutePath + "/" + templatePackage.getName() + "_" + templatePackage.getInfo()?.versionName + ".rp"
+                    cacheDirectory.absolutePath + "/" + localTemplatePackage.getName() + "_" + localTemplatePackage.getInfo()?.versionName + ".rp"
                 )
             if (toFile.exists()) {
                 toFile.delete()
@@ -162,7 +162,7 @@ class TemplateListAdapter(
                 CompressionManager.instance
 
             compressionManager.compression(
-                templatePackage.directest,
+                localTemplatePackage.directest,
                 toFile,
                 object : CompressionListener {
                     override fun whenCompressionFile(file: File): Boolean {
@@ -195,7 +195,7 @@ class TemplateListAdapter(
                                     title(R.string.export_file).message(
                                         text = String.format(
                                             context.getString(R.string.pack_success2),
-                                            templatePackage.getName()
+                                            localTemplatePackage.getName()
                                         )
                                     ).positiveButton(R.string.export) {
                                         val intent =
@@ -246,7 +246,7 @@ class TemplateListAdapter(
     }
 
     override fun onBingView(
-        data: TemplatePackage,
+        data: LocalTemplatePackage,
         viewBinding: TemplateListItemBinding,
         viewHolder: ViewHolder<TemplateListItemBinding>,
         position: Int

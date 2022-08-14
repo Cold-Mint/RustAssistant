@@ -85,9 +85,8 @@ class FileManagerViewModel : BaseViewModel() {
      * 从设置中读取排序方式
      */
     fun loadSortType(context: Context) {
-        val appSettings = AppSettings.getInstance(context)
         //从设置中读取排序方式
-        val sortType = appSettings.getValue(
+        val sortType = AppSettings.getValue(
             AppSettings.Setting.FileSortType,
             context.getString(R.string.setting_file_list_action_sort_by_name)
         )
@@ -116,7 +115,6 @@ class FileManagerViewModel : BaseViewModel() {
      * @return Boolean
      */
     fun saveSortType(context: Context): Boolean {
-        val appSettings = AppSettings.getInstance(context)
         val value =
             sortTypeLiveData.value ?: SortType.BY_NAME
         val text = when (value) {
@@ -136,7 +134,7 @@ class FileManagerViewModel : BaseViewModel() {
                 context.getString(R.string.setting_file_list_action_sort_by_name)
             }
         }
-        return appSettings.setValue(AppSettings.Setting.FileSortType, text)
+        return AppSettings.setValue(AppSettings.Setting.FileSortType, text)
     }
 
     /**

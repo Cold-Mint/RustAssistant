@@ -30,10 +30,10 @@ import com.google.android.material.snackbar.Snackbar
 class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
     var loadAll = false
     val account by lazy {
-        appSettings.getValue(AppSettings.Setting.Account, "")
+        AppSettings.getValue(AppSettings.Setting.Account, "")
     }
     val appId by lazy {
-        appSettings.getValue(AppSettings.Setting.AppID, "")
+        AppSettings.getValue(AppSettings.Setting.AppID, "")
     }
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
@@ -190,7 +190,7 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityOrderListBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityOrderListBinding {
         return ActivityOrderListBinding.inflate(layoutInflater)
     }
 

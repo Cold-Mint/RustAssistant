@@ -112,8 +112,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 
     fun showRenewalTip() {
         val debugKey = "续费提示"
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
-        val time = appSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
+        val time = AppSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
         if (time == 0.toLong() || account.isBlank()) {
             DebugHelper.printLog(debugKey, "没有账号或续费信息，关闭界面。")
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
@@ -452,7 +452,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     //当用户切换到其他应用界面时
     override fun onPause() {
         if (viewModel.needCheckAutoSave) {
-            val need = appSettings.getValue(AppSettings.Setting.AutoSave, true)
+            val need = AppSettings.getValue(AppSettings.Setting.AutoSave, true)
             if (need) {
                 viewModel.saveAllFile(
                     viewBinding.tabLayout.selectedTabPosition,
@@ -947,7 +947,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         items.add(getString(R.string.code_table))
 //        items.add(getString(R.string.code_language_on))
         items.add(getString(R.string.symbol11))
-        val customSymbol = appSettings.getValue(
+        val customSymbol = AppSettings.getValue(
             AppSettings.Setting.CustomSymbol,
             "[],:='*_$%@#{}()"
         )
@@ -1060,7 +1060,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                                 val codeInfoList = if (lineData.isBlank()) {
                                     codeDataBase.getCodeDao().findCodeBySection(trueSection)
                                 } else {
-                                    val number = appSettings.getValue(
+                                    val number = AppSettings.getValue(
                                         AppSettings.Setting.IdentifiersPromptNumber,
                                         40
                                     )
@@ -1095,10 +1095,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            val info = ErrorInfo()
-                            info.describe = "自动保存-代码提示异常"
-                            info.allErrorDetails = e.toString()
-                            info.save()
                         }
 
                     }
@@ -1107,10 +1103,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         symbolChannel.insertSymbol(item, item.length)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        val info = ErrorInfo()
-                        info.describe = "自动保存-插入符号异常"
-                        info.allErrorDetails = e.toString()
-                        info.save()
                     }
                 }
             }
@@ -1126,7 +1118,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     fun initCodeEditor() {
         //CodEditor初始化
         viewBinding.codeEditor.isWordwrap = true
-        val useFont = appSettings.getValue(AppSettings.Setting.UseJetBrainsMonoFont, true)
+        val useFont = AppSettings.getValue(AppSettings.Setting.UseJetBrainsMonoFont, true)
         if (useFont) {
             viewBinding.codeEditor.typefaceText = Typeface.createFromAsset(
                 assets,
@@ -1134,7 +1126,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             )
         }
         val language =
-            appSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
+            AppSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
         rustLanguage = RustLanguage(this)
         rustLanguage.setCodeDataBase(CodeDataBase.getInstance(this))
         rustLanguage.setFileDataBase(
@@ -1145,7 +1137,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         )
 //        rustLanguage.setAnalyzerEnglishMode(viewModel.englishModeLiveData)
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
-        val night = appSettings.getValue(AppSettings.Setting.NightMode, false)
+        val night = AppSettings.getValue(AppSettings.Setting.NightMode, false)
         val editorColorScheme = EditorColorScheme()
         if (night) {
             //代码（可识别的关键字）
@@ -1255,7 +1247,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 ).show()
             }
             R.id.open_game_test -> {
-                val packName = appSettings.getValue(
+                val packName = AppSettings.getValue(
                     AppSettings.Setting.GamePackage,
                     GlobalMethod.DEFAULT_GAME_PACKAGE
                 )
@@ -1630,7 +1622,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityEditBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityEditBinding {
         return ActivityEditBinding.inflate(layoutInflater)
     }
 }

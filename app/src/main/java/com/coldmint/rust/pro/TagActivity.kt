@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -112,7 +113,7 @@ class TagActivity : BaseActivity<ActivityTagBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityTagBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityTagBinding {
         return ActivityTagBinding.inflate(layoutInflater)
     }
 

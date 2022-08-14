@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -66,7 +67,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             userId = temUserId
         }
 
-        val temAccount = appSettings.getValue(AppSettings.Setting.Account, "")
+        val temAccount = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (temAccount.isBlank()) {
             showError("请先登录")
             return
@@ -330,7 +331,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             CommentDialog(this).setTitle(R.string.send_dynamic).setCancelable(false)
                 .setSubmitFun { button, textInputLayout, s, alertDialog ->
                     val token =
-                        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
+                        AppSettings.getValue(AppSettings.Setting.Token, "")
                     if (!s.isBlank()) {
                         Dynamic.instance.send(
                             token,
@@ -481,7 +482,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityUserHomePageBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityUserHomePageBinding {
         return ActivityUserHomePageBinding.inflate(layoutInflater)
     }
 

@@ -19,21 +19,8 @@ class ModAdapter(context: Context, dataList: MutableList<ModClass>) :
     BaseAdapter<ModListItemBinding, ModClass>(context, dataList) {
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            dataList.sortWith(java.util.Comparator { o1, o2 ->
-                val different = o1.modFile.lastModified() - o2.modFile.lastModified()
-                when {
-                    different > 0 -> {
-                        -1
-                    }
-                    different < 0 -> {
-                        1
-                    }
-                    else -> {
-                        0
-                    }
-                }
-            })
+        dataList.sortBy {
+            it.modName
         }
     }
 

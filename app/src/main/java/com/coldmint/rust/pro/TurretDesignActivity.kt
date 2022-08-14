@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
@@ -66,7 +67,7 @@ class TurretDesignActivity : BaseActivity<ActivityTurretDesignBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityTurretDesignBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityTurretDesignBinding {
         return ActivityTurretDesignBinding.inflate(layoutInflater)
     }
 

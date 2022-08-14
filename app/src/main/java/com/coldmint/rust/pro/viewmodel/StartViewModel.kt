@@ -97,9 +97,6 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         getApplication()
     }
 
-    private val appSettings by lazy {
-        AppSettings.getInstance(context)
-    }
 
     /**
      * 初始化全部数据
@@ -128,19 +125,19 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 验证用户信息
      */
     fun verifyingUserInfo() {
-        val status = appSettings.getValue(AppSettings.Setting.LoginStatus, false)
+        val status = AppSettings.getValue(AppSettings.Setting.LoginStatus, false)
         if (!status) {
             needLoginLiveData.value = true
             return
         }
         //验证登录
-        val token = appSettings.getValue(AppSettings.Setting.Token, "")
+        val token = AppSettings.getValue(AppSettings.Setting.Token, "")
         if (token.isBlank()) {
             needLoginLiveData.value = true
         } else {
             User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
                 override fun onFailure(e: Exception) {
-                    val localTime = appSettings.getValue(
+                    val localTime = AppSettings.getValue(
                         AppSettings.Setting.ExpirationTime,
                         0.toLong()
                     )
@@ -160,7 +157,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
                         //更新本地激活时间
                         val expirationTime = activationInfo.data.expirationTime
                         val time = ServerConfiguration.toLongTime(expirationTime)
-                        appSettings.forceSetValue(
+                        AppSettings.forceSetValue(
                             AppSettings.Setting.ExpirationTime,
                             time
                         )
@@ -180,70 +177,70 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 初始化设置
      */
     private fun initSetting() {
-        appSettings.initSetting(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
-        appSettings.initSetting(AppSettings.Setting.DeveloperMode, false)
-        appSettings.initSetting(
+        AppSettings.initSetting(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
+        AppSettings.initSetting(AppSettings.Setting.DeveloperMode, false)
+        AppSettings.initSetting(
             AppSettings.Setting.DatabaseDirectory,
             context.filesDir.absolutePath + "/database/"
         )
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.TemplateDirectory,
             context.filesDir.absolutePath + "/template/"
         )
-        appSettings.initSetting(AppSettings.Setting.CustomSymbol, "[],:='*_$%@#{}()")
-        appSettings.initSetting(AppSettings.Setting.AutoCreateNomedia, true)
-        appSettings.initSetting(AppSettings.Setting.OnlyLoadConantLanguageTemple, true)
-        appSettings.initSetting(AppSettings.Setting.NightMode, isNightMode())
-        appSettings.initSetting(
+        AppSettings.initSetting(AppSettings.Setting.CustomSymbol, "[],:='*_$%@#{}()")
+        AppSettings.initSetting(AppSettings.Setting.AutoCreateNomedia, true)
+        AppSettings.initSetting(AppSettings.Setting.OnlyLoadConantLanguageTemple, true)
+        AppSettings.initSetting(AppSettings.Setting.NightMode, isNightMode())
+        AppSettings.initSetting(
             AppSettings.Setting.GamePackage,
             GlobalMethod.DEFAULT_GAME_PACKAGE
         )
-        appSettings.initSetting(AppSettings.Setting.KeepRwmodFile, true)
-        appSettings.initSetting(AppSettings.Setting.RecoveryStationFileSaveDays, 7)
-        appSettings.initSetting(AppSettings.Setting.EnableRecoveryStation, true)
-        appSettings.initSetting(AppSettings.Setting.UseMobileNetwork, false)
-        appSettings.initSetting(AppSettings.Setting.ExperiencePlan, true)
-        appSettings.initSetting(
+        AppSettings.initSetting(AppSettings.Setting.KeepRwmodFile, true)
+        AppSettings.initSetting(AppSettings.Setting.RecoveryStationFileSaveDays, 7)
+        AppSettings.initSetting(AppSettings.Setting.EnableRecoveryStation, true)
+        AppSettings.initSetting(AppSettings.Setting.UseMobileNetwork, false)
+        AppSettings.initSetting(AppSettings.Setting.ExperiencePlan, true)
+        AppSettings.initSetting(
             AppSettings.Setting.RecoveryStationFolder,
             context.filesDir.absolutePath + "/backup/"
         )
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.PackDirectory,
             AppSettings.dataRootDirectory + "/bin/"
         )
-        appSettings.initSetting(AppSettings.Setting.IndependentFolder, true)
-        appSettings.initSetting(AppSettings.Setting.IdentifiersPromptNumber, 40)
-        appSettings.initSetting(AppSettings.Setting.UseJetBrainsMonoFont, true)
-        appSettings.initSetting(AppSettings.Setting.AppID, UUID.randomUUID().toString())
-        appSettings.initSetting(AppSettings.Setting.CheckBetaUpdate, false)
-        appSettings.initSetting(AppSettings.Setting.SetGameStorage, false)
-        appSettings.initSetting(AppSettings.Setting.ShareTip, true)
-        appSettings.initSetting(AppSettings.Setting.EnglishEditingMode, false)
-        appSettings.initSetting(AppSettings.Setting.NightModeFollowSystem, true)
-        appSettings.initSetting(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
-        appSettings.initSetting(
+        AppSettings.initSetting(AppSettings.Setting.IndependentFolder, true)
+        AppSettings.initSetting(AppSettings.Setting.IdentifiersPromptNumber, 40)
+        AppSettings.initSetting(AppSettings.Setting.UseJetBrainsMonoFont, true)
+        AppSettings.initSetting(AppSettings.Setting.AppID, UUID.randomUUID().toString())
+        AppSettings.initSetting(AppSettings.Setting.CheckBetaUpdate, false)
+        AppSettings.initSetting(AppSettings.Setting.SetGameStorage, false)
+        AppSettings.initSetting(AppSettings.Setting.ShareTip, true)
+        AppSettings.initSetting(AppSettings.Setting.EnglishEditingMode, false)
+        AppSettings.initSetting(AppSettings.Setting.NightModeFollowSystem, true)
+        AppSettings.initSetting(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
+        AppSettings.initSetting(
             AppSettings.Setting.ServerAddress,
             ServerConfiguration.defaultIp
         )
         ServerConfiguration.website =
-            appSettings.getValue(
+            AppSettings.getValue(
                 AppSettings.Setting.ServerAddress,
                 ServerConfiguration.defaultIp
             )
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.MapFolder,
             Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/maps/"
         )
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.ModFolder,
             Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/"
         )
-        appSettings.initSetting(AppSettings.Setting.AutoSave, true)
-        appSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
-        appSettings.initSetting(AppSettings.Setting.LoginStatus, false)
-        appSettings.initSetting(AppSettings.Setting.FileSortType,context.getString(R.string.setting_file_list_action_sort_by_name))
+        AppSettings.initSetting(AppSettings.Setting.AutoSave, true)
+        AppSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
+        AppSettings.initSetting(AppSettings.Setting.LoginStatus, false)
+        AppSettings.initSetting(AppSettings.Setting.FileSortType,context.getString(R.string.setting_file_list_action_sort_by_name))
         //如果启用动态颜色
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.DynamicColor,
             DynamicColors.isDynamicColorAvailable()
         )
@@ -254,12 +251,12 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      */
     private fun initRes() {
         val defaultDatabase = File(
-            appSettings.getValue(
+            AppSettings.getValue(
                 AppSettings.Setting.DatabaseDirectory,
                 context.filesDir.absolutePath + "/database/"
             ) + "official"
         )
-        appSettings.initSetting(
+        AppSettings.initSetting(
             AppSettings.Setting.DatabasePath,
             defaultDatabase.absolutePath
         )
@@ -324,7 +321,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      */
     private fun importingTemplatePackage(fileName: String) {
         val defaultTemplate = File(
-            appSettings.getValue(
+            AppSettings.getValue(
                 AppSettings.Setting.TemplateDirectory,
                 context.filesDir.absolutePath + "/template/"
             ).toString() + FileOperator.getPrefixName(fileName)
@@ -403,9 +400,9 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      */
     private fun initLanguage() {
         val defaultLanguage = Locale.getDefault().language
-        val language = appSettings.getValue(AppSettings.Setting.AppLanguage, defaultLanguage)
+        val language = AppSettings.getValue(AppSettings.Setting.AppLanguage, defaultLanguage)
         if (language != defaultLanguage) {
-            appSettings.setLanguage(language)
+            AppSettings.setLanguage(language)
         }
     }
 
@@ -414,12 +411,12 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      * 加载夜间设置
      */
     private fun loadNightMode() {
-        val followSystem = appSettings.getValue(AppSettings.Setting.NightModeFollowSystem, true)
+        val followSystem = AppSettings.getValue(AppSettings.Setting.NightModeFollowSystem, true)
         if (followSystem) {
             //如果跟随系统(更新本地设置与系统同步)
-            appSettings.setValue(AppSettings.Setting.NightMode, isNightMode())
+            AppSettings.setValue(AppSettings.Setting.NightMode, isNightMode())
         } else {
-            val night = appSettings.getValue(AppSettings.Setting.NightMode, false)
+            val night = AppSettings.getValue(AppSettings.Setting.NightMode, false)
             if (night) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {

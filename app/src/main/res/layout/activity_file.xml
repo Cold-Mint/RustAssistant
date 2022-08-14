@@ -18,10 +18,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fileTabNav"
-            android:layout_marginHorizontal="16dp"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:visibility="gone" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,18 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
+                android:layout_height="match_parent" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -79,7 +71,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:icon="@drawable/add" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

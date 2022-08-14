@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import com.coldmint.rust.pro.base.BaseActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.tool.AppSettings
@@ -26,12 +27,12 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
             title = getString(R.string.enable_the_recovery_station)
             viewBinding.backupList.layoutManager =
                 LinearLayoutManager(this@RecyclingStationActivity)
-            val workFolderPath = appSettings.getValue(
+            val workFolderPath = AppSettings.getValue(
                 AppSettings.Setting.RecoveryStationFolder,
                 this@RecyclingStationActivity.filesDir.absolutePath + "/backup/"
             )
             mDayNum = Integer.valueOf(
-                appSettings.getValue(
+                AppSettings.getValue(
                     AppSettings.Setting.RecoveryStationFileSaveDays,
                     7
                 )
@@ -91,7 +92,7 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
                                     working = true
                                     val removePath: String
                                     val modDirectory =
-                                        appSettings.getValue(AppSettings.Setting.ModFolder, "")
+                                        AppSettings.getValue(AppSettings.Setting.ModFolder, "")
                                     val removeFile: File
                                     if (file.isDirectory) {
                                         removePath = modDirectory + file.name + "/"
@@ -163,7 +164,7 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
                     }
                     FileOperator.removeFiles(
                         mWorkFolder,
-                        File(appSettings.getValue(AppSettings.Setting.ModFolder, ""))
+                        File(AppSettings.getValue(AppSettings.Setting.ModFolder, ""))
                     )
                     runOnUiThread {
                         viewBinding.progressBar.isVisible = false
@@ -185,7 +186,7 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
     }
 
 
-    override fun getViewBindingObject(): ActivityRecyclingStationBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityRecyclingStationBinding {
         return ActivityRecyclingStationBinding.inflate(layoutInflater)
     }
 

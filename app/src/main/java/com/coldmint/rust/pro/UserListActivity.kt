@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -33,7 +34,7 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityUserListBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityUserListBinding {
         return ActivityUserListBinding.inflate(layoutInflater)
     }
 

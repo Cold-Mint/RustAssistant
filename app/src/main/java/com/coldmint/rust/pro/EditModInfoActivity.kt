@@ -15,6 +15,7 @@ import android.os.Build
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -555,7 +556,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityEditModInfoBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityEditModInfoBinding {
         return ActivityEditModInfoBinding.inflate(layoutInflater)
     }
 

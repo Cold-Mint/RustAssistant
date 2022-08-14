@@ -24,7 +24,7 @@ class CommunityAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
                 UserInfoFragment()
             }
             else -> {
-                NullObjectFragment()
+                NullFragment()
             }
         }
 

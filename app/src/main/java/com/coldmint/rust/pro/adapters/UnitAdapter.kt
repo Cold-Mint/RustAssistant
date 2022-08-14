@@ -24,7 +24,7 @@ class UnitAdapter(
 ) : BaseAdapter<UnitItemBinding, SourceFile>(context, dataList) {
 
     private val language: String by lazy {
-        AppSettings.getInstance(context).getValue(
+        AppSettings.getValue(
             AppSettings.Setting.AppLanguage,
             Locale.getDefault().language
         )

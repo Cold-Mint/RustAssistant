@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -121,7 +122,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         showError("模组id为空")
                         return
                     }
-                    val account = appSettings.getValue(AppSettings.Setting.Account, "")
+                    val account = AppSettings.getValue(AppSettings.Setting.Account, "")
                     if (account.isBlank()) {
                         showError(getString(R.string.please_login_first))
                         return
@@ -422,7 +423,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         viewBinding.modTagEdit.setText(
             String.format(
                 getString(R.string.default_tags),
-                appSettings.getValue(AppSettings.Setting.Account, "未知用户")
+                AppSettings.getValue(AppSettings.Setting.Account, "未知用户")
             )
         )
 
@@ -724,7 +725,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         }
 
 
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (account.isBlank()) {
             Snackbar.make(
                 viewBinding.releaseButton,
@@ -751,7 +752,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             when (AppOperator.getNetworkType(this)) {
                 AppOperator.NetWorkType.NetWorkType_Moble -> {
                     val useMobileNetWork =
-                        appSettings.getValue(AppSettings.Setting.UseMobileNetwork, false)
+                        AppSettings.getValue(AppSettings.Setting.UseMobileNetwork, false)
                     if (useMobileNetWork) {
                         if (isUpdateMode) {
                             updateModWork(
@@ -793,7 +794,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                     }
                                 }
                             negativeButton(R.string.always_allow) {
-                                appSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
+                                AppSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
                                 if (isUpdateMode) {
                                     updateModWork(
                                         modId,
@@ -865,8 +866,8 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             title(R.string.release).customView(view = loadFileLayoutBinding.root)
                 .positiveButton(R.string.dialog_ok).cancelable(false)
         }
-        WebMod.instance.releaseMod(appSettings.getValue(AppSettings.Setting.AppID, ""), modId,
-            appSettings.getValue(AppSettings.Setting.Token, ""),
+        WebMod.instance.releaseMod(AppSettings.getValue(AppSettings.Setting.AppID, ""), modId,
+            AppSettings.getValue(AppSettings.Setting.Token, ""),
             modName,
             modDescribe,
             tagsBuilder.toString(),
@@ -889,7 +890,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         //发布动态
                         val check = viewBinding.checkbox.isChecked
                         if (check) {
-                            val token = appSettings.getValue(AppSettings.Setting.Token, "")
+                            val token = AppSettings.getValue(AppSettings.Setting.Token, "")
                             Dynamic.instance.send(
                                 token,
                                 String.format(getString(R.string.auto_send), modId),
@@ -977,7 +978,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             title(R.string.release).customView(view = loadFileLayoutBinding.root)
                 .positiveButton(R.string.dialog_ok).cancelable(false)
         }
-        WebMod.instance.updateMod(appSettings.getValue(AppSettings.Setting.AppID, ""), modId,
+        WebMod.instance.updateMod(AppSettings.getValue(AppSettings.Setting.AppID, ""), modId,
             account,
             modName,
             modDescribe,
@@ -1002,7 +1003,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         //发布动态
                         val check = viewBinding.checkbox.isChecked
                         if (check) {
-                            val token = appSettings.getValue(AppSettings.Setting.Token, "")
+                            val token = AppSettings.getValue(AppSettings.Setting.Token, "")
                             Dynamic.instance.send(
                                 token,
                                 String.format(
@@ -1270,7 +1271,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityReleaseModBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityReleaseModBinding {
         return ActivityReleaseModBinding.inflate(layoutInflater)
     }
 

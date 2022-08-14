@@ -41,7 +41,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
     lateinit var modAdapter: ModAdapter
     val needRecycling by lazy {
         if (GlobalMethod.isActive) {
-            appSettings.getValue(
+            AppSettings.getValue(
                 AppSettings.Setting.EnableRecoveryStation,
                 true
             )
@@ -64,7 +64,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                     viewBinding.modList.isVisible = false
                 }
             }
-            val mod_directory = File(appSettings.getValue(AppSettings.Setting.ModFolder, ""))
+            val mod_directory = File(AppSettings.getValue(AppSettings.Setting.ModFolder, ""))
             if (!mod_directory.exists()) {
                 mod_directory.mkdirs()
             }
@@ -93,6 +93,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                         handler.post { loadMods() }
                     }
                 }
+//                modAdapter.
                 modAdapter.setItemEvent { i, modListItemBinding, viewHolder, modClass ->
                     modListItemBinding.root.setOnClickListener {
                         onClickItemWork(modListItemBinding, modClass)
@@ -167,7 +168,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                 val removePath: String
                 val removeFile: File
                 if (targetFile.isDirectory) {
-                    removePath = appSettings.getValue(
+                    removePath = AppSettings.getValue(
                         AppSettings.Setting.RecoveryStationFolder,
                         requireContext().filesDir.absolutePath + "/backup/"
                     ).toString() + targetFile.name + "/"
@@ -176,7 +177,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                         removeFile.mkdirs()
                     }
                 } else {
-                    removePath = appSettings.getValue(
+                    removePath = AppSettings.getValue(
                         AppSettings.Setting.RecoveryStationFolder,
                         requireContext().filesDir.absolutePath + "/backup/"
                     ).toString() + targetFile.name
@@ -269,7 +270,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
             configurationManager?.readData()
         val works: MutableList<String> = ArrayList()
         if (modClass.modFile.isDirectory) {
-            val developerMode = appSettings.getValue(AppSettings.Setting.DeveloperMode, false)
+            val developerMode = AppSettings.getValue(AppSettings.Setting.DeveloperMode, false)
             if (developerMode) {
                 works.add(getString(R.string.generate_error_report))
             }
@@ -356,7 +357,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         viewBinding.progressBar.isVisible = false
     }
 
-    override fun getViewBindingObject(): ModFragmentBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ModFragmentBinding {
         return ModFragmentBinding.inflate(layoutInflater)
     }
 

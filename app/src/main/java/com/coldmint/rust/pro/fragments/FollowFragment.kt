@@ -29,7 +29,7 @@ import com.coldmint.rust.pro.tool.AppSettings
  */
 class FollowFragment : BaseFragment<FragmentFollowBinding>() {
     val selfAccount by lazy {
-        appSettings.getValue(AppSettings.Setting.Account, "")
+        AppSettings.getValue(AppSettings.Setting.Account, "")
     }
     var oldSize: Int = 0
     var lastIndex = 0
@@ -212,7 +212,7 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): FragmentFollowBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentFollowBinding {
         return FragmentFollowBinding.inflate(layoutInflater)
     }
 

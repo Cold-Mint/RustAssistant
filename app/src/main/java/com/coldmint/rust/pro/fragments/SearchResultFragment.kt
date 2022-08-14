@@ -44,7 +44,7 @@ class SearchResultFragment(
         return list
     }
 
-    override fun getViewBindingObject(): FragmentSearchResultBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentSearchResultBinding {
         return FragmentSearchResultBinding.inflate(layoutInflater)
     }
 }

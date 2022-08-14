@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.WebChromeClient
@@ -76,7 +77,7 @@ class BrowserActivity : BaseActivity<ActivityBrowserBinding>() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun getViewBindingObject(): ActivityBrowserBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityBrowserBinding {
         return ActivityBrowserBinding.inflate(layoutInflater)
     }
 

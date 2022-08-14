@@ -60,7 +60,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      */
     val apkFolder by lazy {
         GameSynchronizer.getPackAgeFolder(
-            getApplication(), AppSettings.getInstance(getApplication()).getValue(
+            getApplication(), AppSettings.getValue(
                 AppSettings.Setting.GamePackage,
                 GlobalMethod.DEFAULT_GAME_PACKAGE
             )
@@ -504,7 +504,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
             if (fileDataBase != null) {
                 val path = file.file.absolutePath
                 val name = file.getName(
-                    AppSettings.getInstance(getApplication()).getValue(
+                    AppSettings.getValue(
                         AppSettings.Setting.AppLanguage,
                         Locale.getDefault().language
                     )
@@ -573,7 +573,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      * 加载数据
      */
     fun loadData() {
-        val english = AppSettings.getInstance(getApplication())
+        val english = AppSettings
             .getValue(AppSettings.Setting.EnglishEditingMode, false)
         setEnglish(english)
     }

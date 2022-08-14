@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import com.coldmint.rust.pro.tool.AppSettings
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -33,16 +34,13 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
 
     abstract fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean)
 
-    abstract fun getViewBindingObject(): ViewBingType
+    abstract fun getViewBindingObject(layoutInflater: LayoutInflater): ViewBingType
 
 
     protected val viewBinding: ViewBingType by lazy {
-        getViewBindingObject()
+        getViewBindingObject(LayoutInflater.from(this))
     }
 
-    protected val appSettings: AppSettings by lazy {
-        AppSettings.getInstance(this)
-    }
     protected val inputMethodManager: InputMethodManager by lazy {
         getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
     }

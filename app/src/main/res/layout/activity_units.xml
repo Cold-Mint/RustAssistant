@@ -24,7 +24,6 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:windowBackground"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TabLayoutTextStyle">
 
@@ -48,6 +47,8 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 

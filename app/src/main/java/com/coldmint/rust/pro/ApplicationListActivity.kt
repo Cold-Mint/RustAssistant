@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
@@ -134,7 +135,7 @@ class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityApplicationListBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityApplicationListBinding {
         return ActivityApplicationListBinding.inflate(
             layoutInflater
         )

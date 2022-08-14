@@ -29,13 +29,12 @@ class ErrorInfoAdapter( context: Context, dataList: ArrayList<ErrorInfo>) :
         position: Int
     ) {
         viewBinding.timeView.text = data.time
-        val des = data.describe
-        if (des == null || des.isBlank()) {
-            viewBinding.describeView.isVisible = false
-        } else {
-            viewBinding.describeView.isVisible = true
-            viewBinding.describeView.text = des
-        }
+//        if (des == null || des.isBlank()) {
+//            viewBinding.describeView.isVisible = false
+//        } else {
+//            viewBinding.describeView.isVisible = true
+//            viewBinding.describeView.text = des
+//        }
         viewBinding.root.setOnClickListener { view ->
             MaterialDialog(context, BottomSheet()).show {
                 title(text = data.time).message(text = data.allErrorDetails)

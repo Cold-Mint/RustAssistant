@@ -9,6 +9,7 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import android.os.Looper
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -80,10 +81,10 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
             modName = modClass.modName
             item = resources.getStringArray(R.array.update_type_entries)
             needRecyclingFile =
-                appSettings.getValue(AppSettings.Setting.EnableRecoveryStation, true)
+                AppSettings.getValue(AppSettings.Setting.EnableRecoveryStation, true)
             if (needRecyclingFile) {
                 val recoveryStationFolder = StringBuilder(
-                    appSettings.getValue(
+                    AppSettings.getValue(
                         AppSettings.Setting.RecoveryStationFolder,
                         this@PackActivity.filesDir.absolutePath + "/backup/"
                     )
@@ -105,7 +106,7 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
                 configurationData = data
                 loadInfoToView(data)
             }
-            outputFolder = appSettings.getValue(
+            outputFolder = AppSettings.getValue(
                 AppSettings.Setting.PackDirectory,
                 AppSettings.dataRootDirectory + "/bin/"
             )
@@ -428,7 +429,7 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityPackBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityPackBinding {
         return ActivityPackBinding.inflate(layoutInflater)
     }
 

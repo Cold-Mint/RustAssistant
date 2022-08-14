@@ -8,8 +8,6 @@ import com.coldmint.rust.core.database.file.FileDataBase
 //package com.coldmint.rust.core.database.file.
 import com.coldmint.rust.pro.fragments.AllUnitsFragment
 import com.coldmint.rust.pro.fragments.HistoryUnitFragment
-import com.coldmint.rust.pro.fragments.NullObjectFragment
-import java.io.File
 
 /**
  * @author Cold Mint

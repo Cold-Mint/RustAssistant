@@ -97,7 +97,7 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
     fun loadSoleRecommended() {
         viewBinding.soleRecommendedCardView.isVisible = false
         viewBinding.soleRecommendedProgressIndicator.isVisible = true
-        val account = appSettings.getValue(AppSettings.Setting.Account, "")
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (account.isNotBlank()) {
             WebMod.instance.soleRecommended(account, object : ApiCallBack<WebModListData> {
                 override fun onResponse(t: WebModListData) {
@@ -132,7 +132,7 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
                     val dataList = t.data
                     if (dataList != null && dataList.isNotEmpty()) {
                         val forever =
-                            appSettings.getValue(
+                            AppSettings.getValue(
                                 AppSettings.Setting.ExpirationTime,
                                 0.toLong()
                             ) == (-2).toLong()
@@ -221,7 +221,7 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
         loadBannerData()
     }
 
-    override fun getViewBindingObject(): RecommendedFragmentBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): RecommendedFragmentBinding {
         return RecommendedFragmentBinding.inflate(layoutInflater)
     }
 

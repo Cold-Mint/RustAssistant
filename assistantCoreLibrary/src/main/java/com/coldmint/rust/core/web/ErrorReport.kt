@@ -21,8 +21,11 @@ class ErrorReport {
         }
     }
 
+    private constructor()
+
     /**
      * 发送错误报告
+     * @param website 网址(如果程序已崩溃，需要重新读取设置的网址)
      * @param message String 消息
      * @param versionName 版本名
      * @param versionNumber 版本号
@@ -32,7 +35,7 @@ class ErrorReport {
         message: String,
         versionName: String,
         versionNumber: Int,
-        apiCallBack: ApiCallBack<ApiResponse>
+        apiCallBack: ApiCallBack<ApiResponse>, website: String = ServerConfiguration.website
     ) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBodyBuilder: FormBody.Builder =
@@ -41,7 +44,7 @@ class ErrorReport {
         val requestBody = requestBodyBuilder.build()
         val request =
             Request.Builder()
-                .url(ServerConfiguration.website + "php/error.php?action=send")
+                .url(website + "php/error.php?action=send")
                 .post(requestBody).build()
         val call = okHttpClient.newCall(request)
         val handler = Handler(Looper.getMainLooper())
@@ -55,7 +58,7 @@ class ErrorReport {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("错误反馈数据",data)
+                    Log.d("错误反馈数据", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

@@ -43,7 +43,7 @@ class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): FragmentWarehouseBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentWarehouseBinding {
         return FragmentWarehouseBinding.inflate(layoutInflater)
     }
 

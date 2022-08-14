@@ -210,7 +210,7 @@ class UnitsActivity : BaseActivity<ActivityUnitsBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityUnitsBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityUnitsBinding {
         return ActivityUnitsBinding.inflate(layoutInflater)
     }
 

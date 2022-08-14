@@ -89,7 +89,7 @@ class AllUnitsFragment(
         val funData: () -> Unit = {
             val path = file.file.absolutePath
             val name = file.getName(
-                appSettings.getValue(
+                AppSettings.getValue(
                     AppSettings.Setting.AppLanguage,
                     Locale.getDefault().language
                 )
@@ -240,7 +240,7 @@ class AllUnitsFragment(
             dataList.clear()
             val data = modClass.modConfigurationManager?.readData()
             val sourceFileFilteringRule = data?.sourceFileFilteringRule ?: ".+\\.ini|.+\\.template"
-            val language = AppSettings.getInstance(requireContext())
+            val language = AppSettings
                 .getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
             val fileFinder2 = FileFinder2(file)
             fileFinder2.findMode = true
@@ -332,7 +332,7 @@ class AllUnitsFragment(
                 notFindUnits(handler)
             } else {
                 val newList = ArrayList<SourceFile>()
-                val language = AppSettings.getInstance(requireContext())
+                val language = AppSettings
                     .getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
                 dataList.forEach {
                     if (it.getName(language).contains(key)) {
@@ -370,7 +370,7 @@ class AllUnitsFragment(
         }
     }
 
-    override fun getViewBindingObject(): FragmentAllUnitsBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentAllUnitsBinding {
         return FragmentAllUnitsBinding.inflate(layoutInflater)
     }
 

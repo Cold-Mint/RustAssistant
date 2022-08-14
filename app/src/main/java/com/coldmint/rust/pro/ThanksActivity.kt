@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.adapters.ThanksAdapter
@@ -15,7 +16,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
  */
 class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
 
-    override fun getViewBindingObject(): ActivityThanksBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityThanksBinding {
         return ActivityThanksBinding.inflate(layoutInflater)
     }
 

@@ -6,6 +6,7 @@ import com.coldmint.rust.pro.base.BaseActivity
 import android.text.TextWatcher
 import android.text.Editable
 import android.os.Environment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -133,7 +134,7 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityCreateModBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCreateModBinding {
         return ActivityCreateModBinding.inflate(layoutInflater)
     }
 

@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -103,7 +104,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivitySearchResultBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivitySearchResultBinding {
         return ActivitySearchResultBinding.inflate(layoutInflater)
     }
 }

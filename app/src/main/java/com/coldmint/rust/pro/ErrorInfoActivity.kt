@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.interfaces.FileFinderListener
@@ -93,7 +94,7 @@ class ErrorInfoActivity : BaseActivity<ActivityErrorInfoBinding>() {
         viewBinding.tipView.setText(resId)
     }
 
-    override fun getViewBindingObject(): ActivityErrorInfoBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityErrorInfoBinding {
         return ActivityErrorInfoBinding.inflate(layoutInflater)
     }
 }

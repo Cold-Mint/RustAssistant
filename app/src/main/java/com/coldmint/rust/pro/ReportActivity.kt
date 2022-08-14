@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
@@ -24,7 +25,7 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
     lateinit var type: String
     lateinit var target: String
 
-    override fun getViewBindingObject(): ActivityReportBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityReportBinding {
         return ActivityReportBinding.inflate(layoutInflater)
     }
 
@@ -58,7 +59,7 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
                 return
             }
 
-            val account = appSettings.getValue(AppSettings.Setting.Account, "")
+            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
             if (account.isBlank()) {
                 showError(getString(R.string.please_login_first))
                 return

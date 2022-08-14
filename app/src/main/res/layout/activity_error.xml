@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="@string/error_title"
-            android:textSize="16dp" />
+           style="@style/TextAppearance.Material3.TitleMedium" />
 
         <TextView
             android:id="@+id/subTitleView"
@@ -43,35 +43,36 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/titleView"
             android:layout_marginTop="8dp"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:text="@string/error_content" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/subTitleView"
-            android:layout_marginTop="8dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="1500">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/inputLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/subTitleView"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:counterEnabled="true"-->
+<!--            app:counterMaxLength="1500">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputEditView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/error_description"
-                android:imeOptions="actionDone"
-                android:inputType="textMultiLine"
-                android:maxLength="1500"
-                android:maxLines="5" />
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/inputEditView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="@string/error_description"-->
+<!--                android:imeOptions="actionDone"-->
+<!--                android:inputType="textMultiLine"-->
+<!--                android:maxLength="1500"-->
+<!--                android:maxLines="5" />-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/shareLogButton"
-            android:layout_below="@id/inputLayout"
+            android:layout_below="@id/subTitleView"
             android:layout_marginTop="8dp">
 
             <LinearLayout
@@ -86,6 +87,7 @@
 
                     <TextView
                         android:id="@+id/errorInfo"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/collapse_info" />

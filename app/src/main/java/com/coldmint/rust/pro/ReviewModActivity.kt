@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -23,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
  */
 class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
     val token by lazy {
-        AppSettings.getInstance(this).getValue(AppSettings.Setting.Token, "")
+        AppSettings.getValue(AppSettings.Setting.Token, "")
     }
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
@@ -153,7 +154,7 @@ class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
         }
     }
 
-    override fun getViewBindingObject(): ActivityReviewModBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityReviewModBinding {
         return ActivityReviewModBinding.inflate(layoutInflater)
     }
 }

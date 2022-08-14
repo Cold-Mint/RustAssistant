@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.coldmint.rust.pro.base.BaseActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -158,7 +159,7 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
         return libInfoArrayList
     }
 
-    override fun getViewBindingObject(): ActivityLibraryBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityLibraryBinding {
         return ActivityLibraryBinding.inflate(layoutInflater)
     }
 

@@ -3,6 +3,7 @@ package com.coldmint.rust.pro
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coldmint.rust.pro.adapters.GuideAdapter
@@ -140,7 +141,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
                             Intent(this, FileManagerActivity::class.java)
                         val fileBundle = Bundle()
                         fileBundle.putString("type", "selectFile")
-                        val packDirectory = appSettings.getValue(
+                        val packDirectory = AppSettings.getValue(
                             AppSettings.Setting.PackDirectory,
                             AppSettings.dataRootDirectory + "/bin/"
                         )
@@ -158,7 +159,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
         viewBinding.recyclerView.adapter = adapter
     }
 
-    override fun getViewBindingObject(): ActivityCreationWizardBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCreationWizardBinding {
         return ActivityCreationWizardBinding.inflate(layoutInflater)
     }
 

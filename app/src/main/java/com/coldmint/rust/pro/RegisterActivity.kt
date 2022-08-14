@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import com.coldmint.rust.pro.base.BaseActivity
 import android.view.View
 import androidx.core.view.isVisible
@@ -147,7 +148,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
                     )
                 )
                 viewBinding.registerButton.setText(R.string.request_data)
-                val appID = appSettings.getValue(AppSettings.Setting.AppID, "")
+                val appID = AppSettings.getValue(AppSettings.Setting.AppID, "")
                 User.register(
                     RegisterRequestData(account, passWord, userName, email, appID),
                     object : ApiCallBack<ApiResponse> {
@@ -160,9 +161,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
                             )
                             viewBinding.registerButton.setText(R.string.register)
                             if (apiResponse.code == ServerConfiguration.Success_Code) {
-                                appSettings.forceSetValue(AppSettings.Setting.Account, account)
-                                appSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
-                                appSettings.forceSetValue(AppSettings.Setting.UserName, userName)
+                                AppSettings.forceSetValue(AppSettings.Setting.Account, account)
+                                AppSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
+                                AppSettings.forceSetValue(AppSettings.Setting.UserName, userName)
                                 MaterialDialog(this@RegisterActivity).show {
                                     title(R.string.register_successed).message(R.string.registration_success_message)
                                         .cancelable(false).positiveButton(R.string.close) {
@@ -412,7 +413,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
             ) && checkEmail(email, false)
     }
 
-    override fun getViewBindingObject(): ActivityRegisterBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityRegisterBinding {
         return ActivityRegisterBinding.inflate(layoutInflater)
     }
 

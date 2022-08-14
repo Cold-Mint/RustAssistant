@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro.tool
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.coldmint.rust.pro.R
@@ -15,33 +16,25 @@ import java.util.*
  * 程序设置类
  * Program setup class
  */
-class AppSettings private constructor(val mContext: Context) {
+object AppSettings {
+
+    private lateinit var mApplication: Application
 
 
-    companion object {
-        private var instance: AppSettings? = null
-        fun getInstance(context: Context): AppSettings {
-            if (instance == null) {
-                synchronized(AppSettings::class.java)
-                {
-                    if (instance == null) {
-                        instance = AppSettings(context.applicationContext)
-                    }
-                }
-            }
-            return instance!!
-        }
+    @JvmField
+    val dataRootDirectory =
+        Environment.getExternalStorageDirectory().absolutePath + "/rustAssistant"
+    val Locale_Russia = Locale("RU", "ru", "")
 
-        @JvmField
-        val dataRootDirectory =
-            Environment.getExternalStorageDirectory().absolutePath + "/rustAssistant"
-        val Locale_Russia = Locale("RU", "ru", "")
+    private val mFileName: String by lazy {
+        mApplication.packageName + "_preferences"
     }
-
-    private val mFileName: String = mContext.packageName + "_preferences"
-    private val sharedPreferences: SharedPreferences =
-        mContext.getSharedPreferences(mFileName, Context.MODE_PRIVATE)
-    private val editor: SharedPreferences.Editor = sharedPreferences.edit()
+    private val sharedPreferences: SharedPreferences by lazy {
+        mApplication.getSharedPreferences(mFileName, Context.MODE_PRIVATE)
+    }
+    private val editor: SharedPreferences.Editor by lazy {
+        sharedPreferences.edit()
+    }
 
     enum class Setting {
         DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType
@@ -69,6 +62,71 @@ class AppSettings private constructor(val mContext: Context) {
             }
         }
         return false
+    }
+
+    /**
+     * 初始化App设置
+     * @param application mApplication
+     */
+    fun initAppSettings(application: Application) {
+        this.mApplication = application
+        map[Setting.DatabasePath] = mApplication.getString(R.string.setting_database_path)
+        map[Setting.AppLanguage] =
+            mApplication.getString(R.string.setting_app_language)
+        map[Setting.DatabaseDirectory] = mApplication.getString(R.string.setting_database_directory)
+        map[Setting.DeveloperMode] = mApplication.getString(R.string.setting_developer_mode)
+        map[Setting.CustomSymbol] =
+            mApplication.getString(R.string.setting_custom_symbol)
+        map[Setting.TemplateDirectory] =
+            mApplication.getString(R.string.setting_template_directory)
+        map[Setting.AutoCreateNomedia] =
+            mApplication.getString(R.string.setting_auto_create_nomedia)
+        map[Setting.OnlyLoadConantLanguageTemple] =
+            mApplication.getString(R.string.setting_only_load_conant_language_temple)
+        map[Setting.NightMode] = mApplication.getString(R.string.setting_night_mode)
+        map[Setting.GamePackage] = mApplication.getString(R.string.setting_game_package)
+        map[Setting.KeepRwmodFile] = mApplication.getString(R.string.setting_keep_rwmod_file)
+        map[Setting.EnableRecoveryStation] =
+            mApplication.getString(R.string.setting_enable_recovery_station)
+        map[Setting.RecoveryStationFileSaveDays] =
+            mApplication.getString(R.string.setting_recovery_station_file_save_days)
+        map[Setting.RecoveryStationFolder] =
+            mApplication.getString(R.string.setting_recovery_station_folder)
+        map[Setting.IndependentFolder] = mApplication.getString(R.string.setting_independent_folder)
+        map[Setting.PackDirectory] =
+            mApplication.getString(R.string.setting_pack_directory)
+        map[Setting.IdentifiersPromptNumber] =
+            mApplication.getString(R.string.setting_identifiers_prompt_number)
+        map[Setting.UserName] =
+            mApplication.getString(R.string.setting_user_name)
+        map[Setting.UseJetBrainsMonoFont] =
+            mApplication.getString(R.string.setting_use_jetBrains_mono_font)
+        map[Setting.CheckBetaUpdate] = mApplication.getString(R.string.setting_check_beta_update)
+        map[Setting.EnglishEditingMode] =
+            mApplication.getString(R.string.setting_english_editing_mode)
+        map[Setting.NightModeFollowSystem] =
+            mApplication.getString(R.string.setting_night_mode_follow_system)
+        map[Setting.UseMobileNetwork] = mApplication.getString(R.string.setting_use_mobile_network)
+        map[Setting.MapFolder] = mApplication.getString(R.string.setting_map_folder)
+        map[Setting.ModFolder] = mApplication.getString(R.string.setting_mod_folder)
+        map[Setting.UseTheCommunityAsTheLaunchPage] =
+            mApplication.getString(R.string.setting_use_the_community_as_the_launch_page)
+        map[Setting.AutoSave] = mApplication.getString(R.string.setting_auto_save)
+        map[Setting.ServerAddress] = mApplication.getString(R.string.setting_server_address)
+        map[Setting.DynamicColor] = mApplication.getString(R.string.setting_dynamic_color)
+        map[Setting.ExperiencePlan] = mApplication.getString(R.string.setting_experience_the_plan)
+        map[Setting.FileSortType] = mApplication.getString(R.string.setting_file_sort_type)
+        //仅保存不可显示
+        map[Setting.SetGameStorage] = "SetGameStorage"
+        map[Setting.AppID] = "AppId"
+        map[Setting.Account] = "Account"
+        map[Setting.PassWord] = "PassWord"
+        map[Setting.ExpirationTime] = "ExpirationTime"
+        map[Setting.UpdateData] = "UpdateData"
+        map[Setting.ShareTip] = "ShareTip"
+        map[Setting.AgreePolicy] = "AgreePolicy"
+        map[Setting.LoginStatus] = "LoginStatus"
+        map[Setting.Token] = "Token"
     }
 
     /**
@@ -106,7 +164,7 @@ class AppSettings private constructor(val mContext: Context) {
      * @return Boolean 是否需要重启App
      */
     fun setLanguage(language: String): Boolean {
-        return MultiLanguages.setAppLanguage(mContext, toLocaleValue(language))
+        return MultiLanguages.setAppLanguage(mApplication, toLocaleValue(language))
     }
 
 
@@ -240,67 +298,4 @@ class AppSettings private constructor(val mContext: Context) {
         return resultValue
     }
 
-
-    /**
-     * 构造AppSettings类
-     * Construct the AppSettings class
-     */
-    init {
-        map[Setting.DatabasePath] = mContext.getString(R.string.setting_database_path)
-        map[Setting.AppLanguage] =
-            mContext.getString(R.string.setting_app_language)
-        map[Setting.DatabaseDirectory] = mContext.getString(R.string.setting_database_directory)
-        map[Setting.DeveloperMode] = mContext.getString(R.string.setting_developer_mode)
-        map[Setting.CustomSymbol] =
-            mContext.getString(R.string.setting_custom_symbol)
-        map[Setting.TemplateDirectory] =
-            mContext.getString(R.string.setting_template_directory)
-        map[Setting.AutoCreateNomedia] =
-            mContext.getString(R.string.setting_auto_create_nomedia)
-        map[Setting.OnlyLoadConantLanguageTemple] =
-            mContext.getString(R.string.setting_only_load_conant_language_temple)
-        map[Setting.NightMode] = mContext.getString(R.string.setting_night_mode)
-        map[Setting.GamePackage] = mContext.getString(R.string.setting_game_package)
-        map[Setting.KeepRwmodFile] = mContext.getString(R.string.setting_keep_rwmod_file)
-        map[Setting.EnableRecoveryStation] =
-            mContext.getString(R.string.setting_enable_recovery_station)
-        map[Setting.RecoveryStationFileSaveDays] =
-            mContext.getString(R.string.setting_recovery_station_file_save_days)
-        map[Setting.RecoveryStationFolder] =
-            mContext.getString(R.string.setting_recovery_station_folder)
-        map[Setting.IndependentFolder] = mContext.getString(R.string.setting_independent_folder)
-        map[Setting.PackDirectory] =
-            mContext.getString(R.string.setting_pack_directory)
-        map[Setting.IdentifiersPromptNumber] =
-            mContext.getString(R.string.setting_identifiers_prompt_number)
-        map[Setting.UserName] =
-            mContext.getString(R.string.setting_user_name)
-        map[Setting.UseJetBrainsMonoFont] =
-            mContext.getString(R.string.setting_use_jetBrains_mono_font)
-        map[Setting.CheckBetaUpdate] = mContext.getString(R.string.setting_check_beta_update)
-        map[Setting.EnglishEditingMode] = mContext.getString(R.string.setting_english_editing_mode)
-        map[Setting.NightModeFollowSystem] =
-            mContext.getString(R.string.setting_night_mode_follow_system)
-        map[Setting.UseMobileNetwork] = mContext.getString(R.string.setting_use_mobile_network)
-        map[Setting.MapFolder] = mContext.getString(R.string.setting_map_folder)
-        map[Setting.ModFolder] = mContext.getString(R.string.setting_mod_folder)
-        map[Setting.UseTheCommunityAsTheLaunchPage] =
-            mContext.getString(R.string.setting_use_the_community_as_the_launch_page)
-        map[Setting.AutoSave] = mContext.getString(R.string.setting_auto_save)
-        map[Setting.ServerAddress] = mContext.getString(R.string.setting_server_address)
-        map[Setting.DynamicColor] = mContext.getString(R.string.setting_dynamic_color)
-        map[Setting.ExperiencePlan] = mContext.getString(R.string.setting_experience_the_plan)
-        map[Setting.FileSortType] = mContext.getString(R.string.setting_file_sort_type)
-        //仅保存不可显示
-        map[Setting.SetGameStorage] = "SetGameStorage"
-        map[Setting.AppID] = "AppId"
-        map[Setting.Account] = "Account"
-        map[Setting.PassWord] = "PassWord"
-        map[Setting.ExpirationTime] = "ExpirationTime"
-        map[Setting.UpdateData] = "UpdateData"
-        map[Setting.ShareTip] = "ShareTip"
-        map[Setting.AgreePolicy] = "AgreePolicy"
-        map[Setting.LoginStatus] = "LoginStatus"
-        map[Setting.Token] = "Token"
-    }
 }

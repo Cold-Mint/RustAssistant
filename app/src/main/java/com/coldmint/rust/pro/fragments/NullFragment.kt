@@ -6,10 +6,12 @@ import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentNullBinding
 
 
-//该类的实例是表示集合中单个对象的片段。
-class NullObjectFragment : BaseFragment<FragmentNullBinding>() {
+/**
+ * 没有内容的碎片
+ */
+class NullFragment : BaseFragment<FragmentNullBinding>() {
 
-    override fun getViewBindingObject(): FragmentNullBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentNullBinding {
         return FragmentNullBinding.inflate(layoutInflater)
     }
 

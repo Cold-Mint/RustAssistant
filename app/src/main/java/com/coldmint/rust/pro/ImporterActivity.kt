@@ -1,19 +1,15 @@
 package com.coldmint.rust.pro
 
-import android.Manifest
 import com.coldmint.rust.pro.base.BaseActivity
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
-import com.coldmint.rust.core.TemplatePackage
+import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.AppOperator
@@ -122,13 +118,13 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
             val onclickType = viewBinding.okButton.text
             val importName = getString(R.string.import_name)
             if ((type == "rwmod" || type == "zip") && onclickType == importName) {
-                importMod(File(appSettings.getValue(AppSettings.Setting.ModFolder, "")))
+                importMod(File(AppSettings.getValue(AppSettings.Setting.ModFolder, "")))
             } else if (type == "rp") {
                 val file = File(
-                    appSettings.getValue(
+                    AppSettings.getValue(
                         AppSettings.Setting.TemplateDirectory,
                         this.filesDir.absolutePath + "/template/"
-                    ) + TemplatePackage.getAbsoluteFileName(filename = fileName)
+                    ) + LocalTemplatePackage.getAbsoluteFileName(filename = fileName)
                 )
                 val cacheDirectory = File(cacheDir.absolutePath + "/template/")
                 if (!cacheDirectory.exists()) {
@@ -186,7 +182,7 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                     //如果建立缓存完成，并且模板文件存在
                     if (templateDirectory.exists()) {
                         val newInfoData =
-                            compressionManager.readEntry(newFile, TemplatePackage.INFONAME)
+                            compressionManager.readEntry(newFile, LocalTemplatePackage.INFONAME)
                         val newInfo =
                             gson.fromJson(newInfoData, TemplateInfo::class.java)
                         if (newInfo == null) {
@@ -205,7 +201,7 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                             }
                             return@Runnable
                         } else {
-                            val templateClass = TemplatePackage(templateDirectory)
+                            val templateClass = LocalTemplatePackage(templateDirectory)
                             val oldInfo = templateClass.getInfo()
                             if (oldInfo == null) {
                                 handler.post {
@@ -266,7 +262,7 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                     } else {
                         //常规导入
                         val newInfo =
-                            compressionManager.readEntry(newFile, TemplatePackage.INFONAME)
+                            compressionManager.readEntry(newFile, LocalTemplatePackage.INFONAME)
                         if (newInfo == null) {
                             handler.post {
                                 viewBinding.okButton.setBackgroundColor(
@@ -469,7 +465,7 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
     }
 
 
-    override fun getViewBindingObject(): ActivityImporterBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityImporterBinding {
         return ActivityImporterBinding.inflate(layoutInflater)
     }
 

@@ -79,4 +79,10 @@
         <item>@string/read_mode_copy_tip</item>
     </string-array>
 
+    <string-array name="open_state">
+        <item>@string/open_public</item>
+        <item>@string/open_private</item>
+
+    </string-array>
+
 </resources>

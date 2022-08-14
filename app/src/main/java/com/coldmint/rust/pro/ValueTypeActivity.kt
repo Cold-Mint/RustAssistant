@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.text.TextWatcher
 import android.text.Editable
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -283,7 +284,7 @@ class ValueTypeActivity : BaseActivity<ActivityValueTypeBinding>() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun getViewBindingObject(): ActivityValueTypeBinding {
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityValueTypeBinding {
         return ActivityValueTypeBinding.inflate(layoutInflater)
     }
 

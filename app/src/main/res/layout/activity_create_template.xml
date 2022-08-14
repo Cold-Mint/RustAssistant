@@ -34,6 +34,26 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/templateIdInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/template_id"
+                app:counterEnabled="true"
+                app:counterMaxLength="20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/templateIdEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/templateNameInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
@@ -53,6 +73,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/templateDescribeInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
@@ -70,44 +91,9 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                app:counterEnabled="true"
-                app:counterMaxLength="20">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/templateDeveloperEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/template_developer"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLength="20" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                app:counterEnabled="true"
-                app:counterMaxLength="200">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/templateUpdateEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/update_link"
-                    android:imeOptions="actionDone"
-                    android:inputType="textUri"
-                    android:maxLength="200" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/templateVersionNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
@@ -126,22 +112,25 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/openStateInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/open_state"
                 android:paddingTop="8dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="9">
+                app:counterMaxLength="20">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/templateVersionNum"
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/openStateInputEditor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/template_version_num"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="9"
-                    android:text="1" />
+                    android:imeOptions="actionNext"
+                    android:inputType="none"
+                    android:text="@string/open_public"
+                    app:simpleItems="@array/open_state" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

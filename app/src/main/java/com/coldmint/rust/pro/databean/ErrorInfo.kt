@@ -22,9 +22,9 @@ data class ErrorInfo(
     val id: String = UUID.randomUUID().toString(),
     var allErrorDetails: String = "",
     var activityLog: String? = null,
-    var describe: String? = null,
-    var autoSave: Boolean = true
+    var autoSave: Boolean = true,
 ) {
+
 
     /**
      * 保存ErrorInfo

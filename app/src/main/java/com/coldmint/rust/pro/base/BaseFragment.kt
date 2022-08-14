@@ -10,11 +10,11 @@ import androidx.viewbinding.ViewBinding
 import com.coldmint.rust.pro.tool.AppSettings
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
-    protected lateinit var appSettings: AppSettings
 
     val viewBinding: T by lazy {
-        getViewBindingObject()
+        getViewBindingObject(layoutInflater)
     }
+
 
     /**
      * 显示Toast
@@ -39,7 +39,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     /**
      * 获取视图绑定对象
      */
-    abstract fun getViewBindingObject(): T
+    abstract fun getViewBindingObject(layoutInflater: LayoutInflater): T
 
 
     override fun onCreateView(
@@ -47,7 +47,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        appSettings = AppSettings.getInstance(requireContext())
         return viewBinding.root
     }
 
