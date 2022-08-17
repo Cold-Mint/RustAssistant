@@ -4,12 +4,16 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.coldmint.rust.core.LocalTemplatePackage
+import com.coldmint.rust.core.dataBean.SubscriptionData
 import com.coldmint.rust.core.dataBean.template.LocalTemplateFile
 import com.coldmint.rust.core.dataBean.template.Template
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
+import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.FileFinderListener
 import com.coldmint.rust.core.tool.FileFinder2
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.core.web.ServerConfiguration
+import com.coldmint.rust.core.web.TemplatePhp
 import com.coldmint.rust.pro.base.BaseViewModel
 import com.coldmint.rust.pro.tool.AppSettings
 import org.json.JSONException
@@ -80,8 +84,36 @@ class InstalledTemplateViewModel : BaseViewModel() {
     fun loadTemplate(context: Context) {
         groupList.clear()
         itemList.clear()
-        loadLocalTemplate(context)
-        loadCallBack?.invoke()
+        val token = AppSettings.getValue(AppSettings.Setting.Token,"")
+        TemplatePhp.instance.getSubscriptionDataList(token,object :ApiCallBack<SubscriptionData>{
+            override fun onResponse(t: SubscriptionData) {
+                if (t.code == ServerConfiguration.Success_Code){
+                    Log.d("加载网络订阅模板", "正在处理。")
+                    t.data.forEach {
+                        groupList.add(it)
+                        val temList = ArrayList<Template>()
+                        itemList.add(temList)
+                        it.templateList.forEach {
+                            temList.add(it)
+                        }
+                    }
+                    loadLocalTemplate(context)
+                    loadCallBack?.invoke()
+                }else{
+                    Log.w("加载网络订阅模板", t.message)
+                    loadLocalTemplate(context)
+                    loadCallBack?.invoke()
+                }
+            }
+
+            override fun onFailure(e: Exception) {
+                e.printStackTrace()
+                Log.e("加载网络订阅模板", e.toString())
+                loadLocalTemplate(context)
+                loadCallBack?.invoke()
+            }
+
+        })
     }
 
     /**
@@ -134,7 +166,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
                                             Log.d("加载本地模板", "已成功分配" + file.absolutePath)
                                         }
                                     } else {
-                                        Log.e("加载本地模板", "无法分配" + file.absolutePath)
+                                        Log.w("加载本地模板", "无法分配" + file.absolutePath)
                                     }
                                     return true
                                 }

@@ -18,8 +18,10 @@ class InputParser(val context: Context, val data: InputParserDataBean) : Templat
     private val parserInputBinding: ParserInputBinding =
         ParserInputBinding.inflate(LayoutInflater.from(context))
 
-    override val input: String
-        get() = parserInputBinding.inputView.text.toString()
+    override fun getInput(): String {
+       return parserInputBinding.inputView.text.toString()
+    }
+
 
     override val contextView: View
         get() {

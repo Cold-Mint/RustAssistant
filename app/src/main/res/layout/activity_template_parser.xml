@@ -86,7 +86,7 @@
     </LinearLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,6 +94,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/complete" />
+        app:icon="@drawable/build"
+        android:text="@string/build_unit"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

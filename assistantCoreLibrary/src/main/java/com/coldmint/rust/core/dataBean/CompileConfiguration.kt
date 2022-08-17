@@ -155,7 +155,7 @@ data class CompileConfiguration(
      * Reference 引用是一种特殊的数据类型，编译器会尝试编译此值，若无法编译则使用原始值
      */
     enum class CodeBlockType {
-        Key, Value, Section, Note, VariableName, Reference
+        Key, Value, Section, Note, VariableName, Reference, Symbol
     }
 
     /**

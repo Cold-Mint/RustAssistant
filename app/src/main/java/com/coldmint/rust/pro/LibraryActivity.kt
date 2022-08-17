@@ -59,23 +59,22 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
                 "Apache License 2.0"
             )
         )
+//        libInfoArrayList.add(
+//            LibInfo(
+//                "Kongzue StackLabel",
+//                "空祖家的堆叠标签（以下碎念：一开始起名字“StackLabel”没想太多结果被人吐槽Stack是整齐堆叠的意思...........好吧这是我的锅不过现在要改也来不及了，好用就行了...吧？",
+//                "https://github.com/kongzue/StackLabel",
+//                "Apache License 2.0"
+//            )
+//        )
         libInfoArrayList.add(
             LibInfo(
-                "Kongzue StackLabel",
-                "空祖家的堆叠标签（以下碎念：一开始起名字“StackLabel”没想太多结果被人吐槽Stack是整齐堆叠的意思...........好吧这是我的锅不过现在要改也来不及了，好用就行了...吧？",
-                "https://github.com/kongzue/StackLabel",
-                "Apache License 2.0"
+                "sora-editor",
+                "A cool code editor library on Android with syntax-highlighting and auto-completion. (aka CodeEditor)",
+                "https://github.com/Rosemoe/sora-editor",
+                "LGPL 2.1"
             )
         )
-        val libInfo = LibInfo(
-            "sora-editor",
-            "A cool code editor library on Android with syntax-highlighting and auto-completion. (aka CodeEditor)",
-            "https://github.com/Rosemoe/sora-editor",
-            "LGPL 2.1"
-        )
-        libInfo.tip =
-            "铁锈助手使用sora-editor的魔改版本。\n\n由ColdMint魔改自Rose的sora-editor编辑框。\n\n在原基础上新增功能:\n-列表控制api（用于实现连锁提示）\n-自定义列表适配器(用于适配视图)\n\n目前修改版本为0.8，由ColdMint维护。\n\n于2022-1-25日同步主项目。"
-        libInfoArrayList.add(libInfo)
         libInfoArrayList.add(
             LibInfo(
                 "ColorPicker",

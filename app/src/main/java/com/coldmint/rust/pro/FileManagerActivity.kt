@@ -142,7 +142,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                                    )
 //                                )
 //                                MaterialDialog(this).title(R.string.open_type)
-//                                    .listItems(items = openList) { dialog, index, text ->
+//                                    .listItems(items = openList) { dialog, offset, text ->
 //                                        when (text) {
 //                                            getString(R.string.edit_template) -> {
 //                                                editTemplate(file)

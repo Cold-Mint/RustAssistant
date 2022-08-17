@@ -3,7 +3,7 @@ package com.coldmint.rust.pro.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.coldmint.rust.core.dataBean.webTemplate.WebTemplatePackageListData
+import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.ItemWebTemplateBinding

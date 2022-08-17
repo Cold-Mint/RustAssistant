@@ -19,6 +19,7 @@ data class SpaceInfoData(
         val praise: Int,
         val expirationTime: String,
         val userName: String,
-        val gender: Int
+        val gender: Int,
+        val location: String
     )
 }

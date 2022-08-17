@@ -10,7 +10,7 @@ interface TemplateParser {
     /**
      * 实现获取用户输入
      */
-    val input: String
+    fun getInput(): String
 
     /**
      * 实现实例化视图

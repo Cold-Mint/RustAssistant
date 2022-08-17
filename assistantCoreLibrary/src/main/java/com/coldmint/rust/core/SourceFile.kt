@@ -497,10 +497,10 @@ class SourceFile(text: String) {
                 stringBuilder.append(value)
                 stringBuilder.append(sinfo.substring(endnum, sinfo.length - 1))
                 stringBuilder.append(info.substring(sectionendnum, info.length - 2))
-                if (hasSymbol) {
-                    text = stringBuilder.toString()
+                text = if (hasSymbol) {
+                    stringBuilder.toString()
                 } else {
-                    text = stringBuilder.substring(1)
+                    stringBuilder.substring(1)
                 }
                 return true
             }

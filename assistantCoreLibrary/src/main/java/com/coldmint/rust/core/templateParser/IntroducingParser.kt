@@ -12,6 +12,7 @@ import com.coldmint.rust.core.databinding.ParserIntroduceBinding
 import com.coldmint.rust.core.interfaces.TemplateParser
 
 /**
+ * 注释
  * @author Cold Mint
  * @date 2021/12/17 14:55
  */
@@ -24,9 +25,11 @@ class IntroducingParser(
         LayoutInflater.from(context)
     )
 
+    override fun getInput(): String {
+        return ""
+    }
 
-    override val input: String
-        get() = ""
+
     override val contextView: View
         get() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

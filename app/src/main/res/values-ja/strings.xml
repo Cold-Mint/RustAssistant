@@ -785,7 +785,7 @@
     <string name="change_server_complete">サーバーを変更しました。</string>
     <string name="order_manager">注文管理</string>
     <string name="log_out">掲載</string>
-    <string name="user_info">最近ログイン:%1$s uid:%2$s</string>
+    <string name="user_info">最近ログイン:%1$s uid:%2$s 住所:%3$s</string>
     <string name="use_coupon">クーポンを使った注文を作成しますが、継続しますか\?(注文作成完了後、クーポンを消費)</string>
     <string name="use">使用</string>
     <string name="account_or_email">アカウント/ eメール</string>

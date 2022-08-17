@@ -1,19 +1,25 @@
 package com.coldmint.rust.pro.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.AdapterView
 import android.widget.ExpandableListView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.MutableLiveData
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.template.LocalTemplateFile
 import com.coldmint.rust.core.dataBean.template.Template
+import com.coldmint.rust.core.dataBean.template.TemplatePackage
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.FileManagerActivity
 import com.coldmint.rust.pro.R
@@ -35,8 +41,10 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
         InstalledTemplateViewModel()
     }
 
+    private lateinit var startTemplateParserActivity: ActivityResultLauncher<Intent>
 
-    var mTemplateAdapter: TemplateAdapter? = null
+
+    private lateinit var mTemplateAdapter: TemplateAdapter
 
 
     /**
@@ -69,19 +77,32 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
                     //这里做关于父项的相关操作......
                     val numView = view.findViewById<TextView>(R.id.template_num)
                     val templateClass =
-                        mTemplateAdapter!!.getGroup(groupPosition) as LocalTemplatePackage
+                        mTemplateAdapter.getGroup(groupPosition) as TemplatePackage
                     CoreDialog(requireContext()).setTitle(R.string.template_info)
                         .setMessage(
-                            templateClass.getInfo()?.description
-                                ?: requireContext().getString(R.string.describe)
-                        ).setCancelable(false).setPositiveButton(R.string.delete_title) {
+                            templateClass.getDescription()
+                        ).setCancelable(false).setPositiveButton(
+                            if (templateClass.isLocal()) {
+                                R.string.delete_title
+                            } else {
+                                R.string.de_subscription
+                            }
+                        ) {
                             numView.setText(R.string.del_moding)
-                            val handler = Handler(Looper.getMainLooper())
-                            val scope = CoroutineScope(Job())
-                            scope.launch {
-                                FileOperator.delete_files(templateClass.directest)
-                                handler.post {
+                            templateClass.delete(
+                                AppSettings.getValue(
+                                    AppSettings.Setting.Token,
+                                    ""
+                                )
+                            ) {
+                                if (it) {
                                     viewModel.loadTemplate(requireContext())
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.delete_error,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }.setNegativeButton(R.string.dialog_cancel) {
@@ -92,11 +113,25 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
                 }
                 true
             }
+
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadTemplate(requireContext())
+            viewBinding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         initAction()
+        startTemplateParserActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    Log.d("启动模板解析器", "收到成功回调，关闭界面。")
+                    requireActivity().finish()
+                } else {
+                    Log.w("启动模板解析器", "未收到有效回调。")
+                }
+            }
         viewModel.createPathLiveData.observe(this) {
             var relativePath = FileOperator.getRelativePath(
                 it,
@@ -112,16 +147,24 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
                 (requireContext().getText(R.string.unit_path) as String),
                 relativePath
             )
-            mTemplateAdapter?.setCreatePath(it)
+            if (this::mTemplateAdapter.isInitialized) {
+                mTemplateAdapter.setCreatePath(it)
+                Log.d("创建目录观察者", "模板适配器设置目录为${it}。")
+            } else {
+                Log.e("创建目录观察者", "模板适配器没有设置目录。")
+            }
         }
         viewModel.setLoadCallBack {
             mTemplateAdapter = TemplateAdapter(
                 requireContext(),
                 viewModel.getGroupData(),
                 viewModel.getItemData(),
-                viewModel.environmentLanguage
+                viewModel.environmentLanguage, startTemplateParserActivity
             )
-            viewBinding.expandableList.setAdapter(mTemplateAdapter!!)
+            viewBinding.expandableList.setAdapter(mTemplateAdapter)
+            val path = viewModel.createPathLiveData.value.toString()
+            mTemplateAdapter.setCreatePath(path)
+            Log.d("创建目录观察者", "模板适配器设置目录为${path}。")
         }
         viewModel.loadTemplate(requireContext())
     }

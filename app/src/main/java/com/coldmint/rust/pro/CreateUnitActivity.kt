@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import com.coldmint.rust.pro.adapters.CreateUnitPageAdapter
 import com.coldmint.rust.pro.databinding.ActivityCreateUnitBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,42 +39,28 @@ class CreateUnitActivity : BaseActivity<ActivityCreateUnitBinding>() {
             }.attach()
             val root = bundle.getString("modPath")
             createUnitPageAdapter.setRootPath(root)
-            val set = createUnitPageAdapter.setCreatePath(bundle.getString("createPath", root))
-//            if (!set) {
-//                //如果没有设置成功，当fragment没有附加到activity
-//                viewBinding.toolbar.postDelayed({
-//                    createUnitPageAdapter.setCreatePath(bundle.getString("createPath", root))
-//                }, 50)
+            createUnitPageAdapter.setCreatePath(bundle.getString("createPath", root))
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//                val resultCode = it.resultCode
+//                when (requestCode) {
+//                    1 -> if (resultCode == RESULT_OK) {
+//                        val directents = data!!.getStringExtra("Directents")
+//                        if (directents != null) {
+//                            createUnitPageAdapter.setCreatePath(directents)
+//                        }
+//                    }
+//                    2 -> if (resultCode == RESULT_OK) {
+//                        val path = data!!.getStringExtra("File")
+//                        val intent = Intent()
+//                        intent.putExtra("File", path)
+//                        setResult(RESULT_OK, intent)
+//                        finish()
+//                    }
+//                }
 //            }
-
-
-//            loadlist()
         }
     }
 
-//    fun getmCreatePath(): String {
-//        return mCreatePath
-//    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            1 -> if (resultCode == RESULT_OK) {
-                val directents = data!!.getStringExtra("Directents")
-                if (directents != null) {
-                    createUnitPageAdapter.setCreatePath(directents)
-                }
-            }
-            2 -> if (resultCode == RESULT_OK) {
-                val path = data!!.getStringExtra("File")
-                val intent = Intent()
-                intent.putExtra("File", path)
-                setResult(RESULT_OK, intent)
-                finish()
-            }
-        }
-    }
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCreateUnitBinding {
         return ActivityCreateUnitBinding.inflate(layoutInflater)

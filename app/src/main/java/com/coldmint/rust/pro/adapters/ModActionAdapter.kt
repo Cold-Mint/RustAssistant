@@ -451,7 +451,7 @@ class ModActionAdapter(
                 if (string.isNotEmpty() && string != oldname) {
                     val newFile = File(FileOperator.getSuperDirectory(mod_file) + "/" + string)
                     mod_file.renameTo(newFile)
-                    mModFragment.loadMods()
+                    mModFragment.loadModList()
                 }
                 true
             }.setNegativeButton(R.string.dialog_cancel) {
@@ -728,7 +728,7 @@ class ModActionAdapter(
                 if (ok) {
                     handler.post {
                         materialDialog.dismiss()
-                        mModFragment.loadMods()
+                        mModFragment.loadModList()
                         Snackbar.make(
                             (mModFragment.view)!!,
                             R.string.repair_complete,
@@ -764,7 +764,7 @@ class ModActionAdapter(
             )
             handler.post {
                 materialDialog.dismiss()
-                mModFragment.loadMods()
+                mModFragment.loadModList()
                 if (needShowSnackbar) {
                     Snackbar.make(
                         (mModFragment.view)!!,
@@ -889,7 +889,7 @@ class ModActionAdapter(
                                 repairThread.setModpath(unzip_path.absolutePath)
                                 repairThread.start()
                             }
-                            mModFragment.loadMods()
+                            mModFragment.loadModList()
                         }
                     } else {
                         handler.post {

@@ -27,17 +27,25 @@ import com.coldmint.rust.pro.databinding.ModFragmentBinding
 import com.coldmint.rust.pro.databinding.ModListItemBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.viewmodel.ModViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import me.zhanghai.android.fastscroll.FastScrollScrollView
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
 class ModFragment : BaseFragment<ModFragmentBinding>() {
+    val viewModel: ModViewModel by lazy {
+        ModViewModel()
+    }
     lateinit var modAdapter: ModAdapter
     val needRecycling by lazy {
         if (GlobalMethod.isActive) {
@@ -47,88 +55,6 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
             )
         } else {
             false
-        }
-    }
-    val executorService = Executors.newSingleThreadExecutor()
-
-    //初始化视图
-    fun loadMods() {
-        val useProgressBar = !this::modAdapter.isInitialized || modAdapter.itemCount == 0
-        val handler = Handler(Looper.getMainLooper())
-        thread {
-            if (useProgressBar) {
-                handler.post {
-                    viewBinding.progressBar.isVisible = true
-                    viewBinding.modError.isVisible = false
-                    viewBinding.modErrorIcon.isVisible = false
-                    viewBinding.modList.isVisible = false
-                }
-            }
-            val mod_directory = File(AppSettings.getValue(AppSettings.Setting.ModFolder, ""))
-            if (!mod_directory.exists()) {
-                mod_directory.mkdirs()
-            }
-            val files = mod_directory.listFiles()
-            val thisContent = requireContext()
-            if (files != null && files.isNotEmpty()) {
-                val data = ArrayList<ModClass>()
-                for (t in files) {
-                    if (ModClass.isMod(t)) {
-                        data.add(ModClass(t))
-                    }
-                }
-                if (data.isEmpty()) {
-                    handler.post {
-                        showNotFindMod()
-                    }
-                    return@thread
-                }
-                if (useProgressBar) {
-                    modAdapter = ModAdapter(thisContent, data)
-                } else {
-                    modAdapter.setNewDataList(data)
-                }
-                modAdapter.setItemChangeEvent { changeType, i, modClass, i2 ->
-                    if (i2 == 0) {
-                        handler.post { loadMods() }
-                    }
-                }
-//                modAdapter.
-                modAdapter.setItemEvent { i, modListItemBinding, viewHolder, modClass ->
-                    modListItemBinding.root.setOnClickListener {
-                        onClickItemWork(modListItemBinding, modClass)
-                    }
-                    modListItemBinding.root.setOnLongClickListener {
-                        modAdapter.showDeleteItemDialog(
-                            modClass.modName,
-                            viewHolder.adapterPosition,
-                            onClickPositiveButton = { d, b ->
-                                delFile(handler, modClass, viewHolder.adapterPosition)
-                                false
-                            })
-                        false
-                    }
-                }
-                if (useProgressBar) {
-                    handler.postDelayed({
-                        viewBinding.modList.isVisible = true
-                        viewBinding.modError.isVisible = false
-                        viewBinding.modErrorIcon.isVisible = false
-                        viewBinding.progressBar.isVisible = false
-
-                        viewBinding.modList.adapter = modAdapter
-                    }, MainActivity.hideViewDelay)
-                } else {
-                    handler.post {
-                        modAdapter.notifyDataSetChanged()
-                        viewBinding.modList.adapter = modAdapter
-                    }
-                }
-            } else {
-                handler.post {
-                    showNotFindMod()
-                }
-            }
         }
     }
 
@@ -142,7 +68,8 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         modClass: ModClass,
         index: Int? = null
     ) {
-        executorService.submit {
+        val scope = CoroutineScope(Job())
+        scope.run {
             val targetFile = modClass.modFile
             val errorFolder =
                 File(AppSettings.dataRootDirectory + "/modErrorReport/" + modClass.modName)
@@ -249,9 +176,64 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         }
     }
 
+    /**
+     * 加载模组列表
+     */
+    fun loadModList() {
+        val scope = CoroutineScope(Job())
+        val handler = Handler(Looper.getMainLooper())
+        scope.run {
+            val dataList = viewModel.loadMod()
+            handler.post {
+                viewBinding.progressBar.isVisible = true
+                viewBinding.modErrorIcon.isVisible = false
+                viewBinding.modError.isVisible = false
+                viewBinding.swipeRefreshLayout.isVisible = false
+            }
+            if (dataList == null) {
+                handler.post {
+                    viewBinding.modError.setText(R.string.not_find_mod)
+                    viewBinding.modError.isVisible = true
+                    viewBinding.modErrorIcon.isVisible = true
+                    viewBinding.swipeRefreshLayout.isVisible = false
+                    viewBinding.progressBar.isVisible = false
+                }
+            } else {
+                handler.post {
+                    viewBinding.swipeRefreshLayout.isVisible = true
+                    viewBinding.progressBar.isVisible = false
+                    viewBinding.modErrorIcon.isVisible = false
+                    viewBinding.modError.isVisible = false
+                    modAdapter = ModAdapter(requireContext(), dataList)
+                    FastScrollerBuilder(viewBinding.modList).useMd2Style()
+                        .setPopupTextProvider(modAdapter).build()
+                    modAdapter.setItemEvent { i, modListItemBinding, viewHolder, modClass ->
+
+                        modListItemBinding.root.setOnClickListener {
+                            onClickItemWork(modListItemBinding, modClass)
+                        }
+
+                        modListItemBinding.root.setOnLongClickListener {
+                            modAdapter.showDeleteItemDialog(
+                                modClass.modName,
+                                viewHolder.adapterPosition,
+                                onClickPositiveButton = { d, b ->
+                                    delFile(handler, modClass, viewHolder.adapterPosition)
+                                    false
+                                })
+                            false
+                        }
+                    }
+                    viewBinding.modList.adapter = modAdapter
+                }
+            }
+        }
+
+    }
+
     override fun onResume() {
         super.onResume()
-        loadMods()
+        loadModList()
     }
 
     @SuppressLint("RestrictedApi")
@@ -346,16 +328,16 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         bottomSheetDialog.show()
     }
 
-    /**
-     * 显示没有找到模组
-     */
-    fun showNotFindMod() {
-        viewBinding.modError.setText(R.string.not_find_mod)
-        viewBinding.modError.isVisible = true
-        viewBinding.modErrorIcon.isVisible = true
-        viewBinding.modList.isVisible = false
-        viewBinding.progressBar.isVisible = false
-    }
+//    /**
+//     * 显示没有找到模组
+//     */
+//    fun showNotFindMod() {
+//        viewBinding.modError.setText(R.string.not_find_mod)
+//        viewBinding.modError.isVisible = true
+//        viewBinding.modErrorIcon.isVisible = true
+//        viewBinding.modList.isVisible = false
+//        viewBinding.progressBar.isVisible = false
+//    }
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ModFragmentBinding {
         return ModFragmentBinding.inflate(layoutInflater)
@@ -369,5 +351,10 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                 DividerItemDecoration.VERTICAL
             )
         )
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+            loadModList()
+            viewBinding.swipeRefreshLayout.isRefreshing = false
+        }
+        viewModel.loadMod()
     }
 }

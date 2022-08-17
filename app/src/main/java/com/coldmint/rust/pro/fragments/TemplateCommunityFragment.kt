@@ -2,12 +2,17 @@ package com.coldmint.rust.pro.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.coldmint.rust.core.dataBean.webTemplate.WebTemplatePackageListData
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.rust.core.dataBean.ApiResponse
+import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
 import com.coldmint.rust.core.interfaces.ApiCallBack
+import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.TemplatePhp
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.WebTemplateAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentTemplateCommunityBinding
@@ -45,6 +50,75 @@ class TemplateCommunityFragment : BaseFragment<FragmentTemplateCommunityBinding>
                 viewBinding.loadView.isVisible = false
                 viewBinding.errorLayout.isVisible = false
                 val adapter = WebTemplateAdapter(requireContext(), t.data)
+                adapter.setItemEvent { i, itemWebTemplateBinding, viewHolder, data ->
+                    itemWebTemplateBinding.button.setOnClickListener {
+                        var subscribe = data.subscribe
+                        if (subscribe) {
+                            CoreDialog(requireContext()).setTitle(R.string.de_subscription)
+                                .setMessage(
+                                    String.format(
+                                        getString(R.string.de_subscription_msg),
+                                        data.name
+                                    )
+                                ).setPositiveButton(R.string.dialog_ok) {
+//退订
+                                    TemplatePhp.instance.deleteSubscription(token, data.id,
+                                        object : ApiCallBack<ApiResponse> {
+                                            override fun onResponse(t: ApiResponse) {
+                                                if (t.code == ServerConfiguration.Success_Code) {
+                                                    itemWebTemplateBinding.button.setText(R.string.subscription)
+                                                    data.subscribe = false
+                                                } else {
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        t.message,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }
+
+                                            override fun onFailure(e: Exception) {
+                                                e.printStackTrace()
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    R.string.network_error,
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+
+                                        })
+                                }.setNegativeButton(R.string.dialog_cancel) {
+
+                                }.setCancelable(false).show()
+                        } else {
+                            TemplatePhp.instance.subscription(token, data.id,
+                                object : ApiCallBack<ApiResponse> {
+                                    override fun onResponse(t: ApiResponse) {
+                                        if (t.code == ServerConfiguration.Success_Code) {
+                                            itemWebTemplateBinding.button.setText(R.string.de_subscription)
+                                            data.subscribe = true
+                                        } else {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                t.message,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+
+                                    override fun onFailure(e: Exception) {
+                                        e.printStackTrace()
+                                        Toast.makeText(
+                                            requireContext(),
+                                            R.string.network_error,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                })
+                        }
+                    }
+                }
                 viewBinding.recyclerView.adapter = adapter
                 FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
                     .setPopupTextProvider(adapter).build()

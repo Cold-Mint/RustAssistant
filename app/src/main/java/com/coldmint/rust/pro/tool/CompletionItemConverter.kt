@@ -14,8 +14,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.LocalVariableName
 import com.coldmint.rust.core.web.Dynamic
 import com.coldmint.rust.pro.R
-import io.github.rosemoe.sora.data.CompletionItem
-import io.github.rosemoe.sora.data.NavigationItem
+import com.coldmint.rust.pro.edit.RustCompletionItem
 import java.io.File
 import java.lang.StringBuilder
 
@@ -129,9 +128,9 @@ class CompletionItemConverter private constructor() : EnglishMode {
     /**
      * 节信息转换为自动完成对象
      * @param sectionInfo SectionInfo
-     * @return CompletionItem
+     * @return RustCompletionItem
      */
-    fun sectionInfoToCompletionItem(sectionInfo: SectionInfo): CompletionItem {
+    fun sectionInfoToCompletionItem(sectionInfo: SectionInfo): RustCompletionItem {
         if (!isInitComplete) {
             NullPointerException("没有初始化。")
         }
@@ -147,14 +146,14 @@ class CompletionItemConverter private constructor() : EnglishMode {
             "[" + sectionInfo.translate + end
         }
         val completionItem = if (isEnglishMode) {
-            CompletionItem(
+            RustCompletionItem(
                 sectionInfo.code,
                 commit,
                 section,
                 boxDrawable
             )
         } else {
-            CompletionItem(
+            RustCompletionItem(
                 sectionInfo.translate,
                 commit,
                 section,
@@ -173,18 +172,18 @@ class CompletionItemConverter private constructor() : EnglishMode {
      * 本地变量转自动完成对象
      * @param localVariableName LocalVariableName
      * @param previousText String? 之前的内容(冒号后面的值)
-     * @return CompletionItem
+     * @return RustCompletionItem
      */
     fun localVariableNameToCompletionItem(
         localVariableName: LocalVariableName,
         previousText: String? = null
-    ): CompletionItem {
+    ): RustCompletionItem {
         val commit = if (previousText == null) {
             "\${" + localVariableName.name + "}"
         } else {
             previousText + "\${" + localVariableName.name + "}"
         }
-        return CompletionItem(
+        return RustCompletionItem(
             localVariableName.name,
             commit,
             variableName, boxDrawable
@@ -194,21 +193,21 @@ class CompletionItemConverter private constructor() : EnglishMode {
     /**
      * 转换代码信息到自动完成对象
      * @param codeInfo CodeInfo
-     * @return CompletionItem
+     * @return RustCompletionItem
      */
-    fun codeInfoToCompletionItem(codeInfo: CodeInfo): CompletionItem {
+    fun codeInfoToCompletionItem(codeInfo: CodeInfo): RustCompletionItem {
         if (!isInitComplete) {
             NullPointerException("没有初始化。")
         }
         val typeInfo = getValueType(codeInfo.type)
         val completionItem = if (isEnglishMode) {
-            CompletionItem(
+            RustCompletionItem(
                 codeInfo.code,
                 codeInfo.code + typeInfo?.external,
                 codeInfo.description, boxDrawable
             )
         } else {
-            CompletionItem(
+            RustCompletionItem(
                 codeInfo.translate,
                 codeInfo.translate + typeInfo?.external,
                 codeInfo.description, boxDrawable
@@ -218,7 +217,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
         if (typeList != null && typeList.isNotBlank()) {
             val bundle = Bundle()
             bundle.putString("list", typeList)
-            completionItem.extrasData = bundle
+//            completionItem.extrasData = bundle
         }
         val offset = typeInfo?.offset
         if (offset != null && offset.isNotBlank()) {
@@ -260,7 +259,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
      * @param valueTable ValueTable
      * @return CompletionItem
      */
-    fun valueTableToCompletionItem(valueTable: ValueTable): CompletionItem {
+    fun valueTableToCompletionItem(valueTable: ValueTable): RustCompletionItem {
         if (isInitComplete) {
             NullPointerException("没有初始化。")
         }
@@ -278,7 +277,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
                 }
             }
         }
-        return CompletionItem(valueTable.keyWord, desc, boxDrawable)
+        return RustCompletionItem(valueTable.keyWord, desc, boxDrawable)
     }
 
     /**
@@ -286,23 +285,23 @@ class CompletionItemConverter private constructor() : EnglishMode {
      * @param navigationItem NavigationItem
      * @return CompletionItem
      */
-    fun navigationItemToCompletionItem(navigationItem: NavigationItem): CompletionItem {
-        val name = SourceFile.getAbsoluteSectionName(navigationItem.label)
-        val type = SourceFile.getSectionType(navigationItem.label)
-        return CompletionItem(
-            name,
-            name,
-            type,
-            boxDrawable
-        )
-    }
+//    fun navigationItemToCompletionItem(navigationItem: NavigationItem): RustCompletionItem {
+//        val name = SourceFile.getAbsoluteSectionName(navigationItem.label)
+//        val type = SourceFile.getSectionType(navigationItem.label)
+//        return RustCompletionItem(
+//            name,
+//            name,
+//            type,
+//            boxDrawable
+//        )
+//    }
 
     /**
      * 文件信息转自动完成对象
      * @param fileTable FileTable
      * @return CompletionItem
      */
-    fun fileTableToCompletionItem(fileTable: FileTable): CompletionItem {
+    fun fileTableToCompletionItem(fileTable: FileTable): RustCompletionItem {
         if (!isInitComplete) {
             NullPointerException("没有初始化。")
         }
@@ -335,7 +334,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
                 }
             }
             val completionItem =
-                CompletionItem(
+                RustCompletionItem(
                     fileTable.fileName,
                     stringBuilder.toString(),
                     fileTable.type, drawable
@@ -353,7 +352,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
             if (rootCodeName == null) {
                 throw NullPointerException("未设置Root名称")
             }
-            return CompletionItem(
+            return RustCompletionItem(
                 fileTable.fileName,
                 fileTable.fileName,
                 fileTable.type, fileDrawable

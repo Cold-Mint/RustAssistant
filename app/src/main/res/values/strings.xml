@@ -25,6 +25,7 @@
     <string name="create_unit_complete">单位创建完成</string>
     <string name="create_unit_failed">单位创建失败</string>
     <string name="create_uniting">正在构建单位...</string>
+    <string name="build_unit">构建单位</string>
     <string name="dialog_ok">确定</string>
     <string name="activation_app">激活铁锈助手</string>
     <string name="activation_app_tip">您的激活时间已过，请激活铁锈助手。</string>
@@ -98,7 +99,7 @@
     <string name="enter_file_path">请输入文件路径。</string>
     <string name="create_bookmark">创建书签</string>
     <string name="name_error">请输入模组名称。</string>
-    <string name="unit_name_error">请输入单位名称。</string>
+    <string name="file_name_error">请输入文件名称。</string>
     <string name="action_name_error">请输入活动名称。</string>
     <string name="database_null">此数据集无法加载，错误原因:%1$s。</string>
     <string name="describe_error">请输入描述。</string>
@@ -748,6 +749,7 @@
     <string name="undo">撤销</string>
     <string name="redo">重做</string>
     <string name="del_mod">删除</string>
+    <string name="delete_error">删除失败。</string>
     <string name="need_save">[未保存]%1$s</string>
     <string name="game_data_and_synchronization">游戏数据与同步</string>
     <string name="game_data_and_synchronization_describe">管理已同步的游戏数据。</string>
@@ -800,7 +802,7 @@
     <string name="change_server_complete">已更改服务器。</string>
     <string name="order_manager">订单管理</string>
     <string name="log_out">登出</string>
-    <string name="user_info">最近登录:%1$s uid:%2$s</string>
+    <string name="user_info">最近登录:%1$s uid:%2$s ip归属地:%3$s</string>
     <string name="use_coupon">将使用优惠券创建订单，仍继续嘛?(创建订单完成后，将优惠券消耗)</string>
     <string name="use">使用</string>
     <string name="account_or_email">账号/电子邮件</string>
@@ -873,6 +875,7 @@
     <string name="template_id">模板id</string>
     <string name="subscription">订阅</string>
     <string name="de_subscription">退订</string>
+    <string name="de_subscription_msg">要退订%1$s嘛?</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

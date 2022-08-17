@@ -4,7 +4,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.coldmint.rust.core.dataBean.ApiResponse
-import com.coldmint.rust.core.dataBean.webTemplate.WebTemplatePackageListData
+import com.coldmint.rust.core.dataBean.SubscriptionData
+import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
+import com.coldmint.rust.core.dataBean.template.WebTemplateData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.google.gson.Gson
 import okhttp3.*
@@ -21,57 +23,8 @@ class TemplatePhp {
 
     private constructor()
 
-    /**
-     * 发送错误报告
-     * @param website 网址(如果程序已崩溃，需要重新读取设置的网址)
-     * @param message String 消息
-     * @param versionName 版本名
-     * @param versionNumber 版本号
-     * @param apiCallBack ApiCallBack<CouponListDataBean>
-     */
-    fun send(
-        message: String,
-        versionName: String,
-        versionNumber: Int,
-        apiCallBack: ApiCallBack<ApiResponse>, website: String = ServerConfiguration.website
-    ) {
-        val okHttpClient = ServerConfiguration.initOkHttpClient()
-        val requestBodyBuilder: FormBody.Builder =
-            FormBody.Builder().add("message", message).add("versionName", versionName)
-                .add("versionNumber", versionNumber.toString())
-        val requestBody = requestBodyBuilder.build()
-        val request =
-            Request.Builder()
-                .url(website + "php/error.php?action=send")
-                .post(requestBody).build()
-        val call = okHttpClient.newCall(request)
-        val handler = Handler(Looper.getMainLooper())
-        val gson = Gson()
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                handler.post { apiCallBack.onFailure(e) }
-            }
 
-            override fun onResponse(call: Call, response: Response) {
-                try {
-                    val data = response.body!!.string()
-                    Log.d("错误反馈数据", data)
-                    val finalApiResponse =
-                        gson.fromJson(data, ApiResponse::class.java)
-                    handler.post {
-                        apiCallBack.onResponse(finalApiResponse)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    handler.post {
-                        apiCallBack.onFailure(e)
-                    }
-                }
-            }
 
-        })
-    }
 
     /**
      *获取公开的模板包列表
@@ -106,6 +59,188 @@ class TemplatePhp {
                         gson.fromJson(data, WebTemplatePackageListData::class.java)
                     handler.post {
                         apiCallBack.onResponse(finalWebTemplatePackageListData)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *获取模板详情
+     * @param apiCallBack ApiCallBack<CouponListDataBean>
+     */
+    fun getTemplate(
+        id: String,
+        apiCallBack: ApiCallBack<WebTemplateData>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("id", id)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=getTemplate")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("获取网络模板详情", data)
+                    val finalWebTemplatePackageListData =
+                        gson.fromJson(data, WebTemplateData::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalWebTemplatePackageListData)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *获用户订阅的模板列表
+     * @param apiCallBack ApiCallBack<SubscriptionData>
+     */
+    fun getSubscriptionDataList(
+        token: String,
+        apiCallBack: ApiCallBack<SubscriptionData>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=getSubscriptionData")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("获取网络订阅", data)
+                    val finalSubscriptionData =
+                        gson.fromJson(data, SubscriptionData::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalSubscriptionData)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *订阅模板
+     * @param apiCallBack ApiCallBack<CouponListDataBean>
+     */
+    fun subscription(
+        token: String,
+        packageId: String,
+        apiCallBack: ApiCallBack<ApiResponse>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token).add("packageId", packageId)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=subscription")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("订阅模板", data)
+                    val finalApiResponse =
+                        gson.fromJson(data, ApiResponse::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *退订模板
+     * @param apiCallBack ApiCallBack<CouponListDataBean>
+     */
+    fun deleteSubscription(
+        token: String,
+        packageId: String,
+        apiCallBack: ApiCallBack<ApiResponse>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token).add("packageId", packageId)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=deleteSubscription")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("退订模板", data)
+                    val finalApiResponse =
+                        gson.fromJson(data, ApiResponse::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -340,14 +340,14 @@ class TemplateListAdapter(
 //                        holder.templateListItemBinding.delButton.setBackgroundColor(R.color.blue_200)
 //                        holder.templateListItemBinding.delButton.setText(R.string.del_moding)
 //                    }
-//                    val index = mFiles.indexOf(templateClass.directest)
-//                    mFiles.removeAt(index)
+//                    val offset = mFiles.indexOf(templateClass.directest)
+//                    mFiles.removeAt(offset)
 //                    FileOperator.delete_files(templateClass.directest)
 //                    mfragment.requireActivity().runOnUiThread {
 //                        if (mFiles.size == 0) {
 //                            mfragment.load_list(mRootPath, true)
 //                        } else {
-//                            notifyItemRemoved(index)
+//                            notifyItemRemoved(offset)
 //                        }
 //                    }
 //                }.start()

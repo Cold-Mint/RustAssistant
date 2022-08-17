@@ -11,16 +11,17 @@ import com.bumptech.glide.Glide
 import android.os.Build
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.ModListItemBinding
+import me.zhanghai.android.fastscroll.PopupTextProvider
 
 /*模组适配器
  * 此适配器只能使用于ModFragment成员变量按需传递。
  * */
 class ModAdapter(context: Context, dataList: MutableList<ModClass>) :
-    BaseAdapter<ModListItemBinding, ModClass>(context, dataList) {
+    BaseAdapter<ModListItemBinding, ModClass>(context, dataList), PopupTextProvider {
 
     init {
         dataList.sortBy {
-            it.modName
+            getInitial(it.modName)
         }
     }
 
@@ -70,5 +71,10 @@ class ModAdapter(context: Context, dataList: MutableList<ModClass>) :
         }
         viewBinding.modUpTime.text = data.lastModificationTime
         viewBinding.modNameView.text = data.modName
+    }
+
+    override fun getPopupText(position: Int): String {
+        val s = dataList[position].modName
+        return getInitial(s).toString()
     }
 }

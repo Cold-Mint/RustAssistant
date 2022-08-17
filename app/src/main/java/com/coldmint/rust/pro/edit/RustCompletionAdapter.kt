@@ -1,29 +1,30 @@
 package com.coldmint.rust.pro.edit
 
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import com.coldmint.rust.pro.R
-import android.widget.TextView
-import android.graphics.drawable.Drawable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.view.View
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import androidx.core.view.isVisible
 import com.coldmint.rust.pro.databinding.EditItemBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
-import io.github.rosemoe.sora.widget.EditorCompletionAdapter
+import io.github.rosemoe.sora.widget.component.EditorCompletionAdapter
 import java.util.*
 
 
+/**
+ * Rust完成适配器
+ * @property layoutInflater (LayoutInflater..LayoutInflater?)
+ * @property spannableStringBuilder SpannableStringBuilder
+ * @property colorSpan ForegroundColorSpan
+ * @property bold StyleSpan
+ */
 class RustCompletionAdapter : EditorCompletionAdapter() {
     private val layoutInflater by lazy {
         LayoutInflater.from(context)
@@ -39,20 +40,20 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         isCurrentCursorPosition: Boolean
     ): View {
         val editItem = EditItemBinding.inflate(layoutInflater, parent, false)
-        val completionItem = getItem(position)
+        val completionItem = getItem(position) as RustCompletionItem
         spannableStringBuilder.clear()
-        val label = completionItem.label
+        val label = completionItem.label.toString()
         spannableStringBuilder.append(label)
         //节补丁
-        if (RustAutoComplete2.keyWord.startsWith('[') && RustAutoComplete2.keyWord.length > 1) {
-            RustAutoComplete2.keyWord =
-                RustAutoComplete2.keyWord.subSequence(1, RustAutoComplete2.keyWord.length)
+        if (RustAutoComplete.keyWord.startsWith('[') && RustAutoComplete.keyWord.length > 1) {
+            RustAutoComplete.keyWord =
+                RustAutoComplete.keyWord.subSequence(1, RustAutoComplete.keyWord.length)
                     .toString()
         }
         val start = label.lowercase(Locale.getDefault())
-            .indexOf(RustAutoComplete2.keyWord.lowercase(Locale.getDefault()))
+            .indexOf(RustAutoComplete.keyWord.lowercase(Locale.getDefault()))
         if (start > -1) {
-            val end = start + RustAutoComplete2.keyWord.length
+            val end = start + RustAutoComplete.keyWord.length
             spannableStringBuilder.setSpan(
                 colorSpan,
                 start,
@@ -63,8 +64,8 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         }
         editItem.titleView.text = spannableStringBuilder
         editItem.contentView.text = completionItem.desc
-        if (completionItem.extrasData != null && completionItem.extrasData.containsKey("sub")) {
-            editItem.subTitleView.text = completionItem.extrasData.getString("sub")
+        if (completionItem.subtitle != null) {
+            editItem.subTitleView.text = completionItem.subtitle
         } else {
             editItem.subTitleView.isVisible = false
         }

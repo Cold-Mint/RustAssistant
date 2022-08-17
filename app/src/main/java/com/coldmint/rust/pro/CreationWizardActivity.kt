@@ -3,7 +3,10 @@ package com.coldmint.rust.pro
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coldmint.rust.pro.adapters.GuideAdapter
@@ -13,11 +16,22 @@ import com.coldmint.rust.pro.databinding.ActivityCreationWizardBinding
 import com.coldmint.rust.pro.tool.AppSettings
 
 class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
+
+    lateinit var createMod: ActivityResultLauncher<Intent>
+
     //创建向导类型（模组，模板包）
     lateinit var type: String
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         setReturnButton()
         title = getString(R.string.creation_assistant)
+        createMod = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                finish()
+                Log.d("创建单位", "收到了数据，关闭界面。")
+            } else {
+                Log.d("创建单位", "没有收到数据。")
+            }
+        }
         val temType = intent.getStringExtra("type")
         if (temType.isNullOrBlank()) {
             showToast("请传入类型")
@@ -74,7 +88,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
                         val fileBundle = Bundle()
                         fileBundle.putString("type", "selectFile")
                         startIntent.putExtra("data", fileBundle)
-                        startActivity(startIntent )
+                        startActivity(startIntent)
                     }
                 }
             }
@@ -118,15 +132,14 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
         val adapter = GuideAdapter(this, dataList)
         adapter.setItemEvent { i, itemGuideBinding, viewHolder, guideData ->
             itemGuideBinding.root.setOnClickListener {
-                finish()
                 when (guideData.titleRes) {
                     R.string.create_mod_lable -> {
-                        startActivity(
+                        val startActivity =
                             Intent(
                                 this,
                                 CreateModActivity::class.java
                             )
-                        )
+                        createMod.launch(startActivity)
                     }
                     R.string.import_mod -> {
                         val startIntent =
@@ -135,6 +148,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
                         fileBundle.putString("type", "selectFile")
                         startIntent.putExtra("data", fileBundle)
                         startActivity(startIntent)
+                        finish()
                     }
                     R.string.import_mod_from_package_directory -> {
                         val startIntent =
@@ -149,9 +163,11 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
                         fileBundle.putString("rootpath", packDirectory)
                         startIntent.putExtra("data", fileBundle)
                         startActivity(startIntent)
+                        finish()
                     }
                     R.string.import_mod_from_recycle_bin -> {
                         startActivity(Intent(this, RecyclingStationActivity::class.java))
+                        finish()
                     }
                 }
             }

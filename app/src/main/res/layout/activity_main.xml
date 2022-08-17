@@ -7,11 +7,10 @@
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="false">
 
-    <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -27,12 +26,20 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:tabMode="fixed"
-                app:tabTextAppearance="@style/TabLayoutTextStyle">
+                android:background="@android:color/transparent"
+                android:visibility="gone">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已安装" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="模板社区" />
 
             </com.google.android.material.tabs.TabLayout>
-
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,6 +48,8 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
             app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
@@ -55,16 +64,15 @@
             android:text="@string/create"
             app:icon="@drawable/add" />
 
-
-    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navaiagtion"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:elevation="2dp"
         android:fitsSystemWindows="false"
+        app:elevation="2dp"
         app:menu="@menu/menu_drawer_left" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

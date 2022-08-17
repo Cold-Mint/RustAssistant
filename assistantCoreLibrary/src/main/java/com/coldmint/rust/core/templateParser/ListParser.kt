@@ -18,15 +18,15 @@ class ListParser(val context: Context, val data: ListParserDataBean) : TemplateP
     )
     private val itemList: List<String> = data.itemList.split(",")
     private val dataList: List<String>? = data.dataList?.split(",")
-    override val input: String
-        get() {
-            val index = parserListBinding.spacer.selectedItemPosition
-            return if (dataList != null && dataList.size == itemList.size) {
-                dataList[index]
-            } else {
-                itemList[index]
-            }
+    override fun getInput(): String {
+        val index = parserListBinding.spacer.selectedItemPosition
+        return if (dataList != null && dataList.size == itemList.size) {
+            dataList[index]
+        } else {
+            itemList[index]
         }
+    }
+
 
     override val contextView: View
         get() {

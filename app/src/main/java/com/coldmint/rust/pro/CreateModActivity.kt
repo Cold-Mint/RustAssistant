@@ -122,6 +122,7 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
                         val fileWriter = FileWriter(mod_directory.absolutePath + "/mod-info.txt")
                         fileWriter.write(stringBuilder.toString())
                         fileWriter.close()
+                        setResult(RESULT_OK)
                         finish()
                     } catch (e: IOException) {
                         e.printStackTrace()

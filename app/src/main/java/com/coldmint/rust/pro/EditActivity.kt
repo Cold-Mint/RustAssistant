@@ -60,10 +60,10 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import io.github.rosemoe.sora.data.CompletionItem
+import io.github.rosemoe.sora.lang.completion.CompletionItem
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import java.io.File
 import java.util.*
-import io.github.rosemoe.sora.widget.EditorColorScheme
 import kotlin.collections.ArrayList
 
 
@@ -75,9 +75,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     private lateinit var rustLanguage: RustLanguage
 
     private var fileAdapter: FileAdapter? = null
-    val symbolChannel by lazy {
-        viewBinding.codeEditor.createNewSymbolChannel()
-    }
 
     //是第一次启动嘛
     var isFirst = true
@@ -199,41 +196,41 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             rustLanguage.setEnglish(it)
         }
 
-        viewBinding.codeEditor.setItemListener { i, completionItem ->
-            viewModel.executorService.submit {
-                val extrasData = completionItem.extrasData
-                if (extrasData != null) {
-                    val listData = extrasData.getString("list")
-                    if (listData != null) {
-                        val lineParser = LineParser(listData)
-                        lineParser.symbol = ","
-                        val list = ArrayList<CompletionItem>()
-                        lineParser.analyse { lineNum, lineData, isEnd ->
-                            val temCodeInfo =
-                                CodeDataBase.getInstance(this).getCodeDao().findCodeByCode(lineData)
-                            if (temCodeInfo == null) {
-
-                            } else {
-                                val completionItemConverter = CompletionItemConverter.instance
-                                completionItemConverter.init(this)
-                                list.add(
-                                    completionItemConverter.codeInfoToCompletionItem(
-                                        temCodeInfo
-                                    )
-                                )
-                            }
-                            true
-                        }
-                        if (list.isNotEmpty()) {
-                            runOnUiThread {
-                                viewBinding.codeEditor.createEditorAutoCompleteList(list)
-                            }
-                        }
-                    }
-                }
-            }
-            true
-        }
+//        viewBinding.codeEditor.setItemListener { i, completionItem ->
+//            viewModel.executorService.submit {
+//                val extrasData = completionItem.extrasData
+//                if (extrasData != null) {
+//                    val listData = extrasData.getString("list")
+//                    if (listData != null) {
+//                        val lineParser = LineParser(listData)
+//                        lineParser.symbol = ","
+//                        val list = ArrayList<CompletionItem>()
+//                        lineParser.analyse { lineNum, lineData, isEnd ->
+//                            val temCodeInfo =
+//                                CodeDataBase.getInstance(this).getCodeDao().findCodeByCode(lineData)
+//                            if (temCodeInfo == null) {
+//
+//                            } else {
+//                                val completionItemConverter = CompletionItemConverter.instance
+//                                completionItemConverter.init(this)
+//                                list.add(
+//                                    completionItemConverter.codeInfoToCompletionItem(
+//                                        temCodeInfo
+//                                    )
+//                                )
+//                            }
+//                            true
+//                        }
+//                        if (list.isNotEmpty()) {
+//                            runOnUiThread {
+//                                viewBinding.codeEditor.createEditorAutoCompleteList(list)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            true
+//        }
         viewModel.openedSourceFileListLiveData.observe(this) {
             viewBinding.tabLayout.removeAllTabs()
             it.forEach {
@@ -314,11 +311,11 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         }
 
         viewModel.codeLiveData.observe(this) {
-            rustLanguage.autoCompleteProvider.setSourceFolder(
-                FileOperator.getSuperDirectory(
-                    viewModel.getNowOpenFilePath()
-                )
-            )
+//            rustLanguage.autoCompleteProvider.setSourceFolder(
+//                FileOperator.getSuperDirectory(
+//                    viewModel.getNowOpenFilePath()
+//                )
+//            )
             //初始化加载路径数据（仅在第一次有效）
             editStartViewModel.initLoadPathLiveData(viewModel.getNowOpenFilePath())
             viewBinding.myProgressBar.isVisible = false
@@ -480,8 +477,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             loadStartObserve()
             loadEndObserve()
             initDrawerLayout()
-            initCodeEditor()
             initCodeToolbar()
+            initCodeEditor()
             initStartView()
             initEndView()
             showRenewalTip()
@@ -979,7 +976,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             builder.append(viewModel.convertDigital(r))
                             builder.append(viewModel.convertDigital(g))
                             builder.append(viewModel.convertDigital(b))
-                            symbolChannel.insertSymbol(builder.toString(), builder.length)
+                            viewBinding.codeEditor.insertText(builder.toString(), builder.length)
                         }
                         .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
                         .build()
@@ -1000,107 +997,107 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         ).show()
                     }
                 } else if (item == getString(R.string.code_tip)) {
-                    viewModel.executorService.submit {
-                        try {
-                            val list = ArrayList<CompletionItem>()
-                            //如果不包含:搜索键
-                            val lineNumber = viewBinding.codeEditor.selectedLineNumber
-                            val navigationList =
-                                viewBinding.codeEditor.textAnalyzeResult.navigation
-                            var section: String? = null
-                            if (navigationList != null && navigationList.isNotEmpty()) {
-                                for (navigation in navigationList) {
-                                    if (navigation.line > lineNumber) {
-                                        break
-                                    } else {
-                                        section = navigation.label
-                                    }
-                                }
-                            }
-                            //如果不在任何节内
-                            if (section == null) {
-                                runOnUiThread {
-                                    runOnUiThread {
-                                        Snackbar.make(
-                                            viewBinding.recyclerview,
-                                            this.getString(R.string.code_tip_error1),
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-                                return@submit
-                            }
-                            val trueSection =
-                                rustLanguage.autoCompleteProvider.getSectionType(section)
-                            val codeDataBase = CodeDataBase.getInstance(this)
-                            val lineData =
-                                viewBinding.codeEditor.text.getLine(lineNumber).toString()
-                            if (lineData.startsWith('[') && lineData.endsWith(']')) {
-                                runOnUiThread {
-                                    Snackbar.make(
-                                        viewBinding.recyclerview,
-                                        R.string.code_tip_error2,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
-                                return@submit
-                            }
-                            val index = lineData.indexOf(':')
-                            if (index > -1) {
-                                //如果包含:
-                                runOnUiThread {
-                                    Snackbar.make(
-                                        viewBinding.recyclerview,
-                                        this.getString(R.string.can_not_tip_value),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
-                                return@submit
-                            } else {
-                                val codeInfoList = if (lineData.isBlank()) {
-                                    codeDataBase.getCodeDao().findCodeBySection(trueSection)
-                                } else {
-                                    val number = AppSettings.getValue(
-                                        AppSettings.Setting.IdentifiersPromptNumber,
-                                        40
-                                    )
-                                    codeDataBase.getCodeDao()
-                                        .findCodeByKeyFromSection(lineData, trueSection, number)
-                                }
-                                if (codeInfoList != null && codeInfoList.isNotEmpty()) {
-                                    val completionItemConverter =
-                                        CompletionItemConverter.instance.init(this)
-                                    codeInfoList.forEach {
-                                        list.add(
-                                            completionItemConverter.codeInfoToCompletionItem(
-                                                it
-                                            )
-                                        )
-                                    }
-                                } else {
-                                    runOnUiThread {
-                                        Snackbar.make(
-                                            viewBinding.recyclerview,
-                                            String.format(
-                                                this.getString(R.string.code_tip_error3),
-                                                SourceFile.getSectionType(section)
-                                            ),
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-                            }
-                            runOnUiThread {
-                                viewBinding.codeEditor.createEditorAutoCompleteList(list)
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-                    }
+//                    viewModel.executorService.submit {
+//                        try {
+//                            val list = ArrayList<CompletionItem>()
+//                            //如果不包含:搜索键
+//                            val lineNumber = viewBinding.codeEditor.selectedLineNumber
+//                            val navigationList =
+//                                viewBinding.codeEditor.textAnalyzeResult.navigation
+//                            var section: String? = null
+//                            if (navigationList != null && navigationList.isNotEmpty()) {
+//                                for (navigation in navigationList) {
+//                                    if (navigation.line > lineNumber) {
+//                                        break
+//                                    } else {
+//                                        section = navigation.label
+//                                    }
+//                                }
+//                            }
+//                            //如果不在任何节内
+//                            if (section == null) {
+//                                runOnUiThread {
+//                                    runOnUiThread {
+//                                        Snackbar.make(
+//                                            viewBinding.recyclerview,
+//                                            this.getString(R.string.code_tip_error1),
+//                                            Snackbar.LENGTH_SHORT
+//                                        ).show()
+//                                    }
+//                                }
+//                                return@submit
+//                            }
+//                            val trueSection =
+//                                rustLanguage.autoCompleteProvider.getSectionType(section)
+//                            val codeDataBase = CodeDataBase.getInstance(this)
+//                            val lineData =
+//                                viewBinding.codeEditor.text.getLine(lineNumber).toString()
+//                            if (lineData.startsWith('[') && lineData.endsWith(']')) {
+//                                runOnUiThread {
+//                                    Snackbar.make(
+//                                        viewBinding.recyclerview,
+//                                        R.string.code_tip_error2,
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                                return@submit
+//                            }
+//                            val offset = lineData.indexOf(':')
+//                            if (offset > -1) {
+//                                //如果包含:
+//                                runOnUiThread {
+//                                    Snackbar.make(
+//                                        viewBinding.recyclerview,
+//                                        this.getString(R.string.can_not_tip_value),
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                                return@submit
+//                            } else {
+//                                val codeInfoList = if (lineData.isBlank()) {
+//                                    codeDataBase.getCodeDao().findCodeBySection(trueSection)
+//                                } else {
+//                                    val number = AppSettings.getValue(
+//                                        AppSettings.Setting.IdentifiersPromptNumber,
+//                                        40
+//                                    )
+//                                    codeDataBase.getCodeDao()
+//                                        .findCodeByKeyFromSection(lineData, trueSection, number)
+//                                }
+//                                if (codeInfoList != null && codeInfoList.isNotEmpty()) {
+//                                    val completionItemConverter =
+//                                        CompletionItemConverter.instance.init(this)
+//                                    codeInfoList.forEach {
+//                                        list.add(
+//                                            completionItemConverter.codeInfoToCompletionItem(
+//                                                it
+//                                            )
+//                                        )
+//                                    }
+//                                } else {
+//                                    runOnUiThread {
+//                                        Snackbar.make(
+//                                            viewBinding.recyclerview,
+//                                            String.format(
+//                                                this.getString(R.string.code_tip_error3),
+//                                                SourceFile.getSectionType(section)
+//                                            ),
+//                                            Snackbar.LENGTH_SHORT
+//                                        ).show()
+//                                    }
+//                                }
+//                            }
+//                            runOnUiThread {
+//                                viewBinding.codeEditor.createEditorAutoCompleteList(list)
+//                            }
+//                        } catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
+//
+//                    }
                 } else {
                     try {
-                        symbolChannel.insertSymbol(item, item.length)
+                        viewBinding.codeEditor.insertText(item, item.length)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -1139,53 +1136,41 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
         val night = AppSettings.getValue(AppSettings.Setting.NightMode, false)
         val editorColorScheme = EditorColorScheme()
-        if (night) {
-            //代码（可识别的关键字）
-            editorColorScheme.setColor(EditorColorScheme.KEYWORD, Color.rgb(178, 119, 49))
-            //默认文本
-            editorColorScheme.setColor(EditorColorScheme.TEXT_NORMAL, Color.rgb(169, 183, 198))
-            //注释
-            editorColorScheme.setColor(EditorColorScheme.COMMENT, Color.rgb(128, 128, 128))
-            //节
-            editorColorScheme.setColor(
-                EditorColorScheme.FUNCTION_NAME,
-                Color.rgb(152, 118, 170)
-            )
-            //错误
-            editorColorScheme.setColor(
-                EditorColorScheme.WHOLE_BACKGROUND,
-                Color.rgb(60, 63, 65)
-            )
-            editorColorScheme.setColor(
-                EditorColorScheme.LINE_NUMBER_BACKGROUND,
-                Color.rgb(60, 63, 65)
-            )
-        } else {
-            //代码（可识别的关键字）
-            editorColorScheme.setColor(EditorColorScheme.KEYWORD, Color.rgb(42, 92, 170))
-            //默认文本
-            editorColorScheme.setColor(EditorColorScheme.TEXT_NORMAL, Color.BLACK)
-            //注释
-            editorColorScheme.setColor(EditorColorScheme.COMMENT, Color.rgb(128, 128, 128))
-            //节
-            editorColorScheme.setColor(EditorColorScheme.FUNCTION_NAME, Color.rgb(170, 33, 22))
-            editorColorScheme.setColor(
-                EditorColorScheme.WHOLE_BACKGROUND,
-                Color.rgb(240, 240, 243)
-            )
-
-            //变量名
-            editorColorScheme.setColor(EditorColorScheme.LITERAL, Color.rgb(153, 50, 204))
-        }
+        val backgroundColor = GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
+        //代码（可识别的关键字）
+        editorColorScheme.setColor(
+            EditorColorScheme.KEYWORD,
+            GlobalMethod.getThemeColor(this, android.R.attr.colorSecondary)
+        )
+        //默认文本
+        editorColorScheme.setColor(EditorColorScheme.TEXT_NORMAL, Color.rgb(169, 183, 198))
+        //注释
+        editorColorScheme.setColor(
+            EditorColorScheme.COMMENT,
+            GlobalMethod.getThemeColor(this, android.R.attr.textColorTertiary)
+        )
+        //节
+        editorColorScheme.setColor(
+            EditorColorScheme.FUNCTION_NAME,
+            GlobalMethod.getColorPrimary(this)
+        )
+        editorColorScheme.setColor(
+            EditorColorScheme.WHOLE_BACKGROUND,
+            backgroundColor
+        )
+        editorColorScheme.setColor(
+            EditorColorScheme.LINE_NUMBER_BACKGROUND,
+            backgroundColor
+        )
         viewBinding.codeEditor.colorScheme = editorColorScheme
         viewBinding.codeEditor.setAutoCompletionItemAdapter(RustCompletionAdapter())
         viewBinding.codeEditor.isVerticalScrollBarEnabled = false
         val path = viewModel.modClass?.modFile?.absolutePath ?: ""
-        rustLanguage.autoCompleteProvider.setConfigurationFileConversion(
-            path,
-            "ROOT",
-            path
-        )
+//        rustLanguage.autoCompleteProvider.setConfigurationFileConversion(
+//            path,
+//            "ROOT",
+//            path
+//        )
         viewBinding.codeEditor.setEditorLanguage(rustLanguage)
 
     }
@@ -1262,49 +1247,49 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 }
             }
             R.id.code_navigation -> {
-                viewModel.executorService.submit {
-                    val labels = viewBinding.codeEditor.textAnalyzeResult.navigation
-                    if (labels == null || labels.size == 0) {
-                        runOnUiThread {
-                            Snackbar.make(
-                                viewBinding.recyclerview,
-                                R.string.not_find_code_navigation,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else {
-                        val items = ArrayList<CharSequence>()
-                        var i = 0
-                        while (i < labels.size) {
-                            items.add(labels[i].label)
-                            i++
-                        }
-                        val tip = String.format(getString(R.string.navigation_tip), items.size)
-                        runOnUiThread {
-                            MaterialDialog(this).show {
-                                title(R.string.code_navigation).positiveButton(R.string.dialog_cancel)
-                                    .message(text = tip)
-                                    .listItems(
-                                        items = items,
-                                        waitForPositiveButton = false,
-                                        selection = object : ItemListener {
-                                            override fun invoke(
-                                                dialog: MaterialDialog,
-                                                index: Int,
-                                                text: CharSequence
-                                            ) {
-                                                viewBinding.codeEditor.jumpToLine(
-                                                    labels[index].line
-                                                )
-                                                viewBinding.codeEditor.moveSelectionEnd()
-                                                dialog.dismiss()
-                                            }
-
-                                        })
-                            }
-                        }
-                    }
-                }
+//                viewModel.executorService.submit {
+//                    val labels = viewBinding.codeEditor.textAnalyzeResult.navigation
+//                    if (labels == null || labels.size == 0) {
+//                        runOnUiThread {
+//                            Snackbar.make(
+//                                viewBinding.recyclerview,
+//                                R.string.not_find_code_navigation,
+//                                Snackbar.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    } else {
+//                        val items = ArrayList<CharSequence>()
+//                        var i = 0
+//                        while (i < labels.size) {
+//                            items.add(labels[i].label)
+//                            i++
+//                        }
+//                        val tip = String.format(getString(R.string.navigation_tip), items.size)
+//                        runOnUiThread {
+//                            MaterialDialog(this).show {
+//                                title(R.string.code_navigation).positiveButton(R.string.dialog_cancel)
+//                                    .message(text = tip)
+//                                    .listItems(
+//                                        items = items,
+//                                        waitForPositiveButton = false,
+//                                        selection = object : ItemListener {
+//                                            override fun invoke(
+//                                                dialog: MaterialDialog,
+//                                                offset: Int,
+//                                                text: CharSequence
+//                                            ) {
+//                                                viewBinding.codeEditor.jumpToLine(
+//                                                    labels[offset].line
+//                                                )
+//                                                viewBinding.codeEditor.moveSelectionEnd()
+//                                                dialog.dismiss()
+//                                            }
+//
+//                                        })
+//                            }
+//                        }
+//                    }
+//                }
             }
             R.id.save_text -> {
                 val openedSourceFile =
@@ -1534,24 +1519,24 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                                         viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
                                     }
                                     addAdditionalName -> {
-                                        val labels =
-                                            viewBinding.codeEditor.textAnalyzeResult.navigation
-                                        var num = 1
-                                        labels.forEach {
-                                            val type = SourceFile.getSectionType(
-                                                it.label.substring(
-                                                    1,
-                                                    it.label.length - 1
-                                                )
-                                            )
-                                            if (type == sectionName) {
-                                                num++
-                                            }
-                                        }
-                                        val name = "_" + num.toString()
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                        symbolChannel.insertSymbol(name, name.length)
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
+//                                        val labels =
+//                                            viewBinding.codeEditor.textAnalyzeResult.navigation
+//                                        var num = 1
+//                                        labels.forEach {
+//                                            val type = SourceFile.getSectionType(
+//                                                it.label.substring(
+//                                                    1,
+//                                                    it.label.length - 1
+//                                                )
+//                                            )
+//                                            if (type == sectionName) {
+//                                                num++
+//                                            }
+//                                        }
+//                                        val name = "_" + num.toString()
+//                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
+//                                        viewBinding.codeEditor.insertText(name, name.length)
+//                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
                                     }
                                 }
                                 false

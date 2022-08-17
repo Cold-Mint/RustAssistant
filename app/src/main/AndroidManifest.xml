@@ -261,8 +261,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditActivity"
-            android:configChanges="orientation"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/mod_action1"
             android:screenOrientation="portrait" />
         <activity

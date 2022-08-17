@@ -786,7 +786,7 @@
     <string name="change_server_complete">The server has changed.</string>
     <string name="order_manager">The order management</string>
     <string name="log_out">logout</string>
-    <string name="user_info">%1$s uid:%2$s</string>
+    <string name="user_info">%1$s uid:%2$s location:%3$s</string>
     <string name="use_coupon">Will use coupons to create orders, still continue\? (After creating the order, use the coupon)</string>
     <string name="use">use</string>
     <string name="account_or_email">Account/email</string>

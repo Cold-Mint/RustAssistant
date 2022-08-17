@@ -13,8 +13,12 @@ import android.graphics.BitmapFactory
 import android.content.Intent
 import com.coldmint.rust.pro.TemplateParserActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.template.Template
@@ -28,7 +32,8 @@ class TemplateAdapter(
     private val context: Context,
     private val mGroup: List<TemplatePackage>,
     private val mItemList: List<List<Template>>,
-    mEnvironmentLanguage: String
+    mEnvironmentLanguage: String,
+    private val startTemplateParserActivity: ActivityResultLauncher<Intent>
 ) : BaseExpandableListAdapter() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val mEnvironmentLanguage: String
@@ -117,7 +122,9 @@ class TemplateAdapter(
             val intent = Intent(context, TemplateParserActivity::class.java)
             intent.putExtra("link", templateClass.getLink())
             intent.putExtra("isLocal", templateClass.isLocal())
-            context.startActivity(intent)
+            intent.putExtra("createDirectory", createPath)
+
+            startTemplateParserActivity.launch(intent)
         }
         return templateItemBinding.root
     }

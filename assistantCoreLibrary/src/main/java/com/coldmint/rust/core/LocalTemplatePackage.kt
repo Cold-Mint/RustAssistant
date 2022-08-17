@@ -1,5 +1,7 @@
 package com.coldmint.rust.core
 
+import android.os.Handler
+import android.os.Looper
 import com.coldmint.rust.core.dataBean.TemplateDataBean
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
@@ -64,6 +66,18 @@ class LocalTemplatePackage(val directest: File) : TemplatePackage {
         return info?.name ?: directest.name
     }
 
+    override fun getDescription(): String {
+        val info = getInfo()
+        return info?.description ?: ""
+    }
+
+    override fun delete(token: String, func: (Boolean) -> Unit) {
+        func.invoke(FileOperator.delete_files(directest))
+    }
+
+    override fun isLocal(): Boolean {
+        return true
+    }
 
 
     /**
