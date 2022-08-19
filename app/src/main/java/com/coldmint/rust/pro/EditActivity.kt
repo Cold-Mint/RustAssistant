@@ -1,8 +1,10 @@
 package com.coldmint.rust.pro
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +27,11 @@ import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.ItemListener
 import com.afollestad.materialdialogs.list.listItems
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.coldmint.rust.core.AnalysisResult
 import com.coldmint.rust.core.CodeCompiler2
 import com.coldmint.rust.core.ModClass
@@ -62,6 +69,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import io.github.rosemoe.sora.lang.completion.CompletionItem
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
+import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -211,10 +219,10 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //                            if (temCodeInfo == null) {
 //
 //                            } else {
-//                                val completionItemConverter = CompletionItemConverter.instance
-//                                completionItemConverter.init(this)
+//                                val CompletionItemConverter = CompletionItemConverter.instance
+//                                CompletionItemConverter.init(this)
 //                                list.add(
-//                                    completionItemConverter.codeInfoToCompletionItem(
+//                                    CompletionItemConverter.codeInfoToCompletionItem(
 //                                        temCodeInfo
 //                                    )
 //                                )
@@ -482,6 +490,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             initStartView()
             initEndView()
             showRenewalTip()
+            loadCustomStyle()
         } else {
             val thisIntent = intent
             val bundle = thisIntent.getBundleExtra("data")
@@ -958,29 +967,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         codeToolAdapter.setItemEvent { i, codeToolItemBinding, viewHolder, item ->
             codeToolItemBinding.root.setOnClickListener {
                 if (item == getString(R.string.symbol11)) {
-                    ColorPickerDialogBuilder
-                        .with(this@EditActivity)
-                        .setTitle(getString(R.string.choose_color))
-                        .initialColor(Color.WHITE)
-                        .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                        .density(12)
-                        .setOnColorSelectedListener {
-                            //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-                        }
-                        .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
-                            val r = Color.red(selectedColor)
-                            val g = Color.green(selectedColor)
-                            val b = Color.blue(selectedColor)
-                            val builder = StringBuilder()
-                            builder.append('#')
-                            builder.append(viewModel.convertDigital(r))
-                            builder.append(viewModel.convertDigital(g))
-                            builder.append(viewModel.convertDigital(b))
-                            viewBinding.codeEditor.insertText(builder.toString(), builder.length)
-                        }
-                        .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
-                        .build()
-                        .show()
+                    GlobalMethod.showColorPickerDialog(this) {
+                        viewBinding.codeEditor.insertText(it, it.length)
+                    }
                 } else if (item == getString(R.string.code_table)) {
                     viewModel.needCheckAutoSave = false
                     startActivity(Intent(this@EditActivity, CodeTableActivity::class.java))
@@ -1065,11 +1054,11 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //                                        .findCodeByKeyFromSection(lineData, trueSection, number)
 //                                }
 //                                if (codeInfoList != null && codeInfoList.isNotEmpty()) {
-//                                    val completionItemConverter =
+//                                    val CompletionItemConverter =
 //                                        CompletionItemConverter.instance.init(this)
 //                                    codeInfoList.forEach {
 //                                        list.add(
-//                                            completionItemConverter.codeInfoToCompletionItem(
+//                                            CompletionItemConverter.codeInfoToCompletionItem(
 //                                                it
 //                                            )
 //                                        )
@@ -1122,9 +1111,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 "JetBrainsMono-Regular.ttf"
             )
         }
-        val language =
-            AppSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
-        rustLanguage = RustLanguage(this)
+//        val language =
+//            AppSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
+        rustLanguage = RustLanguage()
         rustLanguage.setCodeDataBase(CodeDataBase.getInstance(this))
         rustLanguage.setFileDataBase(
             FileDataBase.getInstance(
@@ -1134,25 +1123,53 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         )
 //        rustLanguage.setAnalyzerEnglishMode(viewModel.englishModeLiveData)
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
-        val night = AppSettings.getValue(AppSettings.Setting.NightMode, false)
+        viewBinding.codeEditor.setAutoCompletionItemAdapter(RustCompletionAdapter())
+        viewBinding.codeEditor.isVerticalScrollBarEnabled = false
+        val path = viewModel.modClass?.modFile?.absolutePath ?: ""
+        CompletionItemConverter.configurationFileConversion(
+            path,
+            "ROOT",
+            path
+        )
+        viewBinding.codeEditor.setEditorLanguage(rustLanguage)
+    }
+
+
+    /**
+     * 加载自动
+     */
+    fun loadCustomStyle() {
+        val key = "加载自定义编辑框样式"
         val editorColorScheme = EditorColorScheme()
-        val backgroundColor = GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
+        val codeEditBackGroundEnable =
+            AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
+        val backgroundColor =
+            if (codeEditBackGroundEnable) {
+                DebugHelper.printLog(key, "启用背景图像，设置背景为透明。")
+                Color.TRANSPARENT
+            } else {
+                DebugHelper.printLog(key, "未启用背景图像，设置背景为窗口颜色。")
+                GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
+            }
         //代码（可识别的关键字）
         editorColorScheme.setColor(
             EditorColorScheme.KEYWORD,
-            GlobalMethod.getThemeColor(this, android.R.attr.colorSecondary)
+            Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColor, ""))
         )
         //默认文本
-        editorColorScheme.setColor(EditorColorScheme.TEXT_NORMAL, Color.rgb(169, 183, 198))
+        editorColorScheme.setColor(
+            EditorColorScheme.TEXT_NORMAL,
+            Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColor, ""))
+        )
         //注释
         editorColorScheme.setColor(
             EditorColorScheme.COMMENT,
-            GlobalMethod.getThemeColor(this, android.R.attr.textColorTertiary)
+            Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColor, ""))
         )
         //节
         editorColorScheme.setColor(
             EditorColorScheme.FUNCTION_NAME,
-            GlobalMethod.getColorPrimary(this)
+            Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColor, ""))
         )
         editorColorScheme.setColor(
             EditorColorScheme.WHOLE_BACKGROUND,
@@ -1162,17 +1179,35 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             EditorColorScheme.LINE_NUMBER_BACKGROUND,
             backgroundColor
         )
-        viewBinding.codeEditor.colorScheme = editorColorScheme
-        viewBinding.codeEditor.setAutoCompletionItemAdapter(RustCompletionAdapter())
-        viewBinding.codeEditor.isVerticalScrollBarEnabled = false
-        val path = viewModel.modClass?.modFile?.absolutePath ?: ""
-//        rustLanguage.autoCompleteProvider.setConfigurationFileConversion(
-//            path,
-//            "ROOT",
-//            path
-//        )
-        viewBinding.codeEditor.setEditorLanguage(rustLanguage)
+        editorColorScheme.setColor(EditorColorScheme.COMPLETION_WND_BACKGROUND, backgroundColor)
+        if (codeEditBackGroundEnable) {
+            //设置自定义背景图
+            Glide.with(this)
+                .load(AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundPath, "")).apply(
+                    RequestOptions.bitmapTransform(
+                        BlurTransformation(
+                            AppSettings.getValue(
+                                AppSettings.Setting.BlurTransformationValue,
+                                1
+                            )
+                        )
+                    )
+                ).into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        window.setBackgroundDrawable(resource)
+                    }
 
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+
+                })
+
+        }
+        viewBinding.codeEditor.colorScheme = editorColorScheme
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

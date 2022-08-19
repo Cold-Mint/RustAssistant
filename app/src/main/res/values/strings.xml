@@ -233,6 +233,7 @@
     <!--编译错误-->
 
     <string name="not_save_exit">不保存退出</string>
+    <string name="save_settings">检查到配置信息更新，要保存更改嘛?</string>
     <string name="saveing">正在保存%1$s...</string>
     <string name="save_complete">%1$s保存完成。</string>
 
@@ -872,10 +873,26 @@
     <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">文件排序方式</string>
     <string name="setting_file_sort_type" translatable="false">FileSortType</string>
+    <string name="setting_keyword_color" translatable="false">KeywordColor</string>
+    <string name="setting_annotation_color" translatable="false">AnnotationColor</string>
+    <string name="setting_text_color" translatable="false">TextColor</string>
+    <string name="setting_section_color" translatable="false">SectionColor</string>
     <string name="template_id">模板id</string>
+    <string name="customize_edit_text">定制编辑框</string>
     <string name="subscription">订阅</string>
     <string name="de_subscription">退订</string>
     <string name="de_subscription_msg">要退订%1$s嘛?</string>
+    <string name="keyword_color">关键字颜色</string>
+    <string name="text_color">普通文本颜色</string>
+    <string name="edit_text_color">字体颜色</string>
+    <string name="section_color">节颜色</string>
+    <string name="annotation_color">注释颜色</string>
+    <string name="customize_edit_text_description">定制编辑框字体颜色，编辑框背景图像等等。</string>
+    <string name="restore_default">恢复默认</string>
+    <string name="edit_background">背景</string>
+    <string name="file_path">文件路径</string>
+    <string name="dim_value">模糊度</string>
+    <string name="auto_generate_color_scheme">自动生成配色方案</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

@@ -107,6 +107,10 @@
             app:summary="@string/auto_save_describe"
             app:title="@string/auto_save" />
 
+        <PreferenceScreen
+            app:key="customize_edit"
+            app:title="@string/customize_edit_text"
+            app:summary="@string/customize_edit_text_description"/>
 
     </PreferenceCategory>
 

@@ -9,10 +9,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.SourceFile
 import com.coldmint.rust.core.turret.TurretInstaller
+import com.coldmint.rust.core.turret.TurretSketchpadView
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityTurretDesignBinding
 import java.io.File
@@ -22,9 +24,6 @@ import java.io.File
  */
 class TurretDesignActivity : BaseActivity<ActivityTurretDesignBinding>() {
 
-    lateinit var turretInstaller: TurretInstaller
-
-    val scale = 5
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
@@ -51,18 +50,25 @@ class TurretDesignActivity : BaseActivity<ActivityTurretDesignBinding>() {
                 return
             } else {
                 val file = mainImage[0]
-                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                viewBinding.mainImageView.setImageBitmap(bitmap)
-                val layoutParams = viewBinding.mainImageView.layoutParams
-                layoutParams.width = bitmap.width * scale
-                layoutParams.height = bitmap.height * scale
+                viewBinding.turretSketchpadView.setImage(file.absolutePath)
+//                viewBinding.toolbar.postDelayed({
+//                    Toast.makeText(this, "执行", Toast.LENGTH_SHORT).show()
+//                    viewBinding.turretsDragView.setBaseImage(file.absolutePath)
+//                }, 1000)
+//                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+//                viewBinding.mainImageView.setImageBitmap(bitmap)
+//                val layoutParams = viewBinding.mainImageView.layoutParams
+//                layoutParams.width = bitmap.width * scale
+//                layoutParams.height = bitmap.height * scale
 
             }
-
-            turretInstaller =
-                TurretInstaller(viewBinding.relativeLayout, sourceFile)
-            turretInstaller.setScale(scale)
-            turretInstaller.installAllTurrets()
+//            val sketchpadView = TurretSketchpadView(this)
+//            sketchpadView.
+//            viewBinding.frameLayout.addView(sketchpadView)
+            TurretInstaller.installerAllTurret(viewBinding.frameLayout, sourceFile) {
+               val game = viewBinding.turretSketchpadView.toGameCoordinate(it)
+//                viewBinding.textView.text = "坐标 x:${game.x} y:${game.y}"
+            }
         }
     }
 

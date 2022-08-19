@@ -6,6 +6,7 @@ import com.coldmint.rust.core.interfaces.LineParserEvent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Environment
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.turret.TurretManager
 import java.io.File
@@ -118,12 +119,14 @@ class SourceFile(text: String) {
     fun findResourceFiles(value: String?, checkExists: Boolean): Array<File>? {
         var value = value
         if (modclass == null || !this::file.isInitialized) {
+            DebugHelper.printLog("搜索资源文件","无法搜索，因为没有初始化文件或模组类。", isError = true)
             return null
         }
+        DebugHelper.printLog("搜索资源文件","准备开始 文件路径${file.absolutePath}值${value}")
         val none = "NONE"
         val auto = "AUTO"
-        val shared = "SHARED"
-        val root = "ROOT"
+        val shared = "SHARED:"
+        val root = "ROOT:"
         return if (value == null || value == none || value == auto || value.startsWith(shared)) {
             null
         } else {
@@ -136,11 +139,15 @@ class SourceFile(text: String) {
                 if (checkExists) {
                     if (target.exists()) {
                         result.add(target)
+                    }else{
+                        DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}解析Root路径为 ${target.absolutePath} 文件不存在！", isError = true)
                     }
                 } else {
                     result.add(target)
                 }
+                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}解析Root路径为 ${target.absolutePath}")
             } else if (value.contains(",")) {
+                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}启用多文件解析。")
                 val lineParser = LineParser(value)
                 lineParser.needTrim = true
                 lineParser.symbol = ","
@@ -156,10 +163,13 @@ class SourceFile(text: String) {
                             if (checkExists) {
                                 if (target.exists()) {
                                     result.add(target)
+                                }else{
+                                    DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath} 不存在!", isError = true)
                                 }
                             } else {
                                 result.add(target)
                             }
+                            DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath}")
                         }
                         return true
                     }
@@ -173,10 +183,13 @@ class SourceFile(text: String) {
                 if (checkExists) {
                     if (target.exists()) {
                         result.add(target)
+                    }else{
+                        DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 解析常规文件 ${target.absolutePath} 不存在!", isError = true)
                     }
                 } else {
                     result.add(target)
                 }
+                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 解析常规文件 ${target.absolutePath}")
             }
             if (result.size > 0) {
                 result.toTypedArray()

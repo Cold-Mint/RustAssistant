@@ -13,10 +13,10 @@ import java.io.File
 class TurretManager(val sourceFile: SourceFile) {
 
     /**
-     * 可安装的炮塔列表
+     * 炮塔列表
      */
     val turretList by lazy {
-        ArrayList<InstallableTurret>()
+        ArrayList<TurretData>()
     }
 
     init {
@@ -45,17 +45,17 @@ class TurretManager(val sourceFile: SourceFile) {
                     if (yData != null) {
                         y = yData.toInt()
                     }
-                    val installableTurret = InstallableTurret(name, x, y)
+                    val turretData = TurretData(name, x, y)
                     val fileList = sourceFile.findResourceFilesFromSection("image", it, false)
                     if (!fileList.isNullOrEmpty()) {
                         val file = fileList.get(0)
-                        installableTurret.imageFile = file
-                        Log.d("炮塔管理器-$name", file.absolutePath)
+                        turretData.imageFile = file
+                        Log.d("炮塔管理器-$name", "设置炮塔图像"+file.absolutePath)
                     } else {
-                        installableTurret.imageFile = defaultImageFile
+                        turretData.imageFile = defaultImageFile
                         Log.d("炮塔管理器-$name", "加载默认图像" + defaultImageFile?.absolutePath)
                     }
-                    turretList.add(installableTurret)
+                    turretList.add(turretData)
                 }
             }
         }

@@ -33,13 +33,8 @@ import java.lang.StringBuilder
  * @property canUseFileConversion Boolean
  * @property valueTypeDao ValueTypeDao?
  */
-class CompletionItemConverter private constructor() : EnglishMode {
+object CompletionItemConverter {
 
-    companion object {
-        val instance: CompletionItemConverter by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            CompletionItemConverter()
-        }
-    }
 
     /**
      * 初始化
@@ -80,14 +75,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
         HashMap()
     }
     private var isEnglishMode = false
-
-    override fun isEnglishMode(): Boolean {
-        return isEnglishMode
-    }
-
-    override fun setEnglish(englishMode: Boolean) {
-        this.isEnglishMode = englishMode
-    }
+        get() = AppSettings.getValue(AppSettings.Setting.EnglishEditingMode, false)
 
 
     /**
@@ -135,7 +123,7 @@ class CompletionItemConverter private constructor() : EnglishMode {
             NullPointerException("没有初始化。")
         }
         val end = if (sectionInfo.needName) {
-            "_]"
+            "_"
 
         } else {
             "]"
@@ -213,12 +201,12 @@ class CompletionItemConverter private constructor() : EnglishMode {
                 codeInfo.description, boxDrawable
             )
         }
-        val typeList = typeInfo?.list
-        if (typeList != null && typeList.isNotBlank()) {
-            val bundle = Bundle()
-            bundle.putString("list", typeList)
+//        val typeList = typeInfo?.list
+//        if (typeList != null && typeList.isNotBlank()) {
+//            val bundle = Bundle()
+//            bundle.putString("list", typeList)
 //            completionItem.extrasData = bundle
-        }
+//        }
         val offset = typeInfo?.offset
         if (offset != null && offset.isNotBlank()) {
             //如果偏移不为空

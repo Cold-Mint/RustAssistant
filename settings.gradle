@@ -2,4 +2,3 @@ include ':app'
 rootProject.name = "铁锈助手"
 include ':assistantCoreLibrary'
 include ':dialog'
-include ':turretsDragView'

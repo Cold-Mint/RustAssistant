@@ -7,6 +7,7 @@ import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.interfaces.EnglishMode
 import com.coldmint.rust.core.tool.DebugHelper
+import com.coldmint.rust.pro.edit.autoComplete.CodeAutoCompleteJob
 import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.lang.analysis.AnalyzeManager
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher
@@ -20,23 +21,51 @@ import io.github.rosemoe.sora.text.ContentReference
 import io.github.rosemoe.sora.text.TextRange
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SymbolPairMatch
+import java.util.*
 
-class RustLanguage(
-    private val context: Context,
-) : Language, EnglishMode {
-    private val mRustAnalyzer: RustAnalyzer by lazy {
-        RustAnalyzer()
-    }
+class RustLanguage() : Language, EnglishMode {
 
-    private val autoComplete by lazy {
-        RustAutoComplete(context)
-    }
-
-    //    private val autoComplete: RustAutoComplete = RustAutoComplete(context)
     private var isEnglishMode = false
     private val rustAnalyzeManager by lazy {
         RustIncrementalAnalyzeManager()
     }
+    private val codeAutoCompleteJob: CodeAutoCompleteJob by lazy {
+        CodeAutoCompleteJob()
+    }
+
+    private val newlineHandler: Array<NewlineHandler> by lazy {
+        arrayOf<NewlineHandler>(object : NewlineHandler {
+            override fun matchesRequirement(beforeText: String?, afterText: String?): Boolean {
+                return true
+            }
+
+            override fun handleNewline(
+                beforeText: String,
+                afterText: String?,
+                tabSize: Int
+            ): NewlineHandleResult {
+                var text = "\n"
+                if (beforeText.startsWith("[")) {
+                    if (beforeText.endsWith("_")) {
+                        text = "name]"
+                    } else if (!beforeText.endsWith("]")) {
+                        text = "]"
+                    }
+                }
+                val newlineHandleResult = NewlineHandleResult(text, 0)
+                return newlineHandleResult
+            }
+
+        })
+    }
+
+
+    private val autoCompleteProvider: RustAutoCompleteProvider by lazy {
+        val a = RustAutoCompleteProvider()
+        a.addJob(codeAutoCompleteJob)
+        a
+    }
+    private var codeDataBase: CodeDataBase? = null
 
 
     /**
@@ -44,8 +73,8 @@ class RustLanguage(
      * @param codeDataBean CodeDataBase
      */
     fun setCodeDataBase(codeDataBase: CodeDataBase) {
-        mRustAnalyzer.setCodeDataBase(codeDataBase)
-//        autoComplete.setCodeDataBase(codeDataBase)
+        this.codeDataBase = codeDataBase
+        this.codeAutoCompleteJob.setCodeDataBase(codeDataBase)
     }
 
     /**
@@ -57,33 +86,8 @@ class RustLanguage(
     }
 
     fun setFileDataBase(fileDataBase: FileDataBase) {
-//        autoComplete.setFileDataBase(fileDataBase)
+        codeAutoCompleteJob.setFileDataBase(fileDataBase)
     }
-
-
-    //语法分析器
-//    override fun getAnalyzer(): CodeAnalyzer {
-//        return mRustAnalyzer
-//    }
-
-    //自动完成器
-//    override fun getAutoCompleteProvider(): RustAutoComplete {
-//        return autoComplete
-//    }
-
-
-//    /**
-//     * 是否为自动完成字符
-//     *
-//     * @param ch 字符
-//     * @return 逻辑值
-//     */
-//    override fun isAutoCompleteChar(ch: Char): Boolean {
-//        return when (ch) {
-//            ':', '.', '_', ' ', ',' -> false
-//            else -> true
-//        }
-//    }
 
 
     override fun getAnalyzeManager(): AnalyzeManager {
@@ -95,15 +99,17 @@ class RustLanguage(
     }
 
     override fun requireAutoComplete(
-        p0: ContentReference,
-        p1: CharPosition,
-        p2: CompletionPublisher,
-        p3: Bundle
+        contentReference: ContentReference,
+        charPosition: CharPosition,
+        completionPublisher: CompletionPublisher,
+        bundle: Bundle
     ) {
-        val line = p0.getLine(p1.getLine())
-        p2.addItem(RustCompletionItem("121221"))
-        p2.updateList()
-//        autoComplete.requireAutoComplete(line,p2,p1.getLine(),p1.getColumn())
+        autoCompleteProvider.requireAutoComplete(
+            contentReference,
+            charPosition,
+            completionPublisher,
+            bundle
+        )
     }
 
     override fun getIndentAdvance(p0: ContentReference, p1: Int, p2: Int): Int {
@@ -112,7 +118,7 @@ class RustLanguage(
 
     //用标签
     override fun useTab(): Boolean {
-        return true
+        return false
     }
 
     override fun getFormatter(): Formatter {
@@ -125,7 +131,7 @@ class RustLanguage(
 
     override fun getNewlineHandlers(): Array<NewlineHandler>? {
         //行处理程序，按下回车时
-        return null
+        return newlineHandler
     }
 
 
@@ -137,7 +143,6 @@ class RustLanguage(
     }
 
     override fun setEnglish(englishMode: Boolean) {
-        mRustAnalyzer.setEnglish(englishMode)
 //        autoComplete.setEnglish(englishMode)
         isEnglishMode = englishMode
     }

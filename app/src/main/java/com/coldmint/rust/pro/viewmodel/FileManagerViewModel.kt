@@ -178,29 +178,26 @@ class FileManagerViewModel : BaseViewModel() {
         return rootPath
     }
 
-    //    /**
-//     * 解析文件路径
-//     *
-//     * @param context 上下文环境
-//     * @param intent  意图
-//     * @return 成功返回文件路径，失败返回null
-//     */
-    fun parseFilePath(context: Context, intent: Intent?): String? {
+        /**
+     * 解析文件路径
+     *
+     * @param context 上下文环境
+     * @param uri  定位符
+     * @return 成功返回文件路径，失败返回null
+     */
+    fun parseFilePath(context: Context, uri: Uri?): String? {
         return try {
-            if (intent != null) {
-                val uri = intent.data
-                var chooseFilePath: String? = null
-                if ("file".equals(uri!!.scheme, ignoreCase = true)) { //使用第三方应用打开
-                    chooseFilePath = uri.path
-                    return chooseFilePath
-                }
-                chooseFilePath = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) { //4.4以后
-                    getPath(context, uri)
-                } else { //4.4以下下系统调用方法
-                    getRealPathFromURI(context, uri)
-                }
+            var chooseFilePath: String? = null
+            if ("file".equals(uri!!.scheme, ignoreCase = true)) { //使用第三方应用打开
+                chooseFilePath = uri.path
                 return chooseFilePath
             }
+            chooseFilePath = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) { //4.4以后
+                getPath(context, uri)
+            } else { //4.4以下下系统调用方法
+                getRealPathFromURI(context, uri)
+            }
+            return chooseFilePath
             null
         } catch (e: Exception) {
             e.printStackTrace()
@@ -239,7 +236,6 @@ class FileManagerViewModel : BaseViewModel() {
                 return@launch
             }
             val arrayList = ArrayList<File?>()
-            Log.d("文件管理器", "当前路径" + path + "根路径" + rootPath + "添加返回" + (path != rootPath))
             if (path != rootPath) {
                 //如果不是根目录添加返回
                 arrayList.add(null)

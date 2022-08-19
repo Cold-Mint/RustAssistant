@@ -49,11 +49,11 @@ class RustAnalyzer() : EnglishMode {
 
 
     /**
-     * 语法分析器
-     * @param content CharSequence
-     * @param colors TextAnalyzeResult
-     * @param delegate Delegate
-     */
+//     * 语法分析器
+//     * @param content CharSequence
+//     * @param colors TextAnalyzeResult
+//     * @param delegate Delegate
+//     */
 //    override fun analyze(
 //        content: CharSequence,
 //        colors: TextAnalyzeResult,

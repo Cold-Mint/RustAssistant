@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.color.DynamicColors
@@ -121,12 +122,8 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
      * @param msg String 错误信息
      */
     protected fun showError(msg: String) {
-        MaterialDialog(this).show {
-            title(R.string.error).message(text = msg).cancelable(false)
-                .positiveButton(R.string.dialog_close) {
-                    finish()
-                }
-        }
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     /**
@@ -155,10 +152,10 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
             "${msg}\n${exception}"
         }
         if (view == null) {
-            MaterialDialog(this).show {
-                title(R.string.details).message(text = thisMsg)
-                    .positiveButton(R.string.dialog_ok)
-            }
+            CoreDialog(this).setTitle(R.string.details).setMessage(thisMsg)
+                .setPositiveButton(R.string.dialog_ok) {
+
+                }.show()
         } else {
             Snackbar.make(
                 view,

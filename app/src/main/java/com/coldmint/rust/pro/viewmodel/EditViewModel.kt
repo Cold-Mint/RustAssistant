@@ -17,6 +17,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.base.BaseAndroidViewModel
 import com.coldmint.rust.pro.livedata.OpenedSourceFileListLiveData
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
 import java.io.File
 import java.lang.StringBuilder
@@ -189,6 +190,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
                 }
 
                 override fun onTranslateComplete(code: String) {
+                    CompletionItemConverter.setSourceFilePath(path)
                     val openedSourceFile = OpenedSourceFile(path)
                     openedSourceFile.setTranslation(code)
                     val index = openedSourceFileListLiveData.add(openedSourceFile)
@@ -534,40 +536,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
         }
     }
 
-    /**
-     * 转换为16进制
-     *
-     * @param num 十进制整数
-     * @return 16进制数
-     */
-    fun convertDigital(num: Int): String {
-        return if (num > 255) {
-            "FF"
-        } else {
-            val builder = StringBuilder()
-            val result = num / 16
-            val remainder = num % 16
-            when (result) {
-                10 -> builder.append('A')
-                11 -> builder.append('B')
-                12 -> builder.append('C')
-                13 -> builder.append('D')
-                14 -> builder.append('E')
-                15 -> builder.append('F')
-                else -> builder.append(result)
-            }
-            when (remainder) {
-                10 -> builder.append('A')
-                11 -> builder.append('B')
-                12 -> builder.append('C')
-                13 -> builder.append('D')
-                14 -> builder.append('E')
-                15 -> builder.append('F')
-                else -> builder.append(remainder)
-            }
-            builder.toString()
-        }
-    }
+
 
     /**
      * 加载数据

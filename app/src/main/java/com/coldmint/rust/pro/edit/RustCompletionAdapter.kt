@@ -42,18 +42,18 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         val editItem = EditItemBinding.inflate(layoutInflater, parent, false)
         val completionItem = getItem(position) as RustCompletionItem
         spannableStringBuilder.clear()
-        val label = completionItem.label.toString()
+        val label = completionItem.title
         spannableStringBuilder.append(label)
         //节补丁
-        if (RustAutoComplete.keyWord.startsWith('[') && RustAutoComplete.keyWord.length > 1) {
-            RustAutoComplete.keyWord =
-                RustAutoComplete.keyWord.subSequence(1, RustAutoComplete.keyWord.length)
+        if (RustAutoCompleteProvider.keyWord.startsWith('[') && RustAutoCompleteProvider.keyWord.length > 1) {
+            RustAutoCompleteProvider.keyWord =
+                RustAutoCompleteProvider.keyWord.subSequence(1, RustAutoCompleteProvider.keyWord.length)
                     .toString()
         }
         val start = label.lowercase(Locale.getDefault())
-            .indexOf(RustAutoComplete.keyWord.lowercase(Locale.getDefault()))
+            .indexOf(RustAutoCompleteProvider.keyWord.lowercase(Locale.getDefault()))
         if (start > -1) {
-            val end = start + RustAutoComplete.keyWord.length
+            val end = start + RustAutoCompleteProvider.keyWord.length
             spannableStringBuilder.setSpan(
                 colorSpan,
                 start,

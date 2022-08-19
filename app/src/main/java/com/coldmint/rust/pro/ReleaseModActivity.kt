@@ -79,7 +79,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.release)
+            title = getText(R.string.release)
             setReturnButton()
             val layoutManager = LinearLayoutManager(this)
             layoutManager.orientation = RecyclerView.HORIZONTAL
@@ -876,7 +876,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             apiCallBack = object : ApiCallBack<ApiResponse> {
                 override fun onResponse(t: ApiResponse) {
                     dialog.dismiss()
-                    resetButton()
                     if (t.code == ServerConfiguration.Success_Code) {
                         val temModClass = modClass
                         if (temModClass != null) {
@@ -922,7 +921,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 override fun onFailure(e: Exception) {
                     dialog.dismiss()
                     showInternetError(viewBinding.releaseButton, e)
-                    resetButton()
                 }
 
             }, progressListener = object : ProgressListener {
@@ -944,13 +942,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 }
 
             })
-        viewBinding.releaseButton.text = getString(R.string.releaseing)
-        viewBinding.releaseButton.setBackgroundColor(
-            GlobalMethod.getThemeColor(
-                this,
-                R.attr.colorPrimaryVariant
-            )
-        )
     }
 
 
@@ -989,7 +980,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             apiCallBack = object : ApiCallBack<ApiResponse> {
                 override fun onResponse(t: ApiResponse) {
                     dialog.dismiss()
-                    resetButton()
                     if (t.code == ServerConfiguration.Success_Code) {
                         val temModClass = modClass
                         if (temModClass != null) {
@@ -1040,7 +1030,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 override fun onFailure(e: Exception) {
                     dialog.dismiss()
                     showInternetError(viewBinding.releaseButton, e)
-                    resetButton()
                 }
 
             }, progressListener = object : ProgressListener {
@@ -1062,13 +1051,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 }
 
             })
-        viewBinding.releaseButton.text = getString(R.string.releaseing)
-        viewBinding.releaseButton.setBackgroundColor(
-            GlobalMethod.getThemeColor(
-                this,
-                R.attr.colorPrimaryVariant
-            )
-        )
     }
 
     /**
@@ -1120,15 +1102,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         }
     }
 
-    /**
-     * 重新设置按钮
-     */
-    fun resetButton() {
-        viewBinding.releaseButton.text = getString(R.string.release)
-        viewBinding.releaseButton.setBackgroundColor(
-            GlobalMethod.getColorPrimary(this)
-        )
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

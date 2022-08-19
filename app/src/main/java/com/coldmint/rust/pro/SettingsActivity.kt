@@ -51,6 +51,13 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
             val english_editing_mode =
                 manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_english_editing_mode))
 
+            val customizeEdit = manager.findPreference<PreferenceScreen>("customize_edit")
+            customizeEdit!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                val intent = Intent(requireContext(), CustomizeEditTextActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
             val dynamicColor =
                 manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_dynamic_color))
             if (!DynamicColors.isDynamicColorAvailable()) {
@@ -147,12 +154,12 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
             val nightMode: SwitchPreference? =
                 manager.findPreference<SwitchPreference>(getString(R.string.setting_night_mode))
             nightMode?.setOnPreferenceChangeListener { preference, newValue ->
-                    val booleanValue = newValue as Boolean
-                    if (booleanValue) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
+                val booleanValue = newValue as Boolean
+                if (booleanValue) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
                 true
             }
 

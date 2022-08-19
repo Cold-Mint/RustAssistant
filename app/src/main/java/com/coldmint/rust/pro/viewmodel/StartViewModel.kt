@@ -238,12 +238,23 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         AppSettings.initSetting(AppSettings.Setting.AutoSave, true)
         AppSettings.initSetting(AppSettings.Setting.AgreePolicy, false)
         AppSettings.initSetting(AppSettings.Setting.LoginStatus, false)
-        AppSettings.initSetting(AppSettings.Setting.FileSortType,context.getString(R.string.setting_file_list_action_sort_by_name))
+        AppSettings.initSetting(
+            AppSettings.Setting.FileSortType,
+            context.getString(R.string.setting_file_list_action_sort_by_name)
+        )
         //如果启用动态颜色
         AppSettings.initSetting(
             AppSettings.Setting.DynamicColor,
             DynamicColors.isDynamicColorAvailable()
         )
+        AppSettings.initSetting(AppSettings.Setting.KeywordColor, "#FF0031C2")
+        AppSettings.initSetting(AppSettings.Setting.SectionColor, "#FFE10000")
+        AppSettings.initSetting(AppSettings.Setting.TextColor, "#FF000000")
+        AppSettings.initSetting(AppSettings.Setting.AnnotationColor, "#FF00AF2C")
+        AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundEnable, false)
+        AppSettings.initSetting(AppSettings.Setting.BlurTransformationValue, 1)
+        AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundPath, "")
+
     }
 
     /**

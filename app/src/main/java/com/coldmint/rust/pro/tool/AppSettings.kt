@@ -9,6 +9,7 @@ import kotlin.Throws
 import android.os.Environment
 import android.util.Log
 import com.hjq.language.MultiLanguages
+import java.io.File
 import java.lang.NullPointerException
 import java.util.*
 
@@ -37,9 +38,23 @@ object AppSettings {
     }
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, AnnotationColor, TextColor, SectionColor, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath
     }
 
+
+
+    /**
+     * 创建新的编辑器背景文件(返回文件目录)
+     * @return String
+     */
+    fun createNewCodeEditBackGroundFile(): String {
+        val folderPath = mApplication.filesDir.absolutePath + "/CodeEditBackground/"
+        val folder = File(folderPath)
+        if (!folder.exists()) {
+            folder.mkdirs()
+        }
+        return folderPath + UUID.randomUUID().toString() + ".png"
+    }
 
     private val map: HashMap<Setting, String> = HashMap<Setting, String>()
 
@@ -127,6 +142,14 @@ object AppSettings {
         map[Setting.AgreePolicy] = "AgreePolicy"
         map[Setting.LoginStatus] = "LoginStatus"
         map[Setting.Token] = "Token"
+        map[Setting.BlurTransformationValue] = "BlurTransformationValue"
+        map[Setting.CodeEditBackGroundEnable] = "CodeEditBackGroundEnable"
+        map[Setting.CodeEditBackGroundPath] = "CodeEditBackGroundPath"
+        //KeywordColor, AnnotationColor, TextColor, SectionColor
+        map[Setting.KeywordColor] = mApplication.getString(R.string.setting_keyword_color)
+        map[Setting.AnnotationColor] = mApplication.getString(R.string.setting_annotation_color)
+        map[Setting.TextColor] = mApplication.getString(R.string.setting_text_color)
+        map[Setting.SectionColor] = mApplication.getString(R.string.setting_section_color)
     }
 
     /**

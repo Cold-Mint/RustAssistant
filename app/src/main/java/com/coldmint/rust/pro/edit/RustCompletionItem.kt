@@ -48,7 +48,16 @@ class RustCompletionItem(var title: String) : CompletionItem(title) {
      * @param p2 Int
      * @param p3 Int
      */
-    override fun performCompletion(p0: CodeEditor?, p1: Content?, p2: Int, p3: Int) {
-
+    //CodeEditor editor, Content text, int line, int column
+    override fun performCompletion(editor: CodeEditor, text: Content, line: Int, column: Int) {
+        if (label == null) {
+            return
+        }
+        val keyOffset = RustAutoCompleteProvider.keyWord.length
+        if (keyOffset == 0) {
+            text.insert(line, column, label)
+        } else {
+            text.replace(line, column - keyOffset, line, column, label)
+        }
     }
 }

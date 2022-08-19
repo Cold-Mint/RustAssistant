@@ -7,6 +7,7 @@ import android.util.Log
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
@@ -28,6 +29,7 @@ class RustApplication : Application() {
                         DynamicColors.isDynamicColorAvailable()
                     )
             }.build()
+        CompletionItemConverter.init(this)
         DynamicColors.applyToActivitiesIfAvailable(this, options)
         //程序崩溃
         CaocConfig.Builder.create()

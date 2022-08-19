@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--声明样式属性-->
+    <declare-styleable name="turretSketchpadView">
+        <!--是否绘制坐标-->
+        <attr name="drawCoordinate" format="boolean" />
+    </declare-styleable>
+
+</resources>

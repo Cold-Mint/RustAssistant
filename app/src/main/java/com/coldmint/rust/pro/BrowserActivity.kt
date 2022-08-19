@@ -63,10 +63,10 @@ class BrowserActivity : BaseActivity<ActivityBrowserBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_browser, menu)
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

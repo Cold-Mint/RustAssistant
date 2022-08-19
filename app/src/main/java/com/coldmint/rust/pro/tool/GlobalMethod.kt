@@ -43,6 +43,7 @@ object GlobalMethod {
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
 
+
     /**
      * 获取主题色
      *
@@ -106,6 +107,87 @@ object GlobalMethod {
             .error(R.drawable.image_not_supported)
         return requestOptions
     }
+
+
+    /**
+     * int颜色值转String
+     * @param color Int
+     * @param useARGB Boolean
+     * @return String
+     */
+    fun colorToString(color: Int, useARGB: Boolean = true): String {
+        val builder = StringBuilder()
+        builder.append('#')
+        if (useARGB) {
+            builder.append(convertDigital(Color.alpha(color)))
+        }
+        builder.append(convertDigital(Color.red(color)))
+        builder.append(convertDigital(Color.green(color)))
+        builder.append(convertDigital(Color.blue(color)))
+        return builder.toString()
+    }
+
+    /**
+     * 展示颜色选择对话框
+     * @param context Context
+     * @param func Function1<String, Unit>
+     */
+    fun showColorPickerDialog(
+        context: Context,
+        useARGB: Boolean = false, func: ((String) -> Unit)
+    ) {
+        ColorPickerDialogBuilder
+            .with(context).showAlphaSlider(useARGB)
+            .setTitle(context.getString(R.string.choose_color))
+            .initialColor(Color.WHITE)
+            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+            .density(12)
+            .setOnColorSelectedListener {
+                //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
+            }
+            .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
+                func.invoke(colorToString(selectedColor, useARGB))
+            }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
+            .build()
+            .show()
+    }
+
+    /**
+     * 转换为16进制
+     *
+     * @param num 十进制整数
+     * @return 16进制数
+     */
+    private fun convertDigital(num: Int): String {
+        return if (num > 255) {
+            "FF"
+        } else {
+            val builder = java.lang.StringBuilder()
+            val result = num / 16
+            val remainder = num % 16
+            when (result) {
+                10 -> builder.append('A')
+                11 -> builder.append('B')
+                12 -> builder.append('C')
+                13 -> builder.append('D')
+                14 -> builder.append('E')
+                15 -> builder.append('F')
+                else -> builder.append(result)
+            }
+            when (remainder) {
+                10 -> builder.append('A')
+                11 -> builder.append('B')
+                12 -> builder.append('C')
+                13 -> builder.append('D')
+                14 -> builder.append('E')
+                15 -> builder.append('F')
+                else -> builder.append(remainder)
+            }
+            builder.toString()
+        }
+    }
+
 
     /**
      * 显示更新日志
@@ -189,7 +271,6 @@ object GlobalMethod {
                 requestCompleted.invoke(allGranted)
             }
     }
-
 
 
     //设置删除线

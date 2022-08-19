@@ -68,6 +68,9 @@ android {
 
 
 dependencies {
+    def nav_version = "2.5.1"
+
+    implementation 'com.leinardi.android:speed-dial:3.1.1'
 //    implementation 'com.luolc:emoji-rain:0.1.1'
     implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
     // 语种切换框架：https://github.com/getActivity/MultiLanguages
@@ -91,26 +94,24 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'com.github.deano2390:MaterialShowcaseView:1.3.4'
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'com.github.yalantis:ucrop:2.2.6-native'
+    implementation 'com.github.yalantis:ucrop:2.2.8-native'
     implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
     implementation 'io.github.Rosemoe.sora-editor:editor:0.16.5'
     implementation project(path: ':assistantCoreLibrary')
-    implementation project(path: ':turretsDragView')
     implementation project(path: ':dialog')
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
-
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.florent37:glidepalette:2.1.2'
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.7.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     testImplementation 'junit:junit:4.13.2'

@@ -6,6 +6,7 @@ import com.coldmint.rust.core.ModClass
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.content.Intent
+import android.content.res.ColorStateList
 import com.bumptech.glide.Glide
 import android.graphics.BitmapFactory
 import com.yalantis.ucrop.UCrop
@@ -92,6 +93,19 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         }
     }
 
+    /**
+     * 加载默认图像
+     */
+    fun loadDefaultImage() {
+        val drawable = getDrawable(R.drawable.image)
+        viewBinding.iconView.setImageDrawable(
+            GlobalMethod.tintDrawable(
+                drawable,
+                ColorStateList.valueOf(GlobalMethod.getColorPrimary(this))
+            )
+        )
+    }
+
 
     fun initData() {
         val name = mModClass.readValueFromInfoSection("title", "mod")
@@ -103,8 +117,11 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
             viewBinding.modDescribeEdit.setText(description)
         }
         val bitmap = mModClass.modIcon
-        if (bitmap != null) {
-            Glide.with(this@EditModInfoActivity).load(bitmap).apply(GlobalMethod.getRequestOptions()).into(viewBinding.iconView)
+        if (bitmap == null) {
+            loadDefaultImage()
+        } else {
+            Glide.with(this@EditModInfoActivity).load(bitmap)
+                .apply(GlobalMethod.getRequestOptions()).into(viewBinding.iconView)
             mNeedIcon = true
         }
         val musicSourceFolder = mModClass.readValueFromInfoSection("sourceFolder", "music")
@@ -269,7 +286,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                         iconFile.delete()
                         mNeedIcon = false
                     }
-                    viewBinding.iconView.setImageResource(R.drawable.image)
+                    loadDefaultImage()
                 }
                 false
             }
@@ -356,7 +373,8 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                     val bitmap = BitmapFactory.decodeFile(newIconFile.absolutePath)
                     if (bitmap.height == bitmap.width) {
                         if (FileOperator.copyFile(newIconFile, iconFile)) {
-                            Glide.with(this@EditModInfoActivity).load(newIconFile).apply(GlobalMethod.getRequestOptions())
+                            Glide.with(this@EditModInfoActivity).load(newIconFile)
+                                .apply(GlobalMethod.getRequestOptions())
                                 .into(viewBinding.iconView)
                             mNeedIcon = true
                         }
@@ -369,7 +387,8 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                 }
             } else if (requestCode == UCrop.REQUEST_CROP) {
                 val resultUri = UCrop.getOutput(data)
-                Glide.with(this@EditModInfoActivity).load(resultUri).apply(GlobalMethod.getRequestOptions()).into(viewBinding.iconView)
+                Glide.with(this@EditModInfoActivity).load(resultUri)
+                    .apply(GlobalMethod.getRequestOptions()).into(viewBinding.iconView)
                 mNeedIcon = true
             }
         }

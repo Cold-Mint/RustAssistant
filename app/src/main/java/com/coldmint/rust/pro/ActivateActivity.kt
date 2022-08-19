@@ -86,7 +86,7 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
      * @param menu Menu
      * @return Boolean
      */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_pay, menu)
         return true

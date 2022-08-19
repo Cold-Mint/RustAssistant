@@ -10,13 +10,13 @@ import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.core.interfaces.LineParserEvent
 import android.text.SpannableString
 import android.text.style.ClickableSpan
-import com.afollestad.materialdialogs.MaterialDialog
 import android.text.Spanned
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.view.isVisible
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.OptimizeAdapter
 import com.coldmint.rust.pro.databean.OptimizeGroup
@@ -173,7 +173,7 @@ class OptimizeActivity : BaseActivity<ActivityOptimizeBinding>() {
      * @param file
      */
     private fun analyzeFile(file: File) {
-        if (mFileSignatureCache!!.isChange(file)) {
+        if (mFileSignatureCache.isChange(file)) {
             hasError = false
             val type = FileOperator.getFileType(file)
             when (type) {
@@ -237,22 +237,11 @@ class OptimizeActivity : BaseActivity<ActivityOptimizeBinding>() {
                                 spannableString.setSpan(
                                     object : ClickableSpan() {
                                         override fun onClick(widget: View) {
-                                            val materialDialog = MaterialDialog(
-                                                this@OptimizeActivity,
-                                                MaterialDialog.DEFAULT_BEHAVIOR
-                                            )
-                                            materialDialog.title(R.string.details, null)
-                                            materialDialog.message(
-                                                null,
-                                                lineBuilder.toString(),
-                                                null
-                                            )
-                                            materialDialog.positiveButton(
-                                                R.string.close,
-                                                null,
-                                                null
-                                            )
-                                            materialDialog.show()
+                                            CoreDialog(this@OptimizeActivity).setTitle(R.string.details)
+                                                .setMessage(lineBuilder.toString())
+                                                .setPositiveButton(R.string.close) {
+
+                                                }.show()
                                         }
                                     },
                                     tip.indexOf(action),
@@ -278,41 +267,25 @@ class OptimizeActivity : BaseActivity<ActivityOptimizeBinding>() {
                                 spannableString.setSpan(
                                     object : ClickableSpan() {
                                         override fun onClick(widget: View) {
-                                            val materialDialog = MaterialDialog(
-                                                this@OptimizeActivity,
-                                                MaterialDialog.DEFAULT_BEHAVIOR
-                                            )
-                                            materialDialog.title(R.string.details, null)
-                                            materialDialog.message(
-                                                null,
-                                                noteBuilder.toString(),
-                                                null
-                                            )
-                                            materialDialog.negativeButton(
-                                                R.string.edit,
-                                                null
-                                            ) { materialDialog: MaterialDialog? ->
-                                                val bundle = Bundle()
-                                                bundle.putString("path", file.absolutePath)
-                                                bundle.putString(
-                                                    "modPath",
-                                                    FileOperator.getSuperDirectory(file)
-                                                )
-                                                val intent =
-                                                    Intent(
-                                                        this@OptimizeActivity,
-                                                        EditActivity::class.java
+                                            CoreDialog(this@OptimizeActivity).setTitle(R.string.details)
+                                                .setMessage(noteBuilder.toString())
+                                                .setPositiveButton(R.string.edit) {
+                                                    val bundle = Bundle()
+                                                    bundle.putString("path", file.absolutePath)
+                                                    bundle.putString(
+                                                        "modPath",
+                                                        FileOperator.getSuperDirectory(file)
                                                     )
-                                                intent.putExtra("data", bundle)
-                                                this@OptimizeActivity.startActivity(intent)
-                                                null
-                                            }
-                                            materialDialog.positiveButton(
-                                                R.string.close,
-                                                null,
-                                                null
-                                            )
-                                            materialDialog.show()
+                                                    val intent =
+                                                        Intent(
+                                                            this@OptimizeActivity,
+                                                            EditActivity::class.java
+                                                        )
+                                                    intent.putExtra("data", bundle)
+                                                    this@OptimizeActivity.startActivity(intent)
+                                                }.setNegativeButton(R.string.close) {
+
+                                            }.show()
                                         }
                                     },
                                     tip.indexOf(action),
@@ -342,7 +315,7 @@ class OptimizeActivity : BaseActivity<ActivityOptimizeBinding>() {
                 }
             }
             if (!hasError) {
-                mFileSignatureCache!!.putFile(file)
+                mFileSignatureCache.putFile(file)
             }
         }
     }

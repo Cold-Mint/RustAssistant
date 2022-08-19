@@ -16,7 +16,10 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
@@ -80,12 +83,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.navInflater.inflate(R.navigation.main_nav).apply {
             val use =
                 AppSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
-            startDestination = if (use) {
-                viewBinding.mainButton.hide()
-                R.id.community_item
-            } else {
-                R.id.mod_item
-            }
+            this.setStartDestination(
+                if (use) {
+                    viewBinding.mainButton.hide()
+                    R.id.community_item
+                } else {
+                    R.id.mod_item
+                }
+            )
             navController.graph = this
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -448,7 +453,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val compressionManager = CompressionManager.instance
             if (templateDirectory.exists()) {
                 val gson = Gson()
-                val newInfoData = compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
+                val newInfoData =
+                    compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
                 if (newInfoData == null) {
                     handler.post {
                         Snackbar.make(

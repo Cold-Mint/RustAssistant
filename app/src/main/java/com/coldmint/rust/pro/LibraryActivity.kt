@@ -19,11 +19,28 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
      */
     private fun getLibInfoList(): ArrayList<LibInfo> {
         val libInfoArrayList = ArrayList<LibInfo>()
+
         libInfoArrayList.add(
             LibInfo(
                 "Kotlin",
                 "A modern programming language that makes developers happier.\n让开发人员更快乐的一门现代编程语言。",
                 "https://kotlinlang.org/",
+                "Apache License 2.0"
+            )
+        )
+//        libInfoArrayList.add(
+//            LibInfo(
+//                "Light",
+//                "The usual Snackbar, but elegant",
+//                "https://github.com/TonnyL/Light",
+//                "MIT"
+//            )
+//        )
+        libInfoArrayList.add(
+            LibInfo(
+                "FloatingActionButtonSpeedDial",
+                "A Floating Action Button Speed Dial implementation for Android that follows the Material Design specification",
+                "https://github.com/leinardi/FloatingActionButtonSpeedDial",
                 "Apache License 2.0"
             )
         )

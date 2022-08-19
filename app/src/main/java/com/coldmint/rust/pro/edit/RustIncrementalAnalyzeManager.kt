@@ -90,7 +90,7 @@ class RustIncrementalAnalyzeManager :
                     spans.add(
                         Span.obtain(
                             it.offset,
-                            TextStyle.makeStyle(EditorColorScheme.COMMENT)
+                            TextStyle.makeStyle(EditorColorScheme.TEXT_NORMAL)
                         )
                     )
                 }
@@ -98,7 +98,7 @@ class RustIncrementalAnalyzeManager :
                     spans.add(
                         Span.obtain(
                             it.offset,
-                            TextStyle.makeStyle(EditorColorScheme.COMMENT)
+                            TextStyle.makeStyle(EditorColorScheme.TEXT_NORMAL)
                         )
                     )
                 }
