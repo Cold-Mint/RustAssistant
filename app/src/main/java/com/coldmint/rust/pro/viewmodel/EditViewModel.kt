@@ -176,6 +176,32 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
         openedSourceFileListLiveData.remove(openedSourceFile)
     }
 
+
+    /**
+     * 重载当前打开的文件
+     */
+    fun reloadCode() {
+        executorService.submit {
+            openedSourceFileListLiveData.value.forEach {
+                if (it.file.absolutePath == getNowOpenFilePath()) {
+                    val code = FileOperator.readFile(File(getNowOpenFilePath())) ?: return@submit
+                    it.setTranslation(code)
+                    codeCompiler2.translation(code, object : CodeTranslatorListener {
+                        override fun beforeTranslate() {
+
+                        }
+
+                        override fun onTranslateComplete(code: String) {
+                            codeLiveData.postValue(code)
+                            loadingLiveData.postValue(false)
+                        }
+                    })
+                    return@submit
+                }
+            }
+        }
+    }
+
     /**
      * 打开文件
      * 打开文件到编辑器内
@@ -229,7 +255,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
 
 
     /**
-     * 检查文件是否需要保存
+     * 检查多文件是否需要保存
      * @param selectedIndex Int
      * @param text String
      */
@@ -247,6 +273,18 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
         }
         needSaveLiveData.value = need
         return need
+    }
+
+
+    /**
+     *检查当前文件是否需要保存
+     * @param selectedIndex Int
+     * @param text String
+     * @return Boolean
+     */
+    fun checkOneFileIfNeedSave(selectedIndex: Int, text: String): Boolean {
+        val openedSourceFile = openedSourceFileListLiveData.value[selectedIndex]
+        return openedSourceFile.isChanged(text)
     }
 
 
@@ -535,7 +573,6 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
             funData.invoke()
         }
     }
-
 
 
     /**

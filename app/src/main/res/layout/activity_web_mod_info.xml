@@ -304,9 +304,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:text="@string/installation"
-        android:visibility="gone"
-        app:icon="@drawable/cloud_download" />
+        android:src="@drawable/cloud_download"
+        android:visibility="gone" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

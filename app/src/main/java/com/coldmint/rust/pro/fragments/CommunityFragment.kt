@@ -57,6 +57,7 @@ class CommunityFragment : BaseFragment<CommunityFragmentBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.pager.adapter = communityAdapter
+        viewBinding.pager.isSaveEnabled = false
         loadTab()
     }
 

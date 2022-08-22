@@ -355,6 +355,9 @@
     <string name="code_language_on">英文</string>
     <string name="code_language_off">中文</string>
     <string name="save_tip">请先保存当前内容。</string>
+    <string name="not_find_turret">找不到炮塔。</string>
+    <string name="please_enter_the_x_coordinate">请输入X坐标。</string>
+    <string name="please_enter_the_y_coordinate">请输入Y坐标。</string>
     <string name="copy_rule">复制规则</string>
     <string name="rule">规则</string>
     <string name="search_rule">查找规则</string>
@@ -454,6 +457,7 @@
     <string name="view_the_report_object">查看(%1$s)</string>
     <string name="bookmark_already_exists">此书签已存在，请更换路径。</string>
     <string name="feedback">意见反馈</string>
+    <string name="please_set_main_image">请设置主体图像。</string>
     <string name="setting_use_jetBrains_mono_font" translatable="false">UseJetBrainsMonoFont</string>
     <string name="use_jetBrains_mono_font">使用JetBrains Mono字体</string>
     <string name="use_jetBrains_mono_font_describe">助手内置的字体，强烈推荐使用。</string>
@@ -893,6 +897,13 @@
     <string name="file_path">文件路径</string>
     <string name="dim_value">模糊度</string>
     <string name="auto_generate_color_scheme">自动生成配色方案</string>
+    <string name="display_coordinate_system">显示坐标系</string>
+    <string name="automatically_disable_coordinate_system">当前图像尺寸过大，已禁用坐标系显示。</string>
+    <string name="coordinates_x">x坐标</string>
+    <string name="coordinates_y">y坐标</string>
+    <string name="turret">炮塔</string>
+    <string name="control_panel">控制面板</string>
+    <string name="show_guides">显示辅助线</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

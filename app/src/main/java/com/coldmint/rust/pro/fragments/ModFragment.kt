@@ -36,6 +36,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollScrollView
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
@@ -69,7 +70,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
         index: Int? = null
     ) {
         val scope = CoroutineScope(Job())
-        scope.run {
+        scope.launch {
             val targetFile = modClass.modFile
             val errorFolder =
                 File(AppSettings.dataRootDirectory + "/modErrorReport/" + modClass.modName)
@@ -182,7 +183,7 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
     fun loadModList() {
         val scope = CoroutineScope(Job())
         val handler = Handler(Looper.getMainLooper())
-        scope.run {
+        scope.launch {
             val dataList = viewModel.loadMod()
             handler.post {
                 viewBinding.progressBar.isVisible = true

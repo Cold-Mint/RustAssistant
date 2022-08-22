@@ -348,13 +348,12 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/releaseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:text="@string/release"
-        app:icon="@drawable/ic_outline_send_24" />
+    android:src="@drawable/ic_outline_send_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

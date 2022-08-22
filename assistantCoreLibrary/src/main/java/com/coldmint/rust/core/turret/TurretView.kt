@@ -9,7 +9,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.coldmint.rust.core.R
 
 /**
@@ -19,11 +21,54 @@ import com.coldmint.rust.core.R
 class TurretView(context: Context, attributeSet: AttributeSet? = null) :
     View(context, attributeSet) {
 
-    private val debugKey = "炮塔视图"
+    private var debugKey = "炮塔视图"
     private lateinit var turretData: TurretData
     private var bitmapW: Int = 0
     private var bitmapH: Int = 0
+    private var turretSketchpadView: TurretSketchpadView? = null
+    private var coordinateChangeListener: ((CoordinateData, TurretData) -> Unit)? = null
 
+    //是否可以拖动
+    private var canDrag = false
+
+    /**
+     * 设置坐标监听器
+     * @param coordinateChangeListener Function2<CoordinateData, TurretData, Unit>?
+     */
+    fun setCoordinateChangeListener(coordinateChangeListener: ((CoordinateData, TurretData) -> Unit)?) {
+        this.coordinateChangeListener = coordinateChangeListener
+    }
+
+    /**
+     * 设置是否可用拖到
+     * @param canDrag Boolean
+     */
+    fun setCanDrag(canDrag: Boolean) {
+        Log.d(debugKey, "${turretData.name} 可拖动状态${canDrag}")
+        this.canDrag = canDrag
+        if (canDrag) {
+            val and = turretSketchpadView?.toAndroidCoordinate(turretData.gameCoordinateData)
+            if (and != null) {
+                turretSketchpadView?.setKeyCoordinate(and)
+            }else{
+                Log.e(debugKey, "可拖动状态,辅助线定位失败。")
+            }
+        }
+    }
+
+
+    /**
+     * 设置游戏坐标
+     * @param coordinateData CoordinateData
+     */
+    fun setGameCoordinateData(coordinateData: CoordinateData) {
+        val android = turretSketchpadView?.toAndroidCoordinate(coordinateData)
+        if (android != null) {
+            turretSketchpadView?.setKeyCoordinate(android)
+        }
+        turretData.gameCoordinateData = coordinateData
+        invalidate()
+    }
 
     /**
      * 设置炮塔数据
@@ -31,6 +76,15 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
      */
     fun setTurretData(turretData: TurretData) {
         this.turretData = turretData
+        this.debugKey = "炮塔视图_" + turretData.name
+    }
+
+    /**
+     * 设置画板
+     * @param sketchpadView TurretSketchpadView
+     */
+    fun setTurretSketchpadView(sketchpadView: TurretSketchpadView) {
+        this.turretSketchpadView = sketchpadView
     }
 
 
@@ -46,42 +100,73 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
     }
 
     /**
-     * 设置炮塔X
-     * @param x Int
+     * 设置炮塔坐标数据
+     * @param coordinateData
      */
-    fun setTurretX(x: Int) {
+    fun setTurretGameCoordinateData(coordinateData: CoordinateData) {
         if (this::turretData.isInitialized) {
-            turretData.x = x
+            turretData.gameCoordinateData = coordinateData
         }
     }
+
 
     /**
-     * 设置炮塔X
-     * @param y Int
+     * 当出现触摸事件
+     * @param event MotionEvent
+     * @return Boolean 返回true已被处理
      */
-    fun setTurretY(y: Int) {
-        if (this::turretData.isInitialized) {
-            turretData.y = y
-        }
-    }
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            val action = event.action
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    return canDrag
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    Log.d(debugKey, "收到移动${turretData.name} 可拖动状态${canDrag}")
+                    if (canDrag) {
+                        val and = CoordinateData(event.x.toInt(), event.y.toInt())
+                        val gameCoordinateData = turretSketchpadView!!.toGameCoordinate(and)
+                        setTurretGameCoordinateData(gameCoordinateData)
+                        turretSketchpadView!!.setKeyCoordinate(and)
+                        coordinateChangeListener?.invoke(gameCoordinateData, turretData)
+                        invalidate()
+                        return true
+                    }
+                }
 
+            }
+        }
+        return false
+    }
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (this::turretData.isInitialized) {
+            if (turretSketchpadView == null) {
+                Log.e(debugKey, "未绑定画板，停止绘制。")
+                return
+            }
             val paint = Paint()
-            val bitmap = if (turretData.imageFile == null) {
+            var bitmap = if (turretData.imageFile == null) {
                 BitmapFactory.decodeResource(this.resources, R.drawable.image)
             } else {
                 BitmapFactory.decodeFile(turretData.imageFile!!.absolutePath)
             }
+            if (turretData.scaleValue != 1f) {
+                bitmap = TurretSketchpadView.scaleBitmap(
+                    bitmap, turretData.scaleValue
+                )
+            }
+            val androidCoordinate =
+                turretSketchpadView!!.toAndroidCoordinate(turretData.gameCoordinateData)
             bitmapW = bitmap.width
             bitmapH = bitmap.height
             canvas?.drawBitmap(
                 bitmap,
-                (turretData.x - bitmapW / 2).toFloat(),
-                (turretData.y - bitmapH / 2).toFloat(),
+                (androidCoordinate.x - bitmapW / 2).toFloat(),
+                (androidCoordinate.y - bitmapH / 2).toFloat(),
                 paint
             )
             if (!bitmap.isRecycled) {

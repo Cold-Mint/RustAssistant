@@ -13,6 +13,9 @@ import android.text.SpannableString
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -79,6 +82,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     private val viewModel by lazy {
         ViewModelProvider(this).get(EditViewModel::class.java)
     }
+
+    private lateinit var turretCoordinateResults: ActivityResultLauncher<Intent>
+
 
     private lateinit var rustLanguage: RustLanguage
 
@@ -491,7 +497,12 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             initEndView()
             showRenewalTip()
             loadCustomStyle()
+            turretCoordinateResults =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                    viewModel.reloadCode()
+                }
         } else {
+            title = getString(R.string.mod_action1)
             val thisIntent = intent
             val bundle = thisIntent.getBundleExtra("data")
             if (bundle == null) {
@@ -1243,12 +1254,21 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 }
             }
             R.id.turret_design -> {
-                val goIntent = Intent(this, TurretDesignActivity::class.java)
-                val modPath = viewModel.modClass!!.modFile.absolutePath
-                val filePath = viewModel.getNowOpenFilePath()
-                goIntent.putExtra("modPath", modPath)
-                goIntent.putExtra("filePath", filePath)
-                startActivity(goIntent)
+                val needSave = viewModel.checkOneFileIfNeedSave(
+                    viewBinding.tabLayout.selectedTabPosition,
+                    viewBinding.codeEditor.text.toString()
+                )
+                if (needSave) {
+                    Snackbar.make(viewBinding.codeEditor, R.string.save_tip, Snackbar.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val goIntent = Intent(this, TurretDesignActivity::class.java)
+                    val modPath = viewModel.modClass!!.modFile.absolutePath
+                    val filePath = viewModel.getNowOpenFilePath()
+                    goIntent.putExtra("modPath", modPath)
+                    goIntent.putExtra("filePath", filePath)
+                    turretCoordinateResults.launch(goIntent)
+                }
             }
             R.id.display_source_code -> {
                 val file = File(viewModel.getNowOpenFilePath())

@@ -260,80 +260,75 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         })
 
         viewBinding.button.setOnClickListener {
-            val type = viewBinding.button.text.toString()
-            when (type) {
-                getString(R.string.edit_function) -> {
-                    val userName = viewBinding.userNameView.text.toString()
-                    val introduce = viewBinding.signatureView.text.toString()
-                    val genderValue = viewBinding.sexView.text.toString()
-                    val boy = getString(R.string.boy)
-                    if (!checkUserName(userName)) {
-                        return@setOnClickListener
-                    }
-                    if (!checkIntroduce(introduce)) {
-                        return@setOnClickListener
-                    }
-                    val gender = if (genderValue == boy) {
-                        1
-                    } else {
-                        -1
-                    }
-                    viewBinding.button.hide()
-                    val token =
-                        AppSettings.getValue(AppSettings.Setting.Token, "")
-                    User.updateSpaceInfo(
-                        token,
-                        userName,
-                        introduce,
-                        gender,
-                        object : ApiCallBack<ApiResponse> {
-                            override fun onResponse(t: ApiResponse) {
-                                if (t.code == ServerConfiguration.Success_Code) {
-                                    if (needCleanCache) {
-                                        Thread {
-                                            Glide.get(this@EditUserInfoActivity).clearDiskCache()
-                                            runOnUiThread {
-                                                Glide.get(this@EditUserInfoActivity).clearMemory()
-                                                finish()
-                                            }
-                                        }.start()
-                                    } else {
+            val userName = viewBinding.userNameView.text.toString()
+            val introduce = viewBinding.signatureView.text.toString()
+            val genderValue = viewBinding.sexView.text.toString()
+            val boy = getString(R.string.boy)
+            if (!checkUserName(userName)) {
+                return@setOnClickListener
+            }
+            if (!checkIntroduce(introduce)) {
+                return@setOnClickListener
+            }
+            val gender = if (genderValue == boy) {
+                1
+            } else {
+                -1
+            }
+            viewBinding.button.hide()
+            val token =
+                AppSettings.getValue(AppSettings.Setting.Token, "")
+            User.updateSpaceInfo(
+                token,
+                userName,
+                introduce,
+                gender,
+                object : ApiCallBack<ApiResponse> {
+                    override fun onResponse(t: ApiResponse) {
+                        if (t.code == ServerConfiguration.Success_Code) {
+                            if (needCleanCache) {
+                                Thread {
+                                    Glide.get(this@EditUserInfoActivity).clearDiskCache()
+                                    runOnUiThread {
+                                        Glide.get(this@EditUserInfoActivity).clearMemory()
                                         finish()
                                     }
-                                } else {
-                                    viewBinding.button.show()
-                                    val data = t.data
-                                    if (data != null && ServerConfiguration.isEvent(data)) {
-                                        when (data) {
-                                            "@event:用户名占用" -> {
-                                                setErrorAndInput(
-                                                    viewBinding.userNameView,
-                                                    getString(R.string.user_name_error),
-                                                    viewBinding.userNameInputLayout
-                                                )
-                                            }
-                                        }
-                                    } else {
-                                        Snackbar.make(
-                                            viewBinding.button,
-                                            t.message,
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
+                                }.start()
+                            } else {
+                                finish()
+                            }
+                        } else {
+                            viewBinding.button.show()
+                            val data = t.data
+                            if (data != null && ServerConfiguration.isEvent(data)) {
+                                when (data) {
+                                    "@event:用户名占用" -> {
+                                        setErrorAndInput(
+                                            viewBinding.userNameView,
+                                            getString(R.string.user_name_error),
+                                            viewBinding.userNameInputLayout
+                                        )
                                     }
                                 }
+                            } else {
+                                Snackbar.make(
+                                    viewBinding.button,
+                                    t.message,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                             }
+                        }
+                    }
 
-                            override fun onFailure(e: Exception) {
-                                viewBinding.button.show()
-                                showInternetError(viewBinding.button, e)
-                            }
+                    override fun onFailure(e: Exception) {
+                        viewBinding.button.show()
+                        showInternetError(viewBinding.button, e)
+                    }
 
-                        },
-                        ServerConfiguration.toRelativePath(iconLink ?: ""),
-                        ServerConfiguration.toRelativePath(coverLink ?: "")
-                    )
-                }
-            }
+                },
+                ServerConfiguration.toRelativePath(iconLink ?: ""),
+                ServerConfiguration.toRelativePath(coverLink ?: "")
+            )
         }
     }
 

@@ -47,7 +47,7 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         //节补丁
         if (RustAutoCompleteProvider.keyWord.startsWith('[') && RustAutoCompleteProvider.keyWord.length > 1) {
             RustAutoCompleteProvider.keyWord =
-                RustAutoCompleteProvider.keyWord.subSequence(1, RustAutoCompleteProvider.keyWord.length)
+                RustAutoCompleteProvider.keyWord.subSequence(0, RustAutoCompleteProvider.keyWord.length)
                     .toString()
         }
         val start = label.lowercase(Locale.getDefault())

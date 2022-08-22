@@ -7,4 +7,9 @@ import java.io.File
  * @property name String
  * @constructor
  */
-data class TurretData(val name: String, var x: Int, var y: Int, var imageFile: File? = null)
+data class TurretData(
+    val name: String,
+    var gameCoordinateData: CoordinateData,
+    var scaleValue: Float = 1f,
+    var imageFile: File? = null
+)

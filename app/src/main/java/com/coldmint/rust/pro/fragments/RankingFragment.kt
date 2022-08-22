@@ -15,6 +15,7 @@ import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentRankingBinding
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 /**
  * 排行榜
@@ -43,6 +44,11 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                 }
             }
         })
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+            loadMods()
+            viewBinding.swipeRefreshLayout.isRefreshing = false
+        }
+
     }
 
     override fun onResume() {
@@ -58,13 +64,15 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                     if (list != null && list.isNotEmpty()) {
                         viewBinding.progressBar.isVisible = false
                         viewBinding.textview.isVisible = false
-                        viewBinding.recyclerView.isVisible = true
-                        viewBinding.recyclerView.adapter = createAdapter(list)
+                        viewBinding.swipeRefreshLayout.isVisible = true
+                        val adapter = createAdapter(list)
+                        viewBinding.recyclerView.adapter = adapter
                         linearLayoutManager.scrollToPositionWithOffset(
                             lastPosition,
                             lastOffset
                         )
-
+                        FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
+                            .setPopupTextProvider(adapter).build()
                     } else {
                         showInfoToView(R.string.network_error)
                     }
@@ -113,7 +121,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
      */
     fun showInfoToView(textRes: Int? = null, text: String? = null) {
         viewBinding.progressBar.isVisible = false
-        viewBinding.recyclerView.isVisible = false
+        viewBinding.swipeRefreshLayout.isVisible = false
         viewBinding.textview.isVisible = true
         if (textRes == null) {
             viewBinding.textview.setText(textRes)

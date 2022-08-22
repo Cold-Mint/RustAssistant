@@ -154,10 +154,10 @@
                 android:layout_marginBottom="48dp">
 
                 <LinearLayout
-                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"
+                    android:animateLayoutChanges="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -190,10 +190,10 @@
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/dimCardView"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -224,11 +224,11 @@
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/imageCardView"
-                        android:visibility="gone"
                         style="@style/Widget.Material3.CardView.Outlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView"
@@ -240,13 +240,13 @@
 
 
                     <Button
-                        android:visibility="gone"
                         android:id="@+id/autoGenerateColorSchemeButton"
-                        android:text="@string/auto_generate_color_scheme"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_marginTop="16dp"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/auto_generate_color_scheme"
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -256,14 +256,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:text="@string/edit_function"
-        app:icon="@drawable/round_save_20" />
+        android:src="@drawable/round_save_20" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

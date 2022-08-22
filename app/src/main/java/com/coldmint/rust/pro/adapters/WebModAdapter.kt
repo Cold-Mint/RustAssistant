@@ -11,9 +11,10 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.WebModItemBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
+import me.zhanghai.android.fastscroll.PopupTextProvider
 
 class WebModAdapter( context: Context,  dataList: MutableList<WebModListData.Data>) :
-    BaseAdapter<WebModItemBinding, WebModListData.Data>(context, dataList) {
+    BaseAdapter<WebModItemBinding, WebModListData.Data>(context, dataList) , PopupTextProvider {
 
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,
@@ -60,5 +61,9 @@ class WebModAdapter( context: Context,  dataList: MutableList<WebModListData.Dat
             Glide.with(context).load(path).apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.modIcon)
         }
+    }
+
+    override fun getPopupText(position: Int): String {
+        return dataList[position].downloadNumber.toString()
     }
 }
