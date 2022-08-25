@@ -7,7 +7,7 @@ data class WebTemplatePackageListData(
     @SerializedName("code")
     val code: Int,
     @SerializedName("data")
-    val `data`: MutableList<Data>,
+    val `data`: List<Data>,
     @SerializedName("message")
     val message: String
 ) {
@@ -30,8 +30,6 @@ data class WebTemplatePackageListData(
         val name: String,
         @SerializedName("public")
         val `public`: String,
-        @SerializedName("subscribe")
-        var subscribe: Boolean,
         @SerializedName("subscriptionNumber")
         val subscriptionNumber: String,
         @SerializedName("templateNumber")
