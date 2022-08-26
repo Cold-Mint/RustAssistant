@@ -6,7 +6,6 @@ import android.os.Build
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
-import com.coldmint.rust.pro.TemplateMakerActivity.CodeData
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.base.BaseAdapter
+import com.coldmint.rust.pro.databean.CodeData
 import com.coldmint.rust.pro.databinding.AddActionDialogBinding
 import com.coldmint.rust.pro.databinding.MarkItemBinding
 import com.google.gson.JsonObject
@@ -105,6 +105,7 @@ class TemplateMakerAdapter( context: Context, dataList: MutableList<CodeData>) :
 
         addActionDialogBinding.modActionLayout.isVisible = true
         addActionDialogBinding.modActionLayout.editText?.setText(code)
+
         val materialDialog =
             MaterialDialog(context).noAutoDismiss().title(R.string.set_note)
                 .customView(view = addActionDialogBinding.root)
@@ -187,6 +188,7 @@ class TemplateMakerAdapter( context: Context, dataList: MutableList<CodeData>) :
 
         }
         addActionDialogBinding.typeSpinner.onItemSelectedListener = listener
+
         val materialDialog =
             MaterialDialog(context).noAutoDismiss().title(title)
                 .customView(view = addActionDialogBinding.root)

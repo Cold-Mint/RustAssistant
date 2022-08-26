@@ -8,7 +8,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
@@ -30,6 +32,12 @@ class TemplateListAdapter(
     private val language: String,
     private val rootPath: String
 ) : BaseAdapter<TemplateListItemBinding, LocalTemplatePackage>(context, dataList) {
+
+    private val editInfo = context.getString(R.string.mod_action2)
+    private val share = context.getString(R.string.share_mod)
+    private val update = context.getString(R.string.update)
+    private val fileManager = context.getString(R.string.file_manager)
+    private val exportFile = context.getString(R.string.export)
 
     /**
      * 编辑信息
@@ -256,11 +264,6 @@ class TemplateListAdapter(
             viewBinding.nameView.text = data.getName()
             viewBinding.describeView.text = info?.description
             viewBinding.developerView.text = "${info?.developer}|${info?.versionName}"
-            val editInfo = context.getString(R.string.mod_action2)
-            val share = context.getString(R.string.share_mod)
-            val update = context.getString(R.string.update)
-            val fileManager = context.getString(R.string.file_manager)
-            val exportFile = context.getString(R.string.export)
             viewBinding.onTouchView.setOnClickListener {
                 val bottomSheetDialog =
                     BottomSheetDialog(context)
@@ -269,6 +272,7 @@ class TemplateListAdapter(
                 bottomSheetDialog.setContentView(templateBottomDialogBinding.root)
                 templateBottomDialogBinding.templateActionList.layoutManager =
                     LinearLayoutManager(context)
+                templateBottomDialogBinding.titleView.text = data.getName()
                 val list = ArrayList<String>()
                 list.add(editInfo)
                 list.add(fileManager)
@@ -312,6 +316,12 @@ class TemplateListAdapter(
                     }
                 }
                 templateBottomDialogBinding.templateActionList.adapter = adapter
+                templateBottomDialogBinding.templateActionList.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
                 bottomSheetDialog.show()
             }
             viewBinding.onTouchView.setOnLongClickListener {

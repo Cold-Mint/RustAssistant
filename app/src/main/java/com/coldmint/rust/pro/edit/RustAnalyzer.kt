@@ -1,21 +1,12 @@
 package com.coldmint.rust.pro.edit
 
-import android.util.Log
-import com.coldmint.rust.core.CodeCompiler2
-import com.coldmint.rust.core.dataBean.CompileConfiguration
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.interfaces.EnglishMode
-import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.core.tool.LocalVariableName
-import com.coldmint.rust.pro.R
-import io.github.rosemoe.sora.lang.styling.Span
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.collections.HashSet
-import kotlin.text.StringBuilder
 
 @Deprecated("已过时")
 class RustAnalyzer() : EnglishMode {

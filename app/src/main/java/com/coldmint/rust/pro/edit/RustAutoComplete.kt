@@ -1,22 +1,16 @@
 package com.coldmint.rust.pro.edit
 
 import android.content.Context
-import android.util.Log
-import com.coldmint.rust.core.CodeCompiler2
 import com.coldmint.rust.core.SourceFile
 import com.coldmint.rust.core.database.code.CodeDataBase
-import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.interfaces.EnglishMode
 import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
-import io.github.rosemoe.sora.lang.completion.CompletionItem
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher
 import io.github.rosemoe.sora.widget.CodeEditor
-import java.util.ArrayList
-import java.util.concurrent.Executors
 
 /**
  *

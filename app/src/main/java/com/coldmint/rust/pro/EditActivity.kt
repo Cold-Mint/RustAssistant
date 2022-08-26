@@ -1,7 +1,6 @@
 package com.coldmint.rust.pro
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -9,12 +8,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.text.SpannableString
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -28,33 +25,20 @@ import com.afollestad.materialdialogs.actions.setActionButtonEnabled
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
-import com.afollestad.materialdialogs.list.ItemListener
-import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.coldmint.rust.core.AnalysisResult
-import com.coldmint.rust.core.CodeCompiler2
 import com.coldmint.rust.core.ModClass
-import com.coldmint.rust.core.SourceFile
-import com.coldmint.rust.core.dataBean.CompileConfiguration
 import com.coldmint.rust.core.database.code.CodeDataBase
-import com.coldmint.rust.core.database.code.ValueTypeInfo
 import com.coldmint.rust.core.database.file.FileDataBase
-import com.coldmint.rust.core.interfaces.CodeCompilerListener
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
-import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.core.web.ServerConfiguration
-import com.coldmint.rust.pro.adapters.CompileLogAdapter
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
-import com.coldmint.rust.pro.databean.ErrorInfo
 import com.coldmint.rust.pro.databinding.ActivityEditBinding
-import com.coldmint.rust.pro.databinding.EditEndBinding
 import com.coldmint.rust.pro.databinding.EditStartBinding
 import com.coldmint.rust.pro.edit.CodeToolAdapter
 import com.coldmint.rust.pro.edit.RustCompletionAdapter
@@ -63,14 +47,10 @@ import com.coldmint.rust.pro.interfaces.BookmarkListener
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
-import com.coldmint.rust.pro.viewmodel.EditEndViewModel
 import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
-import com.flask.colorpicker.ColorPickerView
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import io.github.rosemoe.sora.lang.completion.CompletionItem
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
@@ -107,19 +87,19 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         ViewModelProvider(this).get(EditStartViewModel::class.java)
     }
 
-    /**
-     * 编辑器右侧视图模型
-     */
-    private val editEndViewModel: EditEndViewModel by lazy {
-        ViewModelProvider(this).get(EditEndViewModel::class.java)
-    }
+//    /**
+//     * 编辑器右侧视图模型
+//     */
+//    private val editEndViewModel: EditEndViewModel by lazy {
+//        ViewModelProvider(this).get(EditEndViewModel::class.java)
+//    }
 
-    /**
-     * 编辑器右侧视图
-     */
-    private val editEndBinding: EditEndBinding by lazy {
-        EditEndBinding.bind(viewBinding.root)
-    }
+//    /**
+//     * 编辑器右侧视图
+//     */
+//    private val editEndBinding: EditEndBinding by lazy {
+//        EditEndBinding.bind(viewBinding.root)
+//    }
 
     fun showRenewalTip() {
         val debugKey = "续费提示"
@@ -247,6 +227,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //        }
         viewModel.openedSourceFileListLiveData.observe(this) {
             viewBinding.tabLayout.removeAllTabs()
+            viewBinding.tabLayout.isVisible = true
             it.forEach {
                 val openedSourceFile = it
                 val tab = viewBinding.tabLayout.newTab()
@@ -437,28 +418,28 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         })
     }
 
-    /**
-     * 加载右侧观察者
-     */
-    fun loadEndObserve() {
-        editEndViewModel.loadStateLiveData.observe(this) {
-            editEndBinding.imageview.isVisible = it
-            editEndBinding.textview.isVisible = it
-            editEndBinding.logView.isVisible = !it
-        }
-
-        editEndViewModel.analysisResultLiveData.observe(this) {
-            val adapter = CompileLogAdapter(this, it.toMutableList())
-            editEndBinding.logView.adapter = adapter
-        }
-    }
-
-    /**
-     * 初始化右侧视图
-     */
-    fun initEndView() {
-        editEndBinding.logView.layoutManager = LinearLayoutManager(this)
-    }
+//    /**
+//     * 加载右侧观察者
+//     */
+//    fun loadEndObserve() {
+//        editEndViewModel.loadStateLiveData.observe(this) {
+//            editEndBinding.imageview.isVisible = it
+//            editEndBinding.textview.isVisible = it
+//            editEndBinding.logView.isVisible = !it
+//        }
+//
+//        editEndViewModel.analysisResultLiveData.observe(this) {
+//            val adapter = CompileLogAdapter(this, it.toMutableList())
+//            editEndBinding.logView.adapter = adapter
+//        }
+//    }
+//
+//    /**
+//     * 初始化右侧视图
+//     */
+//    fun initEndView() {
+//        editEndBinding.logView.layoutManager = LinearLayoutManager(this)
+//    }
 
     //当用户切换到其他应用界面时
     override fun onPause() {
@@ -489,12 +470,12 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         if (canUseView) {
             setReturnButton()
             loadStartObserve()
-            loadEndObserve()
+//            loadEndObserve()
             initDrawerLayout()
             initCodeToolbar()
             initCodeEditor()
             initStartView()
-            initEndView()
+//            initEndView()
             showRenewalTip()
             loadCustomStyle()
             turretCoordinateResults =
@@ -1122,8 +1103,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 "JetBrainsMono-Regular.ttf"
             )
         }
-//        val language =
-//            AppSettings.getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)
         rustLanguage = RustLanguage()
         rustLanguage.setCodeDataBase(CodeDataBase.getInstance(this))
         rustLanguage.setFileDataBase(
@@ -1132,7 +1111,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 viewModel.modClass!!.modName
             )
         )
-//        rustLanguage.setAnalyzerEnglishMode(viewModel.englishModeLiveData)
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
         viewBinding.codeEditor.setAutoCompletionItemAdapter(RustCompletionAdapter())
         viewBinding.codeEditor.isVerticalScrollBarEnabled = false
@@ -1162,26 +1140,50 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 DebugHelper.printLog(key, "未启用背景图像，设置背景为窗口颜色。")
                 GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
             }
-        //代码（可识别的关键字）
-        editorColorScheme.setColor(
-            EditorColorScheme.KEYWORD,
-            Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColor, ""))
-        )
-        //默认文本
-        editorColorScheme.setColor(
-            EditorColorScheme.TEXT_NORMAL,
-            Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColor, ""))
-        )
-        //注释
-        editorColorScheme.setColor(
-            EditorColorScheme.COMMENT,
-            Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColor, ""))
-        )
-        //节
-        editorColorScheme.setColor(
-            EditorColorScheme.FUNCTION_NAME,
-            Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColor, ""))
-        )
+        val darkMode = AppSettings.getValue(AppSettings.Setting.NightMode, false)
+        if (darkMode) {
+            //代码（可识别的关键字）
+            editorColorScheme.setColor(
+                EditorColorScheme.KEYWORD,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColorDark, ""))
+            )
+            //默认文本
+            editorColorScheme.setColor(
+                EditorColorScheme.TEXT_NORMAL,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColorDark, ""))
+            )
+            //注释
+            editorColorScheme.setColor(
+                EditorColorScheme.COMMENT,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColorDark, ""))
+            )
+            //节
+            editorColorScheme.setColor(
+                EditorColorScheme.FUNCTION_NAME,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColorDark, ""))
+            )
+        } else {
+            //代码（可识别的关键字）
+            editorColorScheme.setColor(
+                EditorColorScheme.KEYWORD,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColor, ""))
+            )
+            //默认文本
+            editorColorScheme.setColor(
+                EditorColorScheme.TEXT_NORMAL,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColor, ""))
+            )
+            //注释
+            editorColorScheme.setColor(
+                EditorColorScheme.COMMENT,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColor, ""))
+            )
+            //节
+            editorColorScheme.setColor(
+                EditorColorScheme.FUNCTION_NAME,
+                Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColor, ""))
+            )
+        }
         editorColorScheme.setColor(
             EditorColorScheme.WHOLE_BACKGROUND,
             backgroundColor
@@ -1279,7 +1281,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 }
             }
             R.id.clear_code_cache -> {
-                viewModel.codeCompiler2.clearCache()
                 Snackbar.make(
                     viewBinding.recyclerview,
                     getString(R.string.clean_up_code_cache_complete),
@@ -1352,270 +1353,17 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 val needSave =
                     openedSourceFile.isChanged(viewBinding.codeEditor.text.toString())
                 if (needSave) {
-                    viewModel.compilerFile(openedSourceFile, object : CodeCompilerListener {
-                        override fun onCompilationComplete(
-                            compileConfiguration: CompileConfiguration,
-                            code: String
-                        ) {
-                            viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
-                                viewBinding.tabLayout.selectedTabPosition
-                            )
-                                .save(code)
-                            editEndViewModel.analysisResultLiveData.value =
-                                compileConfiguration.getAnalysisResult()
-                            editEndViewModel.loadStateLiveData.value = false
-                        }
-
-
-                        override fun beforeCompilation() {
-                            editEndViewModel.loadStateLiveData.value = true
-                            openDrawer(GravityCompat.END)
-                        }
-
-                        override fun onClickKeyNotFoundItem(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View,
-                            code: String,
-                            section: String
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            popupMenu.menu.add(gotoLine)
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-
-                        override fun onClickValueTypeErrorItem(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View,
-                            valueType: ValueTypeInfo
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            val information =
-                                String.format(getString(R.string.type_information), valueType.name)
-                            popupMenu.menu.add(gotoLine)
-                            popupMenu.menu.add(information)
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                    information -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        MaterialDialog(this@EditActivity).show {
-                                            title(text = valueType.name).message(text = valueType.describe)
-                                                .negativeButton(R.string.dialog_ok)
-                                        }
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-                        override fun onClickSectionIndexError(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View,
-                            sectionName: String
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            popupMenu.menu.add(gotoLine)
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-                        override fun onClickResourceErrorItem(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View,
-                            resourceFile: File
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            val selectFile = getString(R.string.select_file)
-                            val openDirectoryOfFile = getString(R.string.open_directory_of_file)
-                            popupMenu.menu.add(gotoLine)
-                            popupMenu.menu.add(selectFile)
-                            popupMenu.menu.add(openDirectoryOfFile)
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                    selectFile -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        val bundle = Bundle()
-                                        val intent = Intent(
-                                            this@EditActivity,
-                                            FileManagerActivity::class.java
-                                        )
-                                        bundle.putString("type", "selectFile")
-                                        //bundle.putString("path", modClass.getModFile().getAbsolutePath());
-                                        intent.putExtra("data", bundle)
-                                        viewModel.needCheckAutoSave = false
-                                        viewModel.targetFile = resourceFile
-                                        startActivityForResult(intent, 1)
-                                    }
-                                    openDirectoryOfFile -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        editStartViewModel.loadPathLiveData.value =
-                                            FileOperator.getSuperDirectory(resourceFile)
-                                        viewBinding.editDrawerlayout.openDrawer(GravityCompat.START)
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-
-                        override fun onClickSectionErrorItem(
-                            lineNum: Int,
-                            view: View,
-                            displaySectionName: String
-                        ) {
-
-                        }
-
-                        override fun onClickSynchronizationGame(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            val synchronization = getString(R.string.game_data_and_synchronization)
-                            popupMenu.menu.add(gotoLine)
-                            popupMenu.menu.add(synchronization)
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                    synchronization -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewModel.needCheckAutoSave = false
-                                        val intent = Intent(
-                                            this@EditActivity,
-                                            ApplicationListActivity::class.java
-                                        )
-                                        startActivity(intent)
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-                        override fun onClickSectionNameErrorItem(
-                            lineNum: Int,
-                            columnNum: Int,
-                            view: View,
-                            sectionName: String,
-                            symbolIndex: Int?,
-                            needName: Boolean
-                        ) {
-                            val popupMenu = PopupMenu(this@EditActivity, view)
-                            val gotoLine = getString(R.string.goto_line)
-                            val addAdditionalName = getString(R.string.add_additional_name)
-                            val removeAdditionalName = getString(R.string.remove_additional_name)
-                            popupMenu.menu.add(gotoLine)
-                            if (needName) {
-                                popupMenu.menu.add(addAdditionalName)
-                            } else {
-                                popupMenu.menu.add(removeAdditionalName)
-                            }
-                            popupMenu.setOnMenuItemClickListener {
-                                val title = it.title
-                                when (title) {
-                                    gotoLine -> {
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-                                    }
-                                    removeAdditionalName -> {
-                                        if (symbolIndex != null) {
-                                            viewBinding.codeEditor.text.delete(
-                                                lineNum,
-                                                symbolIndex,
-                                                lineNum,
-                                                columnNum
-                                            )
-                                        }
-                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                    }
-                                    addAdditionalName -> {
-//                                        val labels =
-//                                            viewBinding.codeEditor.textAnalyzeResult.navigation
-//                                        var num = 1
-//                                        labels.forEach {
-//                                            val type = SourceFile.getSectionType(
-//                                                it.label.substring(
-//                                                    1,
-//                                                    it.label.length - 1
-//                                                )
-//                                            )
-//                                            if (type == sectionName) {
-//                                                num++
-//                                            }
-//                                        }
-//                                        val name = "_" + num.toString()
-//                                        viewBinding.codeEditor.setSelection(lineNum, columnNum)
-//                                        viewBinding.codeEditor.insertText(name, name.length)
-//                                        viewBinding.editDrawerlayout.closeDrawer(GravityCompat.END)
-                                    }
-                                }
-                                false
-                            }
-                            popupMenu.show()
-                        }
-
-                        override fun onClickCodeIndexErrorItem(
-                            lineNum: Int,
-                            view: View,
-                            sectionName: String
-                        ) {
-
-                        }
-
-                        override fun onShowCompilationResult(code: String): Boolean {
-                            return false
-                        }
-
-
-                    })
-                } else {
-                    openDrawer(GravityCompat.END)
+                    viewModel.compilerFile(openedSourceFile) {
+                        viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
+                            viewBinding.tabLayout.selectedTabPosition
+                        ).save(it)
+                    }
                 }
+                Snackbar.make(
+                    viewBinding.recyclerview,
+                    R.string.save_complete2,
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
             R.id.show_line_number -> {
                 viewBinding.codeEditor.isLineNumberEnabled =
@@ -1629,12 +1377,16 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             R.id.convertToTemplate -> {
                 viewModel.needCheckAutoSave = false
                 val intent = Intent(this@EditActivity, TemplateMakerActivity::class.java)
-                val bundle = Bundle()
-                bundle.putString(
+
+                val file = File(viewModel.getNowOpenFilePath())
+                intent.putExtra(
                     "path",
-                    viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition).file.absolutePath
+                    viewModel.getNowOpenFilePath()
                 )
-                intent.putExtra("data", bundle)
+                intent.putExtra(
+                    "name",
+                    FileOperator.getPrefixName(file)
+                )
                 startActivity(intent)
             }
             R.id.text_undo -> {

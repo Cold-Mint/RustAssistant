@@ -42,7 +42,7 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
     }
 
     private lateinit var startTemplateParserActivity: ActivityResultLauncher<Intent>
-
+    private lateinit var changePath: ActivityResultLauncher<Intent>
 
     private lateinit var mTemplateAdapter: TemplateAdapter
 
@@ -65,7 +65,7 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
             bundle.putString("path", createPath)
             bundle.putString("rootpath", viewModel.mRootPath)
             intent.putExtra("data", bundle)
-            startActivityForResult(intent, 1)
+            changePath.launch(intent)
         }
         //长按监听
         viewBinding.expandableList.onItemLongClickListener =
@@ -123,6 +123,12 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         initAction()
+        changePath = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val directents = it.data?.getStringExtra("Directents")
+                viewModel.createPathLiveData.value = directents
+            }
+        }
         startTemplateParserActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {

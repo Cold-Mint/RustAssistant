@@ -5,6 +5,13 @@ package com.coldmint.rust.core.dataBean.template
  */
 interface TemplatePackage {
 
+
+    /**
+     * 获取模板包路径或id
+     * @return String
+     */
+    fun getPathORId():String
+
     /**
      * 实现获取名称方法
      * @return String

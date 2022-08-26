@@ -2,22 +2,17 @@ package com.coldmint.rust.pro.fragments
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.Window
-import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.dataBean.ModConfigurationData
 import com.coldmint.rust.core.tool.FileOperator
-import com.coldmint.rust.pro.MainActivity
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.ModActionAdapter
 import com.coldmint.rust.pro.adapters.ModAdapter
@@ -29,19 +24,12 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.viewmodel.ModViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.color.MaterialColors
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import me.zhanghai.android.fastscroll.FastScrollScrollView
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
-import java.util.concurrent.Executors
-import kotlin.concurrent.thread
 
 class ModFragment : BaseFragment<ModFragmentBinding>() {
     val viewModel: ModViewModel by lazy {

@@ -270,6 +270,8 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
             if (keyCoordinate != null) {
                 drawAuxiliaryLines(canvas, keyCoordinate!!)
             }
+            //绘制原点位置
+
             if (!bitmap!!.isRecycled) {
                 bitmap.recycle()
             }

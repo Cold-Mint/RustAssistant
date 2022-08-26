@@ -25,6 +25,12 @@
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NetworkTemplatePackageDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CustomizeEditTextActivity"
             android:exported="false" />
         <activity

@@ -17,9 +17,9 @@
         android:id="@+id/databaseError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/not_find_database"
-        android:textSize="16sp" />
+       style="@style/TextAppearance.Material3.HeadlineSmall"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/databaseList"

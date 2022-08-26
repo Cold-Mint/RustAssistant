@@ -103,13 +103,13 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (viewModel.startTypeData == FileManagerViewModel.StartType.SELECT_FILE && requestCode == 1) {
-                val path = FileOperator.parsePicturePath(this@FileManagerActivity, data)
-                if (path != null) {
-                    val intent = Intent()
-                    intent.putExtra("File", path)
-                    setResult(RESULT_OK, intent)
-                    finish()
-                }
+//                val path = FileOperator.parsePicturePath(this@FileManagerActivity, data)
+//                if (path != null) {
+//                    val intent = Intent()
+//                    intent.putExtra("File", path)
+//                    setResult(RESULT_OK, intent)
+//                    finish()
+//                }
             } else if (viewModel.startTypeData == FileManagerViewModel.StartType.SELECT_FILE && requestCode == 2) {
 //                val path = viewModel.parseFilePath(this@FileManagerActivity, data)
 //                if (path != null) {
@@ -195,24 +195,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         } else super.onKeyDown(keyCode, event)
     }
 
-    //
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater = menuInflater
-//        inflater.inflate(R.menu.menu_files, menu)
-//        if (mStartType != "selectFile") {
-//            menu.removeItem(R.id.selectFile)
-//        }
-//        addJumpBookMenu(menu)
-//        return true
-//    }
-//
-//    //加载上级文件夹
-//    fun returnDirects() {
-//        val file = File(FileOperator.getSuperDirectory(directs, mRoot))
-//        directs = file
-//        loadFiles(file)
-//    }
-//
     fun initAction() {
         viewBinding.fab.setOnClickListener {
             val intent = Intent()
@@ -241,10 +223,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                    bookmarkManager.save()
 //                    finish()
 //                }
-                FileManagerViewModel.StartType.SELECT_FILE -> {
 
-                }
-                FileManagerViewModel.StartType.DEFAULT -> {
+//                FileManagerViewModel.StartType.SELECT_FILE -> {
+//
+//                }
+                FileManagerViewModel.StartType.DEFAULT, FileManagerViewModel.StartType.SELECT_FILE, FileManagerViewModel.StartType.SELECT_DIRECTORY -> {
                     val popupMenu = PopupMenu(this@FileManagerActivity, viewBinding.fab)
 //                    if (mFileAdapter != null) {
 //                        val selectPath = mFileAdapter!!.selectPath
@@ -490,6 +473,30 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 
     private var adapter: FileAdapter? = null
 
+
+    /**
+     * 使用系统文件选择器选择回调
+     * @param uri Uri
+     */
+    fun selectFileCallback(uri: Uri?){
+        val path = viewModel.parseFilePath(this, uri)
+        if (path != null) {
+            CoreDialog(this).setTitle(R.string.system_file_manager).setMessage(path)
+                .setPositiveButton(R.string.select_file) {
+                    setResultAndFinish(path)
+                }.setNegativeButton(R.string.dialog_cancel) {
+
+                }.setCancelable(false).show()
+
+        } else {
+            Snackbar.make(
+                viewBinding.fab,
+                R.string.bad_file_type,
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             setReturnButton()
@@ -507,24 +514,13 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 viewModel.loadFiles(viewModel.getCurrentPath())
                 viewBinding.swipeRefreshLayout.isRefreshing = false
             }
+            photoAlbumResultLauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                    selectFileCallback(it?.data?.data)
+                }
             systemFileManagerResultLauncher =
                 registerForActivityResult(ActivityResultContracts.GetContent()) {
-                    val path = viewModel.parseFilePath(this, it)
-                    if (path != null) {
-                        CoreDialog(this).setTitle(R.string.system_file_manager).setMessage(path)
-                            .setPositiveButton(R.string.select_file) {
-                                setResultAndFinish(path)
-                            }.setNegativeButton(R.string.dialog_cancel) {
-
-                            }.setCancelable(false).show()
-
-                    } else {
-                        Snackbar.make(
-                            viewBinding.fab,
-                            R.string.bad_file_type,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
+                   selectFileCallback(it)
                 }
             FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
                 .setPopupTextProvider(adapter).build()
@@ -534,6 +530,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 if (bundle.containsKey("path")) {
                     viewModel.currentPathLiveData.value = bundle.getString("path")
                 }
+                viewModel.additionalData = bundle.getString("additionalData")
                 if (bundle.containsKey("type")) {
                     val type = bundle.getString("type")
                     viewModel.startTypeData = when (type) {
@@ -543,9 +540,29 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                                 R.string.select_directents,
                                 Snackbar.LENGTH_INDEFINITE
                             ).setAction(R.string.dialog_ok) {
+                                intent.putExtra("Directents", viewModel.getCurrentPath())
+                                setResult(RESULT_OK, intent)
                                 finish()
                             }.setGestureInsetBottomIgnored(true).show()
                             FileManagerViewModel.StartType.SELECT_DIRECTORY
+                        }
+                        "exportFile" -> {
+                            Snackbar.make(
+                                viewBinding.fab,
+                                R.string.export_file,
+                                Snackbar.LENGTH_INDEFINITE
+                            ).setAction(R.string.dialog_ok) {
+                                val oldFile = File(viewModel.additionalData)
+                                val result = FileOperator.copyFile(
+                                    oldFile,
+                                    File(viewModel.getCurrentPath() + "/" + oldFile.name)
+                                )
+                                if (result) {
+                                    setResult(RESULT_OK)
+                                }
+                                finish()
+                            }.setGestureInsetBottomIgnored(true).show()
+                            FileManagerViewModel.StartType.EXPORT_FILE
                         }
                         "selectFile" -> {
                             FileManagerViewModel.StartType.SELECT_FILE
@@ -574,6 +591,14 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         }
         menuBinding.systemFileManagerItem.setOnMenuItemClickListener {
             systemFileManagerResultLauncher.launch("*/*")
+            true
+        }
+        menuBinding.photoAlbumItem.setOnMenuItemClickListener {
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            photoAlbumResultLauncher.launch(intent)
             true
         }
         menuBinding.actionSortByType.setOnMenuItemClickListener {

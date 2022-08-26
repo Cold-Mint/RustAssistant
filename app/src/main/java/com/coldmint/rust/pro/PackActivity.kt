@@ -365,7 +365,7 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
                         code = codeBuilder.toString()
                     }
                     if (formattingCodeValue) {
-                        code = CodeCompiler2.format(code).toString()
+                        code = CodeTranslate.format(code)
                     }
                     return code
                 }

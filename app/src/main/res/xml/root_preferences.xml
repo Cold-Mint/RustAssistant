@@ -17,6 +17,7 @@
 
     <PreferenceCategory android:title="@string/appearance">
 
+
         <SwitchPreference
             android:defaultValue="true"
             android:summary="@string/dynamic_color_tip"

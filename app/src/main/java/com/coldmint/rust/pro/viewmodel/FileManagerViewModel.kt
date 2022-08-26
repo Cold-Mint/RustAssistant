@@ -30,6 +30,9 @@ class FileManagerViewModel : BaseViewModel() {
         DEFAULT, SELECT_DIRECTORY, EXPORT_FILE, SELECT_FILE
     }
 
+    //附加数据
+    var additionalData: String? = null
+
     private lateinit var bookmarkManager: BookmarkManager
 
     /**
@@ -178,7 +181,7 @@ class FileManagerViewModel : BaseViewModel() {
         return rootPath
     }
 
-        /**
+    /**
      * 解析文件路径
      *
      * @param context 上下文环境

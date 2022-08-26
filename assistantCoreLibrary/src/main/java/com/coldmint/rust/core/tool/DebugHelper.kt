@@ -1,7 +1,6 @@
 package com.coldmint.rust.core.tool
 
 import android.util.Log
-import com.coldmint.rust.core.CodeCompiler2
 
 /**
  * 调试帮助器

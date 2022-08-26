@@ -82,6 +82,101 @@ object User {
     }
 
     /**
+     * 请求修改密码（发送邮件）
+     * @param account String
+     * @param apiCallBack ApiCallBack<ApiResponse>
+     */
+    fun requestChangePassword(
+        account: String,
+        apiCallBack: ApiCallBack<ApiResponse>,
+        isEmail: Boolean = isEmail(account)
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBody: FormBody =
+            FormBody.Builder().add("account", account).add("isEmail", isEmail.toString())
+                .build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/user.php?action=requestChangePassword")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    val finalApiResponse =
+                        gson.fromJson(data, ApiResponse::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     * 修改密码
+     * @param account String
+     * @param apiCallBack ApiCallBack<ApiResponse>
+     */
+    fun changePassword(
+        account: String,
+        code: Int,
+        newPassword: String,
+        apiCallBack: ApiCallBack<ApiResponse>,
+        isEmail: Boolean = isEmail(account)
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBody: FormBody =
+            FormBody.Builder().add("account", account).add("isEmail", isEmail.toString())
+                .add("code", code.toString()).add("newPassword", newPassword)
+                .build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/user.php?action=changePassword")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    val finalApiResponse =
+                        gson.fromJson(data, ApiResponse::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
      * 发送设备验证请求
      * @param account String
      * @param passWord String
@@ -362,7 +457,7 @@ object User {
      * @param token String
      * @param apiCallBack ApiCallBack<ActivationInfo>
      */
-    fun getUserActivationInfo(token : String, apiCallBack: ApiCallBack<ActivationInfo>) {
+    fun getUserActivationInfo(token: String, apiCallBack: ApiCallBack<ActivationInfo>) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBody: FormBody =
             FormBody.Builder().add("token", token)
@@ -385,12 +480,11 @@ object User {
                     val data = response.body!!.string()
                     val finalActivationInfo =
                         gson.fromJson(data, ActivationInfo::class.java)
-                    if (finalActivationInfo==null)
-                    {
+                    if (finalActivationInfo == null) {
                         handler.post {
                             apiCallBack.onFailure(Exception("激活信息错误"))
                         }
-                    }else{
+                    } else {
                         handler.post {
                             apiCallBack.onResponse(finalActivationInfo)
                         }

@@ -38,9 +38,8 @@ object AppSettings {
     }
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, AnnotationColor, TextColor, SectionColor, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath
     }
-
 
 
     /**
@@ -146,10 +145,14 @@ object AppSettings {
         map[Setting.CodeEditBackGroundEnable] = "CodeEditBackGroundEnable"
         map[Setting.CodeEditBackGroundPath] = "CodeEditBackGroundPath"
         //KeywordColor, AnnotationColor, TextColor, SectionColor
-        map[Setting.KeywordColor] = mApplication.getString(R.string.setting_keyword_color)
-        map[Setting.AnnotationColor] = mApplication.getString(R.string.setting_annotation_color)
-        map[Setting.TextColor] = mApplication.getString(R.string.setting_text_color)
-        map[Setting.SectionColor] = mApplication.getString(R.string.setting_section_color)
+        map[Setting.KeywordColor] = "KeywordColor"
+        map[Setting.KeywordColorDark] = "KeywordColorDark"
+        map[Setting.AnnotationColor] = "AnnotationColor"
+        map[Setting.AnnotationColorDark] = "AnnotationColorDark"
+        map[Setting.TextColor] = "TextColor"
+        map[Setting.TextColorDark] = "TextColorDark"
+        map[Setting.SectionColor] = "SectionColor"
+        map[Setting.SectionColorDark] = "SectionColorDark"
     }
 
     /**

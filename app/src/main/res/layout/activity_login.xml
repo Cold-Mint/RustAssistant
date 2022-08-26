@@ -88,15 +88,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retrieve_password"
-            android:textColor="?colorPrimary"
-            android:visibility="gone" />
+            android:textColor="?colorPrimary" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/changeServerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/changePasswordView"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/changePasswordView"
             android:text="@string/changing_the_server"
             android:textColor="?colorPrimary" />
 
@@ -104,7 +104,7 @@
             android:id="@+id/registerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:text="@string/register"
             android:textColor="?colorPrimary" />
     </RelativeLayout>

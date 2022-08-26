@@ -30,7 +30,7 @@ class WebTemplateAdapter(context: Context, dataList: MutableList<WebTemplatePack
         viewHolder: ViewHolder<ItemWebTemplateBinding>,
         position: Int
     ) {
-        viewBinding.titleView.text = data.name
+        viewBinding.titleView.text = data.getName()
         viewBinding.describeView.text = data.describe
         viewBinding.infoView.text = data.modificationTime
         if (data.subscribe){
@@ -41,6 +41,6 @@ class WebTemplateAdapter(context: Context, dataList: MutableList<WebTemplatePack
     }
 
     override fun getPopupText(position: Int): String {
-        return getInitial(dataList[position].name).toString()
+        return getInitial(dataList[position].getName()).toString()
     }
 }

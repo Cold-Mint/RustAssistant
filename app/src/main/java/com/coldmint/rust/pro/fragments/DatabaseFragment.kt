@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -61,25 +63,39 @@ class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
                     adapter.setItemEvent { i, databaseItemBinding, viewHolder, dataSet ->
 
                         databaseItemBinding.databaseUse.setOnClickListener {
-                            val array = requireContext().getStringArray(R.array.dateset_read_tips)
+                            val tipArray =
+                                requireContext().getStringArray(R.array.dateset_read_tips)
+                            val array =
+                                requireContext().getStringArray(R.array.dateset_read_entries)
 
                             val datasetViewBing = DialogDatasetBinding.inflate(layoutInflater)
-                            datasetViewBing.updateSpinner.onItemSelectedListener =
-                                object : AdapterView.OnItemSelectedListener {
-                                    override fun onItemSelected(
-                                        p0: AdapterView<*>?,
-                                        p1: View?,
-                                        p2: Int,
-                                        p3: Long
-                                    ) {
-                                        datasetViewBing.tipView.text = array[p2]
-                                    }
-
-                                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                                        datasetViewBing.tipView.text = array[0]
-                                    }
+                            datasetViewBing.typeView.addTextChangedListener(object : TextWatcher {
+                                override fun beforeTextChanged(
+                                    s: CharSequence?,
+                                    start: Int,
+                                    count: Int,
+                                    after: Int
+                                ) {
 
                                 }
+
+                                override fun onTextChanged(
+                                    s: CharSequence?,
+                                    start: Int,
+                                    before: Int,
+                                    count: Int
+                                ) {
+
+                                }
+
+                                override fun afterTextChanged(s: Editable?) {
+                                    val index = array.indexOf(s.toString())
+                                    if (index > -1) {
+                                        datasetViewBing.tipView.text = tipArray[index]
+                                    }
+                                }
+
+                            })
                             val materialDialog =
                                 MaterialDialog(requireContext()).title(R.string.use_database)
                                     .positiveButton(R.string.dialog_ok).positiveButton {
@@ -87,10 +103,8 @@ class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
                                         val executorService = Executors.newSingleThreadExecutor()
                                         val materialDialog2 = MaterialDialog(requireContext())
                                         executorService.submit {
-                                            val valueArray =
-                                                requireContext().getStringArray(R.array.dateset_read_entries)
-                                            val type =
-                                                valueArray[datasetViewBing.updateSpinner.selectedItemPosition]
+                                            val type = datasetViewBing.typeView.text.toString()
+
                                             val readMode =
                                                 when (type) {
                                                     requireContext().getString(R.string.read_mode_additional) -> {

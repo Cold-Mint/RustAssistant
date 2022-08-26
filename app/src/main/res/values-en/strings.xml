@@ -767,7 +767,7 @@
     <string name="update_record">Update record</string>
     <string name="search_mod_key">Search results for \\"%1$s\\"</string>
     <string name="result">The results of</string>
-    <string name="data_set_read_mode">Read mode:</string>
+    <string name="data_set_read_mode">Read mode</string>
     <string name="read_mode_additional">additional</string>
     <string name="read_mode_update">update</string>
     <string name="read_mode_append_or_update">Append or update</string>

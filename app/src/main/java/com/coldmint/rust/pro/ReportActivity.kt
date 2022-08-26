@@ -31,7 +31,7 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.report)
+            title = getText(R.string.report)
             setReturnButton()
             val bundle = intent.getBundleExtra("data")
             if (bundle == null) {
@@ -68,23 +68,6 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
             viewBinding.toolbar.title = newTitle
 
             target = temTarget
-            val arrayList = ArrayList<String>()
-            if (type == "mod") {
-                arrayList.add(getString(R.string.picture_of_infringement))
-                arrayList.add(getString(R.string.erotic_elements))
-                arrayList.add(getString(R.string.bloody_elements))
-                arrayList.add(getString(R.string.unauthorized_handling))
-                arrayList.add(getString(R.string.describe_the_indecent))
-                arrayList.add(getString(R.string.others))
-            }
-            val adapter =
-                ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    arrayList
-                )
-            viewBinding.spinner.adapter = adapter
-
             viewBinding.describeEdit.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -102,6 +85,28 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
                 override fun afterTextChanged(s: Editable?) {
                     val describe = s.toString()
                     checkDescribe(describe)
+                    enableButton()
+                }
+
+            })
+            viewBinding.whyEditText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val describe = s.toString()
+                    checkWhy(describe)
+                    enableButton()
                 }
 
             })
@@ -112,18 +117,12 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
                     val describe = viewBinding.describeEdit.text.toString()
                     if (checkDescribe(describe)) {
                         inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
-                        viewBinding.reportButton.setBackgroundColor(
-                            GlobalMethod.getThemeColor(
-                                this,
-                                R.attr.colorPrimaryVariant
-                            )
-                        )
                         viewBinding.reportButton.setText(R.string.request_data)
                         Report.instance.send(
                             account,
                             type,
                             target,
-                            arrayList[viewBinding.spinner.selectedItemPosition],
+                            viewBinding.whyEditText.text.toString(),
                             describe,
                             object : ApiCallBack<ApiResponse> {
                                 override fun onResponse(t: ApiResponse) {
@@ -152,18 +151,51 @@ class ReportActivity : BaseActivity<ActivityReportBinding>() {
         }
     }
 
+    fun enableButton() {
+        val why = checkWhy(viewBinding.whyEditText.text.toString(), false)
+        val describe = checkDescribe(viewBinding.describeEdit.text.toString(), false)
+        viewBinding.reportButton.isEnabled = why && describe
+    }
+
     /**
      * 检查描述
      */
-    fun checkDescribe(describe: String): Boolean {
+    fun checkDescribe(describe: String, updateUi: Boolean = true): Boolean {
         return if (describe.isBlank()) {
-            setErrorAndInput(
-                viewBinding.describeEdit,
-                getString(R.string.describe_error), viewBinding.describeInputLayout
-            )
+            if (updateUi) {
+                setErrorAndInput(
+                    viewBinding.describeEdit,
+                    getString(R.string.describe_error), viewBinding.describeInputLayout
+                )
+            }
             false
         } else {
-            viewBinding.describeInputLayout.isErrorEnabled = false
+            if (updateUi) {
+                viewBinding.describeInputLayout.isErrorEnabled = false
+            }
+            true
+        }
+    }
+
+    /**
+     * 检查描述
+     */
+    fun checkWhy(describe: String, updateUi: Boolean = true): Boolean {
+        return if (describe.isBlank()) {
+            if (updateUi) {
+                setErrorAndInput(
+                    viewBinding.whyEditText,
+                    String.format(
+                        getString(R.string.please_input_value),
+                        viewBinding.whyLayout.hint
+                    ), viewBinding.whyLayout
+                )
+            }
+            false
+        } else {
+            if (updateUi) {
+                viewBinding.whyLayout.isErrorEnabled = false
+            }
             true
         }
     }

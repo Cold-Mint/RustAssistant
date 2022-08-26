@@ -1,6 +1,6 @@
 package com.coldmint.rust.pro.edit
 
-import com.coldmint.rust.core.dataBean.CompileConfiguration
+import com.coldmint.rust.core.CodeTranslate
 import io.github.rosemoe.sora.lang.analysis.AsyncIncrementalAnalyzeManager
 import io.github.rosemoe.sora.lang.analysis.IncrementalAnalyzeManager
 import io.github.rosemoe.sora.lang.styling.CodeBlock
@@ -41,16 +41,16 @@ class RustIncrementalAnalyzeManager :
         val index = line.lastIndexOf(':')
         if (index > 0) {
             //是代码
-            tokens.add(RustCodeToken(0, CompileConfiguration.CodeBlockType.Key))
-            tokens.add(RustCodeToken(index, CompileConfiguration.CodeBlockType.Symbol))
-            tokens.add(RustCodeToken(index + 1, CompileConfiguration.CodeBlockType.Value))
+            tokens.add(RustCodeToken(0, CodeTranslate.CodeBlockType.Key))
+            tokens.add(RustCodeToken(index, CodeTranslate.CodeBlockType.Symbol))
+            tokens.add(RustCodeToken(index + 1, CodeTranslate.CodeBlockType.Value))
             return IncrementalAnalyzeManager.LineTokenizeResult(0, tokens)
         }
 
 
         if (line.startsWith('[') && line.endsWith(']')) {
             //是节
-            tokens.add(RustCodeToken(0, CompileConfiguration.CodeBlockType.Section))
+            tokens.add(RustCodeToken(0, CodeTranslate.CodeBlockType.Section))
             return IncrementalAnalyzeManager.LineTokenizeResult(0, tokens)
         }
 
@@ -72,7 +72,7 @@ class RustIncrementalAnalyzeManager :
         }
         tokenList.forEach {
             when (it.codeBlockType) {
-                CompileConfiguration.CodeBlockType.Section -> {
+                CodeTranslate.CodeBlockType.Section -> {
                     spans.add(
                         Span.obtain(
                             it.offset,
@@ -86,7 +86,7 @@ class RustIncrementalAnalyzeManager :
                         )
                     )
                 }
-                CompileConfiguration.CodeBlockType.Value -> {
+                CodeTranslate.CodeBlockType.Value -> {
                     spans.add(
                         Span.obtain(
                             it.offset,
@@ -94,7 +94,7 @@ class RustIncrementalAnalyzeManager :
                         )
                     )
                 }
-                CompileConfiguration.CodeBlockType.Symbol -> {
+                CodeTranslate.CodeBlockType.Symbol -> {
                     spans.add(
                         Span.obtain(
                             it.offset,
@@ -102,7 +102,7 @@ class RustIncrementalAnalyzeManager :
                         )
                     )
                 }
-                CompileConfiguration.CodeBlockType.Key -> {
+                CodeTranslate.CodeBlockType.Key -> {
                     spans.add(
                         Span.obtain(
                             it.offset,

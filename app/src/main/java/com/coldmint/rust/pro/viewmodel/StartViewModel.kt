@@ -251,6 +251,11 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         AppSettings.initSetting(AppSettings.Setting.SectionColor, "#FFE10000")
         AppSettings.initSetting(AppSettings.Setting.TextColor, "#FF000000")
         AppSettings.initSetting(AppSettings.Setting.AnnotationColor, "#FF00AF2C")
+
+        AppSettings.initSetting(AppSettings.Setting.KeywordColorDark, "#FF5D5DFF")
+        AppSettings.initSetting(AppSettings.Setting.SectionColorDark, "#FFA7002A")
+        AppSettings.initSetting(AppSettings.Setting.TextColorDark, "#FFE2E2E2")
+        AppSettings.initSetting(AppSettings.Setting.AnnotationColorDark, "#FF00B500")
         AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundEnable, false)
         AppSettings.initSetting(AppSettings.Setting.BlurTransformationValue, 1)
         AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundPath, "")

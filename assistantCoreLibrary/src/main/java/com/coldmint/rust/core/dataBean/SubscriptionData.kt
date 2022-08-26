@@ -100,6 +100,10 @@ data class SubscriptionData(
 
         }
 
+        override fun getPathORId(): String {
+            return id
+        }
+
         override fun getName(): String {
             return name1
         }

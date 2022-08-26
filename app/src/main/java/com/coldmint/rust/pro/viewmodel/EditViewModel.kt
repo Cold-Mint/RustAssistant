@@ -2,16 +2,11 @@ package com.coldmint.rust.pro.viewmodel
 
 import android.app.Application
 import android.os.Looper
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.coldmint.rust.core.*
-import com.coldmint.rust.core.dataBean.CompileConfiguration
-import com.coldmint.rust.core.database.code.ValueTypeInfo
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.database.file.FileTable
 import com.coldmint.rust.core.database.file.HistoryRecord
-import com.coldmint.rust.core.interfaces.CodeCompilerListener
-import com.coldmint.rust.core.interfaces.CodeTranslatorListener
 import com.coldmint.rust.core.interfaces.EnglishMode
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.base.BaseAndroidViewModel
@@ -20,7 +15,6 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
 import java.io.File
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -40,6 +34,10 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      * 在右侧（找不到资源）选择文件时产生的目标文件
      */
     var targetFile: File? = null
+
+    val codeTranslate by lazy {
+        CodeTranslate(getApplication())
+    }
 
     /**
      * 模组类
@@ -95,12 +93,6 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
         }
     }
 
-    /**
-     * 代码编辑器
-     */
-    val codeCompiler2: CodeCompiler2 by lazy {
-        CodeCompiler2.getInstance(application)
-    }
 
     val executorService: ExecutorService by lazy {
         Executors.newCachedThreadPool()
@@ -144,18 +136,12 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      */
     fun compilerFile(
         openedSourceFile: OpenedSourceFile,
-        codeCompilerListener: CodeCompilerListener? = null
+        func: (String) -> Unit
     ) {
-        codeCompiler2.compile(
-            openedSourceFile.getEditText(),
-            CompileConfiguration(
-                getApplication(),
-                openedSourceFile,
-                modClass!!,
-                apkFolder
-            ),
-            codeCompilerListener
-        )
+        codeTranslate.setTranslate(false)
+        codeTranslate.start(openedSourceFile.getEditText()) {
+            func.invoke(it)
+        }
     }
 
     /**
@@ -186,16 +172,11 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
                 if (it.file.absolutePath == getNowOpenFilePath()) {
                     val code = FileOperator.readFile(File(getNowOpenFilePath())) ?: return@submit
                     it.setTranslation(code)
-                    codeCompiler2.translation(code, object : CodeTranslatorListener {
-                        override fun beforeTranslate() {
-
-                        }
-
-                        override fun onTranslateComplete(code: String) {
-                            codeLiveData.postValue(code)
-                            loadingLiveData.postValue(false)
-                        }
-                    })
+                    codeTranslate.setTranslate(true)
+                    codeTranslate.start(code){
+                        codeLiveData.postValue(it)
+                        loadingLiveData.postValue(false)
+                    }
                     return@submit
                 }
             }
@@ -210,33 +191,28 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
     fun openFile(path: String) {
         executorService.submit {
             val code = FileOperator.readFile(File(path)) ?: return@submit
-            codeCompiler2.translation(code, object : CodeTranslatorListener {
-                override fun beforeTranslate() {
-
-                }
-
-                override fun onTranslateComplete(code: String) {
-                    CompletionItemConverter.setSourceFilePath(path)
-                    val openedSourceFile = OpenedSourceFile(path)
-                    openedSourceFile.setTranslation(code)
-                    val index = openedSourceFileListLiveData.add(openedSourceFile)
-                    if (index == -1) {
-                        nowFilePath = path
-                        codeLiveData.postValue(code)
-                        addHistoryRecord(SourceFile(File(path)))
-                    } else {
-                        val oldOpenedSourceFile =
-                            openedSourceFileListLiveData.getOpenedSourceFile(index)
-                        //如果不是当前打开的文件
-                        if (nowFilePath != oldOpenedSourceFile.file.absolutePath) {
-                            nowFilePath = oldOpenedSourceFile.file.absolutePath
-                            codeLiveData.postValue(oldOpenedSourceFile.getEditText())
-                            openedSourceFileListLiveData.refresh()
-                        }
+            codeTranslate.setTranslate(true)
+            codeTranslate.start(code){
+                CompletionItemConverter.setSourceFilePath(path)
+                val openedSourceFile = OpenedSourceFile(path)
+                openedSourceFile.setTranslation(it)
+                val index = openedSourceFileListLiveData.add(openedSourceFile)
+                if (index == -1) {
+                    nowFilePath = path
+                    codeLiveData.postValue(it)
+                    addHistoryRecord(SourceFile(File(path)))
+                } else {
+                    val oldOpenedSourceFile =
+                        openedSourceFileListLiveData.getOpenedSourceFile(index)
+                    //如果不是当前打开的文件
+                    if (nowFilePath != oldOpenedSourceFile.file.absolutePath) {
+                        nowFilePath = oldOpenedSourceFile.file.absolutePath
+                        codeLiveData.postValue(oldOpenedSourceFile.getEditText())
+                        openedSourceFileListLiveData.refresh()
                     }
-                    loadingLiveData.postValue(false)
                 }
-            })
+                loadingLiveData.postValue(false)
+            }
         }
     }
 
@@ -334,84 +310,10 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      * @param openedSourceFile OpenedSourceFile
      */
     fun saveOneFile(openedSourceFile: OpenedSourceFile) {
-        compilerFile(openedSourceFile, object : CodeCompilerListener {
-            override fun onCompilationComplete(
-                compileConfiguration: CompileConfiguration,
-                code: String
-            ) {
-                openedSourceFile.save(code)
-            }
-
-            override fun beforeCompilation() {
-
-            }
-
-            override fun onClickKeyNotFoundItem(
-                lineNum: Int,
-                columnNum: Int,
-                view: View,
-                code: String,
-                section: String
-            ) {
-            }
-
-            override fun onClickValueTypeErrorItem(
-                lineNum: Int,
-                columnNum: Int,
-                view: View,
-                valueType: ValueTypeInfo
-            ) {
-
-            }
-
-            override fun onClickSectionIndexError(
-                lineNum: Int,
-                columnNum: Int,
-                view: View,
-                sectionName: String
-            ) {
-            }
-
-            override fun onClickResourceErrorItem(
-                lineNum: Int,
-                columnNum: Int,
-                view: View,
-                resourceFile: File
-            ) {
-            }
-
-
-            override fun onClickSectionErrorItem(
-                lineNum: Int,
-                view: View,
-                displaySectionName: String
-            ) {
-
-            }
-
-            override fun onClickSynchronizationGame(lineNum: Int, columnNum: Int, view: View) {
-            }
-
-            override fun onClickSectionNameErrorItem(
-                lineNum: Int,
-                columnNum: Int,
-                view: View,
-                sectionName: String,
-                symbolIndex: Int?,
-                needName: Boolean
-            ) {
-
-            }
-
-            override fun onClickCodeIndexErrorItem(lineNum: Int, view: View, sectionName: String) {
-
-            }
-
-            override fun onShowCompilationResult(code: String): Boolean {
-                return false
-            }
-
-        })
+        codeTranslate.setTranslate(false)
+        codeTranslate.start(openedSourceFile.getEditText()){
+            openedSourceFile.save(it)
+        }
     }
 
     /**
@@ -421,109 +323,24 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      * @param funSaveOK 当需要保存，并且保存完成调用的函数
      */
     fun saveAllFile(selectedIndex: Int, text: String, funSaveOK: () -> Unit) {
-        val codeCompilerListenerFun: (OpenedSourceFile) -> CodeCompilerListener = {
-            object : CodeCompilerListener {
-                override fun onCompilationComplete(
-                    compileConfiguration: CompileConfiguration,
-                    code: String
-                ) {
-                    it.save(code)
-                }
-
-                override fun beforeCompilation() {
-
-                }
-
-                override fun onClickKeyNotFoundItem(
-                    lineNum: Int,
-                    columnNum: Int,
-                    view: View,
-                    code: String,
-                    section: String
-                ) {
-
-                }
-
-                override fun onClickValueTypeErrorItem(
-                    lineNum: Int,
-                    columnNum: Int,
-                    view: View,
-                    valueType: ValueTypeInfo
-                ) {
-
-                }
-
-                override fun onClickSectionIndexError(
-                    lineNum: Int,
-                    columnNum: Int,
-                    view: View,
-                    sectionName: String
-                ) {
-
-                }
-
-                override fun onClickResourceErrorItem(
-                    lineNum: Int,
-                    columnNum: Int,
-                    view: View,
-                    resourceFile: File
-                ) {
-                }
-
-
-                override fun onClickSectionErrorItem(
-                    lineNum: Int,
-                    view: View,
-                    displaySectionName: String
-                ) {
-
-                }
-
-                override fun onClickSynchronizationGame(lineNum: Int, columnNum: Int, view: View) {
-                }
-
-                override fun onClickSectionNameErrorItem(
-                    lineNum: Int,
-                    columnNum: Int,
-                    view: View,
-                    sectionName: String,
-                    symbolIndex: Int?,
-                    needName: Boolean
-                ) {
-
-                }
-
-                override fun onClickCodeIndexErrorItem(
-                    lineNum: Int,
-                    view: View,
-                    sectionName: String
-                ) {
-                }
-
-                override fun onShowCompilationResult(code: String): Boolean {
-                    return false
-                }
-
-            }
-        }
         //是否需要保存
         var needSave = false
         openedSourceFileListLiveData.value.forEachIndexed { index, openedSourceFile ->
             if (index == selectedIndex) {
                 if (openedSourceFile.isChanged(text)) {
                     needSave = true
-                    compilerFile(
-                        openedSourceFile,
-                        codeCompilerListenerFun.invoke(openedSourceFile)
-                    )
+                    codeTranslate.setTranslate(false)
+                    codeTranslate.start(openedSourceFile.getEditText()){
+                        openedSourceFile.save(it)
+                    }
                 }
             } else {
                 if (openedSourceFile.isNeedSave()) {
                     needSave = true
-                    compilerFile(
-                        openedSourceFile,
-                        codeCompilerListenerFun.invoke(openedSourceFile)
-                    )
+                    codeTranslate.setTranslate(false)
+                    codeTranslate.start(openedSourceFile.getEditText()){
+                        openedSourceFile.save(it)
+                    }
                 }
             }
         }
@@ -585,11 +402,11 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
     }
 
     override fun isEnglishMode(): Boolean {
-        return codeCompiler2.isEnglishMode()
+        return englishModeLiveData.value ?: false
     }
 
     override fun setEnglish(englishMode: Boolean) {
-        codeCompiler2.setEnglish(englishMode)
+        codeTranslate.setEnglishMode(englishMode)
         englishModeLiveData.value = englishMode
     }
 

@@ -1,5 +1,7 @@
 package com.coldmint.rust.pro.edit
 
+import com.coldmint.rust.core.CodeTranslate
+
 /**
  * Rust代码标记
  * @property offset Int
@@ -7,7 +9,7 @@ package com.coldmint.rust.pro.edit
  */
 class RustCodeToken(
     var offset: Int = 0,
-    var codeBlockType: CompileConfiguration.CodeBlockType = CompileConfiguration.CodeBlockType.Note
+    var codeBlockType: CodeTranslate.CodeBlockType = CodeTranslate.CodeBlockType.Note
 ) {
 
 

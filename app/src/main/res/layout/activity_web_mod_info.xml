@@ -304,7 +304,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/cloud_download"
+        android:text="@string/installation"
+        app:icon="@drawable/cloud_download"
         android:visibility="gone" />
 
 

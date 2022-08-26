@@ -91,6 +91,7 @@
     <string name="activate_the_account">激活账户</string>
     <string name="activate_the_account_ok">激活成功，请重新登录。</string>
     <string name="activate_the_account_tip">请输入激活验证码:</string>
+    <string name="verification_code">验证码</string>
     <string name="search">搜索</string>
     <string name="find">查找</string>
     <string name="create">创建</string>
@@ -236,6 +237,7 @@
     <string name="save_settings">检查到配置信息更新，要保存更改嘛?</string>
     <string name="saveing">正在保存%1$s...</string>
     <string name="save_complete">%1$s保存完成。</string>
+    <string name="save_complete2">保存完成。</string>
 
     <string name="type_information">解释%1$s</string>
     <string name="unknown_type">未知的类型\"%1$s\"。</string>
@@ -288,6 +290,7 @@
     <string name="mod_title">模组</string>
     <string name="edit_title">代码编辑</string>
     <string name="template_title">模板包</string>
+    <string name="template_list">模板列表</string>
     <string name="close">关闭</string>
     <string name="qq_group">qq群</string>
     <string name="del_completed">已删除\"%1$s\"。</string>
@@ -553,6 +556,9 @@
     <string name="expiration_time_tip">到期时间:%1$s</string>
     <string name="community">社区</string>
     <string name="recommended">推荐</string>
+    <string name="local">本地</string>
+    <string name="network">网络</string>
+    <string name="template_maker">模板制作器</string>
     <string name="ranking">排行</string>
     <string name="my">我的</string>
     <string name="latest_release">最新发布</string>
@@ -690,7 +696,7 @@
     <string name="can_t_activate">您已永久激活。</string>
     <string name="report">举报</string>
     <string name="report_t">举报-%1$s</string>
-    <string name="why">原因：</string>
+    <string name="why">原因</string>
     <string name="picture_of_infringement">盗用其他模组的素材</string>
     <string name="erotic_elements">含有色情内容</string>
     <string name="bloody_elements">含有血腥内容</string>
@@ -788,7 +794,7 @@
     <string name="update_record">更新记录</string>
     <string name="search_mod_key">关于\"%1$s\"的搜索结果</string>
     <string name="result">结果</string>
-    <string name="data_set_read_mode">读取方式:</string>
+    <string name="data_set_read_mode">读取方式</string>
     <string name="read_mode_additional">追加</string>
     <string name="read_mode_update">更新</string>
     <string name="read_mode_append_or_update">追加或更新</string>
@@ -877,10 +883,6 @@
     <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">文件排序方式</string>
     <string name="setting_file_sort_type" translatable="false">FileSortType</string>
-    <string name="setting_keyword_color" translatable="false">KeywordColor</string>
-    <string name="setting_annotation_color" translatable="false">AnnotationColor</string>
-    <string name="setting_text_color" translatable="false">TextColor</string>
-    <string name="setting_section_color" translatable="false">SectionColor</string>
     <string name="template_id">模板id</string>
     <string name="customize_edit_text">定制编辑框</string>
     <string name="subscription">订阅</string>
@@ -904,6 +906,10 @@
     <string name="turret">炮塔</string>
     <string name="control_panel">控制面板</string>
     <string name="show_guides">显示辅助线</string>
+    <string name="save_template">保存模板</string>
+    <string name="all">全部</string>
+    <string name="new_password">新密码</string>
+    <string name="edit_text_color_dark">暗色主题字体颜色</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

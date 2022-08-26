@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.SubscriptionData
+import com.coldmint.rust.core.dataBean.WebTemplatePackageDetailsData
 import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
 import com.coldmint.rust.core.dataBean.template.WebTemplateData
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -22,8 +23,6 @@ class TemplatePhp {
     }
 
     private constructor()
-
-
 
 
     /**
@@ -71,6 +70,9 @@ class TemplatePhp {
         })
     }
 
+
+
+
     /**
      *获取模板详情
      * @param apiCallBack ApiCallBack<CouponListDataBean>
@@ -102,6 +104,51 @@ class TemplatePhp {
                     Log.d("获取网络模板详情", data)
                     val finalWebTemplatePackageListData =
                         gson.fromJson(data, WebTemplateData::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalWebTemplatePackageListData)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *获取模板列表详情
+     * @param apiCallBack ApiCallBack<getTemplateList>
+     */
+    fun getTemplateList(
+        packageId: String,
+        apiCallBack: ApiCallBack<WebTemplatePackageDetailsData>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("packageId", packageId)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=getTemplateList")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("获取网络模板详情", data)
+                    val finalWebTemplatePackageListData =
+                        gson.fromJson(data, WebTemplatePackageDetailsData::class.java)
                     handler.post {
                         apiCallBack.onResponse(finalWebTemplatePackageListData)
                     }
@@ -237,6 +284,103 @@ class TemplatePhp {
                 try {
                     val data = response.body!!.string()
                     Log.d("退订模板", data)
+                    val finalApiResponse =
+                        gson.fromJson(data, ApiResponse::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     *获取用户创建的模板列表
+     * @param apiCallBack ApiCallBack<CouponListDataBean>
+     */
+    fun getTemplatePackageList(
+        token: String,
+        apiCallBack: ApiCallBack<WebTemplatePackageListData>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=getTemplatePackageList")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("获取用户创建的模板包列表", data)
+                    val finalApiResponse =
+                        gson.fromJson(data, WebTemplatePackageListData::class.java)
+                    handler.post {
+                        apiCallBack.onResponse(finalApiResponse)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+
+    /**
+     * 添加模板
+     * @param token String
+     * @param title String
+     * @param content String
+     * @param packageId String
+     * @param apiCallBack ApiCallBack<WebTemplatePackageListData>
+     */
+    fun addTemplate(
+        id: String,
+        token: String, title: String, content: String, packageId: String,
+        apiCallBack: ApiCallBack<ApiResponse>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token).add("title", title).add("content", content)
+                .add("packageId", packageId).add("id", id)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/template.php?action=addTemplate")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val data = response.body!!.string()
+                    Log.d("添加模板", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

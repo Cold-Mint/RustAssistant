@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 18
-        versionName "2.1 alpha(2022-7-17)"
+        versionName "2.1 alpha1 (2022-8-25)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,7 +70,6 @@ android {
 dependencies {
     def nav_version = "2.5.1"
 
-    implementation 'com.leinardi.android:speed-dial:3.1.1'
 //    implementation 'com.luolc:emoji-rain:0.1.1'
     implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
     // 语种切换框架：https://github.com/getActivity/MultiLanguages

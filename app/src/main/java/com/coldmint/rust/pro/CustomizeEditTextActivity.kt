@@ -160,6 +160,22 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
             viewBinding.sectionColorEditText,
             AppSettings.getValue(AppSettings.Setting.SectionColor, "")
         )
+        setTextAndColor(
+            viewBinding.textColorDarkEditText,
+            AppSettings.getValue(AppSettings.Setting.TextColorDark, "")
+        )
+        setTextAndColor(
+            viewBinding.annotationColorDarkEditText,
+            AppSettings.getValue(AppSettings.Setting.AnnotationColorDark, "")
+        )
+        setTextAndColor(
+            viewBinding.keywordColorDarkEditText,
+            AppSettings.getValue(AppSettings.Setting.KeywordColorDark, "")
+        )
+        setTextAndColor(
+            viewBinding.sectionColorDarkEditText,
+            AppSettings.getValue(AppSettings.Setting.SectionColorDark, "")
+        )
     }
 
 
@@ -186,6 +202,23 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
                 )
                 setTextAndColor(
                     viewBinding.keywordColorEditText,
+                    GlobalMethod.colorToString(it?.getMutedColor(Color.RED) ?: Color.RED)
+                )   //充满活力的
+                setTextAndColor(
+                    viewBinding.sectionColorDarkEditText,
+                    GlobalMethod.colorToString(it?.getVibrantColor(Color.RED) ?: Color.RED)
+                )
+
+                setTextAndColor(
+                    viewBinding.annotationColorDarkEditText,
+                    GlobalMethod.colorToString(it?.getLightVibrantColor(Color.RED) ?: Color.RED)
+                )
+                setTextAndColor(
+                    viewBinding.textColorDarkEditText,
+                    GlobalMethod.colorToString(it?.getDarkMutedColor(Color.RED) ?: Color.RED)
+                )
+                setTextAndColor(
+                    viewBinding.keywordColorDarkEditText,
                     GlobalMethod.colorToString(it?.getMutedColor(Color.RED) ?: Color.RED)
                 )
 
@@ -243,11 +276,45 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
             }
         }
 
+        viewBinding.keywordColorDarkEditLayout.setEndIconOnClickListener {
+            GlobalMethod.showColorPickerDialog(this, true) {
+                setTextAndColor(viewBinding.keywordColorDarkEditText, it)
+            }
+        }
+
+
+        viewBinding.textColorDarkEditLayout.setEndIconOnClickListener {
+            GlobalMethod.showColorPickerDialog(this, true) {
+                setTextAndColor(viewBinding.textColorDarkEditText, it)
+            }
+        }
+
+        viewBinding.sectionColorDarkEditLayout.setEndIconOnClickListener {
+            GlobalMethod.showColorPickerDialog(this, true) {
+                setTextAndColor(viewBinding.sectionColorDarkEditText, it)
+            }
+        }
+
+
+        viewBinding.annotationColorDarkEditLayout.setEndIconOnClickListener {
+            GlobalMethod.showColorPickerDialog(this, true) {
+                setTextAndColor(viewBinding.annotationColorDarkEditText, it)
+            }
+        }
+
         viewBinding.resetButton.setOnClickListener {
             setTextAndColor(viewBinding.keywordColorEditText, "#FF0031C2")
             setTextAndColor(viewBinding.sectionColorEditText, "#FFE10000")
             setTextAndColor(viewBinding.textColorEditText, "#FF000000")
             setTextAndColor(viewBinding.annotationColorEditText, "#FF00AF2C")
+        }
+
+
+        viewBinding.resetDarkButton.setOnClickListener {
+            setTextAndColor(viewBinding.keywordColorDarkEditText, "#FF5D5DFF")
+            setTextAndColor(viewBinding.sectionColorDarkEditText, "#FFA7002A")
+            setTextAndColor(viewBinding.textColorDarkEditText, "#FFE2E2E2")
+            setTextAndColor(viewBinding.annotationColorDarkEditText, "#FF00B500")
         }
 
         viewBinding.button.setOnClickListener {
@@ -321,6 +388,36 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
         if (viewBinding.sectionColorEditText.text.toString() != sectionColor) {
             return true
         }
+        val textColorDark = AppSettings.getValue(
+            AppSettings.Setting.TextColor,
+            ""
+        )
+        if (viewBinding.textColorDarkEditText.text.toString() != textColorDark) {
+            return true
+        }
+
+        val annotationColorDark = AppSettings.getValue(
+            AppSettings.Setting.AnnotationColor,
+            ""
+        )
+        if (viewBinding.annotationColorDarkEditText.text.toString() != annotationColorDark) {
+            return true
+        }
+        val keywordColorDark = AppSettings.getValue(
+            AppSettings.Setting.KeywordColor,
+            ""
+        )
+        if (viewBinding.keywordColorDarkEditText.text.toString() != keywordColorDark) {
+            return true
+        }
+
+        val sectionColorDark = AppSettings.getValue(
+            AppSettings.Setting.SectionColorDark,
+            ""
+        )
+        if (viewBinding.sectionColorDarkEditText.text.toString() != sectionColorDark) {
+            return true
+        }
         val blurTransformationValue = AppSettings.getValue(
             AppSettings.Setting.BlurTransformationValue,
             1
@@ -355,6 +452,22 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
         AppSettings.setValue(
             AppSettings.Setting.SectionColor,
             viewBinding.sectionColorEditText.text.toString()
+        )
+        AppSettings.setValue(
+            AppSettings.Setting.TextColorDark,
+            viewBinding.textColorDarkEditText.text.toString()
+        )
+        AppSettings.setValue(
+            AppSettings.Setting.AnnotationColorDark,
+            viewBinding.annotationColorDarkEditText.text.toString()
+        )
+        AppSettings.setValue(
+            AppSettings.Setting.KeywordColorDark,
+            viewBinding.keywordColorDarkEditText.text.toString()
+        )
+        AppSettings.setValue(
+            AppSettings.Setting.SectionColorDark,
+            viewBinding.sectionColorDarkEditText.text.toString()
         )
         AppSettings.setValue(
             AppSettings.Setting.BlurTransformationValue,

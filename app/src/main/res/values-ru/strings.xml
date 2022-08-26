@@ -766,7 +766,7 @@
     <string name="update_record">Обновить запись.</string>
     <string name="search_mod_key">Результаты поиска \"% \ $\ \\"</string>
     <string name="result">результат</string>
-    <string name="data_set_read_mode">Способ чтения:</string>
+    <string name="data_set_read_mode">Способ чтения</string>
     <string name="read_mode_additional">дополнительн</string>
     <string name="read_mode_update">обновля</string>
     <string name="read_mode_append_or_update">Добавка или обновление</string>

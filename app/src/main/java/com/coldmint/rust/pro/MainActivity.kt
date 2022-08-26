@@ -287,7 +287,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             template.setOnMenuItemClickListener {
                 viewBinding.mainButton.postOnAnimationDelayed({
-                    viewBinding.tabLayout.isVisible = false
+                    viewBinding.tabLayout.isVisible = true
                     viewBinding.mainButton.show()
                 }, hideViewDelay)
                 false

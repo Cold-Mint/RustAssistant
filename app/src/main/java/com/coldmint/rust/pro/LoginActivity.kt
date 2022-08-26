@@ -47,6 +47,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
         Log.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
 
+        viewBinding.changePasswordView.setOnClickListener {
+            val intent = Intent(this, ChangePasswordActivity::class.java)
+            startActivity(intent)
+        }
         viewBinding.accountView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -61,10 +65,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 checkAccount(account)
                 //设置背景
                 if (account == "kano") {
+                    viewBinding.titleView.text = "喜欢，鹿乃!!!"
                     viewBinding.root.setBackgroundResource(R.drawable.kano)
                     ObjectAnimator.ofFloat(viewBinding.root, "alpha", 0.4f, 1.0f)
                         .setDuration(375).start()
                 } else {
+                    viewBinding.titleView.text = getString(R.string.login)
                     viewBinding.root.setBackgroundResource(0)
                 }
                 setLoginButtonEnable()

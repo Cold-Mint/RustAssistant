@@ -4,7 +4,9 @@ package com.coldmint.rust.pro.fragments
 import android.view.LayoutInflater
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.pro.adapters.TemplateListAdapter
@@ -14,6 +16,10 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * 本地模板碎片
+ * @property first Boolean
+ */
 class LocalTemplateFragment : BaseFragment<TemplateFragemntBinding>() {
     private var first = true
 
@@ -48,11 +54,11 @@ class LocalTemplateFragment : BaseFragment<TemplateFragemntBinding>() {
                 val layoutManager = LinearLayoutManager(activity)
                 viewBinding.templateList.layoutManager = layoutManager
                 viewBinding.templateList.adapter = listAdapter
-                viewBinding.templateList.isVisible = true
+                viewBinding.swipeRefreshLayout.isVisible = true
                 viewBinding.templateError.isVisible = false
                 viewBinding.templateErrorIcon.isVisible = false
             } else {
-                viewBinding.templateList.isVisible = false
+                viewBinding.swipeRefreshLayout.isVisible = false
                 viewBinding.templateError.isVisible = true
                 viewBinding.templateErrorIcon.isVisible = true
             }
@@ -69,5 +75,10 @@ class LocalTemplateFragment : BaseFragment<TemplateFragemntBinding>() {
             requireContext().filesDir.absolutePath + "/template/"
         )
         loadList(directent)
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+            loadList(directent)
+            viewBinding.swipeRefreshLayout.isRefreshing = false
+            true
+        }
     }
 }

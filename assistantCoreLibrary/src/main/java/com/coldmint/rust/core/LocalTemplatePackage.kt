@@ -57,6 +57,10 @@ class LocalTemplatePackage(val directest: File) : TemplatePackage {
         return File(directest.absolutePath + name)
     }
 
+    override fun getPathORId(): String {
+        return directest.absolutePath
+    }
+
     /**
      * 获取模板名称
      * @return String

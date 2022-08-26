@@ -25,6 +25,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@id/tabLayout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -36,12 +37,15 @@
 
 
         <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/myProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <io.github.rosemoe.sora.widget.CodeEditor
             android:id="@+id/codeEditor"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/recyclerview"
@@ -58,7 +62,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/edit_end" />
+<!--    <include layout="@layout/edit_end" />-->
 
     <include layout="@layout/edit_start" />
 </androidx.drawerlayout.widget.DrawerLayout>
