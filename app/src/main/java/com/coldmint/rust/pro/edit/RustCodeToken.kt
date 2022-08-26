@@ -1,7 +1,5 @@
 package com.coldmint.rust.pro.edit
 
-import com.coldmint.rust.core.dataBean.CompileConfiguration
-
 /**
  * Rust代码标记
  * @property offset Int
