@@ -25,6 +25,8 @@ data class ActivationInfo(
         val activation: Boolean,
         @SerializedName("headIcon")
         val headIcon: String?,
+        @SerializedName("coinNumber")
+        val coinNumber: Int,
         @SerializedName("banTime")
         val banTime: String?,
         @SerializedName("email")

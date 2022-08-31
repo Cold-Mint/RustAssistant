@@ -40,6 +40,7 @@ import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.User
 import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.adapters.CommentAdapter
+import com.coldmint.rust.pro.adapters.ModPageDetailsAdapter
 import com.coldmint.rust.pro.databinding.ActivityWebModInfoBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.base.BaseActivity
@@ -47,7 +48,9 @@ import com.coldmint.rust.pro.databinding.LoadFileLayoutBinding
 import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
@@ -73,10 +76,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     val token by lazy {
         AppSettings.getValue(AppSettings.Setting.Token, "")
     }
-    var developer: String? = null
-
-    //此模组是否对外开放
-    private var isOpen = false
+    lateinit var adapter :ModPageDetailsAdapter
 
     private fun initView() {
         setReturnButton()
@@ -98,151 +98,178 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 viewBinding.button.isEnabled = false
                 viewBinding.button.text = getString(R.string.installated)
             }
-            viewBinding.modCommentRecyclerView.layoutManager =
-                LinearLayoutManager(this@WebModInfoActivity)
-            viewBinding.modCommentRecyclerView.addItemDecoration(
-                DividerItemDecoration(this@WebModInfoActivity, DividerItemDecoration.VERTICAL)
-            )
-            tip = getString(R.string.file_download_progress)
-
-        }
-    }
-
-    private fun initData() {
-
-        if (token.isBlank()) {
-            viewBinding.progressBar.isVisible = false
-            viewBinding.tipView.isVisible = true
-            viewBinding.tipView.setText(R.string.please_login_first)
-            return
-        }
-
-        loadModCommentList(modId)
-
-
-        WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
-            override fun onResponse(t: WebModInfoData) {
-                if (t.code == ServerConfiguration.Success_Code) {
-                    developer = t.data.developer
-                    isOpen = t.data.hidden == 0
-                    viewBinding.loadLayout.isVisible = false
-                    viewBinding.relativeLayout.isVisible = true
-                    val icon = t.data.icon
-                    if (icon != null && icon.isNotBlank()) {
-                        Glide.with(this@WebModInfoActivity)
-                            .load(ServerConfiguration.getRealLink(icon))
-                            .apply(GlobalMethod.getRequestOptions())
-                            .into(viewBinding.iconView)
+            adapter = ModPageDetailsAdapter(this, modId)
+            viewBinding.viewPager2.adapter = adapter
+            TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager2) { tab, i ->
+                tab.text = when (i) {
+                    0 -> {
+                        getString(R.string.details)
                     }
-                    title = t.data.name
-                    val screenshotListData = t.data.screenshots
-                    if (screenshotListData != null && screenshotListData.isNotBlank()) {
-                        val list = ArrayList<String>()
-                        val lineParser = LineParser()
-                        lineParser.symbol = ","
-                        lineParser.text = screenshotListData
-                        lineParser.analyse { lineNum, lineData, isEnd ->
-                            list.add(lineData)
-                            true
-                        }
-                        val adapter = object : BannerImageAdapter<String>(list) {
-                            override fun onBindView(
-                                holder: BannerImageHolder?,
-                                data: String?,
-                                position: Int,
-                                size: Int
-                            ) {
-                                if (data != null && holder != null) {
-                                    Glide.with(this@WebModInfoActivity)
-                                        .load(ServerConfiguration.getRealLink(data))
-                                        .apply(GlobalMethod.getRequestOptions())
-                                        .into(holder.imageView)
-                                }
-                            }
-                        }
-                        viewBinding.banner.setAdapter(adapter)
-                        viewBinding.banner.addBannerLifecycleObserver(this@WebModInfoActivity)
-                        viewBinding.banner.indicator = CircleIndicator(this@WebModInfoActivity)
-                        viewBinding.banner.setIndicatorSelectedColorRes(R.color.blue_500)
-                        viewBinding.banner.isAutoLoop(false)
-                    } else {
-                        viewBinding.banner.isVisible = false
+                    1 -> {
+                        getString(R.string.insert_coins)
                     }
-                    val tags = t.data.tags
-                    val lineParser = LineParser(tags)
-                    val tagList = ArrayList<String>()
-                    lineParser.symbol = ","
-                    lineParser.analyse { lineNum, lineData, isEnd ->
-                        val tag = lineData.subSequence(1, lineData.length - 1).toString()
-                        tagList.add(tag)
-                        true
+                    2 -> {
+                        getString(R.string.discussion)
                     }
-                    if (tagList.size > 0) {
-                        viewBinding.belongStackLabelView.labels = tagList
-                        viewBinding.belongStackLabelView.setOnLabelClickListener { index, v, s ->
-                            val bundle = Bundle()
-                            bundle.putString("tag", s)
-                            bundle.putString(
-                                "title",
-                                String.format(getString(R.string.tag_title), s)
-                            )
-                            bundle.putString("action", "tag")
-                            val thisIntent =
-                                Intent(this@WebModInfoActivity, TagActivity::class.java)
-                            thisIntent.putExtra("data", bundle)
-                            startActivity(thisIntent)
-                        }
-                    } else {
-                        viewBinding.belongStackLabelView.isVisible = false
+                    else -> {
+                        getString(R.string.title)
                     }
-                    viewBinding.titleView.text = t.data.name
-                    TextStyleMaker.instance.load(
-                        viewBinding.modInfoView,
-                        t.data.describe
-                    ) { type, data ->
-                        TextStyleMaker.instance.clickEvent(this@WebModInfoActivity, type, data)
-                    }
-                    viewBinding.numView.text =
-                        String.format(
-                            getString(R.string.unit_and_downloadnum),
-                            t.data.unitNumber,
-                            t.data.downloadNumber,
-                            t.data.versionName
-                        )
-                    viewBinding.updateTimeView.text =
-                        String.format(getString(R.string.recent_update), t.data.updateTime)
-                    viewBinding.button.isVisible = true
-                    if (t.data.hidden == 0) {
-                        viewBinding.auditLayout.isVisible = false
-                    }
-                    loadDeveloperInfo(t.data.developer)
-
-                    viewBinding.button.setOnClickListener {
-                        val type = viewBinding.button.text
-                        val installation = getString(R.string.installation)
-                        when (type) {
-                            installation -> {
-                                downloadAction(t)
-                            }
-                        }
-
-                    }
-                } else {
-                    viewBinding.tipView.isVisible = true
-                    viewBinding.tipView.text = t.message
-                    viewBinding.progressBar.isVisible = false
                 }
-            }
-
-            override fun onFailure(e: Exception) {
-                viewBinding.progressBar.isVisible = false
-                viewBinding.tipView.isVisible = true
-                viewBinding.tipView.setText(R.string.network_error)
-            }
-
-        })
-
+            }.attach()
+//            viewBinding.button.setOnClickListener {
+//                val type = viewBinding.button.text
+//                val installation = getString(R.string.installation)
+//                when (type) {
+//                    installation -> {
+//                        downloadAction(t)
+//                    }
+//                }
+//
+//            }
+//            viewBinding.modCommentRecyclerView.layoutManager =
+//                LinearLayoutManager(this@WebModInfoActivity)
+//            viewBinding.modCommentRecyclerView.addItemDecoration(
+//                DividerItemDecoration(this@WebModInfoActivity, DividerItemDecoration.VERTICAL)
+//            )
+            tip = getString(R.string.file_download_progress)
+        }
     }
+
+//    private fun initData() {
+//
+//        if (token.isBlank()) {
+//            viewBinding.progressBar.isVisible = false
+//            viewBinding.tipView.isVisible = true
+//            viewBinding.tipView.setText(R.string.please_login_first)
+//            return
+//        }
+//
+//        loadModCommentList(modId)
+//
+//
+//        WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
+//            override fun onResponse(t: WebModInfoData) {
+//                if (t.code == ServerConfiguration.Success_Code) {
+//                    developer = t.data.developer
+//                    isOpen = t.data.hidden == 0
+//                    viewBinding.loadLayout.isVisible = false
+//                    viewBinding.relativeLayout.isVisible = true
+//                    val icon = t.data.icon
+//                    if (icon != null && icon.isNotBlank()) {
+//                        Glide.with(this@WebModInfoActivity)
+//                            .load(ServerConfiguration.getRealLink(icon))
+//                            .apply(GlobalMethod.getRequestOptions())
+//                            .into(viewBinding.iconView)
+//                    }
+//                    title = t.data.name
+//                    val screenshotListData = t.data.screenshots
+//                    if (screenshotListData != null && screenshotListData.isNotBlank()) {
+//                        val list = ArrayList<String>()
+//                        val lineParser = LineParser()
+//                        lineParser.symbol = ","
+//                        lineParser.text = screenshotListData
+//                        lineParser.analyse { lineNum, lineData, isEnd ->
+//                            list.add(lineData)
+//                            true
+//                        }
+//                        val adapter = object : BannerImageAdapter<String>(list) {
+//                            override fun onBindView(
+//                                holder: BannerImageHolder?,
+//                                data: String?,
+//                                position: Int,
+//                                size: Int
+//                            ) {
+//                                if (data != null && holder != null) {
+//                                    Glide.with(this@WebModInfoActivity)
+//                                        .load(ServerConfiguration.getRealLink(data))
+//                                        .apply(GlobalMethod.getRequestOptions())
+//                                        .into(holder.imageView)
+//                                }
+//                            }
+//                        }
+//                        viewBinding.banner.setAdapter(adapter)
+//                        viewBinding.banner.addBannerLifecycleObserver(this@WebModInfoActivity)
+//                        viewBinding.banner.indicator = CircleIndicator(this@WebModInfoActivity)
+//                        viewBinding.banner.setIndicatorSelectedColorRes(R.color.blue_500)
+//                        viewBinding.banner.isAutoLoop(false)
+//                    } else {
+//                        viewBinding.banner.isVisible = false
+//                    }
+//                    val tags = t.data.tags
+//                    val lineParser = LineParser(tags)
+//                    val tagList = ArrayList<String>()
+//                    lineParser.symbol = ","
+//                    lineParser.analyse { lineNum, lineData, isEnd ->
+//                        val tag = lineData.subSequence(1, lineData.length - 1).toString()
+//                        tagList.add(tag)
+//                        true
+//                    }
+//                    if (tagList.size > 0) {
+//                        viewBinding.belongStackLabelView.labels = tagList
+//                        viewBinding.belongStackLabelView.setOnLabelClickListener { index, v, s ->
+//                            val bundle = Bundle()
+//                            bundle.putString("tag", s)
+//                            bundle.putString(
+//                                "title",
+//                                String.format(getString(R.string.tag_title), s)
+//                            )
+//                            bundle.putString("action", "tag")
+//                            val thisIntent =
+//                                Intent(this@WebModInfoActivity, TagActivity::class.java)
+//                            thisIntent.putExtra("data", bundle)
+//                            startActivity(thisIntent)
+//                        }
+//                    } else {
+//                        viewBinding.belongStackLabelView.isVisible = false
+//                    }
+//                    viewBinding.titleView.text = t.data.name
+//                    TextStyleMaker.instance.load(
+//                        viewBinding.modInfoView,
+//                        t.data.describe
+//                    ) { type, data ->
+//                        TextStyleMaker.instance.clickEvent(this@WebModInfoActivity, type, data)
+//                    }
+//                    viewBinding.numView.text =
+//                        String.format(
+//                            getString(R.string.unit_and_downloadnum),
+//                            t.data.unitNumber,
+//                            t.data.downloadNumber,
+//                            t.data.versionName
+//                        )
+//                    viewBinding.updateTimeView.text =
+//                        String.format(getString(R.string.recent_update), t.data.updateTime)
+//                    viewBinding.button.isVisible = true
+//                    if (t.data.hidden == 0) {
+//                        viewBinding.auditLayout.isVisible = false
+//                    }
+//                    loadDeveloperInfo(t.data.developer)
+//
+//                    viewBinding.button.setOnClickListener {
+//                        val type = viewBinding.button.text
+//                        val installation = getString(R.string.installation)
+//                        when (type) {
+//                            installation -> {
+//                                downloadAction(t)
+//                            }
+//                        }
+//
+//                    }
+//                } else {
+//                    viewBinding.tipView.isVisible = true
+//                    viewBinding.tipView.text = t.message
+//                    viewBinding.progressBar.isVisible = false
+//                }
+//            }
+//
+//            override fun onFailure(e: Exception) {
+//                viewBinding.progressBar.isVisible = false
+//                viewBinding.tipView.isVisible = true
+//                viewBinding.tipView.setText(R.string.network_error)
+//            }
+//
+//        })
+//
+//    }
 
     /**
      * 下载事件
@@ -291,12 +318,12 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.report_item -> {
-                if (isOpen) {
+                if (adapter.isOpen()) {
                     val thisIntent = Intent(this, ReportActivity::class.java)
                     val bundle = Bundle()
                     bundle.putString("target", modId)
                     bundle.putString("type", "mod")
-                    bundle.putString("name", viewBinding.titleView.text.toString())
+                    bundle.putString("name", title.toString())
                     thisIntent.putExtra("data", bundle)
                     startActivity(thisIntent)
                 } else {
@@ -315,10 +342,10 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadModCommentList(modId)
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        loadModCommentList(modId)
+//    }
 
 
     /**
@@ -378,79 +405,79 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         }
     }
 
-    /**
-     * 加载评论列表
-     * @param modId String
-     */
-    fun loadModCommentList(modId: String) {
-        viewBinding.commentLinearProgressIndicator.isVisible = true
-        WebMod.instance.getCommentsList(modId, object : ApiCallBack<WebModCommentData> {
-            override fun onResponse(t: WebModCommentData) {
-                viewBinding.commentLinearProgressIndicator.isVisible = false
-                val data = t.data
-                if (data == null) {
-                    viewBinding.modCommentRecyclerView.isVisible = false
-                } else {
-                    val adapter = CommentAdapter(this@WebModInfoActivity, data)
-                    viewBinding.discussion.text =
-                        String.format(getString(R.string.discussion_num), data.size)
-                    adapter.setItemEvent { i, itemCommentBinding, viewHolder, data ->
-                        itemCommentBinding.iconView.setOnClickListener {
-                            gotoUserPage(data.account)
-                        }
-                    }
-                    viewBinding.modCommentRecyclerView.isVisible = true
-                    viewBinding.modCommentRecyclerView.adapter = adapter
-                }
-            }
-
-            override fun onFailure(e: Exception) {
-                viewBinding.commentLinearProgressIndicator.isVisible = false
-                viewBinding.modCommentRecyclerView.isVisible = false
-            }
-
-        })
-    }
-
-    fun loadDeveloperInfo(userId: String) {
-        User.getSpaceInfo(userId, object : ApiCallBack<SpaceInfoData> {
-            override fun onResponse(t: SpaceInfoData) {
-                if (t.code == ServerConfiguration.Success_Code) {
-                    val icon = t.data.headIcon
-                    if (icon != null) {
-                        Glide.with(this@WebModInfoActivity)
-                            .load(ServerConfiguration.getRealLink(icon))
-                            .apply(GlobalMethod.getRequestOptions(true))
-                            .into(viewBinding.headIconView)
-                    }
-                    viewBinding.userNameView.text = t.data.userName
-                    val info = String.format(
-                        getString(R.string.fans_information),
-                        ServerConfiguration.numberToString(t.data.fans),
-                        ServerConfiguration.numberToString(t.data.follower),
-                        ServerConfiguration.numberToString(t.data.praise)
-                    )
-                    viewBinding.userInfoView.text = info
-
-                    viewBinding.cardView.postDelayed({
-                        viewBinding.cardView.isVisible = true
-                        viewBinding.openUserSpace.setOnClickListener {
-                            gotoUserPage(t.data.account)
-                        }
-                    }, 300)
-                }
-// else {
-//                    viewBinding.cardView.isVisible = false
+//    /**
+//     * 加载评论列表
+//     * @param modId String
+//     */
+//    fun loadModCommentList(modId: String) {
+//        viewBinding.commentLinearProgressIndicator.isVisible = true
+//        WebMod.instance.getCommentsList(modId, object : ApiCallBack<WebModCommentData> {
+//            override fun onResponse(t: WebModCommentData) {
+//                viewBinding.commentLinearProgressIndicator.isVisible = false
+//                val data = t.data
+//                if (data == null) {
+//                    viewBinding.modCommentRecyclerView.isVisible = false
+//                } else {
+//                    val adapter = CommentAdapter(this@WebModInfoActivity, data)
+//                    viewBinding.discussion.text =
+//                        String.format(getString(R.string.discussion_num), data.size)
+//                    adapter.setItemEvent { i, itemCommentBinding, viewHolder, data ->
+//                        itemCommentBinding.iconView.setOnClickListener {
+//                            gotoUserPage(data.account)
+//                        }
+//                    }
+//                    viewBinding.modCommentRecyclerView.isVisible = true
+//                    viewBinding.modCommentRecyclerView.adapter = adapter
 //                }
-
-            }
-
-            override fun onFailure(e: Exception) {
-//                viewBinding.cardView.isVisible = false
-            }
-
-        })
-    }
+//            }
+//
+//            override fun onFailure(e: Exception) {
+//                viewBinding.commentLinearProgressIndicator.isVisible = false
+//                viewBinding.modCommentRecyclerView.isVisible = false
+//            }
+//
+//        })
+//    }
+//
+//    fun loadDeveloperInfo(userId: String) {
+//        User.getSpaceInfo(userId, object : ApiCallBack<SpaceInfoData> {
+//            override fun onResponse(t: SpaceInfoData) {
+//                if (t.code == ServerConfiguration.Success_Code) {
+//                    val icon = t.data.headIcon
+//                    if (icon != null) {
+//                        Glide.with(this@WebModInfoActivity)
+//                            .load(ServerConfiguration.getRealLink(icon))
+//                            .apply(GlobalMethod.getRequestOptions(true))
+//                            .into(viewBinding.headIconView)
+//                    }
+//                    viewBinding.userNameView.text = t.data.userName
+//                    val info = String.format(
+//                        getString(R.string.fans_information),
+//                        ServerConfiguration.numberToString(t.data.fans),
+//                        ServerConfiguration.numberToString(t.data.follower),
+//                        ServerConfiguration.numberToString(t.data.praise)
+//                    )
+//                    viewBinding.userInfoView.text = info
+//
+//                    viewBinding.cardView.postDelayed({
+//                        viewBinding.cardView.isVisible = true
+//                        viewBinding.openUserSpace.setOnClickListener {
+//                            gotoUserPage(t.data.account)
+//                        }
+//                    }, 300)
+//                }
+//// else {
+////                    viewBinding.cardView.isVisible = false
+////                }
+//
+//            }
+//
+//            override fun onFailure(e: Exception) {
+////                viewBinding.cardView.isVisible = false
+//            }
+//
+//        })
+//    }
 
 
     /**
@@ -468,46 +495,46 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
         )
     }
 
-    private fun initAction() {
-        viewBinding.sendDiscussion.setOnClickListener {
-            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
-            if (account.isBlank()) {
-                showError(getString(R.string.please_login_first))
-                return@setOnClickListener
-            }
-
-
-            CommentDialog(this).setCancelable(false)
-                .setSubmitFun { button, textInputLayout, s, alertDialog ->
-                    button.isEnabled = false
-                    WebMod.instance.sendComment(
-                        AppSettings.getValue(AppSettings.Setting.Token, ""),
-                        modId,
-                        s,
-                        object : ApiCallBack<ApiResponse> {
-                            override fun onResponse(t: ApiResponse) {
-                                if (t.code == ServerConfiguration.Success_Code) {
-                                    alertDialog.dismiss()
-                                    loadModCommentList(modId)
-                                    Snackbar.make(
-                                        viewBinding.button,
-                                        R.string.release_ok,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    textInputLayout.error = t.message
-                                }
-                            }
-
-                            override fun onFailure(e: Exception) {
-                                textInputLayout.error = e.toString()
-                            }
-
-                        })
-                }.show()
-        }
-
-    }
+//    private fun initAction() {
+//        viewBinding.sendDiscussion.setOnClickListener {
+//            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
+//            if (account.isBlank()) {
+//                showError(getString(R.string.please_login_first))
+//                return@setOnClickListener
+//            }
+//
+//
+//            CommentDialog(this).setCancelable(false)
+//                .setSubmitFun { button, textInputLayout, s, alertDialog ->
+//                    button.isEnabled = false
+//                    WebMod.instance.sendComment(
+//                        AppSettings.getValue(AppSettings.Setting.Token, ""),
+//                        modId,
+//                        s,
+//                        object : ApiCallBack<ApiResponse> {
+//                            override fun onResponse(t: ApiResponse) {
+//                                if (t.code == ServerConfiguration.Success_Code) {
+//                                    alertDialog.dismiss()
+//                                    loadModCommentList(modId)
+//                                    Snackbar.make(
+//                                        viewBinding.button,
+//                                        R.string.release_ok,
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                } else {
+//                                    textInputLayout.error = t.message
+//                                }
+//                            }
+//
+//                            override fun onFailure(e: Exception) {
+//                                textInputLayout.error = e.toString()
+//                            }
+//
+//                        })
+//                }.show()
+//        }
+//
+//    }
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityWebModInfoBinding {
         return ActivityWebModInfoBinding.inflate(layoutInflater)
@@ -516,8 +543,8 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             initView()
-            initData()
-            initAction()
+//            initData()
+//            initAction()
         }
     }
 }

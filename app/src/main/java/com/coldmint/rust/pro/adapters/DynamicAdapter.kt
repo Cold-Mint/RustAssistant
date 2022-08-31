@@ -29,7 +29,7 @@ import org.w3c.dom.Text
  * @author Cold Mint
  * @date 2021/12/28 18:29
  */
-class DynamicAdapter( context: Context, dataList: MutableList<DynamicItemDataBean.Data>) :
+class DynamicAdapter(context: Context, dataList: MutableList<DynamicItemDataBean.Data>) :
     BaseAdapter<ItemDynamicBinding, DynamicItemDataBean.Data>(context, dataList) {
 
 
@@ -53,7 +53,11 @@ class DynamicAdapter( context: Context, dataList: MutableList<DynamicItemDataBea
                 .apply(GlobalMethod.getRequestOptions(true))
                 .into(viewBinding.headIconView)
         }
-        viewBinding.timeView.text = data.time
+        viewBinding.timeView.text = if (data.location == null) {
+            data.time
+        } else {
+            data.time + " " + data.location
+        }
         viewBinding.nameView.text = data.userName
         TextStyleMaker.instance.load(viewBinding.textview, data.content) { type, data ->
             TextStyleMaker.instance.clickEvent(context, type, data)
@@ -69,8 +73,7 @@ class DynamicAdapter( context: Context, dataList: MutableList<DynamicItemDataBea
                         GlobalMethod.copyText(context, data.content, view)
                     }
                     context.getString(R.string.delete_title) -> {
-                        val account = AppSettings.
-                            getValue(AppSettings.Setting.Account, "")
+                        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
                         val appId =
                             AppSettings
                                 .getValue(AppSettings.Setting.AppID, "")

@@ -13,6 +13,7 @@ data class DynamicItemDataBean(
         val gender: Int,
         val headIcon: String?,
         val id: Int,
+        val location: String?,
         val loginTime: String,
         val permission: String,
         val time: String,

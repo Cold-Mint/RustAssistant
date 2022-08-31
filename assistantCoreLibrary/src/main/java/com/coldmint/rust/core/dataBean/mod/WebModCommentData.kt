@@ -11,6 +11,7 @@ data class WebModCommentData(
         val headIcon: String?,
         val id: Int,
         val time: String,
-        val userName: String
+        val userName: String,
+        val location: String?
     )
 }

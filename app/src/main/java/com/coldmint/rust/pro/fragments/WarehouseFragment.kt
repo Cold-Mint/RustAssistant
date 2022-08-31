@@ -11,7 +11,6 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.WarehouseAdapter
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.base.BaseFragment
-import com.coldmint.rust.pro.databinding.CommunityFragmentBinding
 import com.coldmint.rust.pro.databinding.FragmentWarehouseBinding
 import com.google.android.material.tabs.TabLayoutMediator
 

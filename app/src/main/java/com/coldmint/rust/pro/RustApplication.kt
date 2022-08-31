@@ -29,7 +29,6 @@ class RustApplication : Application() {
                         DynamicColors.isDynamicColorAvailable()
                     )
             }.build()
-        CompletionItemConverter.init(this)
         DynamicColors.applyToActivitiesIfAvailable(this, options)
         //程序崩溃
         CaocConfig.Builder.create()

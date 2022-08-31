@@ -11,7 +11,7 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.pro.adapters.TemplateListAdapter
 import com.coldmint.rust.pro.base.BaseFragment
-import com.coldmint.rust.pro.databinding.TemplateFragemntBinding
+import com.coldmint.rust.pro.databinding.FragmentLocalTemplateBinding
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
  * 本地模板碎片
  * @property first Boolean
  */
-class LocalTemplateFragment : BaseFragment<TemplateFragemntBinding>() {
+class LocalTemplateFragment : BaseFragment<FragmentLocalTemplateBinding>() {
     private var first = true
 
     override fun onResume() {
@@ -65,8 +65,8 @@ class LocalTemplateFragment : BaseFragment<TemplateFragemntBinding>() {
         }
     }
 
-    override fun getViewBindingObject(layoutInflater: LayoutInflater): TemplateFragemntBinding {
-        return TemplateFragemntBinding.inflate(layoutInflater)
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentLocalTemplateBinding {
+        return FragmentLocalTemplateBinding.inflate(layoutInflater)
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {

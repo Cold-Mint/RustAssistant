@@ -20,7 +20,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
-import com.coldmint.rust.pro.databinding.RecommendedFragmentBinding
+import com.coldmint.rust.pro.databinding.FragmentRecommendedBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
@@ -29,8 +29,9 @@ import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.AlphaPageTransformer
+import com.youth.banner.transformer.DepthPageTransformer
 
-class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
+class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
     /**
      * 加载最近更新
@@ -177,8 +178,8 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
                                 }
                             }
                         })
-                        viewBinding.banner.setBannerGalleryEffect(16, 16, 8)
-                        viewBinding.banner.addPageTransformer(AlphaPageTransformer())
+//                        viewBinding.banner.setBannerGalleryEffect(16, 16, 8)
+//                        viewBinding.banner.addPageTransformer(DepthPageTransformer())
                         if (activity != null) {
                             viewBinding.banner.addBannerLifecycleObserver(activity)
                             viewBinding.banner.indicator = CircleIndicator(activity)
@@ -221,8 +222,8 @@ class RecommendedFragment : BaseFragment<RecommendedFragmentBinding>() {
         loadBannerData()
     }
 
-    override fun getViewBindingObject(layoutInflater: LayoutInflater): RecommendedFragmentBinding {
-        return RecommendedFragmentBinding.inflate(layoutInflater)
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentRecommendedBinding {
+        return FragmentRecommendedBinding.inflate(layoutInflater)
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {

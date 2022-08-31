@@ -2,23 +2,21 @@ package com.coldmint.rust.pro.fragments
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.dataBean.ModConfigurationData
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.ModActionAdapter
 import com.coldmint.rust.pro.adapters.ModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.ModDialogBinding
-import com.coldmint.rust.pro.databinding.ModFragmentBinding
+import com.coldmint.rust.pro.databinding.FragmentModBinding
 import com.coldmint.rust.pro.databinding.ModListItemBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
@@ -27,11 +25,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 
-class ModFragment : BaseFragment<ModFragmentBinding>() {
+class ModFragment : BaseFragment<FragmentModBinding>() {
     val viewModel: ModViewModel by lazy {
         ModViewModel()
     }
@@ -193,27 +192,31 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
                     viewBinding.progressBar.isVisible = false
                     viewBinding.modErrorIcon.isVisible = false
                     viewBinding.modError.isVisible = false
-                    modAdapter = ModAdapter(requireContext(), dataList)
-                    FastScrollerBuilder(viewBinding.modList).useMd2Style()
-                        .setPopupTextProvider(modAdapter).build()
-                    modAdapter.setItemEvent { i, modListItemBinding, viewHolder, modClass ->
+                    if (isAdded) {
+                        modAdapter = ModAdapter(requireContext(), dataList)
+                        FastScrollerBuilder(viewBinding.modList).useMd2Style()
+                            .setPopupTextProvider(modAdapter).build()
+                        modAdapter.setItemEvent { i, modListItemBinding, viewHolder, modClass ->
 
-                        modListItemBinding.root.setOnClickListener {
-                            onClickItemWork(modListItemBinding, modClass)
-                        }
+                            modListItemBinding.root.setOnClickListener {
+                                onClickItemWork(modListItemBinding, modClass)
+                            }
 
-                        modListItemBinding.root.setOnLongClickListener {
-                            modAdapter.showDeleteItemDialog(
-                                modClass.modName,
-                                viewHolder.adapterPosition,
-                                onClickPositiveButton = { d, b ->
-                                    delFile(handler, modClass, viewHolder.adapterPosition)
-                                    false
-                                })
-                            false
+                            modListItemBinding.root.setOnLongClickListener {
+                                modAdapter.showDeleteItemDialog(
+                                    modClass.modName,
+                                    viewHolder.adapterPosition,
+                                    onClickPositiveButton = { d, b ->
+                                        delFile(handler, modClass, viewHolder.adapterPosition)
+                                        false
+                                    })
+                                false
+                            }
                         }
+                        viewBinding.modList.adapter = modAdapter
+                    } else {
+                        DebugHelper.printLog("加载模组列表", "没有附加到活动", isError = true)
                     }
-                    viewBinding.modList.adapter = modAdapter
                 }
             }
         }
@@ -328,8 +331,8 @@ class ModFragment : BaseFragment<ModFragmentBinding>() {
 //        viewBinding.progressBar.isVisible = false
 //    }
 
-    override fun getViewBindingObject(layoutInflater: LayoutInflater): ModFragmentBinding {
-        return ModFragmentBinding.inflate(layoutInflater)
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentModBinding {
+        return FragmentModBinding.inflate(layoutInflater)
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {

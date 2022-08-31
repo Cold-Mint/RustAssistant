@@ -124,7 +124,12 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                                 .apply(GlobalMethod.getRequestOptions(true))
                                 .into(viewBinding.headIconView)
                         }
-                        viewBinding.emailView.text = t.data.email
+                        viewBinding.coinView.text = String.format(
+                            getString(
+                                R.string.coin_number,
+                                t.data.coinNumber
+                            )
+                        )
                         loadRecyclerView(t.data.permission)
                     } else {
 //                        Toast.makeText(requireContext(), t.toString(), Toast.LENGTH_SHORT).show()

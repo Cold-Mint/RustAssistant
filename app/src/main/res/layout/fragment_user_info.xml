@@ -50,7 +50,7 @@
                         android:text="@string/name" />
 
                     <TextView
-                        android:id="@+id/emailView"
+                        android:id="@+id/coinView"
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

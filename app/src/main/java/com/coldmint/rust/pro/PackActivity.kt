@@ -51,9 +51,8 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
     private var needReturn: Boolean = false
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
-        if (canUseView)
-        {
-            viewBinding.toolbar.title = getText(R.string.packmod)
+        if (canUseView) {
+            title = getText(R.string.packmod)
             setReturnButton()
             initData()
             initAction()
@@ -146,12 +145,6 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
             if (type == getString(R.string.packmod)) {
                 sourceFileNum = 0
                 viewBinding.packCard.isVisible = true
-                viewBinding.packButton.setBackgroundColor(
-                    GlobalMethod.getThemeColor(
-                        this@PackActivity,
-                        R.attr.colorPrimaryVariant
-                    )
-                )
                 viewBinding.packButton.setText(R.string.packing)
                 viewBinding.packingTitle.setText(R.string.packmod)
                 if (saveConfigurationData()) {
@@ -171,8 +164,8 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
      * @param result 是否解压成功
      */
     private fun resetButton(result: Boolean) {
-        viewBinding.packButton.setBackgroundColor(GlobalMethod.getColorPrimary(this@PackActivity))
         if (result) {
+            viewBinding.packButton.setIconResource(R.drawable.ic_outline_share_24)
             viewBinding.packButton.setText(R.string.share_mod)
             if (needRecyclingFile && viewBinding.deleteSourceFile.isChecked) {
                 val tip = String.format(getString(R.string.recovery_prompt), modName)

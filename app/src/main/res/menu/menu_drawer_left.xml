@@ -55,10 +55,10 @@
             android:title="@string/set_up" />
 
 
-        <!--        <item-->
-        <!--            android:id="@+id/donation"-->
-        <!--            android:icon="@drawable/donation"-->
-        <!--            android:title="@string/donation" />-->
+        <item
+            android:id="@+id/user_group"
+            android:icon="@drawable/ic_outline_free_breakfast_24"
+            android:title="@string/user_group" />
 
 
         <item

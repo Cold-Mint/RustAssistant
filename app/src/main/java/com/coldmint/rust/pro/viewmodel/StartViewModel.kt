@@ -35,6 +35,7 @@ import com.coldmint.rust.pro.*
 import com.coldmint.rust.pro.base.BaseAndroidViewModel
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.BookmarkManager
+import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -118,6 +119,8 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         initBookmark()
         //验证用户信息
         verifyingUserInfo()
+        CompletionItemConverter.init(getApplication())
+
     }
 
 

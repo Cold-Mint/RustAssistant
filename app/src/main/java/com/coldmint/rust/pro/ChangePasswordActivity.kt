@@ -162,21 +162,23 @@ class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
                 account,
                 false
             ) && checkCode(code, false) && checkPassword(
-                passWord
+                passWord, false
             )
     }
 
 
     private fun checkCode(code: String, updateView: Boolean = true): Boolean {
         return if (code.isBlank()) {
-            setErrorAndInput(
-                viewBinding.verificationCodeView,
-                String.format(
-                    getString(R.string.please_input_value),
-                    viewBinding.verificationCodeLayout.hint.toString()
-                ),
-                viewBinding.verificationCodeLayout
-            )
+            if (updateView) {
+                setErrorAndInput(
+                    viewBinding.verificationCodeView,
+                    String.format(
+                        getString(R.string.please_input_value),
+                        viewBinding.verificationCodeLayout.hint.toString()
+                    ),
+                    viewBinding.verificationCodeLayout
+                )
+            }
             false
         } else {
             if (updateView) {

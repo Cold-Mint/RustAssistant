@@ -292,7 +292,9 @@
     <string name="template_title">模板包</string>
     <string name="template_list">模板列表</string>
     <string name="close">关闭</string>
-    <string name="qq_group">qq群</string>
+    <string name="qq_group">qq频道</string>
+    <string name="details">详情</string>
+    <string name="insert_coins">投币</string>
     <string name="del_completed">已删除\"%1$s\"。</string>
 
 
@@ -348,7 +350,6 @@
     <string name="update_num">已更新%1$s个记录。</string>
     <string name="clean_up_code_cache_complete">代码缓存清理完成。</string>
     <string name="clean">清空</string>
-    <string name="details">详情</string>
     <string name="show_details">查看详情</string>
     <string name="goto_line">跳转到错误位置</string>
     <string name="code_navigation">代码导航</string>
@@ -467,6 +468,7 @@
     <string name="directory_does_not_exist">目录不存在。</string>
     <string name="special_thanks_to">特别鸣谢</string>
     <string name="email">邮箱</string>
+    <string name="coin_number">硬币：%1$d</string>
     <string name="register_successed">注册成功</string>
     <string name="registration_success_message">账号激活码已发送至您的邮箱。若没有收到，则邮箱可能被视为垃圾邮件了。请检查您的垃圾箱。</string>
     <string name="please_login_first">请先登录。</string>
@@ -910,6 +912,8 @@
     <string name="all">全部</string>
     <string name="new_password">新密码</string>
     <string name="edit_text_color_dark">暗色主题字体颜色</string>
+    <string name="user_group">用户群</string>
+    <string name="discord_group">Discord服务器</string>
     <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
     <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
 

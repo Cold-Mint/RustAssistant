@@ -24,14 +24,14 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.adapters.DataSetAdapter
 import com.coldmint.rust.pro.base.BaseFragment
-import com.coldmint.rust.pro.databinding.DatabaseFragmentBinding
+import com.coldmint.rust.pro.databinding.FragmentDatabaseBinding
 import com.coldmint.rust.pro.databinding.DialogDatasetBinding
 import com.google.gson.Gson
 import java.io.File
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
-class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
+class DatabaseFragment : BaseFragment<FragmentDatabaseBinding>() {
 
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
@@ -165,7 +165,7 @@ class DatabaseFragment : BaseFragment<DatabaseFragmentBinding>() {
     }
 
 
-    override fun getViewBindingObject(layoutInflater: LayoutInflater): DatabaseFragmentBinding {
-        return DatabaseFragmentBinding.inflate(layoutInflater)
+    override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentDatabaseBinding {
+        return FragmentDatabaseBinding.inflate(layoutInflater)
     }
 }

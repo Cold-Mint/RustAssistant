@@ -34,6 +34,7 @@ import com.coldmint.rust.core.web.AppUpdate
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
+import com.coldmint.rust.pro.fragments.UserGroupFragment
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -266,6 +267,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val codeTable = menu.findItem(R.id.code_table)
         val mod = menu.findItem(R.id.mod_item)
         val community = menu.findItem(R.id.community_item)
+        val group = menu.findItem(R.id.user_group)
+        group.setOnMenuItemClickListener {
+            viewBinding.drawerlayout.closeDrawer((GravityCompat.START))
+            val userGroupFragment = UserGroupFragment()
+            userGroupFragment.show(supportFragmentManager, "userGroup")
+            false
+        }
 //        val help = menu.findItem(R.id.help)
         //管理可见性
         dataBase.isVisible = isActive

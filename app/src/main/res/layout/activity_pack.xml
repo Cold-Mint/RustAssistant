@@ -267,6 +267,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        android:text="@string/packmod"
         app:icon="@drawable/zip" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

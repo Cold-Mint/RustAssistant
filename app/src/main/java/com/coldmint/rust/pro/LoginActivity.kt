@@ -16,6 +16,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
@@ -46,7 +47,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 .transparentNavigationBar().navigationBarDarkIcon(true)
         }
         Log.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
-
+        viewBinding.changeServerView.isVisible = BuildConfig.DEBUG
         viewBinding.changePasswordView.setOnClickListener {
             val intent = Intent(this, ChangePasswordActivity::class.java)
             startActivity(intent)
@@ -216,14 +217,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                         )
                                     }
                                     "请更改登录设备" -> {
-                                        viewBinding.button.isActivated = false
+                                        viewBinding.button.isEnabled = false
                                         verification(
                                             account,
                                             passWord,
                                             appId,
                                             object : ApiCallBack<ApiResponse> {
                                                 override fun onResponse(t: ApiResponse) {
-                                                    viewBinding.button.isActivated = true
+                                                    viewBinding.button.isEnabled = true
                                                     if (t.code == ServerConfiguration.Success_Code) {
                                                         MaterialDialog(this@LoginActivity).show {
                                                             title(R.string.verification).message(
@@ -290,13 +291,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                                 }
 
                                                 override fun onFailure(e: Exception) {
-                                                    viewBinding.button.isActivated = true
+                                                    viewBinding.button.isEnabled = true
                                                     isLogin = false
-                                                    viewBinding.button.setBackgroundColor(
-                                                        GlobalMethod.getColorPrimary(
-                                                            this@LoginActivity
-                                                        )
-                                                    )
                                                     viewBinding.button.setText(R.string.login)
                                                     showInternetError(viewBinding.button, e)
                                                 }
@@ -316,7 +312,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
                         override fun onFailure(e: Exception) {
                             isLogin = false
-                            viewBinding.button.setBackgroundColor(GlobalMethod.getColorPrimary(this@LoginActivity))
                             viewBinding.button.setText(R.string.login)
                             showInternetError(viewBinding.button, e)
                         }

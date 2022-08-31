@@ -42,7 +42,11 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
                 .into(viewBinding.iconView)
         }
         viewBinding.nameView.text = data.userName
-        viewBinding.timeView.text = data.time
+        viewBinding.timeView.text = if (data.location == null) {
+            data.time
+        } else {
+            data.time + " " + data.location
+        }
         TextStyleMaker.instance.load(viewBinding.contentView, data.content) { type, data ->
             TextStyleMaker.instance.clickEvent(context, type, data)
         }

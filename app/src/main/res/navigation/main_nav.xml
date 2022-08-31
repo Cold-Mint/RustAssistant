@@ -8,25 +8,25 @@
         android:id="@+id/community_item"
         android:name="com.coldmint.rust.pro.fragments.CommunityFragment"
         android:label="@string/community"
-        tools:layout="@layout/community_fragment" />
+        tools:layout="@layout/fragment_community" />
 
     <fragment
         android:id="@+id/mod_item"
         android:name="com.coldmint.rust.pro.fragments.WarehouseFragment"
         android:label="@string/warehouse"
-        tools:layout="@layout/mod_fragment" />
+        tools:layout="@layout/fragment_mod" />
 
     <fragment
         android:id="@+id/database_item"
         android:name="com.coldmint.rust.pro.fragments.DatabaseFragment"
         android:label="@string/menu_title3"
-        tools:layout="@layout/database_fragment" />
+        tools:layout="@layout/fragment_database" />
 
     <fragment
         android:id="@+id/template_item"
         android:name="com.coldmint.rust.pro.fragments.TemplateFragment"
         android:label="@string/template_title"
-        tools:layout="@layout/template_fragemnt" />
+        tools:layout="@layout/fragment_local_template" />
 
 
 </navigation>
