@@ -36,30 +36,39 @@
 
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/buttonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:visibility="gone">
+            android:layout_marginTop="24dp">
 
             <Button
+                android:visibility="gone"
+                android:id="@+id/neutralButton"
+                android:layout_alignParentLeft="true"
+                style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title" />
+
+            <Button
+                android:visibility="gone"
                 android:id="@+id/negativeButton"
                 style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/positiveButton"
-                android:text="@string/title"
-                android:visibility="gone" />
+                android:text="@string/title" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/positiveButton"
                 style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="8dp"
-                android:text="@string/title"
-                android:visibility="gone" />
+                android:text="@string/title" />
 
         </RelativeLayout>
 

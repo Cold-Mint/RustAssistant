@@ -94,7 +94,6 @@
     <string name="enter_file_path">ファイルパスを入力してください。</string>
     <string name="create_bookmark">しおりを作る</string>
     <string name="name_error">モジュール名を入力してください。</string>
-    <string name="unit_name_error">ユニット名を入力してください。</string>
     <string name="action_name_error">キャンペーン名を入力してください。</string>
     <string name="database_null">このデータセットはロードできません、エラー原因:%1$s。</string>
     <string name="describe_error">記述を入力してください。</string>
@@ -113,7 +112,6 @@
     <string name="mod_action1">編集単位</string>
     <string name="mod_action2">情報を編集する</string>
     <string name="mod_action8">だしぬけ</string>
-    <string name="mod_action9">命名を改める</string>
     <string name="mod_action10">リペア情報ファイル</string>
     <string name="open_action1">テキストを編集する</string>
 
@@ -425,7 +423,6 @@
     <string name="pack_directory">カタログを梱包する</string>
     <string name="info">情報</string>
     <string name="cut_board_operation">せん断板操作</string>
-    <string name="bookmarks_operation">しおり操作</string>
     <string name="bookmark_manager">ブックマークマネージャ</string>
     <string name="jump_a_bookmark">飛びしおり</string>
     <string name="remove_bookmark">しおりを取り除く</string>
@@ -605,11 +602,6 @@
     <string name="mod_package">モジュールパック</string>
     <string name="restart_to_take_effect">画像が変更されたことを確認すると、ヘルパーはGlideキャッシュ機構のために新しい画像を表示するために再起動する必要があります。ご不便をおかけして申し訳ありません。</string>
     <string name="extension">広げて</string>
-    <string name="use_adm">Admマルチスレッドダウンロード</string>
-    <string name="use_adm_tip">Admダウンローダを呼び出し、マルチスレッドダウンロードを可能にする。</string>
-    <string name="setting_use_adm">使用アドム</string>
-    <string name="no_adm_installed">Admをインストールしてください。</string>
-    <string name="from_adm">Admダウンロードディレクトリ</string>
     <string name="word_wrap">自動改行</string>
     <string name="database_error">json結果のセット長さは0である。</string>
     <string name="mod_icon_transition">ModIconTransition</string>

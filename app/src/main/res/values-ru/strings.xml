@@ -94,7 +94,6 @@
     <string name="enter_file_path">Введите, пожалуйста, маршрут файла.</string>
     <string name="create_bookmark">Создавать закладку</string>
     <string name="name_error">Пожалуйста, введите имя модуля.</string>
-    <string name="unit_name_error">Введите имя единицы.</string>
     <string name="action_name_error">Введите имя мероприятия.</string>
     <string name="database_null">Этот набор данных не может быть загружен по ложной причине :% $.</string>
     <string name="describe_error">Введите описание, пожалуйста.</string>
@@ -113,7 +112,6 @@
     <string name="mod_action1">Монтажная единица</string>
     <string name="mod_action2">Редактирование.</string>
     <string name="mod_action8">декомпресс</string>
-    <string name="mod_action9">Переименовать.</string>
     <string name="mod_action10">Восстанавливать файл информации</string>
     <string name="open_action1">Редактировать текст</string>
 
@@ -425,7 +423,6 @@
     <string name="pack_directory">Паковать каталог</string>
     <string name="info">информац</string>
     <string name="cut_board_operation">Операция по монтажу</string>
-    <string name="bookmarks_operation">Операция закладка</string>
     <string name="bookmark_manager">Менеджер закладок</string>
     <string name="jump_a_bookmark">закладка</string>
     <string name="remove_bookmark">Убрать закладку</string>
@@ -605,11 +602,6 @@
     <string name="mod_package">Набор Мод</string>
     <string name="restart_to_take_effect">Проверка показала, что вы заменили изображение, и поскольку Glide кэш механизм, ассистенту нужна перезагрузка, чтобы показать новое. Простите за неудобства.</string>
     <string name="extension">расширен</string>
-    <string name="use_adm">Мультипотоковая загрузка Adm</string>
-    <string name="use_adm_tip">Разрешите вызвать Adm-скачиватель для многопоточного скачивания.</string>
-    <string name="setting_use_adm">useAdm</string>
-    <string name="no_adm_installed">Пожалуйста, сначала установите Adm.</string>
-    <string name="from_adm">Adm загружает каталог</string>
     <string name="word_wrap">Автоматическое переключение строк</string>
     <string name="database_error">Набор результатов json имеет длину 0</string>
     <string name="mod_icon_transition">Модикон-переходный период</string>

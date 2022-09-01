@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/mod_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/modIconCard"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/image" />
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/mod_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+
+            android:src="@drawable/image" />
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <LinearLayout
+        android:layout_marginLeft="8dp"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/more"
-        android:layout_toEndOf="@id/mod_icon"
+        android:layout_toEndOf="@id/modIconCard"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -36,8 +48,10 @@
             android:id="@+id/mod_introduction_view"
             style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="26dp"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="介绍" />
 
     </LinearLayout>
@@ -54,7 +68,7 @@
         android:id="@+id/more"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="12dp"
         android:src="@drawable/more" />

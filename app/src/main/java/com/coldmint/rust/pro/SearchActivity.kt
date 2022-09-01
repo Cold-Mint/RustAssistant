@@ -65,14 +65,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null && newText.isNotBlank()) {
-//                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_loading)
+                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_loading)
                     Search.instance.suggestions(newText,
                         object : ApiCallBack<SearchSuggestionsData> {
                             override fun onResponse(t: SearchSuggestionsData) {
                                 val dataList = t.data
-                                if (dataList.isNullOrEmpty()) {
+                                if (dataList.isEmpty()) {
                                     viewBinding.recyclerView.isVisible = false
-//                                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
+                                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
                                 } else {
                                     val adapter =
                                         SearchSuggestionsAdapter(
@@ -92,20 +92,20 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                                     }
                                     viewBinding.recyclerView.adapter = adapter
                                     viewBinding.recyclerView.isVisible = true
-//                                    val s = String.format(getString(R.string.search_suggestions_number),dataList.size)
-//                                    viewBinding.searchSuggestionsView.text = s
+                                    val s = String.format(getString(R.string.search_suggestions_number),dataList.size)
+                                    viewBinding.searchSuggestionsView.text = s
                                 }
                             }
 
                             override fun onFailure(e: Exception) {
 
                                 viewBinding.recyclerView.isVisible = false
-//                                viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
+                                viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
                             }
 
                         })
                 } else {
-//                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
+                    viewBinding.searchSuggestionsView.setText(R.string.search_suggestions_null)
                     viewBinding.recyclerView.isVisible = false
                 }
                 return true

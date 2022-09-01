@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.mod.WebModCommentData
@@ -76,7 +77,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     val token by lazy {
         AppSettings.getValue(AppSettings.Setting.Token, "")
     }
-    lateinit var adapter :ModPageDetailsAdapter
+    lateinit var adapter: ModPageDetailsAdapter
 
     private fun initView() {
         setReturnButton()
@@ -99,6 +100,9 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 viewBinding.button.text = getString(R.string.installated)
             }
             adapter = ModPageDetailsAdapter(this, modId)
+            adapter.modName.observe(this) {
+                title = it
+            }
             viewBinding.viewPager2.adapter = adapter
             TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager2) { tab, i ->
                 tab.text = when (i) {
@@ -116,16 +120,16 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                     }
                 }
             }.attach()
-//            viewBinding.button.setOnClickListener {
-//                val type = viewBinding.button.text
-//                val installation = getString(R.string.installation)
-//                when (type) {
-//                    installation -> {
-//                        downloadAction(t)
-//                    }
-//                }
-//
-//            }
+            viewBinding.button.setOnClickListener {
+                val type = viewBinding.button.text
+                val installation = getString(R.string.installation)
+                when (type) {
+                    installation -> {
+                        downloadAction(adapter.getLink())
+                    }
+                }
+
+            }
 //            viewBinding.modCommentRecyclerView.layoutManager =
 //                LinearLayoutManager(this@WebModInfoActivity)
 //            viewBinding.modCommentRecyclerView.addItemDecoration(
@@ -275,8 +279,11 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
      * 下载事件
      * @param t WebModInfoData
      */
-    fun downloadAction(t: WebModInfoData) {
-        val fileLink = ServerConfiguration.getRealLink(t.data.link)
+    fun downloadAction(link: String?) {
+        if (link == null) {
+            return
+        }
+        val fileLink = ServerConfiguration.getRealLink(link)
         when (AppOperator.getNetworkType(this)) {
             AppOperator.NetWorkType.NetWorkType_Moble -> {
                 val useMobileNetWork =
@@ -284,19 +291,16 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 if (useMobileNetWork) {
                     downloadWork(fileLink)
                 } else {
-                    MaterialDialog(this).show {
-                        title(R.string.using_mobile_networks).message(R.string.using_mobile_networks_msg)
-                            .positiveButton(R.string.only_one) {
-                                downloadWork(fileLink)
-                            }
-                        negativeButton(R.string.always_allow) {
+                    CoreDialog(this).setTitle(R.string.using_mobile_networks)
+                        .setMessage(R.string.using_mobile_networks_msg)
+                        .setPositiveButton(R.string.only_one) {
+                            downloadWork(fileLink)
+                        }.setNegativeButton(R.string.always_allow) {
                             AppSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
                             downloadWork(fileLink)
-                        }
-                        neutralButton(R.string.dialog_cancel) {
+                        }.setNeutralButton(R.string.dialog_cancel) {
 
-                        }
-                    }
+                        }.show()
                 }
             }
             AppOperator.NetWorkType.NetWorkType_Wifi -> {
@@ -359,11 +363,6 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                 val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
                 loadFileLayoutBinding.LinearProgressIndicator.max = 100
                 var progress = 0
-                val materialDialog = MaterialDialog(this).show {
-                    title(R.string.downlod).customView(view = loadFileLayoutBinding.root)
-                        .cancelable(false)
-                        .positiveButton(R.string.dialog_close)
-                }
 
                 val fileLoader = FileLoader.getInstantiate(fileLink, targetFile.absolutePath)
                 fileLoader.download(object : ProgressResponseBody.ResponseProgressListener {
@@ -376,25 +375,15 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                         progress = trueProgress.toFloat().toInt()
                         runOnUiThread {
                             val progressTip = String.format(tip, progress)
-                            if (materialDialog.isShowing) {
-                                loadFileLayoutBinding.LinearProgressIndicator.progress = progress
-                                loadFileLayoutBinding.tipView.text = progressTip
-                            }
                             viewBinding.button.text = progressTip
                         }
                     }
 
                     override fun downloadFail(exception: Exception?) {
-                        if (materialDialog.isShowing) {
-                            materialDialog.dismiss()
-                        }
                         viewBinding.button.setText(R.string.installation)
                     }
 
                     override fun downloadSuccess() {
-                        if (materialDialog.isShowing) {
-                            materialDialog.dismiss()
-                        }
                         viewBinding.button.isEnabled = false
                         viewBinding.button.setText(R.string.installated)
                         WebMod.instance.addDownloadNum(modId)

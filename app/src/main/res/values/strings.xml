@@ -36,6 +36,7 @@
     <string name="pay_yes">是的，确实收到了</string>
     <string name="pay_no">不，没有</string>
     <string name="creation_assistant">创建助理</string>
+    <string name="drag_the_slider_to_set_num">拖动滑块选择数量。</string>
     <string name="dialog_cancel">取消</string>
     <string name="no_longer_prompt">不再提示</string>
     <string name="navigation_tip">共%1$d个项目支持快速导航。</string>
@@ -469,6 +470,11 @@
     <string name="special_thanks_to">特别鸣谢</string>
     <string name="email">邮箱</string>
     <string name="coin_number">硬币：%1$d</string>
+    <string name="insert_coins_tip">投了%1$d个硬币。</string>
+    <string name="insert_coins_num_tip">要投几个硬币呢?</string>
+    <string name="coin_records">投币记录</string>
+    <string name="insert_coins_no">支持一下喜欢的作品吧。</string>
+    <string name="insert_coins_ok">已收到您的支持了。</string>
     <string name="register_successed">注册成功</string>
     <string name="registration_success_message">账号激活码已发送至您的邮箱。若没有收到，则邮箱可能被视为垃圾邮件了。请检查您的垃圾箱。</string>
     <string name="please_login_first">请先登录。</string>
@@ -914,7 +920,8 @@
     <string name="edit_text_color_dark">暗色主题字体颜色</string>
     <string name="user_group">用户群</string>
     <string name="discord_group">Discord服务器</string>
-    <!--    <string name="search_suggestions_null">无搜索建议。</string>-->
-    <!--    <string name="search_suggestions_number">共%1$d个搜索建议。</string>-->
+    <string name="search_suggestions_null">无搜索建议。</string>
+    <string name="search_suggestions_loading">获取搜索建议...</string>
+    <string name="search_suggestions_number">共%1$d个搜索建议。</string>
 
 </resources>

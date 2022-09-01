@@ -2,7 +2,9 @@ package com.coldmint.rust.pro.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.coldmint.rust.core.dataBean.mod.WebModInfoData
 import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.pro.fragments.InsertCoinsFragment
 import com.coldmint.rust.pro.fragments.ModCommentsFragment
@@ -19,6 +21,24 @@ class ModPageDetailsAdapter(fragmentActivity: FragmentActivity, val modId: Strin
     private lateinit var modCommentsFragment: ModCommentsFragment
     override fun getItemCount(): Int {
         return 3
+    }
+
+    val modName: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+
+    /**
+     * 获取下载链接
+     * @return String?
+     */
+    fun getLink(): String? {
+        return if (this::webModDetailsFragment.isInitialized) {
+            webModDetailsFragment.getLink()
+        } else {
+            DebugHelper.printLog("获取下载路径", "详情碎片未初始化，返回null", isError = true)
+            null
+        }
     }
 
     /**
@@ -38,7 +58,7 @@ class ModPageDetailsAdapter(fragmentActivity: FragmentActivity, val modId: Strin
         return when (position) {
             0 -> {
                 if (!this::webModDetailsFragment.isInitialized) {
-                    webModDetailsFragment = WebModDetailsFragment(modId)
+                    webModDetailsFragment = WebModDetailsFragment(modId, modName)
                 }
                 webModDetailsFragment
             }

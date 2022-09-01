@@ -28,9 +28,7 @@ import com.coldmint.rust.pro.tool.AppSettings
  * @date 2021/12/28 10:23
  */
 class FollowFragment : BaseFragment<FragmentFollowBinding>() {
-    val selfAccount by lazy {
-        AppSettings.getValue(AppSettings.Setting.Account, "")
-    }
+
     var oldSize: Int = 0
     var lastIndex = 0
 
@@ -38,6 +36,7 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
      * 加载视图如果需要更新的话
      */
     fun loadViewIfNeed() {
+        val selfAccount = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (selfAccount.isBlank()) {
             showTip(R.string.please_login_first)
         } else {
@@ -166,6 +165,7 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
      */
     fun loadDynamic(account: String) {
         if (account.isBlank()) {
+            val selfAccount = AppSettings.getValue(AppSettings.Setting.Account, "")
             Dynamic.instance.getFollowAllDynamic(selfAccount,
                 object : ApiCallBack<DynamicItemDataBean> {
                     override fun onResponse(t: DynamicItemDataBean) {

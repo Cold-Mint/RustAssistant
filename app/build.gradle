@@ -24,11 +24,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.coldmint.rust.beta"
+        applicationId "com.coldmint.rust.pro"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 18
-        versionName "2.1 alpha1 (2022-8-25)"
+        versionCode 19
+        versionName "2.1 Beta1 (2022-9-1)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

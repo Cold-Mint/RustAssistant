@@ -28,7 +28,6 @@
     <string name="dialog_ok">確定</string>
     <string name="dialog_cancel">取消</string>
     <string name="search">搜索</string>
-    <string name="unit_name_error">請輸入單位名稱。</string>
     <string name="loading_units">加載單位...</string>
     <string name="symbol9">整理代碼</string>
     <string name="edit_function">保存</string>

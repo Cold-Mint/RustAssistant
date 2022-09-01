@@ -40,6 +40,164 @@ class WebMod private constructor() {
 
 
     /**
+     * 获取投币状态
+     * @param token String
+     * @param modId String
+     * @param apiCallBack ApiCallBack<CoinStatusData>
+     */
+    fun getCoinStatus(token: String, modId: String, apiCallBack: ApiCallBack<CoinStatusData>) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("token", token).add("modId", modId)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/mod.php?action=getCoinStatus")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val body = response.body
+                    if (body == null) {
+                        handler.post {
+                            apiCallBack.onFailure(NullPointerException())
+                        }
+                    } else {
+                        val data = body.string()
+                        val finalCoinStatusData =
+                            gson.fromJson(data, CoinStatusData::class.java)
+                        handler.post {
+                            apiCallBack.onResponse(finalCoinStatusData)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+    /**
+     * 获取投币历史
+     * @param token String
+     * @param modId String
+     * @param apiCallBack ApiCallBack<CoinStatusData>
+     */
+    fun getInsertCoinHistory(modId: String, apiCallBack: ApiCallBack<InsertCoinHistoryData>) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("modId", modId)
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/mod.php?action=getInsertCoinHistory")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val body = response.body
+                    if (body == null) {
+                        handler.post {
+                            apiCallBack.onFailure(NullPointerException())
+                        }
+                    } else {
+                        val data = body.string()
+                        val finalCoinStatusData =
+                            gson.fromJson(data, InsertCoinHistoryData::class.java)
+                        handler.post {
+                            apiCallBack.onResponse(finalCoinStatusData)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+
+    /**
+     * 投币模组
+     * @param token String
+     * @param modId String
+     * @param apiCallBack ApiCallBack<CoinStatusData>
+     */
+    fun insertCoins(
+        token: String,
+        modId: String,
+        number: Int,
+        apiCallBack: ApiCallBack<ApiResponse>
+    ) {
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("modId", modId).add("token", token)
+                .add("number", number.toString())
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/mod.php?action=insertCoins")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val body = response.body
+                    if (body == null) {
+                        handler.post {
+                            apiCallBack.onFailure(NullPointerException())
+                        }
+                    } else {
+                        val data = body.string()
+                        val finalApiResponse =
+                            gson.fromJson(data, ApiResponse::class.java)
+                        handler.post {
+                            apiCallBack.onResponse(finalApiResponse)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+
+    /**
      * 加载随机推荐
      * @param number Int 推荐数量
      * @param apiCallBack ApiCallBack<WebModListData>
@@ -585,7 +743,7 @@ class WebMod private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("模组信息",data)
+                    Log.d("模组信息", data)
                     val finalWebModInfoData =
                         gson.fromJson(data, WebModInfoData::class.java)
                     handler.post {
@@ -957,7 +1115,7 @@ class WebMod private constructor() {
                     val body = response.body
                     if (body != null) {
                         val data = body.string()
-                        Log.d("发布模组响应",data)
+                        Log.d("发布模组响应", data)
                         val finalApiResponse = gson.fromJson(data, ApiResponse::class.java)
                         handler.post {
                             apiCallBack.onResponse(finalApiResponse)

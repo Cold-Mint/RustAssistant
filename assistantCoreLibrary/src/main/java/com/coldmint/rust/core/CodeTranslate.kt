@@ -22,7 +22,8 @@ class CodeTranslate(val context: Context) {
 
     companion object {
         const val split = "\n ,:()=%{}+*/\r"
-        const val debugKey = "代码翻译器"
+        private var debugKey = "代码翻译器"
+        private var num = 0
 
 
         /**
@@ -120,9 +121,21 @@ class CodeTranslate(val context: Context) {
     fun start(input: String, func: (String) -> Unit) {
         val handler = Handler(Looper.getMainLooper())
         val scope = CoroutineScope(Job())
+        num++
+        debugKey = "代码翻译器-任务${num}"
+        DebugHelper.printLog(
+            CodeTranslate.debugKey,
+            "开始执行(英文模式${englishMode} 翻译模式${translateMode})...",
+            "代码翻译", isError = true
+        )
         scope.launch {
             if (englishMode) {
                 //如果是英文模式，无论是翻译还是编译都返回其本身。
+                DebugHelper.printLog(
+                    CodeTranslate.debugKey,
+                    "是英文模式返回其本身。",
+                    "代码翻译", isError = true
+                )
                 handler.post {
                     func.invoke(input)
                 }
@@ -260,7 +273,12 @@ class CodeTranslate(val context: Context) {
                                     codeResult.append("]")
                                 }
                             } else {
-                                val codeInfo = codeDataBase.getCodeDao().findCodeByCode(code)
+                                //翻译代码
+                                val codeInfo = if (translateMode){
+                                    codeDataBase.getCodeDao().findCodeByCode(code)
+                                }else{
+                                    codeDataBase.getCodeDao().findCodeByTranslate(code)
+                                }
                                 if (codeInfo == null) {
                                     if (code.contains("_")) {
                                         val lineParser = LineParser(code)
@@ -307,7 +325,12 @@ class CodeTranslate(val context: Context) {
                                                 CodeBlockType.Reference
                                         }
                                     }
-                                    codeResult.append(codeInfo.translate)
+                                    if (translateMode)
+                                    {
+                                        codeResult.append(codeInfo.translate)
+                                    }else{
+                                        codeResult.append(codeInfo.code)
+                                    }
                                 }
                             }
                         }

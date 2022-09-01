@@ -55,7 +55,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
     private fun initView() {
 //        immersionBar {
 //            transparentStatusBar().statusBarDarkFont(true)
-//                .navigationBarColor(R.color.white_200).navigationBarDarkIcon(true)
+//                .navigationBarDarkIcon(true)
 //        }
 
         val thisIntent = intent

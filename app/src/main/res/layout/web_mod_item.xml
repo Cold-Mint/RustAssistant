@@ -35,6 +35,8 @@
             android:text="模组名称" />
 
         <TextView
+            android:singleLine="true"
+            android:ellipsize="end"
             android:id="@+id/mod_introduction_view"
             style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"

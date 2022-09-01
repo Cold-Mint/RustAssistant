@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
@@ -258,6 +259,12 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
             title = getString(R.string.work_management)
             setReturnButton()
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
     }
 

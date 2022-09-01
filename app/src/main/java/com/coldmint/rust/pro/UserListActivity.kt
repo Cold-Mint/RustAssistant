@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.BooleanCallback
@@ -67,6 +68,14 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
                         getString(R.string.fans)
                     }
                 }
+                viewBinding.recyclerView.layoutManager =
+                    LinearLayoutManager(this@UserListActivity)
+                viewBinding.recyclerView.addItemDecoration(
+                    DividerItemDecoration(
+                        this,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
                 loadList(account, isFollowMode, canRemoveFans)
             }
         }
@@ -90,8 +99,7 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
                             viewBinding.loadLayout.isVisible = false
                             viewBinding.recyclerView.isVisible = true
                             val adapter = UserAdapter(this@UserListActivity, dataList)
-                            viewBinding.recyclerView.layoutManager =
-                                LinearLayoutManager(this@UserListActivity)
+
                             adapter.setItemEvent { i, itemUserBinding, viewHolder, data ->
                                 itemUserBinding.root.setOnClickListener {
                                     val intent = Intent(

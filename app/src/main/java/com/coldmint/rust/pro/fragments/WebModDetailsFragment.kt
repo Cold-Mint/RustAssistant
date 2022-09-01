@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.dataBean.mod.WebModInfoData
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
@@ -28,11 +29,21 @@ import com.youth.banner.indicator.CircleIndicator
 /**
  * 模组详情碎片
  */
-class WebModDetailsFragment(val modId: String) : BaseFragment<FragmentWebModDetailsBinding>() {
-    var developer: String? = null
+class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveData<String>) : BaseFragment<FragmentWebModDetailsBinding>() {
+    private var developer: String? = null
 
     //此模组是否对外开放
     private var isOpen = false
+
+    private var link: String? = null
+
+
+    fun getLink(): String? {
+        return link
+    }
+
+
+
 
     /**
      * 获取此模组是否对外开放
@@ -115,7 +126,9 @@ class WebModDetailsFragment(val modId: String) : BaseFragment<FragmentWebModDeta
             override fun onResponse(t: WebModInfoData) {
                 if (t.code == ServerConfiguration.Success_Code) {
                     developer = t.data.developer
+                    modNameLiveData.value = t.data.name
                     isOpen = t.data.hidden == 0
+                    link = t.data.link
                     viewBinding.loadLayout.isVisible = false
                     viewBinding.contentLayout.isVisible = true
                     val icon = t.data.icon

@@ -2,6 +2,7 @@ package com.coldmint.rust.core.web
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.coldmint.rust.core.dataBean.HotSearchData
 import com.coldmint.rust.core.dataBean.SearchSuggestionsData
 import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
@@ -86,6 +87,7 @@ class Search private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
+                    Log.d("搜索结果",data)
                     val finalSearchSuggestionsData =
                         gson.fromJson(data, SearchSuggestionsData::class.java)
                     handler.post {

@@ -1,5 +1,6 @@
 package com.coldmint.rust.pro.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.R
+import com.coldmint.rust.pro.UserHomePageActivity
 import com.coldmint.rust.pro.adapters.CommentAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentModCommentsBinding
@@ -80,6 +82,21 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
         }
     }
 
+    /**
+     * 打开用户主页
+     * @param userId String
+     */
+    fun gotoUserPage(userId: String) {
+        val intent = Intent(
+            requireContext(),
+            UserHomePageActivity::class.java
+        )
+        intent.putExtra("userId", userId)
+        startActivity(
+            intent
+        )
+    }
+
     override fun onResume() {
         super.onResume()
         loadCommentList(modId)
@@ -102,16 +119,25 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
                     if (useLinearProgressIndicator) {
                         viewBinding.linearProgressIndicator.isVisible = false
                     }
+                    viewBinding.titleView.text = getString(R.string.discussion)
                     viewBinding.recyclerView.isVisible = false
                     viewBinding.noContentLayout.isVisible = true
                 } else {
                     DebugHelper.printLog(key, "共${list.size}条数据")
+                    viewBinding.titleView.text =
+                        getString(R.string.discussion) + "(" + list.size + ")"
                     if (useLinearProgressIndicator) {
                         viewBinding.linearProgressIndicator.isVisible = false
                     }
                     viewBinding.recyclerView.isVisible = true
                     viewBinding.noContentLayout.isVisible = false
-                    viewBinding.recyclerView.adapter = CommentAdapter(requireContext(), list)
+                    val adapter = CommentAdapter(requireContext(), list)
+                    adapter.setItemEvent { i, itemCommentBinding, viewHolder, data ->
+                        itemCommentBinding.iconView.setOnClickListener {
+                            gotoUserPage(data.account)
+                        }
+                    }
+                    viewBinding.recyclerView.adapter =  adapter
                 }
             }
 
@@ -120,6 +146,7 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
                 if (useLinearProgressIndicator) {
                     viewBinding.linearProgressIndicator.isVisible = false
                 }
+                viewBinding.titleView.text = getString(R.string.discussion)
                 viewBinding.recyclerView.isVisible = false
                 viewBinding.noContentLayout.isVisible = true
             }

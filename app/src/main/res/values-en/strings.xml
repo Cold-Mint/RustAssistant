@@ -95,7 +95,6 @@
     <string name="enter_file_path">Please enter a file path.</string>
     <string name="create_bookmark">Create bookmarks</string>
     <string name="name_error">Please enter a mod name.</string>
-    <string name="unit_name_error">Please enter a unit name.</string>
     <string name="action_name_error">Please enter an event name.</string>
     <string name="database_null">This dataset could not be loaded, error: %1$s.</string>
     <string name="describe_error">Please enter a description.</string>
@@ -114,7 +113,6 @@
     <string name="mod_action1">Editing unit</string>
     <string name="mod_action2">Edit information</string>
     <string name="mod_action8">decompress</string>
-    <string name="mod_action9">Double naming</string>
     <string name="mod_action10">Repair information file</string>
     <string name="open_action1">Edit text</string>
 
@@ -426,7 +424,6 @@
     <string name="pack_directory">Package directory</string>
     <string name="info">information</string>
     <string name="cut_board_operation">Shear-plate operation</string>
-    <string name="bookmarks_operation">Bookmarks operation</string>
     <string name="bookmark_manager">Bookmark Manager</string>
     <string name="jump_a_bookmark">Jump a bookmark</string>
     <string name="remove_bookmark">Remove the bookmark</string>
@@ -606,11 +603,6 @@
     <string name="mod_package">Mod package</string>
     <string name="restart_to_take_effect">I found that you have changed the image. Due to Glide cache mechanism, the assistant needs to restart to display the new image. Sorry for the inconvenience.</string>
     <string name="extension">extension</string>
-    <string name="use_adm">Adm Multithreaded download</string>
-    <string name="use_adm_tip">Allows you to call the Adm downloader for multithreaded downloads.</string>
-    <string name="setting_use_adm">useAdm</string>
-    <string name="no_adm_installed">Install Adm first.</string>
-    <string name="from_adm">Adm Download Directory</string>
     <string name="word_wrap">Word wrap</string>
     <string name="database_error">The length of json result set is 0</string>
     <string name="mod_icon_transition">ModIconTransition</string>

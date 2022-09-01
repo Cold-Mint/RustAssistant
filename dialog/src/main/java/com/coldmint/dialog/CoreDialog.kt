@@ -54,7 +54,7 @@ class CoreDialog(context: Context) : BaseAppDialog<CoreDialog>(context) {
      * 是否选择了
      * @return Boolean
      */
-    fun isChecked():Boolean{
+    fun isChecked(): Boolean {
         return dialogCoreBinding.checkbox.isChecked
     }
 
@@ -128,6 +128,31 @@ class CoreDialog(context: Context) : BaseAppDialog<CoreDialog>(context) {
         return this
     }
 
+
+    override fun setNeutralButton(text: String, func: () -> Unit): CoreDialog {
+        dialogCoreBinding.buttonContainer.isVisible = true
+        dialogCoreBinding.neutralButton.isVisible = true
+        dialogCoreBinding.neutralButton.text = text
+        dialogCoreBinding.neutralButton.setOnClickListener {
+            func.invoke()
+            if (autoDismiss) {
+                dialog.dismiss()
+            }
+        }
+        return this
+    }
+
+    override fun setNeutralButton(textRes: Int, func: () -> Unit): CoreDialog {
+        dialogCoreBinding.buttonContainer.isVisible = true
+        dialogCoreBinding.neutralButton.isVisible = true
+        dialogCoreBinding.neutralButton.setText(textRes)
+        dialogCoreBinding.neutralButton.setOnClickListener {
+            func.invoke()
+            if (autoDismiss) {
+                dialog.dismiss()
+            }
+        }
+        return this    }
 
     @Deprecated("无法使用。")
     override fun setIcon(iconRes: Int): CoreDialog {

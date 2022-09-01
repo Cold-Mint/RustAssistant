@@ -13,12 +13,12 @@
         android:layout_margin="16dp">
 
         <ImageView
-            android:layout_centerVertical="true"
             android:id="@+id/mod_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -49,8 +49,9 @@
                 android:text="@string/publisher_information" />
 
             <TextView
-                style="@style/TextAppearance.Material3.BodySmall"
+                android:singleLine="true"
                 android:id="@+id/mod_introduction_view"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -66,6 +67,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:layout_marginRight="8dp"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:id="@+id/refusedView"
                 android:layout_width="0dp"
@@ -75,6 +77,7 @@
                 android:text="@string/refused" />
 
             <Button
+                android:layout_marginLeft="8dp"
                 android:id="@+id/consentView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -12,17 +12,17 @@
 
         <ImageView
             android:id="@+id/headIconView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/head_icon" />
 
         <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/headIconView"
-            android:layout_alignBottom="@id/headIconView"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/headIconView"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/headIconView"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_name"
-                android:textSize="16sp" />
+                style="@style/TextAppearance.Material3.TitleMedium"/>
 
             <TextView
                 android:id="@+id/timeView"
@@ -39,26 +39,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/time"
-                android:textSize="10sp" />
+                style="@style/TextAppearance.Material3.BodySmall"
+             />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/headIconView"
-            android:layout_marginTop="8dp"
+            android:layout_below="@id/contentLayout"
+            android:layout_marginTop="16dp"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:text="@string/expiration_time_null" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textview"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8dp"
-            android:text="@string/dialog_ok"
-            android:textColor="?attr/colorPrimary"
-            android:visibility="gone" />
 
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

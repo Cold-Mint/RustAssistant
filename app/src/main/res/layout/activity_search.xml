@@ -53,13 +53,13 @@
                         android:queryBackground="@null"
                         android:queryHint="@string/search" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/searchSuggestionsView"-->
-<!--                        style="@style/TextAppearance.Material3.BodySmall"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="@string/search_suggestions_null" />-->
+                    <TextView
+                        android:id="@+id/searchSuggestionsView"
+                        style="@style/TextAppearance.Material3.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/search_suggestions_null" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
