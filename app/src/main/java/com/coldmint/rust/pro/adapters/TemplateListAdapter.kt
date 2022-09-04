@@ -24,6 +24,7 @@ import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.TemplateBottomDialogBinding
 import com.coldmint.rust.pro.databinding.TemplateListItemBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
 
 class TemplateListAdapter(
@@ -316,11 +317,13 @@ class TemplateListAdapter(
                     }
                 }
                 templateBottomDialogBinding.templateActionList.adapter = adapter
+                val divider = MaterialDividerItemDecoration(
+                    context,
+                    MaterialDividerItemDecoration.VERTICAL
+                )
+
                 templateBottomDialogBinding.templateActionList.addItemDecoration(
-                    DividerItemDecoration(
-                        context,
-                        DividerItemDecoration.VERTICAL
-                    )
+                    divider
                 )
                 bottomSheetDialog.show()
             }

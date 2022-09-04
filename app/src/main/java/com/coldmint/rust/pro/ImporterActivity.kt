@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
@@ -235,24 +235,23 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                             }
                             if (newInfo.versionNum < oldInfo.versionNum) {
                                 handler.post {
-                                    MaterialDialog(this).show {
-                                        title(text = oldInfo.name).cancelable(false).message(
-                                            text = String.format(
+                                    CoreDialog(this).setTitle(oldInfo.name).setCancelable(false)
+                                        .setMessage(
+                                            String.format(
                                                 getString(R.string.covers_the_import),
                                                 newInfo.versionName, oldInfo.versionName
                                             )
-                                        ).positiveButton(R.string.dialog_ok).positiveButton {
+                                        ).setPositiveButton(R.string.dialog_ok) {
                                             FileOperator.delete_files(templateDirectory)
                                             importTemplate(outputDirectory, templateDirectory)
-                                        }.negativeButton(R.string.dialog_cancel).negativeButton {
+                                        }.setNegativeButton(R.string.dialog_cancel) {
                                             viewBinding.okButton.setBackgroundColor(
                                                 GlobalMethod.getColorPrimary(
                                                     this@ImporterActivity
                                                 )
                                             )
                                             viewBinding.okButton.setText(R.string.import_name)
-                                        }
-                                    }
+                                        }.show()
                                 }
                                 return@Runnable
                             } else {

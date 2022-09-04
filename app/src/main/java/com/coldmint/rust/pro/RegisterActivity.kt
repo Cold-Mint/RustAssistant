@@ -8,12 +8,11 @@ import android.view.LayoutInflater
 import com.coldmint.rust.pro.base.BaseActivity
 import android.view.View
 import androidx.core.view.isVisible
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.input
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.RegisterRequestData
 import com.coldmint.rust.core.web.User
@@ -164,12 +163,11 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
                                 AppSettings.forceSetValue(AppSettings.Setting.Account, account)
                                 AppSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
                                 AppSettings.forceSetValue(AppSettings.Setting.UserName, userName)
-                                MaterialDialog(this@RegisterActivity).show {
-                                    title(R.string.register_successed).message(R.string.registration_success_message)
-                                        .cancelable(false).positiveButton(R.string.close) {
-                                            finish()
-                                        }
-                                }
+                                CoreDialog(this@RegisterActivity).setTitle(R.string.register_successed)
+                                    .setMessage(R.string.registration_success_message)
+                                    .setCancelable(false).setPositiveButton(R.string.close) {
+                                        finish()
+                                    }.show()
                             } else {
                                 val data = apiResponse.data
                                 if (data != null && ServerConfiguration.isEvent(data)) {

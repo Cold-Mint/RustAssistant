@@ -14,16 +14,13 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
 import com.coldmint.rust.core.interfaces.ApiCallBack
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.Community
 import com.coldmint.rust.core.web.ServerConfiguration
@@ -171,20 +168,20 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     startIntent.putExtra("data", fileBundle)
                     startActivityForResult(startIntent, 1)
                 } else if (title == getString(R.string.from_url)) {
-                    MaterialDialog(this).show {
-                        title(R.string.from_url).message(R.string.from_url_tip)
-                        input(waitForPositiveButton = false) { dialog, text ->
-                            if (text.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
-                            } else {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, false)
-                            }
-                        }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                            val input = dialog.getInputField().text.toString()
-                            needCleanCache = true
-                            loadIcon(input)
-                        }.negativeButton(R.string.dialog_close)
-                    }
+                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip).setErrorTip { s, textInputLayout ->
+                        if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                            textInputLayout.error = getString(R.string.from_url_tip)
+                        } else {
+                            textInputLayout.isErrorEnabled = false
+                        }
+                    }.setPositiveButton(R.string.dialog_ok){
+                        input->
+                        needCleanCache = true
+                        loadIcon(input)
+                        true
+                    }.setNegativeButton(R.string.dialog_close){
+
+                    }.show()
                 } else {
                     val link = iconLink
                     if (link != null) {
@@ -217,20 +214,22 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     startIntent.putExtra("data", fileBundle)
                     startActivityForResult(startIntent, 2)
                 } else if (title == getString(R.string.from_url)) {
-                    MaterialDialog(this).show {
-                        title(R.string.from_url).message(R.string.from_url_tip)
-                        input(waitForPositiveButton = false) { dialog, text ->
-                            if (text.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
-                            } else {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, false)
-                            }
-                        }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                            val input = dialog.getInputField().text.toString()
-                            needCleanCache = true
-                            loadCover(input)
-                        }.negativeButton(R.string.dialog_close)
-                    }
+                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip).setErrorTip { s, textInputLayout ->
+                        if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                            textInputLayout.error = getString(R.string.from_url_tip)
+                        } else {
+                            textInputLayout.isErrorEnabled = false
+                        }
+                    }.setPositiveButton(R.string.dialog_ok){
+                            input->
+                        needCleanCache = true
+                        loadCover(input)
+                        true
+                    }.setNegativeButton(R.string.dialog_close){
+
+                    }.show()
+
+
                 } else {
                     val link = coverLink
                     if (link != null) {

@@ -24,11 +24,13 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
         if (canUseView) {
             title = getString(R.string.special_thanks_to)
             setReturnButton()
+            val divider = MaterialDividerItemDecoration(
+                this,
+                MaterialDividerItemDecoration.VERTICAL
+            )
+
             viewBinding.recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    this,
-                    DividerItemDecoration.VERTICAL
-                )
+                divider
             )
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
             val list = ArrayList<ThanksDataBean>()

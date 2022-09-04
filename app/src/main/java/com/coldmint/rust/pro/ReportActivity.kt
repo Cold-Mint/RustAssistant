@@ -5,7 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
-import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.Report

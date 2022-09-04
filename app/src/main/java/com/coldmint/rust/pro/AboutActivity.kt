@@ -53,7 +53,8 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
             |
             |<p>《铁锈助手》2.0版本，用零零散散的时间开发了1年。开发语言以及开发环境都特别的正式了。</p>
             |<p>环境移到了电脑上使用《Android Studio》开发，开发语言也从java迁移至了Kotlin。</p>
-            |<p>越来越正式了，更多的新功能也在慢慢的加入。</p>
+            |
+            |<p>为了安全使用了加固。</p>
             |
             |
         """.trimMargin()

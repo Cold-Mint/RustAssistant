@@ -12,16 +12,20 @@
     <string name="select_directents">Select Directory</string>
     <string name="select_file">Select File</string>
     <string name="select_file_ok">Selected\"%1$s\"</string>
+    <string name="root_path">The root directory</string>
     <string name="select_image">Select Image</string>
     <string name="change_image">Change Image</string>
     <string name="del_image">Remove Image</string>
     <string name="remove">remove</string>
     <string name="remove_image_item">Remove image at \\"%1$s\\"\?</string>
     <string name="open">Open</string>
+    <string name="open_public">public</string>
+    <string name="open_private">private</string>
     <string name="open_nottiled">Turn on NoTiled</string>
     <string name="create_unit_complete">unit created</string>
     <string name="create_unit_failed">Unit creation failed</string>
     <string name="create_uniting">Building unit…</string>
+    <string name="build_unit">To build the unit</string>
     <string name="dialog_ok">Sure</string>
     <string name="activation_app">Activate Rust Helper</string>
     <string name="activation_app_tip">Your activation time has expired, please activate Rust Assistant.</string>
@@ -32,6 +36,7 @@
     <string name="pay_yes">Yes, did receive</string>
     <string name="pay_no">no, no</string>
     <string name="creation_assistant">Create Assistant</string>
+    <string name="drag_the_slider_to_set_num">Drag the slider to select the amount.</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="no_longer_prompt">Do not remind again</string>
     <string name="navigation_tip">A total of %1$d items support quick navigation.</string>
@@ -58,7 +63,7 @@
     <string name="data_array">Data array (separated by \\"|\\"):</string>
     <string name="delete_title">delete</string>
     <string name="del_moding">deleting…</string>
-    <string name="del_moding_tip">Deleting \\"%1$s\\"…</string>
+    <string name="del_moding_tip">Deleting "%1$s"…</string>
     <string name="restoreing">Restoring…</string>
     <string name="file_importer">Import into Rust Helper</string>
     <string name="file_manager">file manager</string>
@@ -80,13 +85,14 @@
     <string name="describe">describe</string>
     <string name="mod_tags">Label</string>
     <string name="tags_error">Please enter a label.</string>
-    <string name="mod_tags_help">Please use \\",\\" to separate tags, works with the same tag will be classified into one category.</string>
+    <string name="mod_tags_help">Please use \",\" to separate tags, works with the same tag will be classified into one category.</string>
     <string name="create_mod_lable">Create mod</string>
     <string name="create_mod_describe">Create a new mod.</string>
     <string name="filter">filter</string>
     <string name="activate_the_account">Activate account</string>
     <string name="activate_the_account_ok">Activation succeeded, please log in again.</string>
     <string name="activate_the_account_tip">Please enter the activation verification code:</string>
+    <string name="verification_code">Verification code</string>
     <string name="search">search</string>
     <string name="find">find</string>
     <string name="create">create</string>
@@ -95,6 +101,7 @@
     <string name="enter_file_path">Please enter a file path.</string>
     <string name="create_bookmark">Create bookmarks</string>
     <string name="name_error">Please enter a mod name.</string>
+    <string name="file_name_error">Please enter a file name.</string>
     <string name="action_name_error">Please enter an event name.</string>
     <string name="database_null">This dataset could not be loaded, error: %1$s.</string>
     <string name="describe_error">Please enter a description.</string>
@@ -113,6 +120,7 @@
     <string name="mod_action1">Editing unit</string>
     <string name="mod_action2">Edit information</string>
     <string name="mod_action8">decompress</string>
+    <string name="rename">rename</string>
     <string name="mod_action10">Repair information file</string>
     <string name="open_action1">Edit text</string>
 
@@ -141,14 +149,14 @@
     <string name="loading_bookmarks">Loading bookmarks...</string>
     <string name="calculating">Calculating...</string>
     <string name="no_bookmark">No bookmark</string>
-    <string name="filenum">Total %1$S items</string>
+    <string name="filenum">Total %1$s items</string>
     <string name="not_find_database">No data set was found</string>
     <string name="use_database">use</string>
     <string name="unuse_dataabse">Has been used</string>
     <string name="create_unit">Create a unit</string>
     <string name="unit_path">Create path :%1$s</string>
     <string name="key_notfind">The %1$s key was not found</string>
-    <string name="template_num">Total %1$S templates</string>
+    <string name="template_num">Total %1$s templates</string>
     <string name="template_not_find_info">No template-info.txt found</string>
     <string name="change_path">To change the</string>
     <string name="change_path_ok">The creation directory has been changed.</string>
@@ -166,7 +174,7 @@
     <string name="copy_file_name">Copy file name</string>
     <string name="copy_file_path">Copy file path</string>
     <string name="error">error</string>
-    <string name="load_mod_file">Mod file at \\"%1$s\\" has been read.</string>
+    <string name="load_mod_file">Mod file at "%1$s" has been read.</string>
     <string name="file_operation">File operations</string>
     <string name="operation">operation</string>
     <string name="copy_file_absolutely_path">Copy the absolute path (starting with ROOT)</string>
@@ -175,8 +183,8 @@
     <string name="create_folder">Creating a folder</string>
     <string name="photo_album">Photo album</string>
     <string name="unable_load_mod_info">Unable to load mod information, please %1$s.</string>
-    <string name="unit_and_downloadnum">Unit number: % 1 $d | downloads | version name: % 2 $d % 3 $s</string>
-    <string name="unit_num">Unit number: % 1 $d</string>
+    <string name="unit_and_downloadnum">Unit number: %1$d | %2$d downloads | version name: %3$s</string>
+    <string name="unit_num">Unit number: %1$d</string>
     <string name="system_file_manager">file manager</string>
     <string name="reload_files">The refresh</string>
     <string name="convert_template">To make the template</string>
@@ -199,6 +207,9 @@
     <string name="template_update_error">Please enter the update link.</string>
     <string name="template_version_num_error">Please enter the version number.</string>
     <string name="template_version_name_error">Please enter a version name.</string>
+    <string name="template_id_error">Please enter ID.</string>
+    <string name="template_id_error2">The ID has been occupied.</string>
+    <string name="template_name_error2">The template package name is already occupied.</string>
     <string name="template_developer">developers</string>
     <string name="template_error">Could not be created because the template already exists.</string>
     <string name="consent">agree</string>
@@ -210,6 +221,7 @@
     <string name="update_link">Update the link</string>
     <string name="template_version_name">Version of</string>
     <string name="template_version_num">The version number</string>
+    <string name="open_state">Open state</string>
     <string name="code_table">Code table</string>
     <string name="upgrade_database">The dataset you are using is out of date. Would you like to upgrade to the latest version\?</string>
     <string name="upgrade">upgrade</string>
@@ -223,13 +235,15 @@
     <!--编译错误-->
 
     <string name="not_save_exit">Exit without saving</string>
+    <string name="save_settings">Check for configuration updates. Do you want to save the changes\?</string>
     <string name="saveing">Saving %1$s...</string>
     <string name="save_complete">%1$s saved.</string>
+    <string name="save_complete2">The save is complete.</string>
 
-    <string name="type_information">Explain the % 1 $s</string>
-    <string name="unknown_type">Unknown type \\"%1$s\\".</string>
-    <string name="create_section">Create % 1 $s</string>
-    <string name="create_key">Create % 1 $s</string>
+    <string name="type_information">Explain the %1$s</string>
+    <string name="unknown_type">Unknown type "%1$s".</string>
+    <string name="create_section">Create %1$s</string>
+    <string name="create_key">Create %1$s</string>
     <string name="symbol9">formatting</string>
     <string name="symbol10">undo</string>
     <string name="symbol11">color</string>
@@ -237,16 +251,16 @@
     <string name="import_error1">Error extracting file.</string>
     <string name="import_effor7">An unrecognized path.</string>
     <string name="delete_unit">Remove the unit</string>
-    <string name="delete_prompt">Delete %1$s\?</string>
+    <string name="delete_prompt">Delete %1$s?</string>
     <!--导入-->
     <string name="importing">In the import...</string>
     <string name="import_name">The import</string>
-    <string name="import_complete">%1$s import succeeded.</string>
+    <string name="import_complete">%1$s  import succeeded.</string>
     <string name="import_failed">%1$s import failed.</string>
     <string name="app_version_error">%1$s was developed for advanced assistant and cannot be imported.</string>
     <string name="import_failed2">Unable to read message file.</string>
-    <string name="import_tip2">Import this mod (%1$s)\?</string>
-    <string name="import_tip3">Import this template package (%1$s)\?</string>
+    <string name="import_tip2">Import this mod (%1$s)?</string>
+    <string name="import_tip3">Import this template package (%1$s)?</string>
     <string name="editer_show_line_num">Show line Numbers</string>
     <string name="empty_file">Empty file</string>
     <string name="empty_folder">An empty folder</string>
@@ -260,7 +274,7 @@
     <string name="set_failed">Setup failed</string>
     <string name="is_empty_line">Is a blank line.</string>
     <string name="empty_line_prompt">Find %1$d blank lines to view details</string>
-    <string name="note_prompt">Find %1$D comments to see the details</string>
+    <string name="note_prompt">Find %1$d comments to see the details</string>
     <string name="no_optimized_content">There are no projects to optimize.</string>
     <string name="load_optimized_item">Load optimization projects...</string>
     <string name="optimizationing">In the optimization...</string>
@@ -277,9 +291,12 @@
     <string name="mod_title">Mods</string>
     <string name="edit_title">The code editor</string>
     <string name="template_title">The template package</string>
+    <string name="template_list">The template list</string>
     <string name="close">Shut down</string>
     <string name="qq_group">Qq group</string>
-    <string name="del_completed">\\"%1$s\\" has been deleted.</string>
+    <string name="details">details</string>
+    <string name="insert_coins">coin</string>
+    <string name="del_completed">"%1$s" has been deleted.</string>
 
 
     <!-- Messages Preferences -->
@@ -321,7 +338,7 @@
     <string name="add_extra_maps">Add additional maps for paths</string>
     <string name="disabled">disable</string>
     <string name="enabled">To enable the</string>
-    <string name="setting_enabled">\\"%1$s\\" is enabled and you can turn it off at any time in Settings.</string>
+    <string name="setting_enabled">"%1$s" is enabled and you can turn it off at any time in Settings.</string>
     <string name="add_icon_error">Invalid icon.</string>
     <string name="dialog_close_tip2">It has been switched to background repair.</string>
     <string name="dialog_close_tip3">It\'s been switched to backstage packaging.</string>
@@ -334,7 +351,6 @@
     <string name="update_num">%1$s records have been updated.</string>
     <string name="clean_up_code_cache_complete">Code cache cleanup complete.</string>
     <string name="clean">empty</string>
-    <string name="details">details</string>
     <string name="show_details">Check the details</string>
     <string name="goto_line">Jump to wrong location</string>
     <string name="code_navigation">Code navigation</string>
@@ -344,6 +360,9 @@
     <string name="code_language_on">English</string>
     <string name="code_language_off">Chinese</string>
     <string name="save_tip">Please save the current content first.</string>
+    <string name="not_find_turret">Couldn\'t find the turret.</string>
+    <string name="please_enter_the_x_coordinate">Please enter the X coordinate.</string>
+    <string name="please_enter_the_y_coordinate">Please enter the Y coordinate.</string>
     <string name="copy_rule">Copy the rules</string>
     <string name="rule">The rules</string>
     <string name="search_rule">To find the rule</string>
@@ -357,6 +376,7 @@
     <string name="collapse_info">The collapse of information</string>
     <string name="load_system_application">Display system application</string>
     <string name="choose_color">Choose a color</string>
+    <string name="profile_picture_box_color">Profile picture Box color</string>
     <string name="game_pack">The game package</string>
     <string name="select_the_game_pack">Choose a game pack</string>
     <string name="enable_the_recovery_station">Mod recycle bin</string>
@@ -372,29 +392,13 @@
     <string name="keep_rwmod_file_description">When unpacking the mod, keep the source files.</string>
     <string name="keep_rwmod_file">Keep source files</string>
     <string name="clear_recovery_station">Empty the recycle bin</string>
-    <string name="setting_database_path" translatable="false">DatabasePath</string>
-    <string name="setting_app_language" translatable="false">AppLanguage</string>
-    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
-    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
-    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
-    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
-    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
-    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
-    <string name="setting_night_mode" translatable="false">NightMode</string>
-    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
-    <string name="setting_app_version" translatable="false">AppVersion</string>
-    <string name="setting_game_package" translatable="false">GamePackage</string>
-    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
-    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
-    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
-    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">Create a separate folder for each unit.</string>
     <string name="independent_folder">Create a separate folder</string>
     <string name="unable_rename">Cannot rename this folder because it contains files in use.</string>
     <string name="unable_cut">Unable to cut this folder because it has files in use.</string>
     <string name="unable_del">Unable to delete this folder because it contains files in use.</string>
-    <string name="recovery_prompt">\\"%1$s\\" has been moved to the recycle bin.</string>
-    <string name="recoverying_prompt">Moving \\"%1$s\\"...</string>
+    <string name="recovery_prompt">"%1$s" has been moved to the recycle bin.</string>
+    <string name="recoverying_prompt">Moving "%1$s"...</string>
     <string name="open_directory_of_file">Open the file directory</string>
     <string name="unable_to_detect">Your mods may not be checked by the game.</string>
     <string name="failed_to_check_descripiton">For 1.15 and later, set the storage to Internal(read/write) and External. The game reads and writes internal mods, while external mods are managed by assistants.</string>
@@ -405,8 +409,7 @@
     <string name="edit">The editor</string>
     <string name="no_app_installed">%1$s is not installed.</string>
     <string name="restore_all">All reduction</string>
-    <string name="all_saves_are_completed">%1$D files saved.</string>
-    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
+    <string name="all_saves_are_completed">%1$d files saved.</string>
     <string name="about">About</string>
     <string name="libs">Open source license</string>
     <string name="additional_selection">Additional items</string>
@@ -415,15 +418,14 @@
     <string name="open_tip">Open immediately with %1$.2F yuan</string>
     <string name="packing">In the packaging...</string>
     <string name="share_mod">share</string>
-    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">Clean up the code cache</string>
     <string name="custom_symbol">Custom symbol bar</string>
-    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">Number of identifier prompts</string>
     <string name="recovery_file">reduction</string>
     <string name="pack_directory">Package directory</string>
     <string name="info">information</string>
     <string name="cut_board_operation">Shear-plate operation</string>
+    <string name="mine_bookmarks">My bookmarks</string>
     <string name="bookmark_manager">Bookmark Manager</string>
     <string name="jump_a_bookmark">Jump a bookmark</string>
     <string name="remove_bookmark">Remove the bookmark</string>
@@ -434,25 +436,29 @@
     <string name="add_bookmark_fail">Failed to add bookmark.</string>
     <string name="bookmark_jump_failed">The file the bookmark points to does not exist.</string>
     <string name="unit_directory">The unit directory</string>
-    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">The user name</string>
     <string name="report_mod">Report mod</string>
     <string name="report_user">To report the user</string>
-    <string name="view_the_report_object">Check (% 1 $s)</string>
+    <string name="view_the_report_object">Check (%1$s)</string>
     <string name="bookmark_already_exists">The book label already exists. Please change the path.</string>
     <string name="feedback">feedback</string>
-    <string name="setting_use_jetBrains_mono_font">UseJetBrainsMonoFont</string>
+    <string name="please_set_main_image">Please set the main image.</string>
     <string name="use_jetBrains_mono_font">Use the JetBrains Mono font</string>
     <string name="use_jetBrains_mono_font_describe">Assistant built-in font, highly recommended.</string>
     <string name="directory_does_not_exist">The directory does not exist.</string>
     <string name="special_thanks_to">Special thanks to</string>
     <string name="email">email</string>
+    <string name="coin_number">Coin: %1$d</string>
+    <string name="insert_coins_tip">Put %1$d coins.</string>
+    <string name="insert_coins_num_tip">How many coins do I put in\?</string>
+    <string name="coin_records">Coin records</string>
+    <string name="insert_coins_no">Support your favorite works.</string>
+    <string name="insert_coins_ok">We have received your support.</string>
     <string name="register_successed">Registered successfully</string>
     <string name="registration_success_message">The account activation code has been sent to your email address. If not, the mailbox may be considered spam. Please check your dustbin.</string>
     <string name="please_login_first">Please log in first.</string>
     <string name="network_error">Network error.</string>
     <string name="check_update_failure">Failed to check the update.</string>
-    <string name="setting_check_beta_update">CheckBetaUpdate</string>
     <string name="check_beta_update">Check for Beta updates</string>
     <string name="check_beta_update_describe">Only available in Release, Beta, forced update.</string>
     <string name="loading_values">Loading value...</string>
@@ -484,7 +490,7 @@
     <string name="not_found_data2">This template has no static data.</string>
     <string name="remove_empty_lines">Remove empty lines</string>
     <string name="recycle_source_file">Recycle the source file after the package is complete</string>
-    <string name="error_title">Detected that \\"%1$s\\" has unexpectedly quit.</string>
+    <string name="error_title">Detected that "%1$s" has unexpectedly quit.</string>
     <string name="error_content">A crash report has been generated. Developers will use this crash report to find a future solution to this problem.</string>
     <string name="share_log">Sharing error Reports</string>
     <string name="restart">Restart the program</string>
@@ -513,8 +519,8 @@
     <string name="rebuild_project">Reconstruction project</string>
     <string name="rebuild_project_tip">Do you want to clean up the cached data and rebuild the index\?</string>
     <string name="clean_up_cache_and_rebuild">Refactor the project immediately</string>
-    <string name="import_type_could_not_be_resolved">Unable to resolve import type \\"%1$s\\".</string>
-    <string name="import_path_could_not_be_resolved">Path \\"%1$s\\" could not be recognized.</string>
+    <string name="import_type_could_not_be_resolved">Unable to resolve import type "%1$s".</string>
+    <string name="import_path_could_not_be_resolved">Path "%1$s" could not be recognized.</string>
     <string name="uri_null">Uri errors.</string>
     <string name="location_info">In line %1$s %2$d:</string>
     <string name="covers_the_import">You are trying to import the lower version of the template package (%1$s), the current version (%2$s), which will overwrite the updated content. Do you want to continue\?</string>
@@ -524,9 +530,9 @@
     <string name="value_selector_array_describe">Use \\",\\" to split parameters. You can also use \\"[\\" and \\"]\\" to annotate parameters. For example :[like :like], the like will be displayed to the user, after selected, write like.</string>
     <string name="template_save_complete">Templates have been added. Would you please exit the template maker now\?</string>
     <string name="edit_template">Edit template</string>
-    <string name="file_type_tip">The file type has been intelligently inferred to be \\"%1$s\\".</string>
+    <string name="file_type_tip">The file type has been intelligently inferred to be "%1$s".</string>
     <string name="file_type_define">Ini files are created by default.</string>
-    <string name="file_type_tip2">You might want to type \\"%1$s\\"\?</string>
+    <string name="file_type_tip2">You might want to type "%1$s"?</string>
     <string name="is_building">Unit data is being loaded. Try using this feature after loading.</string>
     <string name="english_editing_mode_describe">Write your mods in English, with Chinese tips and syntax highlighting.</string>
     <string name="english_editing_mode">Native development model</string>
@@ -535,29 +541,33 @@
     <string name="expiration_time_tip">Due time :%1$s</string>
     <string name="community">community</string>
     <string name="recommended">Recommend</string>
+    <string name="local">local</string>
+    <string name="network">network</string>
+    <string name="template_maker">Template maker</string>
     <string name="ranking">Ranking</string>
     <string name="my">My</string>
     <string name="latest_release">The latest release</string>
     <string name="describe_tip">Too long content displayed in the list will be truncated.</string>
-    <string name="describe_tip2">\\"%1$s\\" will be truncated as the list subheading.</string>
+    <string name="describe_tip2">"%1$s" will be truncated as the list subheading.</string>
     <string name="name_tip">The name is displayed in the list as a title.</string>
     <string name="screenshot">Screenshots:</string>
     <string name="required">mandatory</string>
     <string name="selectable">optional</string>
-    <string name="exit_tip">Exit \\"%1$s\\"\?</string>
+    <string name="exit_tip">Exit "%1$s"?</string>
     <string name="path">The path</string>
     <string name="from_url">From the url to add</string>
     <string name="sign_error">Security verification</string>
     <string name="sign_error_message">The assistant has been tampered with by a third party. To protect your device, the process has been terminated. You are recommended to install the official version, mint long-term support, research and development of new functions.</string>
     <string name="id_tip">Used to identify your mod and cannot be modified after publication.</string>
     <string name="mod_id">Mod Id</string>
-    <string name="auto_send">I uploaded a new mod \@mod{%1$s}, check it out</string>
-    <string name="auto_send2">Mod \@mod{%1$s}, %2$s Update log \n:%3$s</string>
+    <string name="auto_send">I uploaded a new mod @mod{%1$s}, check it out</string>
+    <string name="auto_send2">Mod @mod{%1$s}, %2$s Update log \n:%3$s</string>
     <string name="default_tags">Assistant exclusive,%1$S creation</string>
     <string name="mod_id_error2">The mod Id can contain only letters and digits and underscores (_).</string>
     <string name="installation">The installation</string>
     <string name="installation_ing">In the installation...</string>
     <string name="installated">Has been installed</string>
+    <string name="template_community">Template community</string>
     <string name="work_of_home_page">Check the work</string>
     <string name="audit">This mod is hidden from the outside and only visible to you and your administrator.</string>
     <string name="follow">Follow</string>
@@ -565,8 +575,8 @@
     <string name="transition_cover">cover</string>
     <string name="fans">fans</string>
     <string name="not_audit">Pending approval...</string>
-    <string name="fans_information">Fans: | attention: % 1 $s % 2 $s | won praise: % 3 $s</string>
-    <string name="praise_number">Won the praise</string>
+    <string name="fans_information">Fans: %1$s| attention:%2$s | praise:%3$s</string>
+    <string name="praise_number">praise</string>
     <string name="no_content">No content</string>
     <string name="homepage">The home page</string>
     <string name="dynamic">dynamic</string>
@@ -582,7 +592,7 @@
     <string name="each_other_follow">We are fans of each other</string>
     <string name="followed">Has been focused on</string>
     <string name="defollow">Cancel the attention</string>
-    <string name="defollow_tip">Unfollow \\"%1$s\\"\?</string>
+    <string name="defollow_tip">Unfollow "%1$s"\?</string>
     <string name="head_icon">Head:</string>
     <string name="signature">Individuality signature</string>
     <string name="gender">Gender:</string>
@@ -610,13 +620,13 @@
     <string name="file_upload_ok">The file is uploaded and waiting for the processing result...</string>
     <string name="file_download_ok">File download completed</string>
     <string name="file_download_fail">File download failure</string>
-    <string name="tag_title">Works containing \\"%1$s\\"</string>
+    <string name="tag_title">Works containing "%1$s"</string>
     <string name="discussion">comments</string>
-    <string name="discussion_num">Comment (% 1 $d)</string>
+    <string name="discussion_num">Comment (%1$d)</string>
     <string name="send_discussion">Post a comment</string>
     <string name="latest_work">The latest work</string>
     <string name="highest_score">bestseller</string>
-    <string name="web_mod_info">%1$S %2$d times download</string>
+    <string name="web_mod_info">time %1$s %2$d download</string>
     <string name="load_all">Look at all</string>
     <string name="game_configured">The game is configured</string>
     <string name="export_file">The export file</string>
@@ -647,7 +657,7 @@
     <string name="pay_attention_new">Pay attention to new</string>
     <string name="version_name_tip">The version name is displayed in the update record.</string>
     <string name="sold_out_mod_tip">The shelves need to be reviewed again. Should they be removed\?</string>
-    <string name="review_audit_mod_tip">Do you want to review %1$s\?</string>
+    <string name="review_audit_mod_tip">Do you want to review %1$s?</string>
     <string name="review_audit">review</string>
     <string name="warehouse">warehouse</string>
     <string name="not_find_map">No map found</string>
@@ -665,7 +675,7 @@
     <string name="forever_time">Permanent activation</string>
     <string name="can_t_activate">You are permanently activated.</string>
     <string name="report">To report</string>
-    <string name="report_t">Report - % 1 $s</string>
+    <string name="report_t">Report - %1$s</string>
     <string name="why">The reason:</string>
     <string name="picture_of_infringement">Stealing material from other mods</string>
     <string name="erotic_elements">Contains pornographic content</string>
@@ -686,7 +696,7 @@
     <string name="refused">Refused to</string>
     <string name="remove_fans">Remove the fan</string>
     <string name="coupon">coupons</string>
-    <string name="coupon_num">Coupons (% 1 $d)</string>
+    <string name="coupon_num">Coupons (%1$d)</string>
     <string name="coupon_not_use">No coupons were used.</string>
     <string name="time_limit">Valid until :%1$s can be used %2$s times</string>
     <string name="payment_reminders">We will charge your order to your account within 24 hours after receiving it, please wait patiently. If your order is not processed within 24 hours, please submit your order number to us for processing.</string>
@@ -704,7 +714,7 @@
     <string name="ban_fans">Add the user to the blacklist</string>
     <string name="reject_follow">Refuse to focus on</string>
     <string name="all_units">all</string>
-    <string name="recently_opened">Recently,</string>
+    <string name="recently_opened">History</string>
     <string name="not_find_history">No historical record was found</string>
     <string name="delete_source_file_check">Deleting source Files</string>
     <string name="init_all_units">Initialize the unit list...</string>
@@ -728,6 +738,7 @@
     <string name="undo">undo</string>
     <string name="redo">redo</string>
     <string name="del_mod">delete</string>
+    <string name="delete_error">The deletion failed. Procedure</string>
     <string name="need_save">[unsaved]%1$s</string>
     <string name="game_data_and_synchronization">Game data and synchronization</string>
     <string name="game_data_and_synchronization_describe">Manage synchronized game data.</string>
@@ -757,7 +768,7 @@
     <string name="update_log">Update log</string>
     <string name="recent_update">Last updated :%1$s</string>
     <string name="update_record">Update record</string>
-    <string name="search_mod_key">Search results for \\"%1$s\\"</string>
+    <string name="search_mod_key">Search results for "%1$s"</string>
     <string name="result">The results of</string>
     <string name="data_set_read_mode">Read mode</string>
     <string name="read_mode_additional">additional</string>
@@ -800,7 +811,7 @@
     <string name="value_describe_error">The value description cannot be empty</string>
     <string name="value_identifier_error">Value identifiers cannot be null</string>
     <string name="value_selector_type_error">Value selectors cannot be null</string>
-    <string name="list_of_affected">The following %1$D files will be affected.</string>
+    <string name="list_of_affected">The following %1$d files will be affected.</string>
     <string name="affect_list">Impact list</string>
     <string name="substitution_is_same">The new content is the same as the original content.</string>
     <string name="figure_out">Processing is complete</string>
@@ -808,6 +819,7 @@
     <string name="turret_design">Turret design</string>
     <string name="experience_the_plan">User Experience Plan</string>
     <string name="experience_the_plan_describe">Send software crash message anonymously .</string>
+    <string name="anonymous_send_completed">An error has been sent anonymously</string>
     <string name="update_and_iteration">Version update and user experience planning</string>
     <string name="is_paid">Have you paid yet\? (Unpaid orders will expire and can no longer be paid for).</string>
     <string name="paid_yes">Yes, I did</string>
@@ -824,13 +836,53 @@
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_tip">Follow the device wallpaper to change the theme color.</string>
     <string name="dynamic_color_disabled">Dynamic colors are not supported on this device.</string>
+    <string name="an_unsupported_file_type">Unsupported file format %1$s.</string>
     <string name="title">The title</string>
-    <string name="hotSearch">Top Searches</string>
-    <string name="search_type_mod_all">All</string>
-    <string name="search_type_purchase_plan">plan</string>
-    <string name="search_type_mod_versions">Mod update log</string>
-    <string name="search_type_mod_comments">Mod comments</string>
-    <string name="search_type_dynamic">Dynamics</string>
-    <string name="search_type_user">Users</string>
     <string name="search_type_mod">Mods</string>
+    <string name="search_type_user">Users</string>
+    <string name="search_type_dynamic">Dynamics</string>
+    <string name="search_type_mod_comments">Mod comments</string>
+    <string name="search_type_mod_versions">Mod update log</string>
+    <string name="search_type_purchase_plan">plan</string>
+    <string name="search_type_mod_all">All</string>
+    <string name="hotSearch">Top Searches</string>
+    <string name="soft">The sorting</string>
+    <string name="file_list_action_sort_by_name">The name of the</string>
+    <string name="file_list_action_sort_by_type">type</string>
+    <string name="file_list_action_sort_by_size">The size of the</string>
+    <string name="file_list_action_sort_by_last_modified">Modify the time</string>
+    <string name="file_sort_type">File sorting Mode</string>
+    <string name="template_id">Template id</string>
+    <string name="customize_edit_text">Custom edit box</string>
+    <string name="subscription">To subscribe to</string>
+    <string name="de_subscription">unsubscribe</string>
+    <string name="de_subscription_msg">Want to unsubscribe %1$s?</string>
+    <string name="keyword_color">Keyword Color</string>
+    <string name="text_color">Plain text color</string>
+    <string name="edit_text_color">The font color</string>
+    <string name="section_color">Section color</string>
+    <string name="annotation_color">Annotation color</string>
+    <string name="customize_edit_text_description">Customize edit box font color, edit box background image, etc.</string>
+    <string name="restore_default">Restore the default</string>
+    <string name="edit_background">background</string>
+    <string name="file_path">The file path</string>
+    <string name="dim_value">The fuzzy degree of</string>
+    <string name="auto_generate_color_scheme">Automatic generation of color schemes</string>
+    <string name="display_coordinate_system">Display coordinate system</string>
+    <string name="automatically_disable_coordinate_system">The current image size is too large, coordinate system display has been disabled.</string>
+    <string name="coordinates_x">X coordinate</string>
+    <string name="coordinates_y">y</string>
+    <string name="turret">turret</string>
+    <string name="control_panel">The control panel</string>
+    <string name="show_guides">Display auxiliary line</string>
+    <string name="save_template">Save the template</string>
+    <string name="all">all</string>
+    <string name="new_password">The new password</string>
+    <string name="edit_text_color_dark">Dark theme font color</string>
+    <string name="user_group">The user group</string>
+    <string name="discord_group">Discord server</string>
+    <string name="search_suggestions_null">No search suggestion.</string>
+    <string name="search_suggestions_loading">Get search suggestions...</string>
+    <string name="search_suggestions_number">Total %1$d search suggestions.</string>
+
 </resources>

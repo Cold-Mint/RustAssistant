@@ -7,11 +7,14 @@ import android.content.pm.PackageInfo
 import com.coldmint.rust.pro.tool.AppSettings
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import com.google.android.material.snackbar.Snackbar
 import android.os.*
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +23,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.CompressionManager
@@ -39,6 +41,7 @@ import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
+import com.gyf.immersionbar.ImmersionBar
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.Executors
@@ -107,6 +110,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         )
         viewBinding.drawerlayout.addDrawerListener(actionToggle)
         actionToggle.syncState()
+
+
     }
 
     /**
@@ -669,13 +674,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         startViewModel.signatureErrorLiveData.observe(this) {
             if (it) {
                 //显示签名错误
-                MaterialDialog(this).show {
-                    title(R.string.sign_error).cancelable(false)
-                        .message(R.string.sign_error_message)
-                        .positiveButton(R.string.dialog_close) {
-                            finish()
-                        }
-                }
+                CoreDialog(this).setTitle(R.string.sign_error)
+                    .setMessage(R.string.sign_error_message).setCancelable(false)
+                    .setPositiveButton(R.string.dialog_close) {
+                        finish()
+                    }
             }
         }
 
@@ -709,6 +712,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             useToolbarSetSupportActionBar()
             initNav()
             observeStartViewModel()
+            //偏移fab
+            if (ImmersionBar.hasNavigationBar(this)) {
+                val layoutParams =
+                    viewBinding.mainButton.layoutParams as CoordinatorLayout.LayoutParams
+                layoutParams.setMargins(
+                    GlobalMethod.dp2px(16),
+                    GlobalMethod.dp2px(16),
+                    GlobalMethod.dp2px(16),
+                    ImmersionBar.getNavigationBarHeight(this) + GlobalMethod.dp2px(16)
+                )
+                DebugHelper.printLog("导航适配", "已调整fab按钮的位置。")
+            }
             checkAppUpdate()
         } else {
             startViewModel.initAllData()

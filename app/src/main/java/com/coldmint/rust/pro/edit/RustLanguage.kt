@@ -68,6 +68,7 @@ class RustLanguage() : Language, EnglishMode {
     private var codeDataBase: CodeDataBase? = null
 
 
+
     /**
      * 设置代码数据库
      * @param codeDataBean CodeDataBase

@@ -12,16 +12,20 @@
     <string name="select_directents">目次を選択する</string>
     <string name="select_file">ファイルを選択する</string>
     <string name="select_file_ok">已選\\"%1$s\\"</string>
+    <string name="root_path">ルートディレクトリ</string>
     <string name="select_image">画像を選択する</string>
     <string name="change_image">画像を入れ替える</string>
     <string name="del_image">画像を除去する</string>
     <string name="remove">除去</string>
     <string name="remove_image_item">\\"%1$s\\"に位置する画像を除去する\?</string>
     <string name="open">开き</string>
+    <string name="open_public">公開</string>
+    <string name="open_private">私有</string>
     <string name="open_nottiled">NoTiledをつける</string>
     <string name="create_unit_complete">単位の創設が完了した</string>
     <string name="create_unit_failed">組織の創設に失敗する</string>
     <string name="create_uniting">ユニットを構筑中…</string>
+    <string name="build_unit">単位を構築する</string>
     <string name="dialog_ok">確定</string>
     <string name="activation_app">サビ助手を活性化させる</string>
     <string name="activation_app_tip">起動時間が過ぎましたので、サビヘルパーを起動してください。</string>
@@ -31,6 +35,8 @@
     <string name="always_allow">あくまでも許可する</string>
     <string name="pay_yes">はい,確かに受け取りました</string>
     <string name="pay_no">いや、ない</string>
+    <string name="creation_assistant">アシスタントを作る</string>
+    <string name="drag_the_slider_to_set_num">スライダーをドラッグして数を選択します。</string>
     <string name="dialog_cancel">キャンセル</string>
     <string name="no_longer_prompt">もう提示しない</string>
     <string name="navigation_tip">全%1$d項目でクイックナビゲーションに対応。</string>
@@ -86,6 +92,7 @@
     <string name="activate_the_account">アカウントをアクティブにする</string>
     <string name="activate_the_account_ok">起動できましたので、再ログインしてください。</string>
     <string name="activate_the_account_tip">アクティブ認証コードを入力してください:</string>
+    <string name="verification_code">captcha</string>
     <string name="search">検索</string>
     <string name="find">検索</string>
     <string name="create">創建</string>
@@ -94,6 +101,7 @@
     <string name="enter_file_path">ファイルパスを入力してください。</string>
     <string name="create_bookmark">しおりを作る</string>
     <string name="name_error">モジュール名を入力してください。</string>
+    <string name="file_name_error">ファイル名を入力してください。</string>
     <string name="action_name_error">キャンペーン名を入力してください。</string>
     <string name="database_null">このデータセットはロードできません、エラー原因:%1$s。</string>
     <string name="describe_error">記述を入力してください。</string>
@@ -112,6 +120,7 @@
     <string name="mod_action1">編集単位</string>
     <string name="mod_action2">情報を編集する</string>
     <string name="mod_action8">だしぬけ</string>
+    <string name="rename">命名を改める</string>
     <string name="mod_action10">リペア情報ファイル</string>
     <string name="open_action1">テキストを編集する</string>
 
@@ -198,6 +207,9 @@
     <string name="template_update_error">更新リンクを入力してください。</string>
     <string name="template_version_num_error">バージョン番号を入力してください。</string>
     <string name="template_version_name_error">バージョン名を入力してください。</string>
+    <string name="template_id_error">idを入力してください。</string>
+    <string name="template_id_error2">idが占有されています。</string>
+    <string name="template_name_error2">テンプレートパッケージ名が使用されています。</string>
     <string name="template_developer">開発者</string>
     <string name="template_error">作成できません。このテンプレートはすでに存在します。</string>
     <string name="consent">同意</string>
@@ -209,6 +221,7 @@
     <string name="update_link">リンクを更新する</string>
     <string name="template_version_name">バージョン名</string>
     <string name="template_version_num">バージョン番号</string>
+    <string name="open_state">公開状態</string>
     <string name="code_table">符号表</string>
     <string name="upgrade_database">使用しているデータセットは古くなっていますが、最新バージョンにアップグレードされていますか\?</string>
     <string name="upgrade">アップグレード</string>
@@ -222,8 +235,10 @@
     <!--编译错误-->
 
     <string name="not_save_exit">保存せずにログアウト</string>
+    <string name="save_settings">構成情報の更新をチェックしたら、変更を保存しますか\?</string>
     <string name="saveing">保存中%1$s…</string>
     <string name="save_complete">%1$s保存完了。</string>
+    <string name="save_complete2">保存完了。</string>
 
     <string name="type_information">%1$sを説明する</string>
     <string name="unknown_type">未知のタイプ\\"%1$s\\"。</string>
@@ -236,7 +251,7 @@
     <string name="import_error1">ファイルを伸張するときにエラーが発生します。</string>
     <string name="import_effor7">識別できない経路です</string>
     <string name="delete_unit">単位を削除する</string>
-    <string name="delete_prompt">%1$sを削除しますか\?</string>
+    <string name="delete_prompt">%1$s を削除しますか\\?</string>
     <!--导入-->
     <string name="importing">導入中…</string>
     <string name="import_name">导入</string>
@@ -276,8 +291,11 @@
     <string name="mod_title">同じ組の</string>
     <string name="edit_title">コード編集</string>
     <string name="template_title">テンプレートパッケージ</string>
+    <string name="template_list">テンプレート一覧</string>
     <string name="close">閉鎖</string>
     <string name="qq_group">qq群</string>
+    <string name="details">详细</string>
+    <string name="insert_coins">コイン式</string>
     <string name="del_completed">\\"%1$s\\"を削除しました。</string>
 
 
@@ -333,7 +351,6 @@
     <string name="update_num">%1$sの記録を更新しました。</string>
     <string name="clean_up_code_cache_complete">コードキャッシュのクリーンアップ完了。</string>
     <string name="clean">空</string>
-    <string name="details">详细</string>
     <string name="show_details">詳細を調べる</string>
     <string name="goto_line">誤った位置にジャンプする</string>
     <string name="code_navigation">コードナビゲーション</string>
@@ -343,6 +360,9 @@
     <string name="code_language_on">英文</string>
     <string name="code_language_off">中文</string>
     <string name="save_tip">現在のコンテンツを先に保存してください。</string>
+    <string name="not_find_turret">砲塔が見つからない。</string>
+    <string name="please_enter_the_x_coordinate">X座標を入力してください。</string>
+    <string name="please_enter_the_y_coordinate">Y座標を入力してください。</string>
     <string name="copy_rule">ルールを複製する</string>
     <string name="rule">ルール</string>
     <string name="search_rule">ルール探し</string>
@@ -356,6 +376,7 @@
     <string name="collapse_info">クラッシュ・メッセージ</string>
     <string name="load_system_application">表示システムアプリケーション</string>
     <string name="choose_color">色を選ぶ</string>
+    <string name="profile_picture_box_color">アイコンの枠の色</string>
     <string name="game_pack">ゲームパック</string>
     <string name="select_the_game_pack">ゲームパックを選ぶ</string>
     <string name="enable_the_recovery_station">モジュールごみ箱</string>
@@ -371,22 +392,6 @@
     <string name="keep_rwmod_file_description">モジュールを伸張する際、ソースファイルを保持する。</string>
     <string name="keep_rwmod_file">ソースファイルを保存する</string>
     <string name="clear_recovery_station">ごみ箱を空にする</string>
-    <string name="setting_database_path" translatable="false">DatabasePath</string>
-    <string name="setting_app_language" translatable="false">AppLanguage</string>
-    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
-    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
-    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
-    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
-    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
-    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
-    <string name="setting_night_mode" translatable="false">NightMode</string>
-    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
-    <string name="setting_app_version" translatable="false">AppVersion</string>
-    <string name="setting_game_package" translatable="false">GamePackage</string>
-    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
-    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
-    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
-    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">ユニットごとに独立したフォルダを作成する。</string>
     <string name="independent_folder">独立フォルダを作成する</string>
     <string name="unable_rename">ファイルを使用しているフォルダの名前を変更することはできません。</string>
@@ -405,7 +410,6 @@
     <string name="no_app_installed">%1$sはインストールされていません。</string>
     <string name="restore_all">全部還元する</string>
     <string name="all_saves_are_completed">%1$dファイルを保存しました。</string>
-    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
     <string name="about">について</string>
     <string name="libs">オープンソース・ライセンス</string>
     <string name="additional_selection">付加項</string>
@@ -414,15 +418,14 @@
     <string name="open_tip">直ちに%1$.2f元で開通する</string>
     <string name="packing">お持ち帰り中…</string>
     <string name="share_mod">分かち合い</string>
-    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">コードキャッシュのクリーンアップ</string>
     <string name="custom_symbol">カスタム記号バー</string>
-    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">識別子が数を示す</string>
     <string name="recovery_file">还元</string>
     <string name="pack_directory">カタログを梱包する</string>
     <string name="info">情報</string>
     <string name="cut_board_operation">せん断板操作</string>
+    <string name="mine_bookmarks">私のしおり</string>
     <string name="bookmark_manager">ブックマークマネージャ</string>
     <string name="jump_a_bookmark">飛びしおり</string>
     <string name="remove_bookmark">しおりを取り除く</string>
@@ -433,25 +436,29 @@
     <string name="add_bookmark_fail">しおりを付けるのに失敗します。</string>
     <string name="bookmark_jump_failed">しおりが指し示す書類は存在しない。</string>
     <string name="unit_directory">単位目録。</string>
-    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">ユーザー名</string>
     <string name="report_mod">通報モジュール</string>
     <string name="report_user">ユーザーを通報する</string>
     <string name="view_the_report_object">(%1$s)を見る</string>
     <string name="bookmark_already_exists">サインがありますので、パスを変更してください。</string>
     <string name="feedback">意見のフィードバック</string>
-    <string name="setting_use_jetBrains_mono_font">UseJetBrainsMonoFont</string>
+    <string name="please_set_main_image">本体画像を設定してください。</string>
     <string name="use_jetBrains_mono_font">JetBrains Monoフォントを使う</string>
     <string name="use_jetBrains_mono_font_describe">アシスタントに内蔵されているフォントは、強くお勧めします。</string>
     <string name="directory_does_not_exist">目次は存在しない。</string>
     <string name="special_thanks_to">特にお礼を言う</string>
     <string name="email">メール</string>
+    <string name="coin_number">コイン:%1$d</string>
+    <string name="insert_coins_tip">%1$dコインを投げた。</string>
+    <string name="insert_coins_num_tip">コインを何個投げますか\?</string>
+    <string name="coin_records">コイン記録</string>
+    <string name="insert_coins_no">好きな作品を応援しましょう。</string>
+    <string name="insert_coins_ok">あなたの支持を受け取りました。</string>
     <string name="register_successed">登録に成功する</string>
     <string name="registration_success_message">アカウントのアクティベーションコードをメールアドレスに送信しました。受信していない場合、メールボックスは迷惑メールと見なされる可能性があります。ごみ箱をチェックしてください。</string>
     <string name="please_login_first">まず登録してください。</string>
     <string name="network_error">ネットワークエラー。</string>
     <string name="check_update_failure">アップデートの失敗をチェックする。</string>
-    <string name="setting_check_beta_update">チェックベータアップデート</string>
     <string name="check_beta_update">ベータアップデートをチェックする</string>
     <string name="check_beta_update_describe">Releaseバージョンでのみ有効となり、ベータバージョンでは、強制アップデートが采用されます。</string>
     <string name="loading_values">数値を載せる…</string>
@@ -534,6 +541,9 @@
     <string name="expiration_time_tip">期限:%1$s</string>
     <string name="community">コミュニティ</string>
     <string name="recommended">推薦</string>
+    <string name="local">地元</string>
+    <string name="network">インターネット</string>
+    <string name="template_maker">テンプレート・プロデューサ</string>
     <string name="ranking">ランキング</string>
     <string name="my">私の</string>
     <string name="latest_release">最新リリース</string>
@@ -557,6 +567,7 @@
     <string name="installation">インストール</string>
     <string name="installation_ing">インストール中…</string>
     <string name="installated">インストール済み</string>
+    <string name="template_community">テンプレート・コミュニティー</string>
     <string name="work_of_home_page">作品を調べる</string>
     <string name="audit">このモジュールは外部には隠されていて、あなたと管理人にしか見えません。</string>
     <string name="follow">注目</string>
@@ -727,6 +738,7 @@
     <string name="undo">撤回</string>
     <string name="redo">重を</string>
     <string name="del_mod">削除</string>
+    <string name="delete_error">削除に失敗します。</string>
     <string name="need_save">[未保存]%1$s</string>
     <string name="game_data_and_synchronization">ゲームデータと同期</string>
     <string name="game_data_and_synchronization_describe">同期されたゲームデータを管理する。</string>
@@ -807,6 +819,7 @@
     <string name="turret_design">砲塔の設計</string>
     <string name="experience_the_plan">ユーザー体験プログラム</string>
     <string name="experience_the_plan_describe">匿名送信ソフト奔砕情報。</string>
+    <string name="anonymous_send_completed">匿名送信済みエラー</string>
     <string name="update_and_iteration">アップデートとユーザー体験プログラム</string>
     <string name="is_paid">お支払いはされましたか\?未払いの注文は期限が切れ、支払いができなくなります。</string>
     <string name="paid_yes">はい、支払いました</string>
@@ -823,5 +836,53 @@
     <string name="dynamic_color">ダイナミックカラー</string>
     <string name="dynamic_color_tip">壁紙に合わせてテーマカラーを変更します。</string>
     <string name="dynamic_color_disabled">この装置は動的色をサポートしない。</string>
+    <string name="an_unsupported_file_type">サポートされていないファイルフォーマット%1$s。</string>
     <string name="title">タイトル</string>
+    <string name="search_type_mod">同じ組の</string>
+    <string name="search_type_user">ユーザー</string>
+    <string name="search_type_dynamic">動態</string>
+    <string name="search_type_mod_comments">モジュールレビュー</string>
+    <string name="search_type_mod_versions">モジュール更新日誌</string>
+    <string name="search_type_purchase_plan">定食</string>
+    <string name="search_type_mod_all">すべて</string>
+    <string name="hotSearch">人気検索</string>
+    <string name="soft">序列</string>
+    <string name="file_list_action_sort_by_name">名称</string>
+    <string name="file_list_action_sort_by_type">タイプ</string>
+    <string name="file_list_action_sort_by_size">大きさ</string>
+    <string name="file_list_action_sort_by_last_modified">時間を修正する</string>
+    <string name="file_sort_type">書類並べ替え方式</string>
+    <string name="template_id">テンプレートid</string>
+    <string name="customize_edit_text">カスタマイズ編集ボックス</string>
+    <string name="subscription">購読</string>
+    <string name="de_subscription">·</string>
+    <string name="de_subscription_msg">%1$sをキャンセルしますか\?</string>
+    <string name="keyword_color">キーワードカラー</string>
+    <string name="text_color">通常のテキストカラー</string>
+    <string name="edit_text_color">書体の色</string>
+    <string name="section_color">節色</string>
+    <string name="annotation_color">注釈の色</string>
+    <string name="customize_edit_text_description">編集ボックスのフォントカラーをカスタマイズしたり、背景画像を編集したりします。</string>
+    <string name="restore_default">デフォルトに戻す</string>
+    <string name="edit_background">背景</string>
+    <string name="file_path">ファイルパス</string>
+    <string name="dim_value">ぼかし度</string>
+    <string name="auto_generate_color_scheme">配色を自動生成する</string>
+    <string name="display_coordinate_system">座標系を表示する</string>
+    <string name="automatically_disable_coordinate_system">現在の画像サイズが大きすぎて、座標系表示を無効にしています。</string>
+    <string name="coordinates_x">x座標</string>
+    <string name="coordinates_y">y座標</string>
+    <string name="turret">炮塔</string>
+    <string name="control_panel">コントロールパネル</string>
+    <string name="show_guides">補助線を表示する</string>
+    <string name="save_template">テンプレートを保存する</string>
+    <string name="all">すべて</string>
+    <string name="new_password">新しいパスワード</string>
+    <string name="edit_text_color_dark">ダーク・テーマ・フォント・カラー</string>
+    <string name="user_group">ユーザーベース</string>
+    <string name="discord_group">Discordサーバ</string>
+    <string name="search_suggestions_null">検索の提案はない。</string>
+    <string name="search_suggestions_loading">検索の提案を得る…</string>
+    <string name="search_suggestions_number">合計%1$dの検索提案。</string>
+
 </resources>

@@ -1,11 +1,14 @@
 package com.coldmint.rust.pro
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.Editable
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -20,7 +23,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.OrderDataBean
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.AppOperator
@@ -53,9 +56,14 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
     //倒计时器
     var countDownTimer: CountDownTimer? = null
 
+    val color by lazy {
+        GlobalMethod.getColorPrimary(this)
+    }
+
+
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.pay)
+            title = getText(R.string.pay)
             setReturnButton()
             val thisIntent = intent
             val uuid = thisIntent.getStringExtra("uuid")
@@ -70,112 +78,129 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
                 ServerConfiguration.getRealLink("/resources/image/Payment/Alipay.png")
             hashMap[getString(R.string.wechat_pay)] =
                 ServerConfiguration.getRealLink("/resources/image/Payment/WeChat.png")
-            val array = resources.getStringArray(R.array.pay_type_entries)
-            viewBinding.typeSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        when (val type = array[position]) {
-                            getString(R.string.qq_pay), getString(R.string.alipay), getString(R.string.wechat_pay) -> {
-                                Glide.with(this@PayActivity)
-                                    .load(hashMap[type]).apply(GlobalMethod.getRequestOptions())
-                                    .into(viewBinding.baseImageView)
-                            }
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-
+            Glide.with(this@PayActivity)
+                .load(hashMap[getString(R.string.wechat_pay)]).apply(GlobalMethod.getRequestOptions())
+                .into(viewBinding.baseImageView)
+            viewBinding.typeAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val type = s.toString()
+                    when (type) {
+                        getString(R.string.qq_pay), getString(R.string.alipay), getString(R.string.wechat_pay) -> {
+                            viewBinding.saveCode.text = getString(R.string.sava_code_and_copy_id)
+                            viewBinding.cardView.isVisible = true
+                            Glide.with(this@PayActivity)
+                                .load(hashMap[type]).apply(GlobalMethod.getRequestOptions())
+                                .into(viewBinding.baseImageView)
+                        }
+//                        getString(R.string.paypal) -> {
+//                            viewBinding.cardView.isVisible = false
+//                            viewBinding.saveCode.text = getString(R.string.paypal_payment)
+//                        }
+                    }
+                }
+
+            })
 
             viewBinding.saveCode.setOnClickListener {
-                GlobalMethod.copyText(this, uuid)
-                val type = array[viewBinding.typeSpinner.selectedItemPosition]
-                val link = hashMap[type]
-                val appName = when (type) {
-                    getString(R.string.qq_pay) -> {
-                        getString(R.string.qq)
-                    }
-                    getString(R.string.wechat_pay) -> {
-                        getString(R.string.wechat)
-                    }
-                    else -> {
-                        getString(R.string.alipay)
-                    }
-                }
-                val targetFile = File(AppSettings.dataRootDirectory + "/pay/" + type + ".png")
-                //获取下载链接，保存二维码（如果二维码存在则不会保存）
-                if (link != null && !targetFile.exists()) {
-                    val okHttpClient = ServerConfiguration.initOkHttpClient()
-                    val request = Request.Builder()
-                        .url(link).build()
-                    val call = okHttpClient.newCall(request)
-                    call.enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            Snackbar.make(
-                                viewBinding.saveCode,
-                                R.string.file_download_fail,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
+                val text = viewBinding.saveCode.text.toString()
+                if (text == getString(R.string.paypal_payment)) {
+//启动paypal
+//                    val intent = Intent(this, BrowserActivity::class.java)
+//                    intent.putExtra("link", "https://paypal.me/coldmint")
+//                    startActivity(intent)
+                } else {
+                    GlobalMethod.copyText(this, uuid)
+                    val type = viewBinding.typeAutoCompleteTextView.text.toString()
+                    val link = hashMap[type]
+                    val appName = when (type) {
+                        getString(R.string.qq_pay) -> {
+                            getString(R.string.qq)
                         }
-
-                        override fun onResponse(call: Call, response: Response) {
-                            val body = response.body
-                            if (body != null) {
-                                val inputStream = body.byteStream()
-                                FileOperator.copyFile(
-                                    inputStream,
-                                    targetFile
-                                )
-                            } else {
+                        getString(R.string.wechat_pay) -> {
+                            getString(R.string.wechat)
+                        }
+                        else -> {
+                            getString(R.string.alipay)
+                        }
+                    }
+                    val targetFile = File(AppSettings.dataRootDirectory + "/pay/" + type + ".png")
+                    //获取下载链接，保存二维码（如果二维码存在则不会保存）
+                    if (link != null && !targetFile.exists()) {
+                        val okHttpClient = ServerConfiguration.initOkHttpClient()
+                        val request = Request.Builder()
+                            .url(link).build()
+                        val call = okHttpClient.newCall(request)
+                        call.enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
                                 Snackbar.make(
                                     viewBinding.saveCode,
                                     R.string.file_download_fail,
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val body = response.body
+                                if (body != null) {
+                                    val inputStream = body.byteStream()
+                                    FileOperator.copyFile(
+                                        inputStream,
+                                        targetFile
+                                    )
+                                } else {
+                                    Snackbar.make(
+                                        viewBinding.saveCode,
+                                        R.string.file_download_fail,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                        })
+                    }
+                    AppOperator.updateTheAlbum(this, targetFile)
+                    CoreDialog(this).setTitle(R.string.pay).setMessage(String.format(
+                        getString(R.string.pay_tip2),
+                        appName
+                    )).setPositiveButton(R.string.dialog_ok){
+                        val packName = when (type) {
+                            getString(R.string.qq_pay) -> {
+                                "com.tencent.mobileqq"
+                            }
+                            getString(R.string.wechat_pay) -> {
+                                "com.tencent.mm"
+                            }
+                            else -> {
+                                "com.eg.android.AlipayGphone"
+                            }
                         }
+                        if (AppOperator.isAppInstalled(this@PayActivity, packName)) {
+                            AppOperator.openApp(this@PayActivity, packName)
+                        } else {
+                            Snackbar.make(
+                                viewBinding.saveCode,
+                                String.format(
+                                    getString(R.string.no_app_installed),
+                                    appName
+                                ),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }.setNegativeButton(R.string.dialog_cancel){
 
-                    })
+                    }.setCancelable(false).show()
                 }
-                AppOperator.updateTheAlbum(this, targetFile)
-                MaterialDialog(this).show {
-                    title(R.string.pay).message(
-                        text = String.format(
-                            getString(R.string.pay_tip2),
-                            appName
-                        )
-                    )
-                        .positiveButton(R.string.dialog_ok).positiveButton {
-                            val packName = when (type) {
-                                getString(R.string.qq_pay) -> {
-                                    "com.tencent.mobileqq"
-                                }
-                                getString(R.string.wechat_pay) -> {
-                                    "com.tencent.mm"
-                                }
-                                else -> {
-                                    "com.eg.android.AlipayGphone"
-                                }
-                            }
-                            if (AppOperator.isAppInstalled(this@PayActivity, packName)) {
-                                AppOperator.openApp(this@PayActivity, packName)
-                            } else {
-                                Snackbar.make(
-                                    viewBinding.saveCode,
-                                    String.format(getString(R.string.no_app_installed), appName),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                        }.negativeButton(R.string.dialog_cancel).cancelable(false)
-                }
-
             }
 
             ActivationApp.instance.getOrderInfo(account, uuid, object : ApiCallBack<OrderDataBean> {
@@ -221,7 +246,7 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
 
                             override fun onFinish() {
                                 past = true
-                                viewBinding.typeSpinner.isEnabled = false
+                                viewBinding.typeAutoCompleteTextView.isEnabled = false
                                 viewBinding.baseImageView.isVisible = false
                                 viewBinding.payMoneyView.text = getString(R.string.order_timeout)
                                 viewBinding.saveCode.isEnabled = false
@@ -249,15 +274,13 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
             first = false
         } else {
             if (!past) {
-                MaterialDialog(this).show {
-                    title(R.string.pay).message(R.string.is_paid).positiveButton(R.string.paid_yes)
-                        .positiveButton {
-                            finish()
-                        }
-                        .negativeButton(R.string.paid_no).negativeButton {
-                            askingQuit()
-                        }.cancelable(false).neutralButton(R.string.paid_continue)
-                }
+                CoreDialog(this).setTitle(R.string.pay).setMessage(R.string.is_paid).setPositiveButton(R.string.paid_yes){
+                    finish()
+                }.setNegativeButton(R.string.paid_no){
+                    askingQuit()
+                }.setNeutralButton(R.string.paid_continue){
+
+                }.setCancelable(false).show()
             }
         }
     }
@@ -287,17 +310,15 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
             countDownTimer?.cancel()
             finish()
         } else {
-            MaterialDialog(this).show {
-                title(R.string.paid_no).message(
-                    text = String.format(
-                        getString(R.string.preferential_price),
-                        difference
-                    )
-                ).positiveButton(R.string.dialog_ok).positiveButton {
-                    countDownTimer?.cancel()
-                    finish()
-                }.negativeButton(R.string.dialog_cancel).cancelable(false)
-            }
+            CoreDialog(this).setTitle(R.string.paid_no).setMessage(String.format(
+                getString(R.string.preferential_price),
+                difference
+            )).setPositiveButton(R.string.dialog_ok){
+                countDownTimer?.cancel()
+                finish()
+            }.setNegativeButton(R.string.dialog_cancel){
+
+            }.setCancelable(false).show()
         }
     }
 
@@ -316,8 +337,8 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
         val start2 = tip.indexOf("付") + 1
         val end2 = tip.indexOf("元")
         val spannableString = SpannableString(tip)
-        val colorSpan = ForegroundColorSpan(Color.parseColor("#0099EE"))
-        val colorSpan2 = ForegroundColorSpan(Color.parseColor("#0099EE"))
+        val colorSpan = ForegroundColorSpan(color)
+        val colorSpan2 = ForegroundColorSpan(color)
         spannableString.setSpan(
             colorSpan,
             start,

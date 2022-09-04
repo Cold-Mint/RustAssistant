@@ -12,16 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.LayoutMode
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
 import com.coldmint.rust.core.interfaces.ApiCallBack
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.web.*
 import com.coldmint.rust.pro.adapters.UserHomeStateAdapter
 import com.coldmint.rust.pro.base.BaseActivity
@@ -34,6 +32,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.ktx.immersionBar
 
 
@@ -53,10 +52,26 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 
     @SuppressLint("CheckResult")
     private fun initView() {
-//        immersionBar {
-//            transparentStatusBar().statusBarDarkFont(true)
-//                .navigationBarDarkIcon(true)
-//        }
+        if (ImmersionBar.hasNavigationBar(this)) {
+            val layoutParams =
+                viewBinding.fab.layoutParams as CoordinatorLayout.LayoutParams
+            layoutParams.setMargins(
+                GlobalMethod.dp2px(16),
+                GlobalMethod.dp2px(16),
+                GlobalMethod.dp2px(16),
+                ImmersionBar.getNavigationBarHeight(this) + GlobalMethod.dp2px(16)
+            )
+            DebugHelper.printLog("导航适配", "已调整fab按钮的位置。")
+        }
+        val s = ImmersionBar.getStatusBarHeight(this)
+        val layoutParams =
+            viewBinding.toolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
+        layoutParams.setMargins(
+            0,
+            s,
+            0,
+            0
+        )
 
         val thisIntent = intent
         val temUserId = thisIntent.getStringExtra("userId")
@@ -84,17 +99,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             openUserList(userId, false)
         }
         initButton()
-//        val dlist = ArrayList<Drawable>()
-//        for (i in 1..30) {
-////            dlist.add(getDrawable(R.drawable.emoji_2_3)!!)
-//            dlist.add(getDrawable(R.drawable.emoji_1_3)!!)
-//        }
-//        viewBinding.bubbleView.setDrawableList(dlist)
-//        viewBinding.bubbleView.startAnimation(5000, 5000,30)
-//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_1_3)
-//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_2_3)
-//        viewBinding.emojiRainLayout.addEmoji(R.drawable.emoji_3_3)
-//        viewBinding.emojiRainLayout.startDropping()
     }
 
 
@@ -231,7 +235,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         val cover = spaceInfoData.data.cover
         if (cover != null) {
             Glide.with(this).load(ServerConfiguration.getRealLink(cover))
-                .apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.coverView)
         }
 
@@ -429,50 +432,49 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                 }
                 getString(R.string.followed), getString(R.string.each_other_follow) -> {
                     val de = String.format(getString(R.string.defollow_tip), userName ?: userId)
-                    MaterialDialog(this).show {
-                        title(R.string.defollow).message(text = de)
-                            .positiveButton(R.string.dialog_ok).positiveButton {
-                                viewBinding.button.setBackgroundColor(
-                                    GlobalMethod.getThemeColor(
-                                        this@UserHomePageActivity,
-                                        R.attr.colorPrimaryVariant
-                                    )
+                    CoreDialog(this).setTitle(R.string.defollow).setMessage(de)
+                        .setPositiveButton(R.string.dialog_ok) {
+                            viewBinding.button.setBackgroundColor(
+                                GlobalMethod.getThemeColor(
+                                    this@UserHomePageActivity,
+                                    R.attr.colorPrimaryVariant
                                 )
-                                viewBinding.button.setText(R.string.request_data)
-                                Community.deFollow(
-                                    account,
-                                    userId,
-                                    object : ApiCallBack<ApiResponse> {
-                                        override fun onResponse(t: ApiResponse) {
-                                            viewBinding.button.setBackgroundColor(
-                                                GlobalMethod.getColorPrimary(
-                                                    this@UserHomePageActivity
-                                                )
+                            )
+                            viewBinding.button.setText(R.string.request_data)
+                            Community.deFollow(
+                                account,
+                                userId,
+                                object : ApiCallBack<ApiResponse> {
+                                    override fun onResponse(t: ApiResponse) {
+                                        viewBinding.button.setBackgroundColor(
+                                            GlobalMethod.getColorPrimary(
+                                                this@UserHomePageActivity
                                             )
-                                            if (t.code == ServerConfiguration.Success_Code) {
-                                                fans--
-                                                viewBinding.fansNumView.text =
-                                                    ServerConfiguration.numberToString(fans)
-                                                viewBinding.button.text =
-                                                    getString(R.string.follow)
-                                            } else {
-                                                Snackbar.make(
-                                                    viewBinding.button,
-                                                    t.message,
-                                                    Snackbar.LENGTH_SHORT
-                                                ).show()
-                                                viewBinding.button.text = type
-                                            }
+                                        )
+                                        if (t.code == ServerConfiguration.Success_Code) {
+                                            fans--
+                                            viewBinding.fansNumView.text =
+                                                ServerConfiguration.numberToString(fans)
+                                            viewBinding.button.text =
+                                                getString(R.string.follow)
+                                        } else {
+                                            Snackbar.make(
+                                                viewBinding.button,
+                                                t.message,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                            viewBinding.button.text = type
                                         }
+                                    }
 
-                                        override fun onFailure(e: Exception) {
-                                            showInternetError(viewBinding.button, e)
-                                        }
+                                    override fun onFailure(e: Exception) {
+                                        showInternetError(viewBinding.button, e)
+                                    }
 
-                                    })
-                            }
+                                })
+                        }.setNegativeButton(R.string.dialog_cancel) {
 
-                    }.negativeButton(R.string.dialog_cancel)
+                    }.show()
                 }
                 getString(R.string.editData) -> {
                     val intent = Intent(this, EditUserInfoActivity::class.java)

@@ -53,6 +53,7 @@
         <item>@string/wechat_pay</item>
         <item>@string/alipay</item>
         <item>@string/qq_pay</item>
+<!--        <item>@string/paypal</item>-->
     </string-array>
 
     <string-array name="gender_entries">

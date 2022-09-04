@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.OrderListDataBean
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -80,16 +80,11 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
                                             "设置订单" -> {
                                                 when (data.state) {
                                                     "false" -> {
-                                                        MaterialDialog(this@OrderListActivity).show {
-                                                            title(text = data.name).message(text = "确认收到" + data.account + "的付款了嘛?\n订单创建时间:" + data.createTime)
-                                                                .positiveButton(R.string.pay_yes)
-                                                                .positiveButton {
-                                                                    confirmOrder(data.flag, true)
-                                                                }.negativeButton(R.string.pay_no)
-                                                                .negativeButton {
-                                                                    confirmOrder(data.flag, false)
-                                                                }
-                                                        }
+                                                        CoreDialog(this@OrderListActivity).setTitle(data.name).setMessage("确认收到" + data.account + "的付款了嘛?\n订单创建时间:" + data.createTime).setPositiveButton(R.string.pay_yes){
+                                                            confirmOrder(data.flag, true)
+                                                        }.setNegativeButton(R.string.pay_no){
+                                                            confirmOrder(data.flag, false)
+                                                        }.show()
                                                     }
                                                     else -> {
                                                         showToast("无需处理")
@@ -109,26 +104,23 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
                                     }
 
                                 } else {
-                                    MaterialDialog(this@OrderListActivity).show {
-                                        title(text = data.name).message(
-                                            text = String.format(
-                                                getString(R.string.copy_orderid),
-                                                data.flag
-                                            )
-                                        ).positiveButton(R.string.copy).positiveButton {
-                                            val flag = data.flag
-                                            GlobalMethod.copyText(this@OrderListActivity, flag)
-                                            Snackbar.make(
-                                                viewBinding.progressBar,
-                                                String.format(
-                                                    getString(R.string.copy_complete),
-                                                    flag
-                                                ),
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                        }.cancelable(false)
-                                            .negativeButton(R.string.dialog_cancel)
-                                    }
+                                    CoreDialog(this@OrderListActivity).setTitle(String.format(
+                                        getString(R.string.copy_orderid),
+                                        data.flag
+                                    )).setPositiveButton(R.string.copy){
+                                        val flag = data.flag
+                                        GlobalMethod.copyText(this@OrderListActivity, flag)
+                                        Snackbar.make(
+                                            viewBinding.progressBar,
+                                            String.format(
+                                                getString(R.string.copy_complete),
+                                                flag
+                                            ),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    }.setNegativeButton(R.string.dialog_cancel){
+
+                                    }.setCancelable(false).show()
                                 }
                             }
                         }

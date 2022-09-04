@@ -20,6 +20,7 @@ import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.adapters.UserAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityUserListBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 
 class UserListActivity : BaseActivity<ActivityUserListBinding>() {
@@ -70,11 +71,13 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
                 }
                 viewBinding.recyclerView.layoutManager =
                     LinearLayoutManager(this@UserListActivity)
+                val divider = MaterialDividerItemDecoration(
+                    this,
+                    MaterialDividerItemDecoration.VERTICAL
+                )
+
                 viewBinding.recyclerView.addItemDecoration(
-                    DividerItemDecoration(
-                        this,
-                        DividerItemDecoration.VERTICAL
-                    )
+                    divider
                 )
                 loadList(account, isFollowMode, canRemoveFans)
             }

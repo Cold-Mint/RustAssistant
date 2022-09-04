@@ -8,11 +8,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.*
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
@@ -163,20 +159,18 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter_units -> {
-                MaterialDialog(this).show {
-                    title(R.string.filter).message(R.string.filter_tip)
-                    input(maxLength = 20, waitForPositiveButton = false) { dialog, text ->
-                        if (text.isNotEmpty()) {
-                            dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
-                        }
-                    }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                        var key = dialog.getInputField().text.toString()
+                InputDialog(this).setTitle(R.string.filter).setMessage(R.string.filter_tip)
+                    .setInputCanBeEmpty(false).setMaxNumber(20)
+                    .setPositiveButton(R.string.dialog_ok) { text ->
+                        var key = text
                         if (key.length > 20) {
                             key = key.substring(0, 20)
                         }
                         loadData(key)
-                    }.negativeButton(R.string.dialog_close)
-                }
+                        true
+                    }.setNegativeButton(R.string.dialog_close) {
+
+                    }.show()
             }
             android.R.id.home -> {
                 ifNeedFinish()

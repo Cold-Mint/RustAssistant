@@ -11,17 +11,20 @@
     <string name="parse_file_exception">Файл анализирует аномалию</string>
     <string name="select_directents">Выбирать каталог</string>
     <string name="select_file">Выбери файл.</string>
-    <string name="select_file_ok">/ % \</string>
+    <string name="root_path">Корневой каталог</string>
     <string name="select_image">Выбери образ.</string>
     <string name="change_image">Смени изображение.</string>
     <string name="del_image">Удалите изображение.</string>
     <string name="remove">удал</string>
     <string name="remove_image_item">Удаление изображения, расположенного в \ % $\ \\?</string>
     <string name="open">откр</string>
+    <string name="open_public">публичн</string>
+    <string name="open_private">частн</string>
     <string name="open_nottiled">откройте</string>
     <string name="create_unit_complete">Создание единицы завершено</string>
     <string name="create_unit_failed">Ошибка создания единицы</string>
     <string name="create_uniting">Создаем единицу...</string>
+    <string name="build_unit">Строительная единица</string>
     <string name="dialog_ok">увер</string>
     <string name="activation_app">Активировать помощника ржавчины</string>
     <string name="activation_app_tip">Время активации прошло. Пожалуйста, активируйте ржавчину.</string>
@@ -31,6 +34,8 @@
     <string name="always_allow">Всегда.</string>
     <string name="pay_yes">Да, получил</string>
     <string name="pay_no">Нет.</string>
+    <string name="creation_assistant">Создавать помощника</string>
+    <string name="drag_the_slider_to_set_num">Тягач выбирает число.</string>
     <string name="dialog_cancel">отмен</string>
     <string name="no_longer_prompt">Никаких подсказок.</string>
     <string name="navigation_tip">В общей сложности 1 % проектов поддерживают быструю навигацию.</string>
@@ -86,6 +91,7 @@
     <string name="activate_the_account">Активировать счета.</string>
     <string name="activate_the_account_ok">Активация завершена.</string>
     <string name="activate_the_account_tip">Введите код активации:</string>
+    <string name="verification_code">Код подтверждения.</string>
     <string name="search">поиск</string>
     <string name="find">поиск</string>
     <string name="create">созда</string>
@@ -94,6 +100,7 @@
     <string name="enter_file_path">Введите, пожалуйста, маршрут файла.</string>
     <string name="create_bookmark">Создавать закладку</string>
     <string name="name_error">Пожалуйста, введите имя модуля.</string>
+    <string name="file_name_error">Введите имя файла.</string>
     <string name="action_name_error">Введите имя мероприятия.</string>
     <string name="database_null">Этот набор данных не может быть загружен по ложной причине :% $.</string>
     <string name="describe_error">Введите описание, пожалуйста.</string>
@@ -112,6 +119,7 @@
     <string name="mod_action1">Монтажная единица</string>
     <string name="mod_action2">Редактирование.</string>
     <string name="mod_action8">декомпресс</string>
+    <string name="rename">Переименовать.</string>
     <string name="mod_action10">Восстанавливать файл информации</string>
     <string name="open_action1">Редактировать текст</string>
 
@@ -198,6 +206,9 @@
     <string name="template_update_error">Введите обновленную ссылку.</string>
     <string name="template_version_num_error">Введите номер, пожалуйста.</string>
     <string name="template_version_name_error">Введите, пожалуйста, имя версии.</string>
+    <string name="template_id_error">Введите идентификатор.</string>
+    <string name="template_id_error2">Удостоверение личности занято.</string>
+    <string name="template_name_error2">Название шаблона было занято.</string>
     <string name="template_developer">Застройщик.</string>
     <string name="template_error">Невозможно создать шаблон, который уже существует.</string>
     <string name="consent">соглас</string>
@@ -209,6 +220,7 @@
     <string name="update_link">Обновить связь</string>
     <string name="template_version_name">Название версии</string>
     <string name="template_version_num">Номер версии.</string>
+    <string name="open_state">Открытый режим</string>
     <string name="code_table">Таблица кодов.</string>
     <string name="upgrade_database">Набор данных, который вы используете, устарел и был обновлен до последней версии\?</string>
     <string name="upgrade">эскалац</string>
@@ -222,8 +234,10 @@
     <!--编译错误-->
 
     <string name="not_save_exit">Выход без сохранения</string>
+    <string name="save_settings">Ты хочешь сохранить изменения\?</string>
     <string name="saveing">Сохраняю 10%...</string>
     <string name="save_complete">10 процентов на сохранение завершено.</string>
+    <string name="save_complete2">Сохранность завершена.</string>
 
     <string name="type_information">объясняю</string>
     <string name="unknown_type">Неизвестные типы. \"% \ $\</string>
@@ -236,7 +250,7 @@
     <string name="import_error1">Произошла ошибка при разгерметизации файла.</string>
     <string name="import_effor7">Неидентифицированный путь.</string>
     <string name="delete_unit">Удалите устройство.</string>
-    <string name="delete_prompt">Вы хотите, чтобы я удалила $1 %\?</string>
+    <string name="delete_prompt">Вы хотите, чтобы я удалила %1$s?</string>
     <!--导入-->
     <string name="importing">Импорт...</string>
     <string name="import_name">импортирова</string>
@@ -276,8 +290,11 @@
     <string name="mod_title">модул</string>
     <string name="edit_title">Редактирование кода</string>
     <string name="template_title">Шаблон.</string>
+    <string name="template_list">Список шаблонов</string>
     <string name="close">закр</string>
     <string name="qq_group">Qq групп</string>
+    <string name="details">подробн</string>
+    <string name="insert_coins">автомат</string>
     <string name="del_completed">Удалена \ % \ \ \</string>
 
 
@@ -333,7 +350,6 @@
     <string name="update_num">Обновляется запись на $1 %.</string>
     <string name="clean_up_code_cache_complete">Очистка кэша кода завершена.</string>
     <string name="clean">очист</string>
-    <string name="details">подробн</string>
     <string name="show_details">Проверьте детали.</string>
     <string name="goto_line">Прыжок в неправильную позицию</string>
     <string name="code_navigation">Навигация по коду</string>
@@ -343,6 +359,9 @@
     <string name="code_language_on">английск</string>
     <string name="code_language_off">китайск</string>
     <string name="save_tip">Пожалуйста, сохраните текущее содержимое.</string>
+    <string name="not_find_turret">Не могу найти башню.</string>
+    <string name="please_enter_the_x_coordinate">Введите координаты х.</string>
+    <string name="please_enter_the_y_coordinate">Введите координаты Y.</string>
     <string name="copy_rule">Правило копирования</string>
     <string name="rule">прав</string>
     <string name="search_rule">Ищите правила.</string>
@@ -356,6 +375,7 @@
     <string name="collapse_info">Информация о крушении</string>
     <string name="load_system_application">Приложение для отображения системы</string>
     <string name="choose_color">Выбери цвет.</string>
+    <string name="profile_picture_box_color">Цвет головы в раме</string>
     <string name="game_pack">Сумка.</string>
     <string name="select_the_game_pack">Выбери сумку.</string>
     <string name="enable_the_recovery_station">Мусорная станция</string>
@@ -371,22 +391,6 @@
     <string name="keep_rwmod_file_description">Когда распакуете модуль, сохраните исходный файл.</string>
     <string name="keep_rwmod_file">Сохранять исходный файл</string>
     <string name="clear_recovery_station">Очистите место сброса</string>
-    <string name="setting_database_path" translatable="false">DatabasePath</string>
-    <string name="setting_app_language" translatable="false">AppLanguage</string>
-    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
-    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
-    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
-    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
-    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
-    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
-    <string name="setting_night_mode" translatable="false">NightMode</string>
-    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
-    <string name="setting_app_version" translatable="false">AppVersion</string>
-    <string name="setting_game_package" translatable="false">GamePackage</string>
-    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
-    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
-    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
-    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">Создать независимые папки для каждой единицы.</string>
     <string name="independent_folder">Создание независимой папки</string>
     <string name="unable_rename">Эту папку нельзя переименовать, в ней используются файлы.</string>
@@ -405,7 +409,6 @@
     <string name="no_app_installed">Не было установлено никаких $%.</string>
     <string name="restore_all">Полное восстановление.</string>
     <string name="all_saves_are_completed">Сохранились документы на сумму $1 %.</string>
-    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
     <string name="about">о</string>
     <string name="libs">Открытый исходный код</string>
     <string name="additional_selection">Дополнительный член</string>
@@ -414,15 +417,14 @@
     <string name="open_tip">Немедленное открытие на сумму $1.2f</string>
     <string name="packing">В упаковке...</string>
     <string name="share_mod">подел</string>
-    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">Очистить кэш кода</string>
     <string name="custom_symbol">Самоопределение колонки символов</string>
-    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">Идентификатор указывает на количество</string>
     <string name="recovery_file">восстановлен</string>
     <string name="pack_directory">Паковать каталог</string>
     <string name="info">информац</string>
     <string name="cut_board_operation">Операция по монтажу</string>
+    <string name="mine_bookmarks">Моя закладка</string>
     <string name="bookmark_manager">Менеджер закладок</string>
     <string name="jump_a_bookmark">закладка</string>
     <string name="remove_bookmark">Убрать закладку</string>
@@ -433,25 +435,29 @@
     <string name="add_bookmark_fail">Закладка не удалась.</string>
     <string name="bookmark_jump_failed">Бумаги, на которые указывает закладка, не существуют.</string>
     <string name="unit_directory">Единичный каталог</string>
-    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">Имя пользователя.</string>
     <string name="report_mod">Группа доноров</string>
     <string name="report_user">Сообщать о потребителе</string>
     <string name="view_the_report_object">Смотрите.</string>
     <string name="bookmark_already_exists">Подписание книги уже существует.</string>
     <string name="feedback">Обратная связь мнений</string>
-    <string name="setting_use_jetBrains_mono_font">UseJetBrainsМоноФонт</string>
+    <string name="please_set_main_image">Пожалуйста, установите основные изображения.</string>
     <string name="use_jetBrains_mono_font">Используйте шрифт JetBrains Mono</string>
     <string name="use_jetBrains_mono_font_describe">Шрифт, встроенный в ассистентку, настоятельно рекомендуется использовать.</string>
     <string name="directory_does_not_exist">Каталога не существует.</string>
     <string name="special_thanks_to">Особая благодарность.</string>
     <string name="email">Почтов ящик</string>
+    <string name="coin_number">Монета: 1 доллар</string>
+    <string name="insert_coins_tip">Бросил монетку в 10 центов.</string>
+    <string name="insert_coins_num_tip">Сколько монет\?</string>
+    <string name="coin_records">Записи о валютах.</string>
+    <string name="insert_coins_no">Поддержите то, что вам нравится.</string>
+    <string name="insert_coins_ok">Я получил вашу поддержку.</string>
     <string name="register_successed">Регистрация прошла успешно.</string>
     <string name="registration_success_message">Код активации аккаунта был отправлен на ваш почтовый ящик. Если письмо не было получено, почтовый ящик можно рассматривать как спам. Пожалуйста, проверьте мусорные баки.</string>
     <string name="please_login_first">Заходите, пожалуйста.</string>
     <string name="network_error">Интернет-ошибка.</string>
     <string name="check_update_failure">Проверка не удалась.</string>
-    <string name="setting_check_beta_update">ПроверитьБетаОбновление</string>
     <string name="check_beta_update">Проверь бета-обновления</string>
     <string name="check_beta_update_describe">Введена в действие только в версии Release, бета-версии, с обязательным обновлением.</string>
     <string name="loading_values">Количество загрузки...</string>
@@ -534,6 +540,9 @@
     <string name="expiration_time_tip">Срок действия: 1 %</string>
     <string name="community">сообществ</string>
     <string name="recommended">рекомендова</string>
+    <string name="local">местн</string>
+    <string name="network">сет</string>
+    <string name="template_maker">Сборщик шаблонов</string>
     <string name="ranking">сем</string>
     <string name="my">мо</string>
     <string name="latest_release">Последний выпуск.</string>
@@ -557,6 +566,7 @@
     <string name="installation">установк</string>
     <string name="installation_ing">Установка...</string>
     <string name="installated">Установлено.</string>
+    <string name="template_community">Сообщество шаблонов</string>
     <string name="work_of_home_page">Смотри.</string>
     <string name="audit">Этот модуль скрыт снаружи, видимый только вами и администратором.</string>
     <string name="follow">вниман</string>
@@ -727,6 +737,7 @@
     <string name="undo">снят</string>
     <string name="redo">передела</string>
     <string name="del_mod">удал</string>
+    <string name="delete_error">Удаление не удалось.</string>
     <string name="need_save">[несохраненные</string>
     <string name="game_data_and_synchronization">Данные игры синхронизированы</string>
     <string name="game_data_and_synchronization_describe">Управление синхронизированными данными игры.</string>
@@ -807,6 +818,7 @@
     <string name="turret_design">Проектирование башни</string>
     <string name="experience_the_plan">Программа пользовательского опыта</string>
     <string name="experience_the_plan_describe">Анонимная отправка программного обеспечения для уничтожения информации.</string>
+    <string name="anonymous_send_completed">Анонимная ошибка отправлена</string>
     <string name="update_and_iteration">Обновление версии с программой пользовательского опыта</string>
     <string name="is_paid">Вы заплатили\? (неоплаченный заказ будет просрочен и не сможет больше платить за него).</string>
     <string name="paid_yes">Да, я заплатил за него</string>
@@ -823,5 +835,54 @@
     <string name="dynamic_color">Динамический цвет</string>
     <string name="dynamic_color_tip">Следуйте за обоями устройства для замены тематического цвета.</string>
     <string name="dynamic_color_disabled">Это устройство не поддерживает динамические цвета.</string>
+    <string name="an_unsupported_file_type">Неподдерживаемый формат файла составляет 1 %.</string>
     <string name="title">заголовк</string>
+    <string name="search_type_mod">модул</string>
+    <string name="search_type_user">пользовател</string>
+    <string name="search_type_dynamic">динамическ</string>
+    <string name="search_type_mod_comments">Групповой обзор</string>
+    <string name="search_type_mod_versions">Модуль обновил журнал</string>
+    <string name="search_type_purchase_plan">пакет</string>
+    <string name="search_type_mod_all">все</string>
+    <string name="hotSearch">Поиск.</string>
+    <string name="soft">сортировк</string>
+    <string name="file_list_action_sort_by_name">назван</string>
+    <string name="file_list_action_sort_by_type">тип</string>
+    <string name="file_list_action_sort_by_size">размер</string>
+    <string name="file_list_action_sort_by_last_modified">Время на изменение.</string>
+    <string name="file_sort_type">Способ сортировки файлов</string>
+    <string name="template_id">Удостоверение шаблона</string>
+    <string name="customize_edit_text">Специальная монтажная рама</string>
+    <string name="subscription">подписк</string>
+    <string name="de_subscription">отписа</string>
+    <string name="de_subscription_msg">Вы хотите вернуть 10%\?</string>
+    <string name="keyword_color">Цвет ключевого слова</string>
+    <string name="text_color">Общий текстовый цвет</string>
+    <string name="edit_text_color">Цвет шрифта</string>
+    <string name="section_color">Узкий цвет.</string>
+    <string name="annotation_color">Окраска для комментариев</string>
+    <string name="customize_edit_text_description">Редактирование цвета шрифта, редактирование фоновых изображений рамки и т.д.</string>
+    <string name="restore_default">Восстановление по умолчанию</string>
+    <string name="edit_background">фон</string>
+    <string name="file_path">Путь файла</string>
+    <string name="dim_value">Размытость.</string>
+    <string name="auto_generate_color_scheme">Автоматически генерирует цветовую гамму</string>
+    <string name="display_coordinate_system">Покажи систему координат</string>
+    <string name="automatically_disable_coordinate_system">Нынешний размер изображения слишком велик, и система координат отключена.</string>
+    <string name="coordinates_x">Икс-координаты.</string>
+    <string name="coordinates_y">Координаты y.</string>
+    <string name="turret">башн</string>
+    <string name="control_panel">Панель управления.</string>
+    <string name="show_guides">Покажи вспомогательную линию.</string>
+    <string name="save_template">Шаблон сохранения</string>
+    <string name="all">все</string>
+    <string name="new_password">Новый пароль.</string>
+    <string name="edit_text_color_dark">Темный тематический цвет шрифта</string>
+    <string name="user_group">Пользовательская группа</string>
+    <string name="discord_group">Дискорд-сервер</string>
+    <string name="search_suggestions_null">Никаких советов по поиску.</string>
+    <string name="search_suggestions_loading">Получить ордер на обыск...</string>
+    <string name="search_suggestions_number">1 % от общей суммы рекомендаций по поиску.</string>
+    <string name="select_file_ok">%1$s</string>
+
 </resources>

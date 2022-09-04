@@ -15,15 +15,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
-import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.ModConfigurationManager
@@ -45,6 +39,8 @@ import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.LoadFileLayoutBinding
 import com.github.promeg.pinyinhelper.Pinyin
+import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.gyf.immersionbar.ktx.fitsStatusBarView
 import com.yalantis.ucrop.UCrop
@@ -63,9 +59,10 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
     private val list by lazy {
         ArrayList<String>()
     }
-    private val tags by lazy {
-        ArrayList<String>()
-    }
+
+    //    private val tags by lazy {
+//        ArrayList<String>()
+//    }
     lateinit var screenshotAdapter: ScreenshotAdapter
     private var modClass: ModClass? = null
     private var iconLink: String? = null
@@ -122,12 +119,12 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         showError("模组id为空")
                         return
                     }
-                    val account = AppSettings.getValue(AppSettings.Setting.Account, "")
-                    if (account.isBlank()) {
+                    val token = AppSettings.getValue(AppSettings.Setting.Token, "")
+                    if (token.isBlank()) {
                         showError(getString(R.string.please_login_first))
                         return
                     }
-                    WebMod.instance.getInfo(account, modId, object : ApiCallBack<WebModInfoData> {
+                    WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
                         override fun onResponse(t: WebModInfoData) {
                             if (t.code == ServerConfiguration.Success_Code) {
                                 loadLoadModeAction(t)
@@ -296,47 +293,44 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         viewBinding.addScreenshotButton.setOnClickListener {
             val fromUrl = getString(R.string.from_url)
             val selectImage = getString(R.string.select_image)
-            MaterialDialog(this).show {
-                title(R.string.add).listItems(
-                    R.array.screenshot_addType,
-                    waitForPositiveButton = false
-                ) { dialog: MaterialDialog, index: Int, text: CharSequence ->
-                    when (text) {
-                        fromUrl -> {
-                            MaterialDialog(this@ReleaseModActivity).show {
-                                title(R.string.from_url).message(R.string.from_url_tip)
-                                input(waitForPositiveButton = false) { dialog, text ->
-                                    if (text.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                                        dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
-                                    } else {
-                                        dialog.setActionButtonEnabled(WhichButton.POSITIVE, false)
-                                    }
-                                }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                                    val input = dialog.getInputField().text.toString()
-                                    screenshotAdapter.addItem(input)
-                                }.negativeButton(R.string.dialog_close)
-                            }
-                        }
-                        selectImage -> {
-                            val startIntent =
-                                Intent(this@ReleaseModActivity, FileManagerActivity::class.java)
-                            val fileBundle = Bundle()
-                            if (modClass != null) {
-                                fileBundle.putString("path", modClass!!.modFile.absolutePath)
-                            }
-                            fileBundle.putString("type", "selectFile")
-                            startIntent.putExtra("data", fileBundle)
-                            startActivityForResult(startIntent, 2)
-                        }
-                        else -> {
-                            Toast.makeText(this@ReleaseModActivity, "未知的操作", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+            val array = resources.getStringArray(R.array.screenshot_addType)
+            MaterialAlertDialogBuilder(this).setTitle(R.string.add).setItems(array) { i, i2 ->
+                val text = array[i2]
+                when (text) {
+                    fromUrl -> {
+                        InputDialog(this).setTitle(R.string.from_url)
+                            .setMessage(R.string.from_url_tip).setErrorTip { s, textInputLayout ->
+                                if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                                    textInputLayout.error = getString(R.string.from_url_tip)
+                                } else {
+                                    textInputLayout.isErrorEnabled = false
+                                }
+                            }.setPositiveButton(R.string.dialog_ok) { input ->
+                                screenshotAdapter.addItem(input)
+                                true
+                            }.setNegativeButton(R.string.dialog_close) {
 
+                            }.show()
                     }
-                    dialog.dismiss()
-                }.positiveButton(R.string.dialog_cancel)
-            }
+                    selectImage -> {
+                        val startIntent =
+                            Intent(this@ReleaseModActivity, FileManagerActivity::class.java)
+                        val fileBundle = Bundle()
+                        if (modClass != null) {
+                            fileBundle.putString("path", modClass!!.modFile.absolutePath)
+                        }
+                        fileBundle.putString("type", "selectFile")
+                        startIntent.putExtra("data", fileBundle)
+                        startActivityForResult(startIntent, 2)
+                    }
+                    else -> {
+                        Toast.makeText(this@ReleaseModActivity, "未知的操作", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                }
+            }.setPositiveButton(R.string.dialog_cancel) { i1, i2 ->
+            }.show()
         }
 
 
@@ -381,19 +375,33 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                     val tag = s.toString()
                     checkModTag(tag)
                     lineParser.text = tag
-                    tags.clear()
+                    var isNotEmpty = false
+//                    tags.clear()
+                    viewBinding.chipGroup.removeAllViews()
                     lineParser.analyse { lineNum, lineData, isEnd ->
+                        isNotEmpty = true
                         if (lineData.isNotBlank()) {
-                            tags.add(lineData)
+//                            tags.add(lineData)
+                            val chip = Chip(this@ReleaseModActivity)
+                            chip.text = lineData
+                            chip.setOnClickListener {
+                                val bundle = Bundle()
+                                bundle.putString("tag", lineData)
+                                bundle.putString(
+                                    "title",
+                                    String.format(getString(R.string.tag_title), s)
+                                )
+                                bundle.putString("action", "tag")
+                                val thisIntent =
+                                    Intent(this@ReleaseModActivity, TagActivity::class.java)
+                                thisIntent.putExtra("data", bundle)
+                                startActivity(thisIntent)
+                            }
+                            viewBinding.chipGroup.addView(chip)
                         }
                         true
                     }
-                    if (tags.size > 0) {
-                        viewBinding.belongStackLabelView.labels = tags
-                        viewBinding.belongStackLabelView.isVisible = true
-                    } else {
-                        viewBinding.belongStackLabelView.isVisible = false
-                    }
+                    viewBinding.chipGroup.isVisible = isNotEmpty
                 }
 
             })
@@ -427,19 +435,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             )
         )
 
-        viewBinding.belongStackLabelView.setOnLabelClickListener { index, v, s ->
-            val bundle = Bundle()
-            bundle.putString("tag", s)
-            bundle.putString(
-                "title",
-                String.format(getString(R.string.tag_title), s)
-            )
-            bundle.putString("action", "tag")
-            val thisIntent =
-                Intent(this, TagActivity::class.java)
-            thisIntent.putExtra("data", bundle)
-            startActivity(thisIntent)
-        }
     }
 
     private fun selectModFile() {
@@ -476,19 +471,19 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                     startIntent.putExtra("data", fileBundle)
                     startActivityForResult(startIntent, 3)
                 } else if (title == getString(R.string.from_url)) {
-                    MaterialDialog(this).show {
-                        title(R.string.from_url).message(R.string.from_url_tip)
-                        input(waitForPositiveButton = false) { dialog, text ->
-                            if (text.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
+                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip)
+                        .setErrorTip { s, textInputLayout ->
+                            if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                                textInputLayout.error = getString(R.string.from_url_tip)
                             } else {
-                                dialog.setActionButtonEnabled(WhichButton.POSITIVE, false)
+                                textInputLayout.isErrorEnabled = false
                             }
-                        }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                            val input = dialog.getInputField().text.toString()
+                        }.setPositiveButton(R.string.dialog_ok) { input ->
                             loadIcon(input)
-                        }.negativeButton(R.string.dialog_close)
-                    }
+                            true
+                        }.setNegativeButton(R.string.dialog_close) {
+
+                        }.show()
                 } else {
                     val link = iconLink
                     if (link != null) {
@@ -767,33 +762,32 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                             )
                         } else {
                             releaseModWork(
-                                modId, account, modName, modDescribe, versionName,
+                                modId, modName, modDescribe, versionName,
                                 tagsBuilder, file
                             )
                         }
                     } else {
-                        MaterialDialog(this).show {
-                            title(R.string.using_mobile_networks).message(R.string.using_mobile_networks_msg)
-                                .positiveButton(R.string.only_one) {
-                                    if (isUpdateMode) {
-                                        updateModWork(
-                                            modId,
-                                            account,
-                                            modName,
-                                            modDescribe,
-                                            updateLog,
-                                            versionName,
-                                            tagsBuilder,
-                                            file
-                                        )
-                                    } else {
-                                        releaseModWork(
-                                            modId, account, modName, modDescribe, versionName,
-                                            tagsBuilder, file
-                                        )
-                                    }
+                        CoreDialog(this).setTitle(R.string.using_mobile_networks)
+                            .setMessage(R.string.using_mobile_networks_msg)
+                            .setPositiveButton(R.string.only_one) {
+                                if (isUpdateMode) {
+                                    updateModWork(
+                                        modId,
+                                        account,
+                                        modName,
+                                        modDescribe,
+                                        updateLog,
+                                        versionName,
+                                        tagsBuilder,
+                                        file
+                                    )
+                                } else {
+                                    releaseModWork(
+                                        modId, modName, modDescribe, versionName,
+                                        tagsBuilder, file
+                                    )
                                 }
-                            negativeButton(R.string.always_allow) {
+                            }.setNegativeButton(R.string.always_allow) {
                                 AppSettings.setValue(AppSettings.Setting.UseMobileNetwork, true)
                                 if (isUpdateMode) {
                                     updateModWork(
@@ -808,15 +802,13 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                     )
                                 } else {
                                     releaseModWork(
-                                        modId, account, modName, modDescribe, versionName,
+                                        modId, modName, modDescribe, versionName,
                                         tagsBuilder, file
                                     )
                                 }
-                            }
-                            neutralButton(R.string.dialog_cancel) {
+                            }.setNeutralButton(R.string.dialog_cancel) {
 
-                            }
-                        }
+                            }.show()
                     }
                 }
                 AppOperator.NetWorkType.NetWorkType_Wifi -> {
@@ -833,7 +825,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         )
                     } else {
                         releaseModWork(
-                            modId, account, modName, modDescribe, versionName,
+                            modId, modName, modDescribe, versionName,
                             tagsBuilder, file
                         )
                     }
@@ -853,7 +845,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
      */
     fun releaseModWork(
         modId: String,
-        account: String,
         modName: String,
         modDescribe: String,
         versionName: String,
@@ -861,11 +852,10 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
     ) {
         val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
         loadFileLayoutBinding.LinearProgressIndicator.max = 100
+        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.release)
+            .setView(loadFileLayoutBinding.root).setPositiveButton(R.string.dialog_ok) { i1, i2 ->
+            }.setCancelable(false).show()
 
-        val dialog = MaterialDialog(this).show {
-            title(R.string.release).customView(view = loadFileLayoutBinding.root)
-                .positiveButton(R.string.dialog_ok).cancelable(false)
-        }
         WebMod.instance.releaseMod(AppSettings.getValue(AppSettings.Setting.AppID, ""), modId,
             AppSettings.getValue(AppSettings.Setting.Token, ""),
             modName,
@@ -904,15 +894,11 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
 
                                 })
                         }
-
-                        MaterialDialog(this@ReleaseModActivity).show {
-                            title(R.string.release).message(
-                                text = t.message
-                            ).positiveButton(R.string.dialog_ok).cancelable(false)
-                                .positiveButton {
-                                    finish()
-                                }
-                        }
+                        CoreDialog(this@ReleaseModActivity).setTitle(R.string.release)
+                            .setMessage(t.message).setCancelable(false)
+                            .setPositiveButton(R.string.dialog_ok) {
+                                finish()
+                            }.show()
                     } else {
                         handleEvent(t)
                     }
@@ -965,10 +951,11 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
         loadFileLayoutBinding.LinearProgressIndicator.max = 100
 
-        val dialog = MaterialDialog(this).show {
-            title(R.string.release).customView(view = loadFileLayoutBinding.root)
-                .positiveButton(R.string.dialog_ok).cancelable(false)
-        }
+        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.release)
+            .setView(loadFileLayoutBinding.root).setPositiveButton(R.string.dialog_ok) { i1, i2 ->
+            }.setCancelable(false).show()
+
+
         WebMod.instance.updateMod(AppSettings.getValue(AppSettings.Setting.AppID, ""), modId,
             account,
             modName,
@@ -1014,14 +1001,11 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 })
                         }
 
-                        MaterialDialog(this@ReleaseModActivity).show {
-                            title(R.string.release).message(
-                                text = t.message
-                            ).positiveButton(R.string.dialog_ok).cancelable(false)
-                                .positiveButton {
-                                    finish()
-                                }
-                        }
+                        CoreDialog(this@ReleaseModActivity).setTitle(R.string.release).setMessage(
+                            t.message
+                        ).setPositiveButton(R.string.dialog_ok) {
+                            finish()
+                        }.setCancelable(false).show()
                     } else {
                         handleEvent(t)
                     }
@@ -1101,7 +1085,6 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             ).show()
         }
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

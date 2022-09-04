@@ -14,7 +14,8 @@ class RustAutoCompleteProvider {
 
     private val key = "自动完成提供者"
     private val jobList = ArrayList<AutoCompleteJob>()
-    companion object{
+
+    companion object {
         var keyWord = ""
     }
 
@@ -58,31 +59,40 @@ class RustAutoCompleteProvider {
         } else {
             //行内容
             val lineData = contentReference.getLine(charPosition.getLine())
-            if (lineData.isBlank()) {
-                DebugHelper.printLog(requireKey, "行内容为空，无需提示。")
-                return
-            }
-            //光标前内容
-            val cursorPrefix = lineData.subSequence(0, charPosition.getColumn()).toString()
-            val symbolIndex = cursorPrefix.lastIndexOf(':')
-            keyWord = if (symbolIndex > 0) {
-                //有冒号
-                cursorPrefix.substring(symbolIndex + 1)
+            keyWord = if (lineData.isNullOrBlank()) {
+                ""
             } else {
-                //无
-                cursorPrefix
+                //光标前内容
+                val cursorPrefix = lineData.subSequence(0, charPosition.getColumn()).toString()
+                val symbolIndex = cursorPrefix.lastIndexOf(':')
+                if (symbolIndex > 0) {
+                    //有冒号
+                    cursorPrefix.substring(symbolIndex + 1)
+                } else {
+                    //无
+                    cursorPrefix
+                }
             }
             var executeNumber = 0
             jobList.forEach {
                 //如果需要执行
                 if (it.needPerform(contentReference, charPosition)) {
                     executeNumber++
-                    it.requireAutoComplete(
-                        contentReference,
-                        charPosition,
-                        completionPublisher,
-                        lineData, keyWord
-                    )
+                    if (keyWord.isBlank()) {
+                        DebugHelper.printLog(key, "${it.getName()}执行了空关键字响应。", requireKey)
+                        it.respondingEmptyKeyword(
+                            contentReference,
+                            charPosition,
+                            completionPublisher, lineData
+                        )
+                    } else {
+                        it.requireAutoComplete(
+                            contentReference,
+                            charPosition,
+                            completionPublisher,
+                            lineData, keyWord
+                        )
+                    }
                 }
             }
             DebugHelper.printLog(key, "执行了${executeNumber}个任务。", requireKey)

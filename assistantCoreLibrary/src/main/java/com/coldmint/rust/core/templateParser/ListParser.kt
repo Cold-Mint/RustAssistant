@@ -19,25 +19,14 @@ class ListParser(val context: Context, val data: ListParserDataBean) : TemplateP
     private val itemList: List<String> = data.itemList.split(",")
     private val dataList: List<String>? = data.dataList?.split(",")
     override fun getInput(): String {
-        val index = parserListBinding.spacer.selectedItemPosition
-        return if (dataList != null && dataList.size == itemList.size) {
-            dataList[index]
-        } else {
-            itemList[index]
-        }
+        return parserListBinding.inputEditText.text.toString()
     }
 
 
     override val contextView: View
         get() {
-            val adapter =
-                ArrayAdapter<String>(
-                    context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    itemList
-                )
-            parserListBinding.spacer.adapter = adapter
-            parserListBinding.nameView.text = data.name
+            parserListBinding.inputEditText.setSimpleItems(itemList.toTypedArray())
+            parserListBinding.inputLayout.hint = data.name
             return parserListBinding.root
         }
 

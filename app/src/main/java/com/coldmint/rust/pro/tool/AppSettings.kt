@@ -38,7 +38,7 @@ object AppSettings {
     }
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath, SimpleDisplayOfAutoCompleteMenu
     }
 
 
@@ -130,6 +130,8 @@ object AppSettings {
         map[Setting.DynamicColor] = mApplication.getString(R.string.setting_dynamic_color)
         map[Setting.ExperiencePlan] = mApplication.getString(R.string.setting_experience_the_plan)
         map[Setting.FileSortType] = mApplication.getString(R.string.setting_file_sort_type)
+        map[Setting.SimpleDisplayOfAutoCompleteMenu] =
+            mApplication.getString(R.string.setting_simple_display_of_auto_complete_menu)
         //仅保存不可显示
         map[Setting.SetGameStorage] = "SetGameStorage"
         map[Setting.AppID] = "AppId"

@@ -14,7 +14,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.pro.adapters.AttachFileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
@@ -145,9 +145,9 @@ class GlobalOperationsActivity : BaseActivity<ActivityGlobalOperationsBinding>()
                 viewBinding.actionEditText1.text.toString(),
                 viewBinding.actionEditText2.text.toString()
             )
-            MaterialDialog(this).title(text = data).message(R.string.figure_out)
-                .cancelable(false)
-                .positiveButton(R.string.dialog_ok).show()
+            CoreDialog(this).setTitle(data).setMessage(R.string.figure_out).setPositiveButton(R.string.dialog_ok){
+
+            }.setCancelable(false).show()
         }
     }
 

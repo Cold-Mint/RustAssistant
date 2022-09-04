@@ -1,5 +1,6 @@
 package com.coldmint.rust.pro.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,12 @@ import com.coldmint.rust.core.dataBean.mod.InsertCoinHistoryData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.R
+import com.coldmint.rust.pro.UserHomePageActivity
 import com.coldmint.rust.pro.adapters.InsertCoinsAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentInsertCoinsBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 /**
  * 投币碎片
@@ -30,11 +33,13 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+
         viewBinding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
+            divider
         )
         viewBinding.swipeRefreshLayout.setOnRefreshListener {
             loadList(false)
@@ -85,8 +90,14 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
                     viewBinding.loadLayout.isVisible = true
                     viewBinding.coinRecordsView.text = getString(R.string.coin_records)
                 } else {
+                    val adapter = InsertCoinsAdapter(requireContext(), dataList)
+                    adapter.setItemEvent { i, itemInsertCoinsBinding, viewHolder, data ->
+                        itemInsertCoinsBinding.imageView.setOnClickListener {
+                            gotoUserPage(data.account)
+                        }
+                    }
                     viewBinding.recyclerView.adapter =
-                        InsertCoinsAdapter(requireContext(), dataList)
+                        adapter
                     val data = getString(R.string.coin_records) + "(" + dataList.size + ")"
                     viewBinding.coinRecordsView.text = data
                     viewBinding.recyclerView.isVisible = true
@@ -108,6 +119,21 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
             }
 
         })
+    }
+
+    /**
+     * 打开用户主页
+     * @param userId String
+     */
+    fun gotoUserPage(userId: String) {
+        val intent = Intent(
+            requireContext(),
+            UserHomePageActivity::class.java
+        )
+        intent.putExtra("userId", userId)
+        startActivity(
+            intent
+        )
     }
 
     fun loadButton() {

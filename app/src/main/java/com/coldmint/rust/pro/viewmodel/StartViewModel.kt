@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.DataSet
 import com.coldmint.rust.core.dataBean.LoginRequestData
@@ -28,6 +27,7 @@ import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.AppOperator
+import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.User
@@ -184,7 +184,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         AppSettings.initSetting(AppSettings.Setting.DeveloperMode, false)
         AppSettings.initSetting(
             AppSettings.Setting.DatabaseDirectory,
-            context.filesDir.absolutePath + "/database/"
+            context.filesDir.absolutePath + "/databases/"
         )
         AppSettings.initSetting(
             AppSettings.Setting.TemplateDirectory,
@@ -221,6 +221,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         AppSettings.initSetting(AppSettings.Setting.EnglishEditingMode, false)
         AppSettings.initSetting(AppSettings.Setting.NightModeFollowSystem, true)
         AppSettings.initSetting(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
+        AppSettings.initSetting(AppSettings.Setting.SimpleDisplayOfAutoCompleteMenu, true)
         AppSettings.initSetting(
             AppSettings.Setting.ServerAddress,
             ServerConfiguration.defaultIp
@@ -265,60 +266,89 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
     }
 
+
+    /**
+     * 解压数据集
+     * @param resFileName String
+     * @param useDataSet Boolean
+     */
+    private fun unzipDataSet(resFileName: String, useDataSet: Boolean = false) {
+        val cacheFile = File(context.cacheDir.toString() + "/system/" + resFileName)
+        val prefixName = FileOperator.getPrefixName(resFileName)
+        val cacheFolder =
+            File(context.cacheDir.toString() + "/system/" + prefixName)
+        FileOperator.outputResourceFile(context, resFileName, cacheFile)
+        val databaseFolder = File(
+            AppSettings.getValue(
+                AppSettings.Setting.DatabaseDirectory,
+                context.filesDir.absolutePath + "/databases/"
+            ) + prefixName
+        )
+        val updateDataSet: (File) -> Unit = {
+            CompressionManager.instance.unzip(
+                cacheFile,
+                it,
+                object : UnzipListener {
+                    override fun whenUnzipFile(zipEntry: ZipEntry, file: File): Boolean {
+                        return true
+                    }
+
+                    override fun whenUnzipFolder(zipEntry: ZipEntry, folder: File): Boolean {
+                        return true
+                    }
+
+                    override fun whenUnzipComplete(result: Boolean) {
+                        if (useDataSet) {
+                            val init = AppSettings.initSetting(
+                                AppSettings.Setting.DatabasePath,
+                                databaseFolder.absolutePath
+                            )
+                            if (init) {
+                                DebugHelper.printLog("加载数据集", "已初始化加载" + databaseFolder)
+                                var codeDataBase = CodeDataBase.getInstance(context)
+                                codeDataBase.loadDataSet(
+                                    DataSet(databaseFolder),
+                                    CodeDataBase.ReadMode.Copy
+                                )
+                            } else {
+                                DebugHelper.printLog("加载数据集", "无法二次加载" + databaseFolder)
+                            }
+                        } else {
+                            DebugHelper.printLog("加载数据集", "已解压" + databaseFolder + "但不使用。")
+                        }
+                    }
+
+                })
+        }
+
+        if (databaseFolder.exists()) {
+            updateDataSet.invoke(cacheFolder)
+            val oldDataSet = DataSet(databaseFolder)
+            val newDataSet = DataSet(cacheFolder)
+            val update = oldDataSet.update(newDataSet)
+            if (update) {
+                dataSetMsgLiveData.value = context.getString(R.string.dataset_update_ok)
+            }
+        } else {
+            updateDataSet.invoke(databaseFolder)
+        }
+    }
+
     /**
      * 初始化资源
      */
     private fun initRes() {
-        val defaultDatabase = File(
-            AppSettings.getValue(
-                AppSettings.Setting.DatabaseDirectory,
-                context.filesDir.absolutePath + "/database/"
-            ) + "official"
-        )
-        AppSettings.initSetting(
-            AppSettings.Setting.DatabasePath,
-            defaultDatabase.absolutePath
-        )
-        val cacheFile = File(context.cacheDir.toString() + "/System/DataBase.rdb")
-        val cacheFolder = File(context.cacheDir.toString() + "/System/official")
-        FileOperator.outputResourceFile(context, "dataBase.rdb", cacheFile)
         try {
-            val updateDataSet: (File) -> Unit = {
-                CompressionManager.instance.unzip(
-                    cacheFile,
-                    it,
-                    object : UnzipListener {
-                        override fun whenUnzipFile(zipEntry: ZipEntry, file: File): Boolean {
-                            return true
-                        }
-
-                        override fun whenUnzipFolder(zipEntry: ZipEntry, folder: File): Boolean {
-                            return true
-                        }
-
-                        override fun whenUnzipComplete(result: Boolean) {
-                            var codeDataBase = CodeDataBase.getInstance(context)
-
-                            codeDataBase.loadDataSet(
-                                DataSet(defaultDatabase),
-                                CodeDataBase.ReadMode.Copy
-                            )
-                        }
-
-                    })
-            }
-
-            if (defaultDatabase.exists()) {
-                updateDataSet.invoke(cacheFolder)
-                val oldDataSet = DataSet(defaultDatabase)
-                val newDataSet = DataSet(cacheFolder)
-                val update = oldDataSet.update(newDataSet)
-                if (update) {
-                    dataSetMsgLiveData.value = context.getString(R.string.dataset_update_ok)
-                }
+            val language = Locale.getDefault().language
+            DebugHelper.printLog("初始化资源","语言"+language)
+            if (language == "zh") {
+                unzipDataSet("dataBase.rdb", true)
+                unzipDataSet("dataBase_en.rdb")
             } else {
-                updateDataSet.invoke(defaultDatabase)
+                unzipDataSet("dataBase.rdb")
+                unzipDataSet("dataBase_en.rdb", true)
             }
+
             val defaultValues = File(context.filesDir.absolutePath + "/values.json")
             if (!defaultValues.exists()) {
                 FileOperator.outputResourceFile(

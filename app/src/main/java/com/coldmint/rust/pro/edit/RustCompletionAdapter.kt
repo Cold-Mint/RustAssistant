@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import androidx.core.view.isVisible
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.databinding.EditItemBinding
+import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import io.github.rosemoe.sora.widget.component.EditorCompletionAdapter
 import java.util.*
@@ -29,9 +31,24 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
     private val layoutInflater by lazy {
         LayoutInflater.from(context)
     }
+    private val simpleDisplayOfAutoCompleteMenu by lazy {
+        AppSettings.getValue(AppSettings.Setting.SimpleDisplayOfAutoCompleteMenu, true)
+    }
     private val spannableStringBuilder: SpannableStringBuilder = SpannableStringBuilder()
-    private val colorSpan: ForegroundColorSpan = ForegroundColorSpan(Color.parseColor("#2196F3"))
+    private val colorSpan: ForegroundColorSpan by lazy {
+        ForegroundColorSpan(GlobalMethod.getColorPrimary(context))
+    }
     private val bold = StyleSpan(Typeface.BOLD)
+
+    private var useEditBackground = false
+
+    /**
+     * 使用编辑器背景
+     * @param enable Boolean
+     */
+    fun setEditBackground(enable: Boolean) {
+        useEditBackground = enable
+    }
 
     override fun getView(
         position: Int,
@@ -39,7 +56,11 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         parent: ViewGroup,
         isCurrentCursorPosition: Boolean
     ): View {
+
         val editItem = EditItemBinding.inflate(layoutInflater, parent, false)
+        if (useEditBackground) {
+            editItem.root.setBackgroundResource(R.drawable.edit_item_background)
+        }
         val completionItem = getItem(position) as RustCompletionItem
         spannableStringBuilder.clear()
         val label = completionItem.title
@@ -47,7 +68,10 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
         //节补丁
         if (RustAutoCompleteProvider.keyWord.startsWith('[') && RustAutoCompleteProvider.keyWord.length > 1) {
             RustAutoCompleteProvider.keyWord =
-                RustAutoCompleteProvider.keyWord.subSequence(0, RustAutoCompleteProvider.keyWord.length)
+                RustAutoCompleteProvider.keyWord.subSequence(
+                    0,
+                    RustAutoCompleteProvider.keyWord.length
+                )
                     .toString()
         }
         val start = label.lowercase(Locale.getDefault())
@@ -63,15 +87,26 @@ class RustCompletionAdapter : EditorCompletionAdapter() {
             spannableStringBuilder.setSpan(bold, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         }
         editItem.titleView.text = spannableStringBuilder
-        editItem.contentView.text = completionItem.desc
-        if (completionItem.subtitle != null) {
-            editItem.subTitleView.text = completionItem.subtitle
-        } else {
+        if (simpleDisplayOfAutoCompleteMenu) {
+            editItem.contentView.isVisible = false
             editItem.subTitleView.isVisible = false
-        }
-        val icon = completionItem.icon
-        if (icon != null) {
-            Glide.with(context).load(icon).apply(GlobalMethod.getRequestOptions()).into(editItem.iconView)
+            editItem.iconView.isVisible = false
+
+        } else {
+            editItem.contentView.isVisible = true
+            editItem.subTitleView.isVisible = true
+            editItem.iconView.isVisible = true
+            editItem.contentView.text = completionItem.desc
+            if (completionItem.subtitle != null) {
+                editItem.subTitleView.text = completionItem.subtitle
+            } else {
+                editItem.subTitleView.isVisible = false
+            }
+            val icon = completionItem.icon
+            if (icon != null) {
+                Glide.with(context).load(icon).apply(GlobalMethod.getRequestOptions())
+                    .into(editItem.iconView)
+            }
         }
         return editItem.root
     }

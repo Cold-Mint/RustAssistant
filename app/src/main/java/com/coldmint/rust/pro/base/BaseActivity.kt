@@ -17,7 +17,6 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -131,9 +130,7 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
      * @param msg String
      */
     protected fun showDialog(msg: String) {
-        MaterialDialog(this).show {
-            message(text = msg)
-        }
+        CoreDialog(this).setMessage(msg).show()
     }
 
     /**
@@ -163,10 +160,10 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
                 Snackbar.LENGTH_SHORT
             )
                 .setAction(R.string.show_details) {
-                    MaterialDialog(this).show {
-                        title(R.string.details).message(text = thisMsg)
-                            .positiveButton(R.string.dialog_ok)
-                    }
+                    CoreDialog(this).setTitle(R.string.details).setMessage( thisMsg)
+                        .setPositiveButton(R.string.dialog_ok){
+
+                        }.show()
                 }.show()
         }
     }

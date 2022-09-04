@@ -42,9 +42,6 @@ class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveDa
         return link
     }
 
-
-
-
     /**
      * 获取此模组是否对外开放
      * @return Boolean

@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.BannerItemDataBean
 import com.coldmint.rust.core.dataBean.mod.WebModListData
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -163,10 +163,11 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                                         val type = textStyleMaker.getType(data.link)
                                         val linkData = textStyleMaker.getData(data.link)
                                         if (type == null || linkData == null) {
-                                            MaterialDialog(requireContext()).show {
-                                                title(text = data.title).message(text = data.link)
-                                                    .positiveButton(R.string.dialog_ok)
-                                            }
+                                            CoreDialog(requireContext()).setTitle(data.title)
+                                                .setMessage(data.link)
+                                                .setPositiveButton(R.string.dialog_ok) {
+
+                                                }.setCancelable(false).show()
                                         } else {
                                             textStyleMaker.clickEvent(
                                                 requireContext(),

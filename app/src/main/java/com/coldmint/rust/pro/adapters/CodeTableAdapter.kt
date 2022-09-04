@@ -2,7 +2,6 @@ package com.coldmint.rust.pro.adapters
 
 import android.widget.BaseExpandableListAdapter
 import android.view.LayoutInflater
-import com.kongzue.stacklabelview.interfaces.OnLabelClickListener
 import android.view.ViewGroup
 import com.coldmint.rust.pro.R
 import android.content.Context
@@ -20,6 +19,7 @@ import com.coldmint.rust.pro.databinding.CodeTableGroupBinding
 import com.coldmint.rust.pro.databinding.CodeTableItemBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.material.chip.Chip
 import java.util.concurrent.Executors
 
 class CodeTableAdapter(
@@ -131,9 +131,9 @@ class CodeTableAdapter(
         val resultView: CodeTableItemBinding =
             CodeTableItemBinding.inflate(layoutInflater, parent, false)
         val codeInfo = itemList[groupPosition][childPosition]
-        resultView.belongStackLabelView.onLabelClickListener = OnLabelClickListener { index, v, s ->
-            labelFunction?.invoke(index, v, s)
-        }
+
+//        resultView.belongStackLabelView.onLabelClickListener = OnLabelClickListener { index, v, s ->
+//        }
         resultView.descriptionView.text = codeInfo.description
         resultView.descriptionView.setOnClickListener {
             GlobalMethod.copyText(context, codeInfo.description, it)
@@ -147,13 +147,22 @@ class CodeTableAdapter(
             GlobalMethod.copyText(context, codeInfo.code, it)
         }
         resultView.valueTypeView.text = typeNameMap?.get(codeInfo.type) ?: codeInfo.type
-        val list = ArrayList<String>()
         lineParser.text = codeInfo.section
+        resultView.chipGroup.removeAllViews()
+        var isNotEmpty = false
         lineParser.analyse { lineNum, lineData, isEnd ->
-            list.add(sectionMap?.get(lineData) ?: lineData)
+            isNotEmpty = true
+            val text = sectionMap?.get(lineData) ?: lineData
+            val chip = Chip(context)
+            chip.text = text
+            chip.setOnClickListener {
+                labelFunction?.invoke(lineNum, it,  text )
+            }
+            resultView.chipGroup.addView(chip)
+            true
         }
-        resultView.belongStackLabelView.isVisible = list.isNotEmpty()
-        resultView.belongStackLabelView.labels = list
+
+        resultView.chipGroup.isVisible = isNotEmpty
         resultView.valueTypeView.setOnClickListener {
             val handler = Handler(Looper.getMainLooper())
             executorService.submit {

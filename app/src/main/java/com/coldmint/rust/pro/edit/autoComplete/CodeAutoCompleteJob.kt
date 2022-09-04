@@ -76,6 +76,35 @@ class CodeAutoCompleteJob : AutoCompleteJob {
         return true
     }
 
+    override fun respondingEmptyKeyword(
+        contentReference: ContentReference,
+        charPosition: CharPosition,
+        completionPublisher: CompletionPublisher,
+        lineData: String
+    ) {
+        val section = getSection(charPosition.getLine(), contentReference)
+        if (section != null) {
+            val trueSection = getSectionType(section)
+            val list = codeDao.findCodeBySection(
+                trueSection
+            )
+            list?.forEach { codeInfo ->
+                completionPublisher.addItem(
+                    CompletionItemConverter.codeInfoToCompletionItem(
+                        codeInfo
+                    )
+                )
+            }
+            DebugHelper.printLog(
+                debugKey,
+                "${getName()}响应空白关键字，查询${trueSection}节，返回了${list?.size ?: -1}个内容。"
+            )
+        } else {
+            DebugHelper.printLog(debugKey, "${getName()}响应空白关键字，无法获取节。")
+        }
+    }
+
+
     override fun requireAutoComplete(
         contentReference: ContentReference,
         charPosition: CharPosition,

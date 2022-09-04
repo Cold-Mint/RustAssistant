@@ -17,7 +17,7 @@ interface AutoCompleteJob {
     /**
      * 获取工作名称
      */
-    fun getName():String
+    fun getName(): String
 
 
     /**
@@ -30,6 +30,18 @@ interface AutoCompleteJob {
         contentReference: ContentReference,
         charPosition: CharPosition
     ): Boolean
+
+
+    /**
+     * 处理空白关键字，或者行内容响应
+     * 即不输入任何内容执行的操作
+     * @return Boolean 返回true即响应，返回false反之
+     */
+    fun respondingEmptyKeyword(
+        contentReference: ContentReference,
+        charPosition: CharPosition,
+        completionPublisher: CompletionPublisher, lineData: String
+    )
 
     /**
      * 请求自动完成
@@ -44,7 +56,7 @@ interface AutoCompleteJob {
         charPosition: CharPosition,
         completionPublisher: CompletionPublisher,
         lineData: String,
-        keyWord:String
+        keyWord: String
     )
 
 }

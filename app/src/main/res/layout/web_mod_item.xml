@@ -12,6 +12,7 @@
         <ImageView
             android:id="@+id/mod_icon"
             android:layout_width="56dp"
+            android:scaleType="centerCrop"
             android:layout_height="56dp"
             android:src="@drawable/image" />
 

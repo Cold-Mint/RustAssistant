@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.SourceFile
@@ -16,6 +17,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.HistoryAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentHistoryBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -34,6 +36,14 @@ class HistoryUnitFragment(
     val executorService: ExecutorService = Executors.newSingleThreadExecutor()
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.unitList.layoutManager = LinearLayoutManager(requireContext())
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+
+        viewBinding.unitList.addItemDecoration(
+            divider
+        )
         loadList()
     }
 
@@ -96,6 +106,7 @@ class HistoryUnitFragment(
                         }
                     }
                     viewBinding.unitList.adapter = adapter
+
                     whenNumberChanged?.invoke(dataList.size)
                 }
             }
@@ -110,12 +121,6 @@ class HistoryUnitFragment(
     fun openEditActivity(file: SourceFile) {
         val bundle = Bundle()
         val path = file.file.absolutePath
-//        val name = fileClass.getName(
-//            AppSettings.getValue(
-//                AppSettings.Setting.AppLanguage,
-//                Locale.getDefault().language
-//            )
-//        )
         bundle.putString("path", path)
         bundle.putString("modPath", modClass.modFile.absolutePath)
         val intent = Intent(requireContext(), EditActivity::class.java)

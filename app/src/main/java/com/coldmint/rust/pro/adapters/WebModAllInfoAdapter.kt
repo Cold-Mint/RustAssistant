@@ -5,7 +5,6 @@ import android.content.ServiceConnection
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.mod.WebModAllInfoData

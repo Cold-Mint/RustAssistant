@@ -22,7 +22,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
 import androidx.lifecycle.viewModelScope
-import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.InputParserDataBean
@@ -113,7 +112,9 @@ class TemplateParserActivity : BaseActivity<ActivityTemplateParserBinding>() {
                 if (name.isNotBlank()) {
                     val build = viewModel.buildFile(this, name)
                     if (build) {
-                        setResult(RESULT_OK)
+                        val data = Intent()
+                        data.putExtra("File", viewModel.getOutputPath())
+                        setResult(RESULT_OK, data)
                         finish()
                     } else {
                         Snackbar.make(

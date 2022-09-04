@@ -12,7 +12,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.palette.graphics.Palette
-import com.afollestad.materialdialogs.utils.MDUtil.getWidthAndHeight
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.coldmint.dialog.CoreDialog
@@ -62,8 +61,8 @@ class CustomizeEditTextActivity : BaseActivity<ActivityCustomizeEditTextBinding>
                     val type = FileOperator.getFileType(file)
                     if (type == "png" || type == "jpg") {
                         val bitmap = BitmapFactory.decodeFile(path)
-                        val width = windowManager.getWidthAndHeight().first
-                        val height = windowManager.getWidthAndHeight().second
+                        val width = windowManager.defaultDisplay.width
+                        val height = windowManager.defaultDisplay.height
                         val imageWidth = bitmap.width
                         val imageHeight = bitmap.height
                         if (width % imageWidth == 0 && height % imageHeight == 0) {

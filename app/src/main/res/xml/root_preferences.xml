@@ -94,6 +94,12 @@
             app:title="@string/custom_symbol"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/setting_simple_display_of_auto_complete_menu"
+            android:title="@string/simple_display_of_auto_complete_menu"
+            android:summary="@string/simple_display_of_auto_complete_menu_describe"/>
+
         <SeekBarPreference
             android:max="160"
             app:key="@string/setting_identifiers_prompt_number"

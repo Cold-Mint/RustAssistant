@@ -22,6 +22,7 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.viewmodel.ModViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -337,11 +338,12 @@ class ModFragment : BaseFragment<FragmentModBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.modList.layoutManager = LinearLayoutManager(context)
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
         viewBinding.modList.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
+            divider
         )
         viewBinding.swipeRefreshLayout.setOnRefreshListener {
             loadModList()

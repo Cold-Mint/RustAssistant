@@ -9,7 +9,6 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import com.afollestad.materialdialogs.MaterialDialog
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.coldmint.rust.pro.base.BaseAdapter

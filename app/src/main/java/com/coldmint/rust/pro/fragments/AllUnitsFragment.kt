@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.SourceFile
@@ -29,6 +30,8 @@ import com.coldmint.rust.pro.adapters.UnitAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentAllUnitsBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.google.android.material.divider.MaterialDividerItemDecoration
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,6 +54,18 @@ class AllUnitsFragment(
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.unitList.layoutManager = LinearLayoutManager(requireContext())
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+
+        viewBinding.unitList.addItemDecoration(
+            divider
+        )
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+            loadFiles()
+            viewBinding.swipeRefreshLayout.isRefreshing = false
+        }
         loadFiles()
     }
 
@@ -129,7 +144,7 @@ class AllUnitsFragment(
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
-                viewBinding.unitList.isVisible = false
+                viewBinding.swipeRefreshLayout.isVisible = false
                 viewBinding.progressBar.isVisible = true
                 viewBinding.unitError.isVisible = false
             }
@@ -166,7 +181,7 @@ class AllUnitsFragment(
                 notFindUnits(handler)
             } else {
                 handler.post {
-                    viewBinding.unitList.isVisible = true
+                    viewBinding.swipeRefreshLayout.isVisible = true
                     viewBinding.progressBar.isVisible = false
                     viewBinding.unitError.isVisible = false
                     val adapter = UnitAdapter(requireContext(), dataList, "")
@@ -181,6 +196,8 @@ class AllUnitsFragment(
                             loadFiles()
                         }
                     }
+                    FastScrollerBuilder(viewBinding.unitList).useMd2Style()
+                        .setPopupTextProvider(adapter).build()
                     viewBinding.unitList.adapter = adapter
                     whenNumberChanged?.invoke(dataList.size)
                 }
@@ -196,7 +213,7 @@ class AllUnitsFragment(
     fun notFindUnits(handler: Handler? = null, key: String? = null, searchMode: Boolean = false) {
         val temHandler = handler ?: Handler(Looper.getMainLooper())
         temHandler.post {
-            viewBinding.unitList.isVisible = false
+            viewBinding.swipeRefreshLayout.isVisible = false
             viewBinding.progressBar.isVisible = false
             viewBinding.unitError.isVisible = true
             if (key != null) {
@@ -233,7 +250,7 @@ class AllUnitsFragment(
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
-                viewBinding.unitList.isVisible = false
+                viewBinding.swipeRefreshLayout.isVisible = false
                 viewBinding.progressBar.isVisible = true
                 viewBinding.unitError.isVisible = false
             }
@@ -295,7 +312,7 @@ class AllUnitsFragment(
                 notFindUnits(handler, searchMode = true)
             } else {
                 handler.post {
-                    viewBinding.unitList.isVisible = true
+                    viewBinding.swipeRefreshLayout.isVisible = true
                     viewBinding.progressBar.isVisible = false
                     viewBinding.unitError.isVisible = true
                     viewBinding.unitError.text = getString(R.string.search_tip)
@@ -343,7 +360,7 @@ class AllUnitsFragment(
                     notFindUnits(handler, key)
                 } else {
                     handler.post {
-                        viewBinding.unitList.isVisible = true
+                        viewBinding.swipeRefreshLayout.isVisible = true
                         viewBinding.progressBar.isVisible = false
                         viewBinding.unitError.isVisible = true
                         viewBinding.unitError.text = getString(R.string.not_find_units_action)

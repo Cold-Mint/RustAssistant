@@ -13,15 +13,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.UnitItemBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
+import me.zhanghai.android.fastscroll.PopupTextProvider
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Exception
 
 class UnitAdapter(
-      context: Context,
+    context: Context,
     dataList: MutableList<SourceFile>,
     val key: String
-) : BaseAdapter<UnitItemBinding, SourceFile>(context, dataList) {
+) : BaseAdapter<UnitItemBinding, SourceFile>(context, dataList), PopupTextProvider {
+
+
 
     private val language: String by lazy {
         AppSettings.getValue(
@@ -29,7 +32,14 @@ class UnitAdapter(
             Locale.getDefault().language
         )
     }
+
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    init {
+        dataList.sortBy {
+            getInitial(it.getName(language))
+        }
+    }
 
     override fun getViewBindingObject(
         layoutInflater: LayoutInflater,
@@ -80,6 +90,10 @@ class UnitAdapter(
         } catch (e: Exception) {
             viewBinding.unitDescribeView.text = e.toString()
         }
+    }
+
+    override fun getPopupText(position: Int): String {
+        return getInitial(dataList[position].getName(language)).toString()
     }
 
 

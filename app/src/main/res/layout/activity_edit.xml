@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -25,44 +25,145 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@id/tabLayout"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/action"
+                android:visibility="gone"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/TabLayoutTextStyle" />
         </com.google.android.material.appbar.AppBarLayout>
 
 
         <ProgressBar
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:id="@+id/myProgressBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
 
         <io.github.rosemoe.sora.widget.CodeEditor
             android:id="@+id/codeEditor"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/recyclerview"
-            android:layout_below="@id/appBarLayout" />
+            android:layout_above="@id/searchLayout"
+            android:layout_below="@id/appBarLayout"
+            android:visibility="visible" />
 
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchLayout"
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/recyclerview"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:animateLayoutChanges="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/find">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/findEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/replaceLayout"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/replace">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/replaceEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <Button
+                        android:id="@+id/lastButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/last" />
+
+                    <Button
+                        android:id="@+id/nextButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/next" />
+
+                    <Button
+                        android:id="@+id/replaceButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/replace" />
+
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/allButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/all" />
+
+                    <Button
+                        android:id="@+id/closeButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/close" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:visibility="invisible" />
 
 
     </RelativeLayout>
 
-<!--    <include layout="@layout/edit_end" />-->
+    <!--    <include layout="@layout/edit_end" />-->
 
     <include layout="@layout/edit_start" />
 </androidx.drawerlayout.widget.DrawerLayout>

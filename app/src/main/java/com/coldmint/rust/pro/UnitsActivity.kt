@@ -12,12 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import android.view.*
 import android.widget.*
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.ModPageAdapter
@@ -77,21 +72,19 @@ class UnitsActivity : BaseActivity<ActivityUnitsBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter_units -> {
-                MaterialDialog(this).show {
-                    title(R.string.filter).message(R.string.filter_tip)
-                    input(maxLength = 20, waitForPositiveButton = false) { dialog, text ->
-                        if (text.isNotEmpty()) {
-                            dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
-                        }
-                    }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                        var key = dialog.getInputField().text.toString()
+                InputDialog(this).setTitle(R.string.filter).setMessage(R.string.filter_tip)
+                    .setHint(R.string.key_word)
+                    .setMaxNumber(20).setInputCanBeEmpty(false)
+                    .setPositiveButton(R.string.dialog_ok) { text ->
+                        var key = text
                         if (key.length > 20) {
                             key = key.substring(0, 20)
                         }
                         viewBinding.tabLayout.selectTab(viewBinding.tabLayout.getTabAt(1))
                         modPageAdapter.allUnitsFragment.filter(key)
-                    }.negativeButton(R.string.dialog_close)
-                }
+                        true
+                    }.setNegativeButton(R.string.dialog_cancel) {
+                    }.show()
             }
             R.id.search_units -> {
                 viewBinding.tabLayout.selectTab(viewBinding.tabLayout.getTabAt(1))
@@ -155,23 +148,21 @@ class UnitsActivity : BaseActivity<ActivityUnitsBinding>() {
                     }
 
                 })
-                MaterialDialog(this).show {
-                    title(R.string.search)
-                    customView(view = dialogSearchUnitsBinding.root)
-                        .positiveButton(R.string.dialog_ok).positiveButton {
-                            modPageAdapter.allUnitsFragment.advancedSearch(
-                                configuration = AllUnitsFragment.SearchConfiguration(
-                                    dialogSearchUnitsBinding.unitNameInputView.text.toString(),
-                                    dialogSearchUnitsBinding.fileNameInputView.text.toString(),
-                                    dialogSearchUnitsBinding.matchesFileNamesByReBox.isChecked,
-                                    dialogSearchUnitsBinding.fileContentInputView.text.toString(),
-                                    dialogSearchUnitsBinding.advancedSearchBox.isChecked,
-                                    dialogSearchUnitsBinding.isCodeBox.isChecked
-                                )
+                MaterialAlertDialogBuilder(this).setTitle(R.string.search)
+                    .setView(dialogSearchUnitsBinding.root)
+                    .setPositiveButton(R.string.dialog_ok) { i, i1 ->
+                        modPageAdapter.allUnitsFragment.advancedSearch(
+                            configuration = AllUnitsFragment.SearchConfiguration(
+                                dialogSearchUnitsBinding.unitNameInputView.text.toString(),
+                                dialogSearchUnitsBinding.fileNameInputView.text.toString(),
+                                dialogSearchUnitsBinding.matchesFileNamesByReBox.isChecked,
+                                dialogSearchUnitsBinding.fileContentInputView.text.toString(),
+                                dialogSearchUnitsBinding.advancedSearchBox.isChecked,
+                                dialogSearchUnitsBinding.isCodeBox.isChecked
                             )
-                        }
-                        .negativeButton(R.string.dialog_close)
-                }
+                        )
+                    }.setNegativeButton(R.string.dialog_close) { i1, i2 ->
+                    }.show()
             }
             R.id.rebuild -> {
                 MaterialAlertDialogBuilder(this).setTitle(R.string.rebuild_project)

@@ -180,12 +180,14 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.kongzue.stacklabelview.StackLabel
-                        android:id="@+id/belongStackLabelView"
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:singleLine="false" />
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -354,6 +356,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-    android:src="@drawable/ic_outline_send_24" />
+        android:src="@drawable/ic_outline_send_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

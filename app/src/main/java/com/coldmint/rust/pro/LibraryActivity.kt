@@ -183,11 +183,12 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
         if (canUseView) {
             setReturnButton()
             title = getString(R.string.libs)
+            val divider = MaterialDividerItemDecoration(
+                this,
+                MaterialDividerItemDecoration.VERTICAL
+            )
             viewBinding.libsView.addItemDecoration(
-                DividerItemDecoration(
-                    this,
-                    DividerItemDecoration.VERTICAL
-                )
+                divider
             )
             viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)
             val libAdapter = LibAdapter(this@LibraryActivity, getLibInfoList())

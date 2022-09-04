@@ -290,7 +290,7 @@ class ValueTypeActivity : BaseActivity<ActivityValueTypeBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
-            viewBinding.toolbar.title = getText(R.string.value_type_manager)
+            title = getText(R.string.value_type_manager)
             viewBinding.valueList.layoutManager = LinearLayoutManager(this@ValueTypeActivity)
             setReturnButton()
             loadList()

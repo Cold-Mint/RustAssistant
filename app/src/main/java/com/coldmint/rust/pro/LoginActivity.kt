@@ -17,11 +17,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
 import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.LoginRequestData
@@ -42,10 +37,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private var isLogin = false
 
     private fun initAction() {
-        immersionBar {
-            transparentStatusBar().statusBarDarkFont(true)
-                .transparentNavigationBar().navigationBarDarkIcon(true)
-        }
+//        immersionBar {
+//            transparentStatusBar().statusBarDarkFont(true)
+//                .transparentNavigationBar().navigationBarDarkIcon(true)
+//        }
         Log.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
         viewBinding.changeServerView.isVisible = BuildConfig.DEBUG
         viewBinding.changePasswordView.setOnClickListener {
@@ -147,27 +142,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             } else {
                                 when (userData.message) {
                                     "请先激活您的账户" -> {
-                                        MaterialDialog(this@LoginActivity).show {
-                                            title(R.string.activate_the_account).message(R.string.activate_the_account_tip)
-                                                .cancelable(false)
-                                            input(
-                                                maxLength = 6,
-                                                waitForPositiveButton = false
-                                            ) { dialog, text ->
-                                                if (text.length == 6) {
-                                                    dialog.setActionButtonEnabled(
-                                                        WhichButton.POSITIVE,
-                                                        true
-                                                    )
-                                                } else {
-                                                    dialog.setActionButtonEnabled(
-                                                        WhichButton.POSITIVE,
-                                                        false
-                                                    )
-                                                }
-                                            }.positiveButton(R.string.dialog_ok, null) { dialog ->
+                                        InputDialog(this@LoginActivity).setTitle(R.string.activate_the_account)
+                                            .setMessage(R.string.activate_the_account_tip)
+                                            .setHint(R.string.verification_code)
+                                            .setCancelable(false).setMaxNumber(6)
+                                            .setPositiveButton(R.string.dialog_ok) { text ->
                                                 User.activateAccount(account,
-                                                    dialog.getInputField().text.toString(),
+                                                    text,
                                                     object : ApiCallBack<ApiResponse> {
                                                         override fun onResponse(t: ApiResponse) {
                                                             if (t.code == ServerConfiguration.Success_Code) {
@@ -190,8 +171,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                                         }
 
                                                     })
-                                            }.negativeButton(R.string.dialog_close)
-                                        }
+                                                true
+                                            }.setNegativeButton(R.string.dialog_close) {
+
+                                            }.show()
                                     }
                                     "找不到用户" -> {
                                         setErrorAndInput(
@@ -226,32 +209,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                                 override fun onResponse(t: ApiResponse) {
                                                     viewBinding.button.isEnabled = true
                                                     if (t.code == ServerConfiguration.Success_Code) {
-                                                        MaterialDialog(this@LoginActivity).show {
-                                                            title(R.string.verification).message(
-                                                                R.string.activate_the_account_tip
-                                                            )
-                                                                .cancelable(false)
-                                                            input(
-                                                                maxLength = 6,
-                                                                waitForPositiveButton = false
-                                                            ) { dialog, text ->
-                                                                if (text.length == 6) {
-                                                                    dialog.setActionButtonEnabled(
-                                                                        WhichButton.POSITIVE,
-                                                                        true
-                                                                    )
-                                                                } else {
-                                                                    dialog.setActionButtonEnabled(
-                                                                        WhichButton.POSITIVE,
-                                                                        false
-                                                                    )
-                                                                }
-                                                            }.positiveButton(
-                                                                R.string.dialog_ok,
-                                                                null
-                                                            ) { dialog ->
+                                                        InputDialog(this@LoginActivity).setMaxNumber(
+                                                            6
+                                                        ).setHint(R.string.verification_code)
+                                                            .setInputCanBeEmpty(false)
+                                                            .setTitle(R.string.verification)
+                                                            .setMessage(R.string.activate_the_account_tip)
+                                                            .setCancelable(false)
+                                                            .setPositiveButton(R.string.dialog_ok) { it ->
                                                                 User.changeAppId(account,
-                                                                    dialog.getInputField().text.toString(),
+                                                                    it,
                                                                     appId,
                                                                     object :
                                                                         ApiCallBack<ApiResponse> {
@@ -279,8 +246,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                                                         }
 
                                                                     })
-                                                            }.negativeButton(R.string.dialog_close)
-                                                        }
+                                                                true
+                                                            }
+                                                            .setNegativeButton(R.string.dialog_close) {
+
+                                                            }.show()
                                                     } else {
                                                         Snackbar.make(
                                                             viewBinding.button,

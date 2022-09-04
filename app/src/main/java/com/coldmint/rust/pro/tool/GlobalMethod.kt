@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
@@ -16,8 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
 import com.coldmint.rust.core.dataBean.mod.WebModUpdateLogData
@@ -27,6 +26,7 @@ import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.R
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.permissionx.guolindev.PermissionX
 import jp.wasabeef.glide.transformations.*
@@ -42,6 +42,15 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
+
+    /**
+     * 转dp
+     * @param i Int
+     * @return Int
+     */
+    fun dp2px(i: Int): Int {
+        return (Resources.getSystem().displayMetrics.density * i + 0.5f).toInt()
+    }
 
 
     /**
@@ -211,11 +220,10 @@ object GlobalMethod {
                         }
                         val title =
                             context.getString(R.string.update_record) + "(" + data.size + ")"
-                        MaterialDialog(context, BottomSheet()).show {
-                            title(text = title).message(text = stringBuilder.toString())
-                                .cancelable(false)
-                                .positiveButton(R.string.dialog_ok)
-                        }
+                        MaterialAlertDialogBuilder(context).setTitle(title)
+                            .setMessage(stringBuilder.toString()).setCancelable(false)
+                            .setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                            }.show()
                     } else {
                         Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                     }

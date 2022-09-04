@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="24dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/unitNameInputLayout"

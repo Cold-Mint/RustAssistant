@@ -26,6 +26,8 @@ class TemplateParserViewModel : BaseViewModel() {
     private var jsonData: JSONObject? = null
     private var template: Template? = null
     private lateinit var arrayList :ArrayList<TemplateParser>
+    //文件输出目录
+    private var outPutPath : String? = null
 
 
     //创建目录
@@ -111,7 +113,16 @@ class TemplateParserViewModel : BaseViewModel() {
             Log.e("构建文件", "目标文件${path}已存在。")
             return false
         }
+        outPutPath = path.absolutePath
         return FileOperator.writeFile(path, generatingCode(context))
+    }
+
+    /**
+     * 获取文件输出目录（当构建文件完毕后，返回有效值。否则返回null）
+     * @return String?
+     */
+    fun getOutputPath():String?{
+        return outPutPath
     }
 
     /**

@@ -33,12 +33,11 @@ import kotlin.collections.ArrayList
 
 class DatabaseFragment : BaseFragment<FragmentDatabaseBinding>() {
 
-
-    override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
+    fun loadList() {
         viewBinding.databaseList.layoutManager = LinearLayoutManager(requireContext())
         val database_directory = AppSettings.getValue(
             AppSettings.Setting.DatabaseDirectory,
-            requireContext().filesDir.absolutePath + "/database/"
+            requireContext().filesDir.absolutePath + "/databases/"
         )
         val directory = File(database_directory)
         if (!directory.exists()) {
@@ -164,6 +163,15 @@ class DatabaseFragment : BaseFragment<FragmentDatabaseBinding>() {
         }
     }
 
+
+    override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadList()
+    }
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentDatabaseBinding {
         return FragmentDatabaseBinding.inflate(layoutInflater)

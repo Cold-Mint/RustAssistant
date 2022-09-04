@@ -15,10 +15,11 @@ import com.coldmint.rust.pro.adapters.TemplateItemAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityNetworkTemplatePackageDetailsBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class NetworkTemplatePackageDetailsActivity :
     BaseActivity<ActivityNetworkTemplatePackageDetailsBinding>() {
-//    private var createDirectory: String? = null
+    //    private var createDirectory: String? = null
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         val id = intent.getStringExtra("id")
         if (id == null) {
@@ -31,11 +32,12 @@ class NetworkTemplatePackageDetailsActivity :
         title = getString(R.string.title)
         setReturnButton()
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        val divider = MaterialDividerItemDecoration(
+            this,
+            MaterialDividerItemDecoration.VERTICAL
+        )
         viewBinding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
-            )
+            divider
         )
         TemplatePhp.instance.getTemplateList(
             id,
@@ -52,10 +54,13 @@ class NetworkTemplatePackageDetailsActivity :
                         )
                         adapter.setItemEvent { i, itemTemplateBinding, viewHolder, template ->
                             itemTemplateBinding.root.setOnClickListener {
-                                val intent = Intent(this@NetworkTemplatePackageDetailsActivity,TemplateMakerActivity::class.java)
-                                intent.putExtra("name",template.title)
-                                intent.putExtra("local",false)
-                                intent.putExtra("path",template.id)
+                                val intent = Intent(
+                                    this@NetworkTemplatePackageDetailsActivity,
+                                    TemplateMakerActivity::class.java
+                                )
+                                intent.putExtra("name", template.title)
+                                intent.putExtra("local", false)
+                                intent.putExtra("path", template.id)
                                 startActivity(intent)
                             }
                         }

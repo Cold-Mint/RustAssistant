@@ -12,7 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.MapClass
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
@@ -59,27 +59,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                             itemMapBinding.mapLinearlayout.setOnClickListener {
                                 val packName = "com.mirwanda.nottiled"
                                 val materialDialog =
-                                    MaterialDialog(requireContext()).title(R.string.edit_map)
-                                        .message(R.string.edit_map_tip)
-                                        .negativeButton(R.string.dialog_close).cancelable(false)
+                                    CoreDialog(requireContext()).setTitle(R.string.edit_map)
+                                        .setMessage(R.string.edit_map_tip)
+                                        .setNegativeButton(R.string.dialog_close) {
+
+                                        }.setCancelable(false)
                                 if (AppOperator.isAppInstalled(
                                         requireContext(),
                                         packName
                                     )
                                 ) {
-                                    materialDialog.positiveButton(R.string.open_nottiled)
-                                        .positiveButton {
-                                            materialDialog.dismiss()
-                                            AppOperator.openApp(requireContext(), packName)
-                                        }
+                                    materialDialog.setPositiveButton(R.string.open_nottiled) {
+                                        materialDialog.dismiss()
+                                        AppOperator.openApp(requireContext(), packName)
+                                    }
                                 } else {
-                                    materialDialog.positiveButton(R.string.downlod_nottiled)
-                                        .positiveButton {
-                                            AppOperator.useBrowserAccessWebPage(
-                                                requireContext(),
-                                                "https://mint.lanzouo.com/ilXgJyfol8h"
-                                            )
-                                        }
+                                    materialDialog.setPositiveButton(R.string.downlod_nottiled) {
+                                        AppOperator.useBrowserAccessWebPage(
+                                            requireContext(),
+                                            "https://mint.lanzouo.com/ilXgJyfol8h"
+                                        )
+                                    }
                                 }
                                 materialDialog.show()
                             }
@@ -137,11 +137,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.mapList.layoutManager = LinearLayoutManager(requireContext())
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+
         viewBinding.mapList.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
+            divider
         )
         val path = AppSettings.getValue(AppSettings.Setting.MapFolder, "")
         if (path.isNotBlank()) {

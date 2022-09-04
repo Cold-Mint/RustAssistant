@@ -15,17 +15,11 @@ import android.net.Uri
 import android.os.*
 import android.view.*
 import android.widget.*
+import android.widget.Toast.makeText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
-import com.afollestad.materialdialogs.list.listItems
-import com.afollestad.materialdialogs.utils.MDUtil.isLandscape
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.dialog.InputDialog
@@ -42,6 +36,9 @@ import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.SnackbarContentLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.BufferedReader
 import java.io.File
@@ -49,6 +46,7 @@ import java.io.InputStreamReader
 import java.lang.Exception
 import java.util.*
 import java.util.concurrent.Executors
+import javax.sql.CommonDataSource
 import kotlin.collections.ArrayList
 
 class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
@@ -229,16 +227,16 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                }
                 FileManagerViewModel.StartType.DEFAULT, FileManagerViewModel.StartType.SELECT_FILE, FileManagerViewModel.StartType.SELECT_DIRECTORY -> {
                     val popupMenu = PopupMenu(this@FileManagerActivity, viewBinding.fab)
-//                    if (mFileAdapter != null) {
-//                        val selectPath = mFileAdapter!!.selectPath
-//                        if (selectPath != null && mProcessFiles == false) {
-//                            if (mFileAdapter!!.isCopyFile) {
-//                                popupMenu.menu.add(R.string.copy_to_this)
-//                            } else {
-//                                popupMenu.menu.add(R.string.cut_to_this)
-//                            }
-//                        }
-//                    }
+                    if (adapter != null) {
+                        val selectPath = adapter!!.selectPath
+                        if (selectPath != null) {
+                            if (adapter!!.isCopyFile) {
+                                popupMenu.menu.add(R.string.copy_to_this)
+                            } else {
+                                popupMenu.menu.add(R.string.cut_to_this)
+                            }
+                        }
+                    }
                     popupMenu.menu.add(R.string.create_unit)
                     popupMenu.menu.add(R.string.create_folder)
                     popupMenu.menu.add(R.string.select_file)
@@ -270,52 +268,63 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                             getText(R.string.create_folder) -> {
                                 createFolderAction()
                             }
-//                            getText(R.string.copy_to_this) -> {
-//                                Thread {
-//                                    mProcessFiles = true
-//                                    val oldFile = File(mFileAdapter!!.selectPath)
-//                                    val newFile = File(directs.absolutePath + "/" + oldFile.name)
-//                                    if (FileOperator.copyFiles(oldFile, newFile)) {
-//                                        handler.post {
-//                                            loadFiles(directs)
-//                                            mFileAdapter!!.cleanSelectPath()
-//                                            mProcessFiles = false
-//                                        }
-//                                    } else {
-//                                        handler.post {
-//                                            Toast.makeText(
-//                                                this@FileManagerActivity,
-//                                                getText(R.string.copy_failed),
-//                                                Toast.LENGTH_SHORT
-//                                            ).show()
-//                                            mProcessFiles = false
-//                                        }
-//                                    }
-//                                }.start()
-//                            }
-//                            getText(R.string.cut_to_this) -> {
-//                                Thread {
-//                                    mProcessFiles = true
-//                                    val oldFile = File(mFileAdapter!!.selectPath)
-//                                    val newFile = File(directs.absolutePath + "/" + oldFile.name)
-//                                    if (FileOperator.removeFiles(oldFile, newFile)) {
-//                                        handler.post {
-//                                            loadFiles(directs)
-//                                            mFileAdapter!!.cleanSelectPath()
-//                                            mProcessFiles = false
-//                                        }
-//                                    } else {
-//                                        handler.post {
-//                                            Toast.makeText(
-//                                                this@FileManagerActivity,
-//                                                getText(R.string.cut_failed),
-//                                                Toast.LENGTH_SHORT
-//                                            ).show()
-//                                            mProcessFiles = false
-//                                        }
-//                                    }
-//                                }.start()
-//                            }
+                            getText(R.string.copy_to_this) -> {
+                                val job = Job()
+                                val handler = Handler(Looper.getMainLooper())
+                                val scope = CoroutineScope(job)
+                                scope.launch {
+                                    val oldFile = File(adapter!!.selectPath)
+                                    val newFile =
+                                        File(viewModel.getCurrentPath() + "/" + oldFile.name)
+                                    DebugHelper.printLog(
+                                        "文件管理器",
+                                        "复制文件 旧文件${oldFile.absolutePath} 新文件${newFile.absolutePath}"
+                                    )
+                                    adapter!!.cleanSelectPath()
+                                    if (FileOperator.copyFiles(oldFile, newFile)) {
+                                        handler.post {
+                                            viewModel.loadFiles(viewModel.getCurrentPath())
+                                        }
+                                    } else {
+
+                                        handler.post {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                getText(R.string.copy_failed),
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            }
+                            getText(R.string.cut_to_this) -> {
+                                val job = Job()
+                                val handler = Handler(Looper.getMainLooper())
+                                val scope = CoroutineScope(job)
+                                scope.launch {
+                                    val oldFile = File(adapter!!.selectPath)
+                                    val newFile =
+                                        File(viewModel.getCurrentPath() + "/" + oldFile.name)
+                                    DebugHelper.printLog(
+                                        "文件管理器",
+                                        "移动文件 旧文件${oldFile.absolutePath} 新文件${newFile.absolutePath}"
+                                    )
+                                    adapter!!.cleanSelectPath()
+                                    if (FileOperator.removeFiles(oldFile, newFile)) {
+                                        handler.post {
+                                            viewModel.loadFiles(viewModel.getCurrentPath())
+                                        }
+                                    } else {
+                                        handler.post {
+                                            Snackbar.make(
+                                                viewBinding.fab,
+                                                getText(R.string.cut_failed),
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            }
                         }
                         false
                     }
@@ -478,7 +487,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
      * 使用系统文件选择器选择回调
      * @param uri Uri
      */
-    fun selectFileCallback(uri: Uri?){
+    fun selectFileCallback(uri: Uri?) {
         val path = viewModel.parseFilePath(this, uri)
         if (path != null) {
             CoreDialog(this).setTitle(R.string.system_file_manager).setMessage(path)
@@ -520,7 +529,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 }
             systemFileManagerResultLauncher =
                 registerForActivityResult(ActivityResultContracts.GetContent()) {
-                   selectFileCallback(it)
+                    selectFileCallback(it)
                 }
             FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
                 .setPopupTextProvider(adapter).build()
@@ -690,6 +699,26 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                                     ).setAction(R.string.dialog_ok) {
                                         setResultAndFinish(file.absolutePath)
                                     }.setGestureInsetBottomIgnored(true).show()
+                                } else if (viewModel.startTypeData == FileManagerViewModel.StartType.DEFAULT) {
+                                    val type = FileOperator.getFileType(file)
+                                    if (type == "ini" || type == "txt") {
+                                        val intent = Intent(this, EditActivity::class.java)
+                                        val bundle = Bundle()
+                                        bundle.putString("path", file.absolutePath)
+                                        bundle.putString(
+                                            "modPath",
+                                            FileOperator.getSuperDirectory(file)
+                                        )
+                                        intent.putExtra("data", bundle)
+                                        startActivity(intent)
+                                    } else {
+                                        Snackbar.make(
+                                            viewBinding.fab, String.format(
+                                                getString(R.string.an_unsupported_file_type),
+                                                type
+                                            ), Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
                             }
                         }
@@ -789,6 +818,17 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 
                                         }.show()
                                 }
+                                R.id.copyAction -> {
+                                    val finalFile =
+                                        adapter!!.getItemData(viewHolder.absoluteAdapterPosition)
+                                    adapter!!.setSelectPath(finalFile!!.absolutePath, true)
+                                }
+                                R.id.cutOffAction -> {
+                                    val finalFile =
+                                        adapter!!.getItemData(viewHolder.absoluteAdapterPosition)
+                                    adapter!!.setSelectPath(finalFile!!.absolutePath, false)
+                                }
+
                             }
                             true
                         }

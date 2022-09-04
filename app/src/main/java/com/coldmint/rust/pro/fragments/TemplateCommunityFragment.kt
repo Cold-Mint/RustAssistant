@@ -19,6 +19,7 @@ import com.coldmint.rust.pro.adapters.WebTemplateAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentTemplateCommunityBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 /**
@@ -28,11 +29,12 @@ class TemplateCommunityFragment : BaseFragment<FragmentTemplateCommunityBinding>
     val token = AppSettings.getValue(AppSettings.Setting.Token, "")
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
         viewBinding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
+            divider
         )
 
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -55,10 +57,12 @@ class TemplateCommunityFragment : BaseFragment<FragmentTemplateCommunityBinding>
                     val adapter = WebTemplateAdapter(requireContext(), t.data!!)
                     adapter.setItemEvent { i, itemWebTemplateBinding, viewHolder, data ->
                         itemWebTemplateBinding.root.setOnClickListener {
-                            val intent = Intent(requireContext(),
-                                NetworkTemplatePackageDetailsActivity::class.java)
-                            intent.putExtra("id",data.id)
-                            intent.putExtra("createDirectory",data.id)
+                            val intent = Intent(
+                                requireContext(),
+                                NetworkTemplatePackageDetailsActivity::class.java
+                            )
+                            intent.putExtra("id", data.id)
+                            intent.putExtra("createDirectory", data.id)
                             startActivity(intent)
                         }
                         itemWebTemplateBinding.button.setOnClickListener {

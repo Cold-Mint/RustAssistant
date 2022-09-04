@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.LocalTemplatePackage
@@ -133,6 +134,7 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
                     Log.d("启动模板解析器", "收到成功回调，关闭界面。")
+                    requireActivity().setResult(AppCompatActivity.RESULT_OK, it.data)
                     requireActivity().finish()
                 } else {
                     Log.w("启动模板解析器", "未收到有效回调。")

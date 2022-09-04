@@ -15,9 +15,6 @@ import android.os.Looper
 import android.view.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.afollestad.materialdialogs.list.listItemsMultiChoice
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.interfaces.LineParserEvent

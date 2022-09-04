@@ -19,16 +19,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.file.FileDataBase
@@ -51,6 +47,11 @@ import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import io.github.rosemoe.sora.lang.completion.CompletionPublisher
+import io.github.rosemoe.sora.text.CharPosition
+import io.github.rosemoe.sora.text.ContentReference
+import io.github.rosemoe.sora.widget.EditorSearcher
+import io.github.rosemoe.sora.widget.component.EditorAutoCompletion
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
@@ -161,32 +162,33 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     fun loadMainObserve() {
         viewModel.needSaveLiveData.observe(this) {
             if (it) {
-                MaterialDialog(this).show {
-                    title(R.string.edit_function).message(R.string.text_changed)
-                        .positiveButton(R.string.edit_function) {
-                            viewModel.saveAllFile(
-                                viewBinding.tabLayout.selectedTabPosition,
-                                viewBinding.codeEditor.text.toString()
-                            ) {
+                CoreDialog(this).setTitle(R.string.edit_function).setMessage(R.string.text_changed)
+                    .setPositiveButton(R.string.edit_function) {
+                        viewModel.saveAllFile(
+                            viewBinding.tabLayout.selectedTabPosition,
+                            viewBinding.codeEditor.text.toString()
+                        ) {
+                            viewModel.needCheckAutoSave = false
+                            finish()
+                        }
+                    }.setNegativeButton(R.string.dialog_cancel) {
+
+                    }.setNeutralButton(R.string.not_save_exit) {
+                        CoreDialog(this@EditActivity).setTitle(R.string.not_save_exit)
+                            .setMessage(R.string.not_save_exit_tip)
+                            .setNegativeButton(R.string.dialog_cancel) {
+
+                            }
+                            .setPositiveButton(R.string.dialog_ok) {
                                 viewModel.needCheckAutoSave = false
                                 finish()
-                            }
-                        }.negativeButton(R.string.dialog_cancel)
-                        .neutralButton(R.string.not_save_exit).neutralButton {
-                            MaterialDialog(this@EditActivity).show {
-                                title(R.string.not_save_exit).message(R.string.not_save_exit_tip)
-                                    .negativeButton(R.string.dialog_cancel)
-                                    .positiveButton(R.string.dialog_ok) {
-                                        viewModel.needCheckAutoSave = false
-                                        finish()
-                                    }.cancelable(false)
-                            }
-                        }.cancelable(false)
-                }
+                            }.setCancelable(false).show()
+                    }.setCancelable(false).show()
             }
         }
 
-        viewModel.englishModeLiveData.observe(this) {
+        viewModel.englishModeLiveData.observe(this)
+        {
             rustLanguage.setEnglish(it)
         }
 
@@ -225,7 +227,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //            }
 //            true
 //        }
-        viewModel.openedSourceFileListLiveData.observe(this) {
+        viewModel.openedSourceFileListLiveData.observe(this)
+        {
             viewBinding.tabLayout.removeAllTabs()
             viewBinding.tabLayout.isVisible = true
             it.forEach {
@@ -271,17 +274,14 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         when (it.title.toString()) {
                             getString(R.string.close) -> {
                                 if (openedSourceFile.isNeedSave()) {
-                                    MaterialDialog(this).show {
-                                        title(R.string.edit_function).message(
-                                            R.string.text_changed
-                                        ).positiveButton(R.string.edit_function).positiveButton {
+                                    CoreDialog(this).setTitle(R.string.edit_function)
+                                        .setMessage(R.string.text_changed)
+                                        .setPositiveButton(R.string.edit_function) {
                                             viewModel.saveOneFile(openedSourceFile)
                                             viewModel.closeFile(openedSourceFile)
-                                        }
-                                            .negativeButton(R.string.dialog_cancel).negativeButton {
-                                                viewModel.closeFile(openedSourceFile)
-                                            }
-                                    }
+                                        }.setNegativeButton(R.string.dialog_cancel) {
+                                            viewModel.closeFile(openedSourceFile)
+                                        }.show()
                                 } else {
                                     viewModel.closeFile(openedSourceFile)
                                 }
@@ -305,7 +305,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             }
         }
 
-        viewModel.codeLiveData.observe(this) {
+        viewModel.codeLiveData.observe(this)
+        {
 //            rustLanguage.autoCompleteProvider.setSourceFolder(
 //                FileOperator.getSuperDirectory(
 //                    viewModel.getNowOpenFilePath()
@@ -319,7 +320,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         }
         viewModel.loadingLiveData.observe(
             this
-        ) {
+        )
+        {
             if (it) {
                 viewBinding.myProgressBar.isVisible = true
                 viewBinding.codeEditor.isVisible = false
@@ -478,6 +480,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //            initEndView()
             showRenewalTip()
             loadCustomStyle()
+            loadSearchLayout()
             turretCoordinateResults =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                     viewModel.reloadCode()
@@ -557,30 +560,26 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         startActivityForResult(intent, 3)
                     }
                     getText(R.string.create_folder) -> {
-                        MaterialDialog(this).show {
-                            title(R.string.create_folder)
-                            input(maxLength = 255, waitForPositiveButton = false) { dialog, text ->
-                                if (text.length in 1..255) {
-                                    dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
+                        InputDialog(this).setTitle(R.string.create_folder)
+                            .setHint(R.string.file_name)
+                            .setCancelable(false).setInputCanBeEmpty(false).setMaxNumber(255)
+                            .setErrorTip { s, textInputLayout ->
+                                val newFolder =
+                                    File(editStartViewModel.loadPathLiveData.value + "/" + s)
+                                if (newFolder.exists()) {
+                                    textInputLayout.error = getString(R.string.folder_error)
+                                } else {
+                                    textInputLayout.isErrorEnabled = false
                                 }
-                            }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                                val string = dialog.getInputField().text.toString()
-                                if (!string.isEmpty()) {
-                                    val file =
-                                        File(editStartViewModel.loadPathLiveData.value + "/" + string)
-                                    if (file.exists()) {
-                                        Toast.makeText(
-                                            this@EditActivity,
-                                            R.string.folder_error,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        file.mkdirs()
-                                        editStartViewModel.reloadList()
-                                    }
-                                }
-                            }.negativeButton(R.string.dialog_close)
-                        }
+                            }.setPositiveButton(R.string.dialog_ok) { i ->
+                                val newFolder =
+                                    File(editStartViewModel.loadPathLiveData.value + "/" + i)
+                                val res = newFolder.mkdirs()
+                                editStartViewModel.reloadList()
+                                res
+                            }.setNegativeButton(R.string.dialog_cancel) {
+
+                            }.show()
                     }
                     getText(R.string.copy_to_this) -> {
                         viewModel.executorService.submit {
@@ -832,28 +831,19 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                                 return@OnMenuItemClickListener false
                             }
                             val oldName = file.name
-                            MaterialDialog(this@EditActivity).show {
-                                title(R.string.rename)
-                                input(
-                                    maxLength = 255,
-                                    waitForPositiveButton = false, prefill = oldName
-                                ) { dialog, text ->
-                                    if (text.length in 1..255) {
-                                        dialog.setActionButtonEnabled(
-                                            WhichButton.POSITIVE,
-                                            true
-                                        )
-                                    }
-                                }.positiveButton(R.string.dialog_ok, null) { dialog ->
-                                    val newName = dialog.getInputField().text.toString()
+                            InputDialog(this).setTitle(R.string.rename).setMaxNumber(255)
+                                .setText(oldName).setPositiveButton(R.string.dialog_ok) { it ->
+                                    val newName = it
                                     if (newName != oldName) {
                                         val reNameFile =
                                             File(editStartViewModel.loadPathLiveData.value + "/" + newName)
                                         file.renameTo(reNameFile)
                                         editStartViewModel.reloadList()
                                     }
-                                }.negativeButton(R.string.dialog_close)
-                            }
+                                    true
+                                }.setNegativeButton(R.string.dialog_close) {
+
+                                }.show()
                         } else if (title == getString(R.string.remove_bookmark)) {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             val removeBookmark =
@@ -957,7 +947,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         }
         val codeToolAdapter = CodeToolAdapter(this, items)
         codeToolAdapter.setItemEvent { i, codeToolItemBinding, viewHolder, item ->
-            codeToolItemBinding.root.setOnClickListener {
+            codeToolItemBinding.codeTextItemView.setOnClickListener {
                 if (item == getString(R.string.symbol11)) {
                     GlobalMethod.showColorPickerDialog(this) {
                         viewBinding.codeEditor.insertText(it, it.length)
@@ -978,7 +968,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         ).show()
                     }
                 } else if (item == getString(R.string.code_tip)) {
-//                    viewModel.executorService.submit {
+                    viewBinding.codeEditor.getComponent(EditorAutoCompletion::class.java)
+                        .requireCompletion()
+                    //                    viewModel.executorService.submit {
 //                        try {
 //                            val list = ArrayList<CompletionItem>()
 //                            //如果不包含:搜索键
@@ -1112,7 +1104,12 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             )
         )
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
-        viewBinding.codeEditor.setAutoCompletionItemAdapter(RustCompletionAdapter())
+
+        val codeEditBackGroundEnable =
+            AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
+        val rustCompletionAdapter = RustCompletionAdapter()
+        rustCompletionAdapter.setEditBackground(codeEditBackGroundEnable)
+        viewBinding.codeEditor.setAutoCompletionItemAdapter(rustCompletionAdapter)
         viewBinding.codeEditor.isVerticalScrollBarEnabled = false
         val path = viewModel.modClass?.modFile?.absolutePath ?: ""
         CompletionItemConverter.configurationFileConversion(
@@ -1275,10 +1272,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             R.id.display_source_code -> {
                 val file = File(viewModel.getNowOpenFilePath())
                 val code = FileOperator.readFile(file)
-                MaterialDialog(this, BottomSheet()).show {
-                    title(text = file.name).message(text = code).negativeButton(R.string.dialog_ok)
-                        .cancelable(false)
-                }
+                MaterialAlertDialogBuilder(this).setTitle(file.name).setMessage(code).setNegativeButton(R.string.dialog_ok){
+                    i,i2->
+                }.setCancelable(false).show()
             }
             R.id.clear_code_cache -> {
                 Snackbar.make(
@@ -1396,13 +1392,58 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 viewBinding.codeEditor.redo()
             }
             R.id.search_view -> {
-                viewBinding.codeEditor.searcher.stopSearch()
-                viewBinding.codeEditor.beginSearchMode()
+                viewBinding.searchLayout.isVisible = true
+                viewBinding.allButton.isVisible = false
+                viewBinding.replaceEditText.setText("")
+                viewBinding.replaceEditText.isVisible = false
+                viewBinding.findEditText.setText("")
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+
+    /**
+     * 加载搜索布局
+     */
+    fun loadSearchLayout() {
+        viewBinding.closeButton.setOnClickListener {
+            viewBinding.searchLayout.isVisible = false
+            viewBinding.codeEditor.searcher.stopSearch()
+        }
+        viewBinding.nextButton.setOnClickListener {
+            val find = viewBinding.findEditText.text.toString()
+            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
+            viewBinding.codeEditor.searcher.gotoNext()
+        }
+        viewBinding.lastButton.setOnClickListener {
+            val find = viewBinding.findEditText.text.toString()
+            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
+            viewBinding.codeEditor.searcher.gotoPrevious()
+
+        }
+        viewBinding.allButton.setOnClickListener {
+            val find = viewBinding.findEditText.text.toString()
+            val re = viewBinding.replaceEditText.text.toString()
+            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
+            viewBinding.codeEditor.searcher.replaceAll(re)
+        }
+        viewBinding.replaceButton.setOnClickListener {
+            val isVisible = viewBinding.replaceLayout.isVisible
+            if (isVisible) {
+                val find = viewBinding.findEditText.text.toString()
+                val re = viewBinding.replaceEditText.text.toString()
+                viewBinding.codeEditor.searcher.search(
+                    find,
+                    EditorSearcher.SearchOptions(false, false)
+                )
+                viewBinding.codeEditor.searcher.replaceThis(re)
+            } else {
+                viewBinding.replaceLayout.isVisible = true
+                viewBinding.allButton.isVisible = true
+            }
+        }
+    }
 
     /**
      * 打开侧滑

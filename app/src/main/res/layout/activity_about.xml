@@ -97,7 +97,9 @@
                 android:id="@+id/action_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/privacyPolicyView" />
+                android:layout_above="@id/privacyPolicyView"
+                android:layout_marginTop="16dp"
+                app:dividerThickness="0.8dp" />
 
             <Button
                 android:id="@+id/serviceAgreementView"

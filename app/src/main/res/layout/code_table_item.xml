@@ -2,34 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/titleView"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="名称"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="16dp" />
+        android:textColor="?android:colorPrimary" />
 
     <TextView
         android:id="@+id/subTitleView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleView"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="副标题"
         android:textColor="?attr/colorSecondary" />
 
     <TextView
         android:id="@+id/descriptionView"
         android:layout_width="match_parent"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_height="wrap_content"
         android:layout_below="@id/subTitleView"
         android:layout_marginTop="5dp"
         android:text="描述" />
 
     <TextView
+        style="@style/TextAppearance.Material3.BodySmall"
         android:id="@+id/valueTypeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,12 +50,15 @@
         android:layout_toRightOf="@id/valueTypeView"
         android:text="版本信息" />
 
-    <com.kongzue.stacklabelview.StackLabel
-        android:id="@+id/belongStackLabelView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:singleLine="false"
         android:layout_below="@id/valueTypeView"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="8dp">
+
+    </com.google.android.material.chip.ChipGroup>
 
 
 </RelativeLayout>

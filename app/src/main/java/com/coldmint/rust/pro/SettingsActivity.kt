@@ -11,15 +11,18 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsMultiChoice
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.databinding.ActivitySettingsBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
@@ -98,16 +101,26 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 manager.findPreference<PreferenceScreen>(getString(R.string.setting_clear_cache))
             clearCache!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
+                    val items = ArrayList<String>()
                     val listData = listOf<String>(
                         getString(R.string.history_cache),
                         getString(R.string.code_cache),
                         getString(R.string.glide_cache)
                     )
-                    MaterialDialog(requireContext()).show {
-                        title(R.string.clear_cache).listItemsMultiChoice(items = listData)
-                        { dialog, indices, items ->
+                    MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.clear_cache)
+                        .setMultiChoiceItems(listData.toTypedArray(), null) { dialog, index, bool ->
+                            val string = listData[index]
+                            if (bool) {
+                                items.add(string)
+                            } else {
+                                items.remove(string)
+                            }
+                        }
+                        .setPositiveButton(R.string.dialog_ok) { i, i2 ->
                             val handler = Handler(Looper.getMainLooper())
-                            thread {
+                            val job = Job()
+                            val scope = CoroutineScope(job)
+                            scope.launch {
                                 if (items.isNotEmpty()) {
                                     for (item in items) {
                                         when (item) {
@@ -146,8 +159,10 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                                     }
                                 }
                             }
-                        }.positiveButton(R.string.dialog_ok).negativeButton(R.string.dialog_cancel)
-                    }
+
+                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                        }.show()
+
                     true
                 }
 
