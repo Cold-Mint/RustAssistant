@@ -932,5 +932,6 @@
     <string name="simple_display_of_auto_complete_menu_describe">隐藏自动完成菜单内的描述和图像。</string>
     <string name="simple_display_of_auto_complete_menu">简版自动完成菜单</string>
     <string name="search_key">搜索关键字</string>
+    <string name="share_mod_msg">我分享模组了 %1$s，下载链接：%2$s\n下载铁锈助手即可参与评论，给作品投币。App下载链接：%3$s</string>
 
 </resources>

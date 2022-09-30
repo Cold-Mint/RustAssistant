@@ -37,6 +37,7 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
             list.add(ThanksDataBean("空调大郎", "帮助翻译俄语版本。", 1491779490))
             list.add(ThanksDataBean("Ling ASDJ", "制作助手新手模板，已被整合至助手内置模版。跟随助手更新。", 2735951230))
             list.add(ThanksDataBean("Alice's Dream", "帮助薄荷优化代码表。", 3372003670))
+            list.add(ThanksDataBean("克鲁鲁.采佩西", "帮助薄荷制作教程。", 2275140013))
             viewBinding.recyclerView.adapter = ThanksAdapter(this, list)
 
         }

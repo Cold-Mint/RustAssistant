@@ -53,14 +53,6 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
                     loadList()
                 }
             }.show()
-//            InputDialog(requireContext()).setTitle(R.string.insert_coins)
-//                .setMessage(R.string.insert_coins_num_tip)
-//                .setPositiveButton(R.string.dialog_ok) { it ->
-//                    WebMod.instance.insertCoins(token, modId)
-//                    false
-//                }.setNegativeButton(R.string.dialog_cancel) {
-//
-//                }.show()
         }
         loadButton()
     }

@@ -1,23 +1,23 @@
 package com.coldmint.rust.core.tool
 
-import android.content.Intent
-import android.content.ActivityNotFoundException
-import android.content.pm.PackageManager
+import android.R
 import android.annotation.SuppressLint
-import android.content.pm.ResolveInfo
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
-import android.content.pm.PackageInfo
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.*
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import java.io.File
-import java.lang.Exception
 import java.security.MessageDigest
 import java.util.*
+
 
 /**
  * 程序交互类
@@ -225,6 +225,21 @@ object AppOperator {
         } catch (e: Exception) {
             false
         }
+    }
+
+    /**
+     * 向其他App分享内容
+     * @param context Context
+     * @param title String
+     * @param content String
+     */
+    fun shareText(context: Context, title: String, content: String) {
+        DebugHelper.printLog("分享文本", content, "分享")
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, content)
+        sendIntent.type = "text/plain"
+        context.startActivity(Intent.createChooser(sendIntent, title))
     }
 
 

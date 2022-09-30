@@ -39,7 +39,8 @@ class InsertCoinsAdapter(context: Context, dataList: MutableList<InsertCoinHisto
     ) {
         val icon = data.headIcon
         if (icon == null) {
-            Glide.with(context).load(R.drawable.head_icon).into(viewBinding.imageView)
+            viewBinding.imageView.setImageResource(R.drawable.head_icon)
+
         } else {
             Glide.with(context).load(ServerConfiguration.getRealLink(icon))
                 .apply(GlobalMethod.getRequestOptions(true)).into(viewBinding.imageView)
