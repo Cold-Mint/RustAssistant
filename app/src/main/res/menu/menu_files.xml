@@ -51,9 +51,6 @@
         android:id="@+id/reloadFile"
         android:title="@string/reload_files" />
 
-    <item
-        android:id="@+id/creteFolder"
-        android:title="@string/create_folder" />
 
     <item
         android:id="@+id/selectFile"

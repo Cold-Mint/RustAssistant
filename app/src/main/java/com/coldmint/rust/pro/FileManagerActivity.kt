@@ -172,10 +172,6 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //                this@FileManagerActivity.startActivityForResult(intent, 2)
 //                return true
 //            }
-            R.id.creteFolder -> {
-//                createFolderAction()
-                return true
-            }
         }
 //        loadBook(item.title)
         return super.onOptionsItemSelected(item)
