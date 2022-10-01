@@ -65,11 +65,11 @@ class TurretManager(val sourceFile: SourceFile) {
                     var y = 0
                     val xData = sourceFile.readValueFromSection("x", it)
                     if (xData != null) {
-                        x = xData.toInt()
+                        x = xData.toFloat().toInt()
                     }
                     val yData = sourceFile.readValueFromSection("y", it)
                     if (yData != null) {
-                        y = yData.toInt()
+                        y = yData.toFloat().toInt()
                     }
                     val turretData = TurretData(name, CoordinateData(x, y))
                     val fileList = sourceFile.findResourceFilesFromSection("image", it, false)

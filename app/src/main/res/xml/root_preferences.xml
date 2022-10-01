@@ -53,6 +53,14 @@
             app:key="@string/setting_file_sort_type"
             app:title="@string/file_sort_type"
             app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="@string/setting_source_file_type"
+            app:title="@string/setting_source_file_type_title"
+            android:summary="@string/setting_source_file_type_describe"
+            app:useSimpleSummaryProvider="true" />
+
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/data_transfer">

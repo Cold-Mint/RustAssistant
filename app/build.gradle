@@ -27,8 +27,8 @@ android {
         applicationId "com.coldmint.rust.pro"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 22
-        versionName "2.1 Bata1_patch5(2022-9-4)"
+        versionCode 23
+        versionName "2.1 Bata1_patch6(2022-10-1)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

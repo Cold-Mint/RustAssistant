@@ -25,6 +25,9 @@
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity

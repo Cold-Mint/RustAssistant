@@ -50,7 +50,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
             val and = turretSketchpadView?.toAndroidCoordinate(turretData.gameCoordinateData)
             if (and != null) {
                 turretSketchpadView?.setKeyCoordinate(and)
-            }else{
+            } else {
                 Log.e(debugKey, "可拖动状态,辅助线定位失败。")
             }
         }
@@ -149,10 +149,14 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                 return
             }
             val paint = Paint()
-            var bitmap = if (turretData.imageFile == null) {
-                BitmapFactory.decodeResource(this.resources, R.drawable.image)
-            } else {
+            var bitmap: Bitmap? = if (turretData.imageFile != null) {
                 BitmapFactory.decodeFile(turretData.imageFile!!.absolutePath)
+            } else {
+                null
+            }
+            if (bitmap == null) {
+                Log.e(debugKey, "无法加载炮塔图像。")
+                return
             }
             if (turretData.scaleValue != 1f) {
                 bitmap = TurretSketchpadView.scaleBitmap(

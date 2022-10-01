@@ -933,5 +933,8 @@
     <string name="simple_display_of_auto_complete_menu">简版自动完成菜单</string>
     <string name="search_key">搜索关键字</string>
     <string name="share_mod_msg">我分享模组了 %1$s，下载链接：%2$s\n下载铁锈助手即可参与评论，给作品投币。App下载链接：%3$s</string>
+    <string name="setting_source_file_type" translatable="false">sourceFileType</string>
+    <string name="setting_source_file_type_title">源文件类型</string>
+    <string name="setting_source_file_type_describe">配置源文件类型，符合配置格式的文件将以文本编辑形式打开。以逗号分割不同格式。</string>
 
 </resources>

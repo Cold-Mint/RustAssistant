@@ -701,7 +701,19 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                                     }.setGestureInsetBottomIgnored(true).show()
                                 } else if (viewModel.startTypeData == FileManagerViewModel.StartType.DEFAULT) {
                                     val type = FileOperator.getFileType(file)
-                                    if (type == "ini" || type == "txt") {
+                                    val data = AppSettings.getValue(AppSettings.Setting.SourceFileType,"ini,template")
+                                    val line = LineParser(data)
+                                    var isSourceFile = false
+                                    line.symbol = ","
+                                    line.analyse { lineNum, lineData, isEnd ->
+                                        if (type == lineData)
+                                        {
+                                            isSourceFile = true
+                                            return@analyse false
+                                        }
+                                        true
+                                    }
+                                    if (isSourceFile) {
                                         val intent = Intent(this, EditActivity::class.java)
                                         val bundle = Bundle()
                                         bundle.putString("path", file.absolutePath)

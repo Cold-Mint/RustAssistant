@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
-    private lateinit var logFile: File
     private val errorInfo by lazy {
         ErrorInfo()
     }
@@ -109,14 +108,13 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
      * 创建错误日志
      */
     fun saveLog(): Boolean {
-//        errorInfo.describe = viewBinding.inputEditView.text.toString()
         return errorInfo.save()
     }
 
     private fun initAction() {
         viewBinding.shareLogButton.setOnClickListener(View.OnClickListener {
             saveLog()
-            if (!logFile.exists()) {
+            if (!errorInfo.getLogFile().exists()) {
                 Snackbar.make(
                     viewBinding.shareLogButton,
                     R.string.file_not_exist,
@@ -124,7 +122,7 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                 )
                     .show()
             } else {
-                FileOperator.shareFile(this@ErrorActivity, logFile)
+                FileOperator.shareFile(this@ErrorActivity, errorInfo.getLogFile())
             }
         })
 

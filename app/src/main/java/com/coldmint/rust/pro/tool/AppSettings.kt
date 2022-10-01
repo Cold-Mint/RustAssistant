@@ -38,7 +38,8 @@ object AppSettings {
     }
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath, SimpleDisplayOfAutoCompleteMenu
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath, SimpleDisplayOfAutoCompleteMenu, SourceFileType
+
     }
 
 
@@ -132,6 +133,8 @@ object AppSettings {
         map[Setting.FileSortType] = mApplication.getString(R.string.setting_file_sort_type)
         map[Setting.SimpleDisplayOfAutoCompleteMenu] =
             mApplication.getString(R.string.setting_simple_display_of_auto_complete_menu)
+        //setting_source_file_type
+        map[Setting.SourceFileType] = mApplication.getString(R.string.setting_source_file_type)
         //仅保存不可显示
         map[Setting.SetGameStorage] = "SetGameStorage"
         map[Setting.AppID] = "AppId"

@@ -263,6 +263,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundEnable, false)
         AppSettings.initSetting(AppSettings.Setting.BlurTransformationValue, 1)
         AppSettings.initSetting(AppSettings.Setting.CodeEditBackGroundPath, "")
+        AppSettings.initSetting(AppSettings.Setting.SourceFileType, "ini,template,txt")
 
     }
 
@@ -340,7 +341,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
     private fun initRes() {
         try {
             val language = Locale.getDefault().language
-            DebugHelper.printLog("初始化资源","语言"+language)
+            DebugHelper.printLog("初始化资源", "语言" + language)
             if (language == "zh") {
                 unzipDataSet("dataBase.rdb", true)
                 unzipDataSet("dataBase_en.rdb")
