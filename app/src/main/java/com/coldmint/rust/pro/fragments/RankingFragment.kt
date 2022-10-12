@@ -1,8 +1,12 @@
 package com.coldmint.rust.pro.fragments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +19,7 @@ import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentRankingBinding
+import com.google.android.material.chip.Chip
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 /**
@@ -27,6 +32,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     val linearLayoutManager by lazy {
         LinearLayoutManager(requireContext())
     }
+    private var sortMode: WebMod.SortMode = WebMod.SortMode.Download_Number
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.recyclerView.layoutManager = linearLayoutManager
@@ -48,13 +54,37 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
             loadMods()
             viewBinding.swipeRefreshLayout.isRefreshing = false
         }
-
+        viewBinding.downloadChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                sortMode = WebMod.SortMode.Download_Number
+                loadMods()
+            }
+        }
+        viewBinding.unitChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                sortMode = WebMod.SortMode.Unit_Number
+                loadMods()
+            }
+        }
+        viewBinding.coinChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                sortMode = WebMod.SortMode.Coin_Number
+                loadMods()
+            }
+        }
+        viewBinding.updateChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                sortMode = WebMod.SortMode.Update_Number
+                loadMods()
+            }
+        }
+        viewBinding.downloadChip.isChecked = true
     }
 
-    override fun onResume() {
-        loadMods()
-        super.onResume()
-    }
+//    override fun onResume() {
+//        loadMods()
+//        super.onResume()
+//    }
 
     fun loadMods() {
         WebMod.instance.list(object : ApiCallBack<WebModListData> {
@@ -65,6 +95,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                         viewBinding.progressBar.isVisible = false
                         viewBinding.textview.isVisible = false
                         viewBinding.swipeRefreshLayout.isVisible = true
+//                        Toast.makeText(requireContext(),"加载"+list.size,Toast.LENGTH_SHORT).show()
                         val adapter = createAdapter(list)
                         viewBinding.recyclerView.adapter = adapter
                         linearLayoutManager.scrollToPositionWithOffset(
@@ -85,7 +116,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                 showInfoToView(R.string.network_error)
             }
 
-        }, sortMode = WebMod.SortMode.Download_Number, limit = "100")
+        }, sortMode = sortMode, limit = "100")
     }
 
 
@@ -99,6 +130,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
             webModAdapter = WebModAdapter(context = requireContext(), dataList = dataList)
             webModAdapter!!
         } else {
+            webModAdapter!!.setNewDataList(dataList)
             webModAdapter!!
         }
         adapter.setItemEvent { i, webModItemBinding, viewHolder, data ->

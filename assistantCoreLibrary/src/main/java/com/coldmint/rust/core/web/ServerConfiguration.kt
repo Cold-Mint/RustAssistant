@@ -24,12 +24,21 @@ object ServerConfiguration {
     //本地:http://10.0.2.2/
 
     //电脑查 ip [ipconfig]
-    private const val testIp = "http://10.0.2.2/rust-assistant-backstage/"
+    private const val testIp = "http://10.0.2.2/"
     const val defaultIp = "http://39.105.229.249/"
     var website = defaultIp
     const val Success_Code = 0
     const val Error_Code = 1
     const val ForeverTime = "forever"
+
+
+    /**
+     * 是否为本地测试服
+     * @return Boolean
+     */
+    fun isTestServer(): Boolean {
+        return website == testIp
+    }
 
 
     /**

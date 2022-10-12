@@ -18,7 +18,9 @@ class WebMod private constructor() {
 
     enum class SortMode(private val value: String) {
 
-        Latest_Time("latestTime"), Download_Number("downloadNumber");
+        Latest_Time("latestTime"), Download_Number("downloadNumber"), Coin_Number("coinNumber"), Unit_Number(
+            "unitNumber"
+        ),Update_Number("updateNumber");
 
         /**
          * 获取枚举代表的值

@@ -36,7 +36,7 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     /**
      * 加载最近更新
      */
-    fun loaList() {
+    fun loadList() {
         //如果进度条可见那么为首次加载
         val isFirst = viewBinding.progressBar.isVisible
         viewBinding.latestReleaseProgressIndicator.isVisible = true
@@ -218,7 +218,7 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
     override fun onResume() {
         super.onResume()
-        loaList()
+        loadList()
         loadSoleRecommended()
         loadBannerData()
     }

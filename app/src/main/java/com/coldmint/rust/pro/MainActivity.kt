@@ -147,10 +147,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * @param data Data
      */
     fun ifNeedShowUpdate(data: AppUpdateData.Data) {
+        val key = "应用更新"
+        if (ServerConfiguration.isTestServer()){
+            Log.w(key, "当前为本地测试服务器，已禁用更新检查。")
+            return
+        }
         val executorService = Executors.newSingleThreadExecutor()
         executorService.submit {
             //检查更新
-            val key = "应用更新"
             val packageInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
             val checkBetaUpdate =
                 AppSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
