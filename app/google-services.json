@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "787078274450",
+    "project_id": "rust-assistant-58ca5",
+    "storage_bucket": "rust-assistant-58ca5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787078274450:android:e5a88cb9c74737a9b6754b",
+        "android_client_info": {
+          "package_name": "com.coldmint.rust.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787078274450-uv7cj6beui62h4qpfqson6skek06u5sk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5b4_azY4PMSnHDF3Qsu0cFwsFhWT413M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787078274450-uv7cj6beui62h4qpfqson6skek06u5sk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

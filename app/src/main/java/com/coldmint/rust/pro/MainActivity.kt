@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import android.os.*
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -148,7 +149,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     fun ifNeedShowUpdate(data: AppUpdateData.Data) {
         val key = "应用更新"
-        if (ServerConfiguration.isTestServer()){
+        if (ServerConfiguration.isTestServer()) {
             Log.w(key, "当前为本地测试服务器，已禁用更新检查。")
             return
         }
@@ -634,7 +635,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     fun observeStartViewModel() {
         startViewModel.userLiveData.observe(this) {
-
             headLayout.nameView.text = it.data.userName
             headLayout.emailView.text = it.data.email
             val headIcon = it.data.headIcon
@@ -644,7 +644,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     .into(headLayout.imageView)
             }
             val account = it.data.account
-            headLayout.root.setOnClickListener {
+            headLayout.imageView.setOnClickListener {
                 val opIntent = Intent(this, UserHomePageActivity::class.java)
                 opIntent.putExtra("userId", account)
                 startActivity(opIntent)
@@ -653,17 +653,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.needLoginLiveData.observe(this) {
             if (it) {
-                CoreDialog(this).setTitle(R.string.login).setMessage(R.string.login_tip)
-                    .setPositiveButton(R.string.login) {
-                        startActivity(
-                            Intent(
-                                this,
-                                LoginActivity::class.java
-                            )
+                Glide.with(this).load(R.drawable.head_icon)
+                    .apply(GlobalMethod.getRequestOptions(true, grayscale = false))
+                    .into(headLayout.imageView)
+                headLayout.nameView.text = getString(R.string.click_profile_picture_login)
+                headLayout.emailView.text = ""
+                headLayout.imageView.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this,
+                            LoginActivity::class.java
                         )
-                    }.setNegativeButton(R.string.dialog_close) {
-                        finish()
-                    }.setCancelable(false).show()
+                    )
+                }
             } else {
                 showGameConfiguredDialog()
             }

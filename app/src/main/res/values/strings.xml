@@ -686,7 +686,7 @@
     <string name="review_audit_mod_tip">要重新审核%1$s嘛?</string>
     <string name="review_audit">重新审核</string>
     <string name="warehouse">仓库</string>
-    <string name="not_find_map">没有找到地图</string>
+    <string name="not_find_map">没有地图</string>
     <string name="del_map">删除</string>
     <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">地图目录</string>
@@ -940,5 +940,6 @@
     <string name="coin_num">投币数</string>
     <string name="unit_number">单位数</string>
     <string name="update_number">更新次数</string>
+    <string name="click_profile_picture_login">点击头像登录</string>
 
 </resources>

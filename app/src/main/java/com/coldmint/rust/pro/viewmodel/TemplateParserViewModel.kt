@@ -96,12 +96,14 @@ class TemplateParserViewModel : BaseViewModel() {
             createDirectory
         }
         Log.d("构建文件", "是否需要独立创建文件夹${independentFolder} 文件夹目录${createPath}")
-        val folder = File(createPath)
-        if (folder.exists()) {
-            Log.e("构建文件", "创建目录${createPath}已存在。")
-            return false
+        if (independentFolder){
+            val folder = File(createPath)
+            if (folder.exists()) {
+                Log.e("构建文件", "创建目录${createPath}已存在。")
+                return false
+            }
+            folder.mkdirs()
         }
-        folder.mkdirs()
         val path = File(
             createPath + "/" + if (index > -1) {
                 fileName
