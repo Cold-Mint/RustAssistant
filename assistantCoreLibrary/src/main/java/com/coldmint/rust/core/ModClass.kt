@@ -158,14 +158,10 @@ class ModClass(file: File) {
      *
      * @return 位图对象
      */
-    val modIcon: Bitmap?
+    val modIcon: String?
         get() {
-            val icon_file = readResourceFromInfo("thumbnail")
-            return if (icon_file != null && icon_file.exists()) {
-                BitmapFactory.decodeFile(readResourceFromInfo("thumbnail")!!.absolutePath)
-            } else {
-                null
-            }
+            val iconFile = readResourceFromInfo("thumbnail")
+            return iconFile?.absolutePath
         }
 
     /**

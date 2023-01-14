@@ -116,11 +116,11 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         if (description != null) {
             viewBinding.modDescribeEdit.setText(description)
         }
-        val bitmap = mModClass.modIcon
-        if (bitmap == null) {
+        val modIcon = mModClass.modIcon
+        if (modIcon == null) {
             loadDefaultImage()
         } else {
-            Glide.with(this@EditModInfoActivity).load(bitmap)
+            Glide.with(this@EditModInfoActivity).load(modIcon)
                 .apply(GlobalMethod.getRequestOptions()).into(viewBinding.iconView)
             mNeedIcon = true
         }

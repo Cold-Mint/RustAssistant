@@ -21,6 +21,7 @@ import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.LoginRequestData
 import com.coldmint.rust.core.dataBean.user.UserData
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.User
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 //            transparentStatusBar().statusBarDarkFont(true)
 //                .transparentNavigationBar().navigationBarDarkIcon(true)
 //        }
-        Log.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
+        LogCat.d("应用识别码", AppSettings.getValue(AppSettings.Setting.AppID, "无"))
         viewBinding.changeServerView.isVisible = BuildConfig.DEBUG
         viewBinding.changePasswordView.setOnClickListener {
             val intent = Intent(this, ChangePasswordActivity::class.java)

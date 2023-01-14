@@ -1,6 +1,7 @@
 package com.coldmint.rust.core.tool
 
 import android.util.Log
+import com.coldmint.rust.core.debug.LogCat
 
 /**
  * 调试帮助器
@@ -21,9 +22,9 @@ object DebugHelper {
             "$keyValue-$module"
         }
         if (isError) {
-            Log.e(key, message)
+            LogCat.e(key, message)
         } else {
-            Log.d(key, message)
+            LogCat.d(key, message)
         }
     }
 

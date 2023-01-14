@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
 import com.coldmint.rust.core.DataSet
 import com.coldmint.rust.core.dataBean.dataset.*
 import com.coldmint.rust.core.database.file.FileDataBase
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.tool.FileOperator
 import com.google.gson.Gson
 import java.util.concurrent.Executors
@@ -67,19 +68,19 @@ abstract class CodeDataBase : RoomDatabase() {
      */
     fun loadDataSet(dataSet: DataSet, readMode: ReadMode): Boolean {
         val datasetTag = "数据集加载"
-        Log.d(datasetTag, "读取位于(" + dataSet.folder.absolutePath + ")数据集，方法" + readMode.name)
+        LogCat.d(datasetTag, "读取位于(" + dataSet.folder.absolutePath + ")数据集，方法" + readMode.name)
         val executorService = Executors.newSingleThreadExecutor()
         var result = false
         val future = executorService.submit {
             val gson = Gson()
             val manifest = dataSet.getDataBaseManifest()
             if (manifest == null) {
-                Log.e(datasetTag, "读取数据集错误，清单文件不存在。")
+                LogCat.e(datasetTag, "读取数据集错误，清单文件不存在。")
                 return@submit
             }
 
             //加载代码表数据
-            Log.d(datasetTag, "加载代码表...")
+            LogCat.d(datasetTag, "加载代码表...")
             try {
                 val codeData = FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.code))
                 if (codeData != null) {
@@ -148,20 +149,20 @@ abstract class CodeDataBase : RoomDatabase() {
                                 hashSet.add(it.code)
                             }
                         }
-                        Log.e(datasetTag, "读取代码表错误(主键约束)，因为" + num + "个元素重复。列表：" + s.toString())
+                        LogCat.e(datasetTag, "读取代码表错误(主键约束)，因为" + num + "个元素重复。列表：" + s.toString())
                     } else {
                         e.printStackTrace()
-                        Log.e(datasetTag, "读取代码表错误(主键约束)。" + e.toString())
+                        LogCat.e(datasetTag, "读取代码表错误(主键约束)。" + e.toString())
                     }
                 } else {
                     e.printStackTrace()
-                    Log.e(datasetTag, "读取代码表错误。" + e.toString())
+                    LogCat.e(datasetTag, "读取代码表错误。" + e.toString())
                 }
             }
 
             //加载节表数据
             try {
-                Log.d(datasetTag, "加载节表...")
+                LogCat.d(datasetTag, "加载节表...")
                 val sectionData =
                     FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.section))
                 if (sectionData != null) {
@@ -215,12 +216,12 @@ abstract class CodeDataBase : RoomDatabase() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e(datasetTag, "读取节表错误。" + e.toString())
+                LogCat.e(datasetTag, "读取节表错误。" + e.toString())
             }
 
             //值类型数据
             try {
-                Log.d("数据集加载", "加载值表...")
+                LogCat.d("数据集加载", "加载值表...")
                 val valueTypeData =
                     FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.valueType))
                 if (valueTypeData != null) {
@@ -274,13 +275,13 @@ abstract class CodeDataBase : RoomDatabase() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e(datasetTag, "读取值表错误。" + e.toString())
+                LogCat.e(datasetTag, "读取值表错误。" + e.toString())
             }
 
 
             //插入链式检查数据
             try {
-                Log.d(datasetTag, "加载链式检查表...")
+                LogCat.d(datasetTag, "加载链式检查表...")
                 val chainInspectionData =
                     FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.chainInspection))
                 if (chainInspectionData != null) {
@@ -333,13 +334,13 @@ abstract class CodeDataBase : RoomDatabase() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e(datasetTag, "读取链式检查表错误。" + e.toString())
+                LogCat.e(datasetTag, "读取链式检查表错误。" + e.toString())
             }
 
 
             //游戏版本数据
             try {
-                Log.d("数据集加载", "加载版本表...")
+                LogCat.d("数据集加载", "加载版本表...")
                 val versionData =
                     FileOperator.readFile(dataSet.getAbsolutePath(manifest.tables.gameVersion))
                 if (versionData != null) {
@@ -393,9 +394,9 @@ abstract class CodeDataBase : RoomDatabase() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e(datasetTag, "读取版本表错误。" + e.toString())
+                LogCat.e(datasetTag, "读取版本表错误。" + e.toString())
             }
-            Log.d("数据集加载", "加载完成。")
+            LogCat.d("数据集加载", "加载完成。")
             result = true
         }
         return if (future.get() == null) {

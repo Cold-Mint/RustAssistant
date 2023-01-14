@@ -8,6 +8,7 @@ import com.coldmint.rust.core.dataBean.InputParserDataBean
 import com.coldmint.rust.core.dataBean.IntroducingDataBean
 import com.coldmint.rust.core.dataBean.ListParserDataBean
 import com.coldmint.rust.core.dataBean.template.Template
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.TemplateParser
 import com.coldmint.rust.core.templateParser.InputParser
 import com.coldmint.rust.core.templateParser.IntroducingParser
@@ -79,7 +80,7 @@ class TemplateParserViewModel : BaseViewModel() {
      */
     fun buildFile(context: Context, fileName: String): Boolean {
         if (createDirectory == null) {
-            Log.e("构建文件", "没有设置创建目录。")
+            LogCat.e("构建文件", "没有设置创建目录。")
             return false
         }
         val index = fileName.lastIndexOf('.')
@@ -95,11 +96,11 @@ class TemplateParserViewModel : BaseViewModel() {
         } else {
             createDirectory
         }
-        Log.d("构建文件", "是否需要独立创建文件夹${independentFolder} 文件夹目录${createPath}")
+        LogCat.d("构建文件", "是否需要独立创建文件夹${independentFolder} 文件夹目录${createPath}")
         if (independentFolder){
             val folder = File(createPath)
             if (folder.exists()) {
-                Log.e("构建文件", "创建目录${createPath}已存在。")
+                LogCat.e("构建文件", "创建目录${createPath}已存在。")
                 return false
             }
             folder.mkdirs()
@@ -112,7 +113,7 @@ class TemplateParserViewModel : BaseViewModel() {
             }
         )
         if (path.exists()) {
-            Log.e("构建文件", "目标文件${path}已存在。")
+            LogCat.e("构建文件", "目标文件${path}已存在。")
             return false
         }
         outPutPath = path.absolutePath
@@ -135,23 +136,23 @@ class TemplateParserViewModel : BaseViewModel() {
         val staticCode = getCode()
         //如果为空，那么返回空
         if (staticCode.isBlank()) {
-            Log.e("获取模板解析器", "静态代码为空。")
+            LogCat.e("获取模板解析器", "静态代码为空。")
             return staticCode
         }
 
         val sourceFile = SourceFile(staticCode)
         val parserList = getTemplateParserList(context)
         if (parserList.isEmpty()) {
-            Log.w("生成代码", "此模板没有解析器，返回静态代码。")
+            LogCat.w("生成代码", "此模板没有解析器，返回静态代码。")
             return staticCode
         } else {
             parserList.forEach {
                 if (it.needParse) {
                     val input = it.getInput()
                     if (input.isBlank()) {
-                        Log.w("生成代码", "模板${it.code}输入为空，跳过处理。")
+                        LogCat.w("生成代码", "模板${it.code}输入为空，跳过处理。")
                     } else {
-                        Log.d("生成代码", "已将${it.code}的值设置为${input}。")
+                        LogCat.d("生成代码", "已将${it.code}的值设置为${input}。")
                         val section = it.section
                         if (section == null) {
                             sourceFile.writeValue(it.code, input)
@@ -160,7 +161,7 @@ class TemplateParserViewModel : BaseViewModel() {
                         }
                     }
                 } else {
-                    Log.d("生成代码", "模板${it.code}无需处理。")
+                    LogCat.d("生成代码", "模板${it.code}无需处理。")
                 }
             }
             return sourceFile.text
@@ -176,14 +177,14 @@ class TemplateParserViewModel : BaseViewModel() {
     fun getTemplateParserList(context: Context): ArrayList<TemplateParser> {
         if (this::arrayList.isInitialized)
         {
-            Log.d("获取模板解析器","已经被调用了一次，返回成员变量")
+            LogCat.d("获取模板解析器","已经被调用了一次，返回成员变量")
             return arrayList
         }
         arrayList = ArrayList()
         val gson = Gson()
         val jsonArray = jsonData?.getJSONArray("action")
         if (jsonArray == null) {
-            Log.e("获取模板解析器", "此模板没有action，无法读取。")
+            LogCat.e("获取模板解析器", "此模板没有action，无法读取。")
             return arrayList
         } else {
             val len = jsonArray.length()

@@ -129,6 +129,11 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
     }
 
     fun loadButton() {
+        if (token.isBlank()) {
+            viewBinding.tipView.text = getString(R.string.please_login_first)
+            viewBinding.button.isEnabled = false
+            return
+        }
         WebMod.instance.getCoinStatus(token, modId, object : ApiCallBack<CoinStatusData> {
             override fun onResponse(t: CoinStatusData) {
                 viewBinding.button.isEnabled = !t.data

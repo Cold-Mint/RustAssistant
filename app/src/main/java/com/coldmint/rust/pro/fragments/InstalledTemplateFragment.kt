@@ -21,6 +21,7 @@ import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.template.LocalTemplateFile
 import com.coldmint.rust.core.dataBean.template.Template
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.FileManagerActivity
 import com.coldmint.rust.pro.R
@@ -133,11 +134,11 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
         startTemplateParserActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
-                    Log.d("启动模板解析器", "收到成功回调，关闭界面。")
+                    LogCat.d("启动模板解析器", "收到成功回调，关闭界面。")
                     requireActivity().setResult(AppCompatActivity.RESULT_OK, it.data)
                     requireActivity().finish()
                 } else {
-                    Log.w("启动模板解析器", "未收到有效回调。")
+                    LogCat.w("启动模板解析器", "未收到有效回调。")
                 }
             }
         viewModel.createPathLiveData.observe(this) {
@@ -157,9 +158,9 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
             )
             if (this::mTemplateAdapter.isInitialized) {
                 mTemplateAdapter.setCreatePath(it)
-                Log.d("创建目录观察者", "模板适配器设置目录为${it}。")
+                LogCat.d("创建目录观察者", "模板适配器设置目录为${it}。")
             } else {
-                Log.e("创建目录观察者", "模板适配器没有设置目录。")
+                LogCat.e("创建目录观察者", "模板适配器没有设置目录。")
             }
         }
         viewModel.setLoadCallBack {
@@ -172,7 +173,7 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
             viewBinding.expandableList.setAdapter(mTemplateAdapter)
             val path = viewModel.createPathLiveData.value.toString()
             mTemplateAdapter.setCreatePath(path)
-            Log.d("创建目录观察者", "模板适配器设置目录为${path}。")
+            LogCat.d("创建目录观察者", "模板适配器设置目录为${path}。")
         }
         viewModel.loadTemplate(requireContext())
     }

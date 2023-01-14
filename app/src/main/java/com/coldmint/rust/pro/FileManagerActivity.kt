@@ -697,13 +697,15 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                                     }.setGestureInsetBottomIgnored(true).show()
                                 } else if (viewModel.startTypeData == FileManagerViewModel.StartType.DEFAULT) {
                                     val type = FileOperator.getFileType(file)
-                                    val data = AppSettings.getValue(AppSettings.Setting.SourceFileType,"ini,template")
+                                    val data = AppSettings.getValue(
+                                        AppSettings.Setting.SourceFileType,
+                                        "ini,template"
+                                    )
                                     val line = LineParser(data)
                                     var isSourceFile = false
                                     line.symbol = ","
                                     line.analyse { lineNum, lineData, isEnd ->
-                                        if (type == lineData)
-                                        {
+                                        if (type == lineData) {
                                             isSourceFile = true
                                             return@analyse false
                                         }
@@ -852,7 +854,13 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                 return@observe
             }
             val root = getString(R.string.root_path)
-            val path = root + it.substring(viewModel.getRootPath().length)
+            val rootLength = viewModel.getRootPath().length
+            val nowLength = it.length
+            val path = if (rootLength < nowLength) {
+                root + it.substring(rootLength)
+            }else{
+                it
+            }
             val lineParser = LineParser(path)
             lineParser.symbol = "/"
             lineParser.parserSymbol = true

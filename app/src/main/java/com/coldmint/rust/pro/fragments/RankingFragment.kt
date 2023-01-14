@@ -81,12 +81,11 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
         viewBinding.downloadChip.isChecked = true
     }
 
-//    override fun onResume() {
-//        loadMods()
-//        super.onResume()
-//    }
 
     fun loadMods() {
+        viewBinding.progressBar.isVisible = true
+        viewBinding.textview.isVisible = false
+        viewBinding.swipeRefreshLayout.isVisible = false
         WebMod.instance.list(object : ApiCallBack<WebModListData> {
             override fun onResponse(t: WebModListData) {
                 if (t.code == ServerConfiguration.Success_Code) {
@@ -95,7 +94,6 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                         viewBinding.progressBar.isVisible = false
                         viewBinding.textview.isVisible = false
                         viewBinding.swipeRefreshLayout.isVisible = true
-//                        Toast.makeText(requireContext(),"加载"+list.size,Toast.LENGTH_SHORT).show()
                         val adapter = createAdapter(list)
                         viewBinding.recyclerView.adapter = adapter
                         linearLayoutManager.scrollToPositionWithOffset(

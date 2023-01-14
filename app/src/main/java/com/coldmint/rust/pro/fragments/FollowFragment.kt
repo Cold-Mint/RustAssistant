@@ -36,12 +36,11 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
      * 加载视图如果需要更新的话
      */
     fun loadViewIfNeed() {
-        val selfAccount = AppSettings.getValue(AppSettings.Setting.Account, "")
-        if (selfAccount.isBlank()) {
-            showTip(R.string.please_login_first)
-        } else {
+        val loginStatus = AppSettings.getValue(AppSettings.Setting.LoginStatus, false)
+        if (loginStatus) {
+            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
             Community.getUserList(
-                selfAccount,
+                account,
                 limit = -1,
                 apiCallBack = object : ApiCallBack<FollowUserListData> {
                     override fun onResponse(t: FollowUserListData) {
@@ -110,6 +109,8 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
                     }
 
                 })
+        } else {
+            showTip(R.string.follow_introduction)
         }
     }
 
@@ -129,6 +130,9 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
      * @param t DynamicItemDataBean
      */
     fun getDynamicSuccess(t: DynamicItemDataBean) {
+        if (!isAdded) {
+            return
+        }
         val data = t.data?.toMutableList()
         if (t.code == ServerConfiguration.Success_Code && data != null) {
             val adapter = DynamicAdapter(requireContext(), data)

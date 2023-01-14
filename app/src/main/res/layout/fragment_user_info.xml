@@ -3,107 +3,129 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Elevated"
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/myHomeView"
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/myHomeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/headIconView"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/head_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toStartOf="@id/right_icon"
+                        android:layout_toEndOf="@id/headIconView"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/nameView"
+                            style="@style/TextAppearance.Material3.TitleMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name" />
+
+                        <TextView
+                            android:id="@+id/coinView"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/email" />
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/right_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_chevron_right_24"
+                        app:tint="?attr/colorControlNormal" />
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
-                android:animateLayoutChanges="true"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/headIconView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/head_icon" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toStartOf="@id/right_icon"
-                    android:layout_toEndOf="@id/headIconView"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/nameView"
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/name" />
-
-                    <TextView
-                        android:id="@+id/coinView"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/email" />
-
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/right_icon"
+                <TextView
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_chevron_right_24"
-                    app:tint="?attr/colorControlNormal" />
+                    android:text="@string/community_service" />
 
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
 
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.HeadlineSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/community_service" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <Button
+                android:id="@+id/logOutButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/log_out" />
+
+
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/logOutButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/log_out" />
+        <include
+            android:visibility="gone"
+            android:id="@+id/loginLayout"
+            layout="@layout/layout_log_in_first"/>
 
 
     </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>

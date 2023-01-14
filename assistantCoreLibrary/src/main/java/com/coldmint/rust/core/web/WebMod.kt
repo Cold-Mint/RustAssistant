@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.mod.*
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.ProgressListener
 import com.coldmint.rust.core.tool.ProgressMultipartBody
@@ -745,7 +746,7 @@ class WebMod private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("模组信息", data)
+                    LogCat.d("模组信息", data)
                     val finalWebModInfoData =
                         gson.fromJson(data, WebModInfoData::class.java)
                     handler.post {
@@ -1117,7 +1118,7 @@ class WebMod private constructor() {
                     val body = response.body
                     if (body != null) {
                         val data = body.string()
-                        Log.d("发布模组响应", data)
+                        LogCat.d("发布模组响应", data)
                         val finalApiResponse = gson.fromJson(data, ApiResponse::class.java)
                         handler.post {
                             apiCallBack.onResponse(finalApiResponse)

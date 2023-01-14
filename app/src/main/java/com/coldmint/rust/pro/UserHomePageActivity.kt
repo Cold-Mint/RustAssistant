@@ -39,7 +39,7 @@ import com.gyf.immersionbar.ktx.immersionBar
 class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 
     lateinit var userId: String
-    lateinit var account: String
+    var account: String? = null
     var userName: String? = null
     var fans: Int = 0
     val userHomeStateAdapter by lazy {
@@ -83,10 +83,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
 
         val temAccount = AppSettings.getValue(AppSettings.Setting.Account, "")
-        if (temAccount.isBlank()) {
-            showError("请先登录")
-            return
-        } else {
+        if (temAccount.isNotBlank()) {
             account = temAccount
         }
         viewBinding.toolbar.title = ""
@@ -120,42 +117,46 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
      * 初始化按钮
      */
     private fun initButton() {
-        if (account == userId) {
-            viewBinding.button.text = getString(R.string.editData)
-        } else {
-            Community.getFollowState(account, userId, object : ApiCallBack<ApiResponse> {
-                override fun onResponse(t: ApiResponse) {
-                    if (t.code == ServerConfiguration.Success_Code) {
-                        val data = t.data
-                        if (data != null && ServerConfiguration.isEvent(data)) {
-                            when (data) {
-                                "@event:已互粉" -> {
-                                    viewBinding.button.text = getString(R.string.each_other_follow)
-                                }
-                                "@event:已关注" -> {
-                                    viewBinding.button.text = getString(R.string.followed)
-                                }
-                                "@event:关注" -> {
-                                    viewBinding.button.text = getString(R.string.follow)
-                                }
-                                "@event:拒绝关注" -> {
-                                    viewBinding.button.text = getString(R.string.reject_follow)
-                                    viewBinding.button.isEnabled = false
+        if (account == null) {
+            viewBinding.button.text = getString(R.string.please_login_first)
+            viewBinding.button.isEnabled = false
+        }else{
+            if (account == userId) {
+                viewBinding.button.text = getString(R.string.editData)
+            } else {
+                Community.getFollowState(account!!, userId, object : ApiCallBack<ApiResponse> {
+                    override fun onResponse(t: ApiResponse) {
+                        if (t.code == ServerConfiguration.Success_Code) {
+                            val data = t.data
+                            if (data != null && ServerConfiguration.isEvent(data)) {
+                                when (data) {
+                                    "@event:已互粉" -> {
+                                        viewBinding.button.text = getString(R.string.each_other_follow)
+                                    }
+                                    "@event:已关注" -> {
+                                        viewBinding.button.text = getString(R.string.followed)
+                                    }
+                                    "@event:关注" -> {
+                                        viewBinding.button.text = getString(R.string.follow)
+                                    }
+                                    "@event:拒绝关注" -> {
+                                        viewBinding.button.text = getString(R.string.reject_follow)
+                                        viewBinding.button.isEnabled = false
+                                    }
                                 }
                             }
+                        } else {
+
                         }
-                    } else {
+                    }
+
+                    override fun onFailure(e: Exception) {
 
                     }
-                }
 
-                override fun onFailure(e: Exception) {
-
-                }
-
-            })
+                })
+            }
         }
-
     }
 
     /**
@@ -394,7 +395,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                         )
                     )
                     viewBinding.button.setText(R.string.request_data)
-                    Community.follow(account, userId, object : ApiCallBack<ApiResponse> {
+                    Community.follow(account!!, userId, object : ApiCallBack<ApiResponse> {
                         override fun onResponse(t: ApiResponse) {
                             viewBinding.button.setBackgroundColor(
                                 GlobalMethod.getColorPrimary(
@@ -442,7 +443,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                             )
                             viewBinding.button.setText(R.string.request_data)
                             Community.deFollow(
-                                account,
+                                account!!,
                                 userId,
                                 object : ApiCallBack<ApiResponse> {
                                     override fun onResponse(t: ApiResponse) {
@@ -474,7 +475,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                                 })
                         }.setNegativeButton(R.string.dialog_cancel) {
 
-                    }.show()
+                        }.show()
                 }
                 getString(R.string.editData) -> {
                     val intent = Intent(this, EditUserInfoActivity::class.java)

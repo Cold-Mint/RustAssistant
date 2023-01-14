@@ -478,7 +478,8 @@
     <string name="insert_coins_ok">已收到您的支持了。</string>
     <string name="register_successed">注册成功</string>
     <string name="registration_success_message">账号激活码已发送至您的邮箱。若没有收到，则邮箱可能被视为垃圾邮件了。请检查您的垃圾箱。</string>
-    <string name="please_login_first">请先登录。</string>
+    <string name="please_login_first">请先登录</string>
+    <string name="tourist_pattern">游客模式</string>
     <string name="network_error">网络错误。</string>
     <string name="check_update_failure">检查更新失败。</string>
     <string name="setting_check_beta_update" translatable="false">CheckBetaUpdate</string>
@@ -941,5 +942,7 @@
     <string name="unit_number">单位数</string>
     <string name="update_number">更新次数</string>
     <string name="click_profile_picture_login">点击头像登录</string>
+    <string name="log_in_discover_more">登录发现更多内容！</string>
+    <string name="follow_introduction">登录后即可解锁关注系统</string>
 
 </resources>

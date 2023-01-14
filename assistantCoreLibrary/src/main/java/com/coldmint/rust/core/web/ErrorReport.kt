@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.CouponListDataBean
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.google.gson.Gson
 import okhttp3.*
@@ -58,7 +59,7 @@ class ErrorReport {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("错误反馈数据", data)
+                    LogCat.d("错误反馈数据", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.coldmint.rust.core.R
+import com.coldmint.rust.core.debug.LogCat
 
 /**
  * 炮塔视图
@@ -44,14 +45,14 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
      * @param canDrag Boolean
      */
     fun setCanDrag(canDrag: Boolean) {
-        Log.d(debugKey, "${turretData.name} 可拖动状态${canDrag}")
+        LogCat.d(debugKey, "${turretData.name} 可拖动状态${canDrag}")
         this.canDrag = canDrag
         if (canDrag) {
             val and = turretSketchpadView?.toAndroidCoordinate(turretData.gameCoordinateData)
             if (and != null) {
                 turretSketchpadView?.setKeyCoordinate(and)
             } else {
-                Log.e(debugKey, "可拖动状态,辅助线定位失败。")
+                LogCat.e(debugKey, "可拖动状态,辅助线定位失败。")
             }
         }
     }
@@ -123,7 +124,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                     return canDrag
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    Log.d(debugKey, "收到移动${turretData.name} 可拖动状态${canDrag}")
+                    LogCat.d(debugKey, "收到移动${turretData.name} 可拖动状态${canDrag}")
                     if (canDrag) {
                         val and = CoordinateData(event.x.toInt(), event.y.toInt())
                         val gameCoordinateData = turretSketchpadView!!.toGameCoordinate(and)
@@ -145,7 +146,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
         super.onDraw(canvas)
         if (this::turretData.isInitialized) {
             if (turretSketchpadView == null) {
-                Log.e(debugKey, "未绑定画板，停止绘制。")
+                LogCat.e(debugKey, "未绑定画板，停止绘制。")
                 return
             }
             val paint = Paint()
@@ -155,7 +156,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                 null
             }
             if (bitmap == null) {
-                Log.e(debugKey, "无法加载炮塔图像。")
+                LogCat.e(debugKey, "无法加载炮塔图像。")
                 return
             }
             if (turretData.scaleValue != 1f) {
@@ -177,7 +178,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                 bitmap.recycle()
             }
         } else {
-            Log.e(debugKey, "未设置炮塔数据，停止绘制。")
+            LogCat.e(debugKey, "未设置炮塔数据，停止绘制。")
         }
     }
 }

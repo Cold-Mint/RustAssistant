@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.pro.interfaces.AutoCompleteHelper
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
@@ -61,7 +62,7 @@ abstract class BaseAppendAutoCompleteHelper(context: Context) : AutoCompleteHelp
         if (index > -1) {
             val end = string.substring(index)
             var num = 0
-            Log.d("附加提示列表", "截取 " + end)
+            LogCat.d("附加提示列表", "截取 " + end)
             for (data in mDataList) {
                 if (data.startsWith(end)) {
                     num++
@@ -70,7 +71,7 @@ abstract class BaseAppendAutoCompleteHelper(context: Context) : AutoCompleteHelp
                         1
                     )
                     val value = h1 + h2
-                    Log.d("附加提示列表", "提示 " + h1 + " | " + h2)
+                    LogCat.d("附加提示列表", "提示 " + h1 + " | " + h2)
                     adapter.add(value)
                 }
                 if (num == maxNum) {
@@ -79,7 +80,7 @@ abstract class BaseAppendAutoCompleteHelper(context: Context) : AutoCompleteHelp
             }
         } else {
             var num = 0
-            Log.d("附加提示列表", "没有符号 " + string)
+            LogCat.d("附加提示列表", "没有符号 " + string)
             for (email in mDataList) {
                 num++
                 adapter.add(string + email)

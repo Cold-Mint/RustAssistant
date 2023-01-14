@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.pro.adapters.GuideAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.GuideData
@@ -27,9 +28,9 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
         createMod = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 finish()
-                Log.d("创建单位", "收到了数据，关闭界面。")
+                LogCat.d("创建单位", "收到了数据，关闭界面。")
             } else {
-                Log.d("创建单位", "没有收到数据。")
+                LogCat.d("创建单位", "没有收到数据。")
             }
         }
         val temType = intent.getStringExtra("type")

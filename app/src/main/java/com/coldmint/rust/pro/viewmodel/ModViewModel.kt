@@ -3,6 +3,7 @@ package com.coldmint.rust.pro.viewmodel
 import android.os.Environment
 import android.util.Log
 import com.coldmint.rust.core.ModClass
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.pro.base.BaseViewModel
 import com.coldmint.rust.pro.tool.AppSettings
 import java.io.File
@@ -25,12 +26,12 @@ class ModViewModel : BaseViewModel() {
         )
         if (modFolder.exists()) {
             if (!modFolder.isDirectory) {
-                Log.e(key, "模组文件夹${modFolder}，不是文件夹。")
+                LogCat.e(key, "模组文件夹${modFolder}，不是文件夹。")
                 return null
             }
             val fileList = modFolder.listFiles()
             if (fileList.isNullOrEmpty()) {
-                Log.e(key, "模组文件夹${modFolder}，为空。")
+                LogCat.e(key, "模组文件夹${modFolder}，为空。")
                 return null
             }
 
@@ -39,9 +40,9 @@ class ModViewModel : BaseViewModel() {
                 val isMod = ModClass.isMod(it)
                 if (isMod) {
                     arrayList.add(ModClass(it))
-                    Log.d(key, "已添加${it.absolutePath}。")
+                    LogCat.d(key, "已添加${it.absolutePath}。")
                 } else {
-                    Log.e(key, "${it.absolutePath} 不是模组。")
+                    LogCat.e(key, "${it.absolutePath} 不是模组。")
                 }
             }
             return if (arrayList.isEmpty()){
@@ -50,7 +51,7 @@ class ModViewModel : BaseViewModel() {
                 arrayList
             }
         } else {
-            Log.e(key, "模组文件夹${modFolder}不存在。")
+            LogCat.e(key, "模组文件夹${modFolder}不存在。")
             return null
         }
     }

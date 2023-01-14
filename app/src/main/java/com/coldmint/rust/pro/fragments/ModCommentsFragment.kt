@@ -28,7 +28,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 
 /**
- * 模组评论适配器
+ * 模组评论
  */
 class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
@@ -46,10 +46,13 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
             viewBinding.swipeRefreshLayout.isRefreshing = false
         }
         viewBinding.sendDiscussion.setOnClickListener {
-            val account = AppSettings.getValue(AppSettings.Setting.Account, "")
-            if (account.isBlank()) {
-                Toast.makeText(requireContext(), R.string.please_login_first, Toast.LENGTH_SHORT)
-                    .show()
+            val token = AppSettings.getValue(AppSettings.Setting.Token, "")
+            if (token.isBlank()) {
+                Snackbar.make(
+                    viewBinding.sendDiscussion,
+                    R.string.please_login_first,
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -58,7 +61,7 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
                 .setSubmitFun { button, textInputLayout, s, alertDialog ->
                     button.isEnabled = false
                     WebMod.instance.sendComment(
-                        AppSettings.getValue(AppSettings.Setting.Token, ""),
+                        token,
                         modId,
                         s,
                         object : ApiCallBack<ApiResponse> {

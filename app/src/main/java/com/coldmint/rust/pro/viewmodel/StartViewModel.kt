@@ -24,6 +24,7 @@ import com.coldmint.rust.core.dataBean.user.ActivationInfo
 import com.coldmint.rust.core.dataBean.user.SocialInfoData
 import com.coldmint.rust.core.dataBean.user.UserData
 import com.coldmint.rust.core.database.code.CodeDataBase
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.AppOperator
@@ -168,7 +169,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
                     } else {
 //                        用户登录失败
                         verifyErrorMsgLiveData.value = activationInfo.message
-                        Log.d("验证失败", activationInfo.message)
+                        LogCat.d("验证失败", activationInfo.message)
                     }
                 }
             })
@@ -427,18 +428,18 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         if (BuildConfig.DEBUG) {
             //是测试模式
             if (GlobalMethod.DEBUG_SIGN != sign) {
-                Log.e(key, "测试打包，签名检查错误" + sign + "不是合法的签名。")
+                LogCat.e(key, "测试打包，签名检查错误" + sign + "不是合法的签名。")
                 signatureErrorLiveData.value = true
             } else {
-                Log.d(key, "测试打包，签名合法。")
+                LogCat.d(key, "测试打包，签名合法。")
                 signatureErrorLiveData.value = false
             }
         } else {
             if (GlobalMethod.RELEASE_SIGN != sign) {
                 signatureErrorLiveData.value = true
-                Log.e(key, "正式打包，签名检查错误" + sign + "不是合法的签名。")
+                LogCat.e(key, "正式打包，签名检查错误" + sign + "不是合法的签名。")
             } else {
-                Log.d(key, "正式打包，签名合法。")
+                LogCat.d(key, "正式打包，签名合法。")
                 signatureErrorLiveData.value = false
             }
         }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.dataBean.mod.WebModInfoData
 import com.coldmint.rust.core.dataBean.user.SpaceInfoData
@@ -21,6 +22,8 @@ import com.coldmint.rust.pro.databinding.FragmentWebModDetailsBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
+import com.coldmint.rust.pro.viewmodel.StartViewModel
+import com.coldmint.rust.pro.viewmodel.WebModDetailsViewModel
 import com.google.android.material.chip.Chip
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
@@ -29,17 +32,22 @@ import com.youth.banner.indicator.CircleIndicator
 /**
  * 模组详情碎片
  */
-class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveData<String>) : BaseFragment<FragmentWebModDetailsBinding>() {
-    private var developer: String? = null
+class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveData<String>) :
+    BaseFragment<FragmentWebModDetailsBinding>() {
+    private val viewModel: WebModDetailsViewModel by lazy {
+        ViewModelProvider(requireActivity())[WebModDetailsViewModel::class.java]
+    }
 
-    //此模组是否对外开放
-    private var isOpen = false
 
-    private var link: String? = null
+
+    //Kotlin次构造函数
+    constructor() : this("", MutableLiveData()) {
+
+    }
 
 
     fun getLink(): String? {
-        return link
+        return viewModel.link
     }
 
     /**
@@ -47,10 +55,12 @@ class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveDa
      * @return Boolean
      */
     fun isOpen(): Boolean {
-        return isOpen
+        return viewModel.isOpen
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
+        viewModel.modId = modId
+        viewModel.modNameLiveData = modNameLiveData
         loadInfo()
     }
 
@@ -62,7 +72,7 @@ class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveDa
     fun loadDeveloperInfo(userId: String) {
         User.getSpaceInfo(userId, object : ApiCallBack<SpaceInfoData> {
             override fun onResponse(t: SpaceInfoData) {
-                if (t.code == ServerConfiguration.Success_Code) {
+                if (t.code == ServerConfiguration.Success_Code && isAdded) {
                     val icon = t.data.headIcon
                     if (icon != null) {
                         Glide.with(requireContext())
@@ -78,7 +88,6 @@ class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveDa
                         ServerConfiguration.numberToString(t.data.praise)
                     )
                     viewBinding.userInfoView.text = info
-
                     viewBinding.cardView.postDelayed({
                         viewBinding.cardView.isVisible = true
                         viewBinding.openUserSpace.setOnClickListener {
@@ -122,10 +131,10 @@ class WebModDetailsFragment(val modId: String,val modNameLiveData: MutableLiveDa
         WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
             override fun onResponse(t: WebModInfoData) {
                 if (t.code == ServerConfiguration.Success_Code) {
-                    developer = t.data.developer
+                    viewModel.developer = t.data.developer
                     modNameLiveData.value = t.data.name
-                    isOpen = t.data.hidden == 0
-                    link = t.data.link
+                    viewModel.isOpen = t.data.hidden == 0
+                    viewModel.link = t.data.link
                     viewBinding.loadLayout.isVisible = false
                     viewBinding.contentLayout.isVisible = true
                     val icon = t.data.icon

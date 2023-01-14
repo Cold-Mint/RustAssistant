@@ -2,6 +2,7 @@ package com.coldmint.rust.core
 
 import android.util.Log
 import com.coldmint.rust.core.dataBean.dataset.DataBaseManifest
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.tool.FileOperator
 import com.google.gson.Gson
 import java.io.File
@@ -59,7 +60,7 @@ class DataSet(val folder: File) {
         val newDataSetManifest = dataSet.getDataBaseManifest()
         val thisManifest = getDataBaseManifest()
         if (newDataSetManifest == null) {
-            Log.w(
+            LogCat.w(
                 "数据集更新",
                 "新清单不存在，无法升级"
             )
@@ -67,7 +68,7 @@ class DataSet(val folder: File) {
         }
         if (thisManifest == null) {
             //如果自身清单文件为空直接升级
-            Log.w(
+            LogCat.w(
                 "数据集更新",
                 "自身清单不存在，已执行升级"
             )
@@ -76,21 +77,21 @@ class DataSet(val folder: File) {
         }
         return if (newDataSetManifest.id == thisManifest.id) {
             if (newDataSetManifest.versionNumber > thisManifest.versionNumber) {
-                Log.d(
+                LogCat.d(
                     "数据集更新",
                     "版本号不一致,执行更新(新版本" + newDataSetManifest.versionNumber + "旧版本:" + thisManifest.versionNumber + ")"
                 )
                 FileOperator.delete_files(folder)
                 FileOperator.copyFile(dataSet.folder, folder)
             } else {
-                Log.d(
+                LogCat.d(
                     "数据集更新",
                     "新的版本号小于或等于当前版本无需更新（新版本:" + newDataSetManifest.versionNumber + "旧版本:" + thisManifest.versionNumber + ")"
                 )
                 false
             }
         } else {
-            Log.w(
+            LogCat.w(
                 "数据集更新",
                 "id不一致"
             )

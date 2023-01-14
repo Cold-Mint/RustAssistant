@@ -8,6 +8,7 @@ import com.coldmint.rust.core.dataBean.SubscriptionData
 import com.coldmint.rust.core.dataBean.WebTemplatePackageDetailsData
 import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
 import com.coldmint.rust.core.dataBean.template.WebTemplateData
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.google.gson.Gson
 import okhttp3.*
@@ -53,7 +54,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("网络模板包数据", data)
+                    LogCat.d("网络模板包数据", data)
                     val finalWebTemplatePackageListData =
                         gson.fromJson(data, WebTemplatePackageListData::class.java)
                     handler.post {
@@ -101,7 +102,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("获取网络模板详情", data)
+                    LogCat.d("获取网络模板详情", data)
                     val finalWebTemplatePackageListData =
                         gson.fromJson(data, WebTemplateData::class.java)
                     handler.post {
@@ -146,7 +147,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("获取网络模板详情", data)
+                    LogCat.d("获取网络模板详情", data)
                     val finalWebTemplatePackageListData =
                         gson.fromJson(data, WebTemplatePackageDetailsData::class.java)
                     handler.post {
@@ -191,7 +192,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("获取网络订阅", data)
+                    LogCat.d("获取网络订阅", data)
                     val finalSubscriptionData =
                         gson.fromJson(data, SubscriptionData::class.java)
                     handler.post {
@@ -237,7 +238,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("订阅模板", data)
+                    LogCat.d("订阅模板", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {
@@ -283,7 +284,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("退订模板", data)
+                    LogCat.d("退订模板", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {
@@ -328,7 +329,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("获取用户创建的模板包列表", data)
+                    LogCat.d("获取用户创建的模板包列表", data)
                     val finalApiResponse =
                         gson.fromJson(data, WebTemplatePackageListData::class.java)
                     handler.post {
@@ -380,7 +381,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("添加模板", data)
+                    LogCat.d("添加模板", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {
@@ -444,7 +445,7 @@ class TemplatePhp {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("创建模板包", data)
+                    LogCat.d("创建模板包", data)
                     val finalWebTemplatePackageListData =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

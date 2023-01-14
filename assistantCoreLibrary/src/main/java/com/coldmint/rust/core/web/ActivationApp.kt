@@ -7,6 +7,7 @@ import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.OrderDataBean
 import com.coldmint.rust.core.dataBean.OrderListDataBean
 import com.coldmint.rust.core.dataBean.PlanDataBean
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.google.gson.Gson
 import okhttp3.*
@@ -60,7 +61,7 @@ class ActivationApp private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("确认订单", data)
+                    LogCat.d("确认订单", data)
                     val finalApiResponse =
                         gson.fromJson(data, ApiResponse::class.java)
                     handler.post {

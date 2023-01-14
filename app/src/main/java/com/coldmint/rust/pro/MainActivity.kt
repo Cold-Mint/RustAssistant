@@ -30,6 +30,7 @@ import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.AppUpdateData
 import com.coldmint.rust.core.dataBean.template.TemplateInfo
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.*
@@ -150,7 +151,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     fun ifNeedShowUpdate(data: AppUpdateData.Data) {
         val key = "应用更新"
         if (ServerConfiguration.isTestServer()) {
-            Log.w(key, "当前为本地测试服务器，已禁用更新检查。")
+            LogCat.w(key, "当前为本地测试服务器，已禁用更新检查。")
             return
         }
         val executorService = Executors.newSingleThreadExecutor()
@@ -160,34 +161,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val checkBetaUpdate =
                 AppSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
             var needShowDialog = false
-            //如果自身是Beta版，则强制更新Beta版本
-            if (BuildConfig.DEBUG && packageInfo.versionName.contains("Beta")) {
-                data.forced = true
-                //版本名不一致，是Beta模式
-                if (packageInfo.versionName != data.versionName) {
-                    needShowDialog = true
-                    Log.d(key, "是测试模式,版本名称不一致")
+            if (data.versionNumber > packageInfo.versionCode) {
+                if (data.isBeta) {
+                    if (checkBetaUpdate) {
+                        needShowDialog = true
+                    }
                 } else {
-                    Log.d(key, "是测试模式，并且是Beta版本")
-                }
-            } else if (checkBetaUpdate) {
-                //版本名不一致
-                if (packageInfo.versionName != data.versionName) {
                     needShowDialog = true
-                    Log.d(key, "开启了检查Beta版本,版本名称不一致")
-                } else {
-                    Log.d(key, "开启了检查Beta版本,无需更新")
-                }
-            } else {
-                //版本号不一致
-                if (packageInfo.versionCode != data.versionNumber) {
-                    needShowDialog = true
-                    Log.d(key, "正式打包模式,版本号不一致")
-                } else {
-                    Log.d(key, "正式打包模式,版本号一致无需更新")
                 }
             }
-
             if (!needShowDialog) {
                 return@submit
             }
@@ -392,22 +374,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             AppSettings.Setting.ExpirationTime,
             0.toLong()
         )
-        val time = ServerConfiguration.toStringTime(
-            longTime
+        val loginStatus = AppSettings.getValue(
+            AppSettings.Setting.LoginStatus,
+            false
         )
         val activationItem = menu.findItem(R.id.activation_item)
-        if (time == ServerConfiguration.ForeverTime) {
-            activationItem.isVisible = false
+        if (loginStatus) {
+            val time = ServerConfiguration.toStringTime(
+                longTime
+            )
+            if (time == ServerConfiguration.ForeverTime) {
+                activationItem.isVisible = false
+            } else {
+                activationItem.isVisible = true
+                if (isActive) {
+                    activationItem.title = getText(R.string.renewal)
+                } else {
+                    activationItem.title = getText(R.string.activate)
+                }
+                activationItem.setOnMenuItemClickListener {
+                    startActivity(Intent(this, ActivateActivity::class.java))
+                    false
+                }
+            }
         } else {
-            activationItem.isVisible = true
-            if (isActive) {
-                activationItem.title = getText(R.string.renewal)
-            }
-            activationItem.setOnMenuItemClickListener {
-                startActivity(Intent(this, ActivateActivity::class.java))
-                false
-            }
+            activationItem.isVisible = false
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -653,9 +646,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.needLoginLiveData.observe(this) {
             if (it) {
-                Glide.with(this).load(R.drawable.head_icon)
-                    .apply(GlobalMethod.getRequestOptions(true, grayscale = false))
-                    .into(headLayout.imageView)
+                headLayout.imageView.setImageResource(R.drawable.head_icon)
                 headLayout.nameView.text = getString(R.string.click_profile_picture_login)
                 headLayout.emailView.text = ""
                 headLayout.imageView.setOnClickListener {

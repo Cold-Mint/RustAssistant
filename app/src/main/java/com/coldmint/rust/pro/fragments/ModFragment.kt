@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.core.dataBean.ModConfigurationData
 import com.coldmint.rust.core.tool.DebugHelper
@@ -303,7 +304,7 @@ class ModFragment : BaseFragment<FragmentModBinding>() {
                     )
                 )
             } else {
-                modDialogBinding.modIcon.setImageBitmap(modClass.modIcon)
+                Glide.with(requireContext()).load(modClass.modIcon).into(modDialogBinding.modIcon)
             }
         } else {
             val drawable = context.getDrawable(R.drawable.file)

@@ -25,6 +25,7 @@ import android.view.MenuItem
 import androidx.core.view.isVisible
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.OrderDataBean
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
@@ -241,7 +242,7 @@ class PayActivity : BaseActivity<ActivityPayBinding>() {
                                     timeBuilder.append("秒")
                                 }
                                 setMoney(timeBuilder.toString(), t.data.price)
-                                Log.d("秒", timeBuilder.toString())
+                                LogCat.d("秒", timeBuilder.toString())
                             }
 
                             override fun onFinish() {

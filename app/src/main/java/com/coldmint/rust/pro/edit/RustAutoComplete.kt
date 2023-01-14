@@ -194,7 +194,7 @@ class RustAutoComplete(val context: Context) : EnglishMode {
 //
 ////                    val value =
 ////                        lineData.subSequence(keyIndex + key.length, lineData.length).toString().trim()
-////                    Log.d("值", value)
+////                    LogCat.d("值", value)
 //                //搜索值
 //                // frontIndex 前面冒号的位置
 //                val frontIndex = lineData.lastIndexOf(key, keyIndex - key.length)

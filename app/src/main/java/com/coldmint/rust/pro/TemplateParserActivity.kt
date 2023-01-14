@@ -30,6 +30,7 @@ import com.coldmint.rust.core.dataBean.ListParserDataBean
 import com.coldmint.rust.core.dataBean.template.LocalTemplateFile
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
 import com.coldmint.rust.core.dataBean.template.WebTemplateData
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.TemplateParser
 import com.coldmint.rust.core.templateParser.InputParser
@@ -140,7 +141,7 @@ class TemplateParserActivity : BaseActivity<ActivityTemplateParserBinding>() {
             }
             val isLocal = intent.getBooleanExtra("isLocal", false)
             if (isLocal) {
-                Log.d("模板解析器", "读取本地模板$link")
+                LogCat.d("模板解析器", "读取本地模板$link")
                 viewModel.setTemplate(LocalTemplateFile(File(link)))
                 val templateParserList = viewModel.getTemplateParserList(this)
                 templateParserList.forEach {
@@ -150,7 +151,7 @@ class TemplateParserActivity : BaseActivity<ActivityTemplateParserBinding>() {
                 viewBinding.nestedScrollView.isVisible = true
                 title = viewModel.getTemplateName(language)
             } else {
-                Log.d("模板解析器", "加载网络模板$link")
+                LogCat.d("模板解析器", "加载网络模板$link")
                 TemplatePhp.instance.getTemplate(link, object : ApiCallBack<WebTemplateData> {
                     override fun onResponse(t: WebTemplateData) {
                         if (t.code == ServerConfiguration.Success_Code) {

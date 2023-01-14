@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.coldmint.rust.core.R
+import com.coldmint.rust.core.debug.LogCat
 
 /**
  * 炮塔画板
@@ -120,7 +121,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
         val x = (androidCoordinateData.x - centreX) / cellSize
         val y = (androidCoordinateData.y - centreY) / cellSize
         val game = CoordinateData(x, y)
-        Log.d(
+        LogCat.d(
             debug,
             "转换游戏坐标，安卓坐标${androidCoordinateData} 游戏坐标${game}"
         )
@@ -136,7 +137,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
         val x = (gameCoordinateData.x * cellSize) + centreX
         val y = (gameCoordinateData.y * cellSize) + centreY
         val androidCoordinateData = CoordinateData(x, y)
-        Log.d(
+        LogCat.d(
             debug,
             "转换安卓坐标，中心点${centreX} ${centreY}安卓坐标${androidCoordinateData} 游戏坐标${gameCoordinateData}"
         )
@@ -150,10 +151,10 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
     fun setKeyCoordinate(coordinateData: CoordinateData) {
         if (centreX != -1 && centreY != -1) {
             keyCoordinate = coordinateData
-            Log.d(debug, "已设置关键坐标${coordinateData}。")
+            LogCat.d(debug, "已设置关键坐标${coordinateData}。")
             invalidate()
         } else {
-            Log.e(debug, "设置关键坐标失败。")
+            LogCat.e(debug, "设置关键坐标失败。")
         }
 
     }
@@ -205,7 +206,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
         } else {
             cellY
         }
-        Log.d(
+        LogCat.d(
             debug,
             "计算尺寸\n单元格宽:${cellX} 使用视图宽度${width}除以图像宽度${imageWidth}\n单元格高:${cellY} 使用视图宽度${height}除以图像宽度${imageHeight}\n采用${cellSize}作为视图单元格尺寸"
         )
@@ -226,7 +227,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
      * @param imageWidth Int
      */
     private fun drawCoordinate(canvas: Canvas) {
-        if (drawCoordinate) {
+        if (drawCoordinate && cellSize > 0) {
             //如果需要绘制
             val paint = Paint()
             paint.color = coordinateColor

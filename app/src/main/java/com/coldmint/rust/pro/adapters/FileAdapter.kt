@@ -24,7 +24,7 @@ import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-class FileAdapter(  context: Context, dataList: MutableList<File?>) :
+class FileAdapter(context: Context, dataList: MutableList<File?>) :
     BaseAdapter<FileItemBinding, File?>(context, dataList), PopupTextProvider {
 
     /**
@@ -204,6 +204,9 @@ class FileAdapter(  context: Context, dataList: MutableList<File?>) :
 
 
     override fun getPopupText(position: Int): String {
+        if (position >= dataList.size) {
+            return "#"
+        }
         val file = dataList[position]
         val data = when (sortType) {
             FileManagerViewModel.SortType.BY_NAME -> {

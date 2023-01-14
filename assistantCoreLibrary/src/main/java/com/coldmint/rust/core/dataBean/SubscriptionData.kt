@@ -4,6 +4,7 @@ package com.coldmint.rust.core.dataBean
 import android.util.Log
 import com.coldmint.rust.core.dataBean.template.Template
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.TemplatePhp
@@ -116,17 +117,17 @@ data class SubscriptionData(
             TemplatePhp.instance.deleteSubscription(token, id, object : ApiCallBack<ApiResponse> {
                 override fun onResponse(t: ApiResponse) {
                     if (t.code == ServerConfiguration.Success_Code) {
-                        Log.d("取消订阅", "成功。")
+                        LogCat.d("取消订阅", "成功。")
                         func.invoke(true)
                     } else {
-                        Log.e("取消订阅", t.message)
+                        LogCat.e("取消订阅", t.message)
                         func.invoke(false)
                     }
                 }
 
                 override fun onFailure(e: Exception) {
                     e.printStackTrace()
-                    Log.e("取消订阅", e.toString())
+                    LogCat.e("取消订阅", e.toString())
                     func.invoke(false)
                 }
 

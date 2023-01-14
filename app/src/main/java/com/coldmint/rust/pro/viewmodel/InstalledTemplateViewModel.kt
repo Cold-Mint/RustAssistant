@@ -8,6 +8,7 @@ import com.coldmint.rust.core.dataBean.SubscriptionData
 import com.coldmint.rust.core.dataBean.template.LocalTemplateFile
 import com.coldmint.rust.core.dataBean.template.Template
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.FileFinderListener
 import com.coldmint.rust.core.tool.FileFinder2
@@ -88,7 +89,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
         TemplatePhp.instance.getSubscriptionDataList(token,object :ApiCallBack<SubscriptionData>{
             override fun onResponse(t: SubscriptionData) {
                 if (t.code == ServerConfiguration.Success_Code){
-                    Log.d("加载网络订阅模板", "正在处理。")
+                    LogCat.d("加载网络订阅模板", "正在处理。")
                     t.data.forEach {
                         groupList.add(it)
                         val temList = ArrayList<Template>()
@@ -100,7 +101,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
                     loadLocalTemplate(context)
                     loadCallBack?.invoke()
                 }else{
-                    Log.w("加载网络订阅模板", t.message)
+                    LogCat.w("加载网络订阅模板", t.message)
                     loadLocalTemplate(context)
                     loadCallBack?.invoke()
                 }
@@ -108,7 +109,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
 
             override fun onFailure(e: Exception) {
                 e.printStackTrace()
-                Log.e("加载网络订阅模板", e.toString())
+                LogCat.e("加载网络订阅模板", e.toString())
                 loadLocalTemplate(context)
                 loadCallBack?.invoke()
             }
@@ -128,7 +129,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
             )
         )
         if (templateDirectory.exists() && templateDirectory.isDirectory) {
-            Log.d("加载本地模板", "正在读取" + templateDirectory.absolutePath)
+            LogCat.d("加载本地模板", "正在读取" + templateDirectory.absolutePath)
             val files = templateDirectory.listFiles()
             if (files.isNotEmpty()) {
                 files.forEach {
@@ -138,7 +139,7 @@ class InstalledTemplateViewModel : BaseViewModel() {
                             LocalTemplatePackage(it)
                         if (templatePackage.isTemplate) {
                             groupList.add(templatePackage)
-                            Log.d("加载本地模板", "已创建" + templatePackage.getName() + "组")
+                            LogCat.d("加载本地模板", "已创建" + templatePackage.getName() + "组")
                             val temList = ArrayList<Template>()
                             itemList.add(temList)
                             val fileFinder2 = FileFinder2(it)
@@ -154,19 +155,19 @@ class InstalledTemplateViewModel : BaseViewModel() {
                                                 val s = jsonObject.getString("language")
                                                 if (s == "ALL" || s == environmentLanguage) {
                                                     temList.add(templateFile)
-                                                    Log.d("加载本地模板", "已成功分配" + file.absolutePath)
+                                                    LogCat.d("加载本地模板", "已成功分配" + file.absolutePath)
                                                 } else {
-                                                    Log.w("加载本地模板", "不符合语言的项目" + file.absolutePath)
+                                                    LogCat.w("加载本地模板", "不符合语言的项目" + file.absolutePath)
                                                 }
                                             } catch (exception: JSONException) {
                                                 exception.printStackTrace()
                                             }
                                         } else {
                                             temList.add(templateFile)
-                                            Log.d("加载本地模板", "已成功分配" + file.absolutePath)
+                                            LogCat.d("加载本地模板", "已成功分配" + file.absolutePath)
                                         }
                                     } else {
-                                        Log.w("加载本地模板", "无法分配" + file.absolutePath)
+                                        LogCat.w("加载本地模板", "无法分配" + file.absolutePath)
                                     }
                                     return true
                                 }
@@ -177,17 +178,17 @@ class InstalledTemplateViewModel : BaseViewModel() {
                             })
                             fileFinder2.onStart()
                         } else {
-                            Log.w("加载本地模板", "文件" + it.absolutePath + "不是模板包")
+                            LogCat.w("加载本地模板", "文件" + it.absolutePath + "不是模板包")
                         }
                     } else {
-                        Log.w("加载本地模板", "文件" + it.absolutePath + "不是文件夹")
+                        LogCat.w("加载本地模板", "文件" + it.absolutePath + "不是文件夹")
                     }
                 }
             } else {
-                Log.w("加载本地模板", "目录" + templateDirectory.absolutePath + "内，没有文件，无法加载。")
+                LogCat.w("加载本地模板", "目录" + templateDirectory.absolutePath + "内，没有文件，无法加载。")
             }
         } else {
-            Log.e("加载本地模板", "模板目录不存在或不是文件夹" + templateDirectory.absolutePath)
+            LogCat.e("加载本地模板", "模板目录不存在或不是文件夹" + templateDirectory.absolutePath)
         }
 
     }

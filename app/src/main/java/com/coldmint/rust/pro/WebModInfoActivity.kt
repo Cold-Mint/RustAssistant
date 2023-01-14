@@ -183,6 +183,14 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.report_item -> {
+                if (token.isBlank()) {
+                    Snackbar.make(
+                        viewBinding.button,
+                        R.string.please_login_first,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    return true
+                }
                 if (adapter.isOpen()) {
                     val thisIntent = Intent(this, ReportActivity::class.java)
                     val bundle = Bundle()
@@ -215,7 +223,7 @@ class WebModInfoActivity : BaseActivity<ActivityWebModInfoBinding>() {
                     link + "website/pages/modPage.php?&modId=" + modId, appUpdateLink
                 )
 
-                AppOperator.shareText(this,getString(R.string.share_mod),s)
+                AppOperator.shareText(this, getString(R.string.share_mod), s)
             }
             R.id.update_record -> {
                 GlobalMethod.showUpdateLog(this, modId)

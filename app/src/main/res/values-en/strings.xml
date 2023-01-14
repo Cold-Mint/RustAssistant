@@ -415,7 +415,7 @@
     <string name="additional_selection">Additional items</string>
     <string name="delete_source_file">Delete the source file after the package is complete</string>
     <string name="packmod">packaging</string>
-    <string name="open_tip">Open immediately with %1$.2F yuan</string>
+    <string name="open_tip">Open immediately with %1$.2f yuan</string>
     <string name="packing">In the packaging...</string>
     <string name="share_mod">share</string>
     <string name="clear_code_cache">Clean up the code cache</string>

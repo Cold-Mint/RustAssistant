@@ -2,6 +2,7 @@ package com.coldmint.rust.pro.viewmodel
 
 import android.util.Log
 import com.coldmint.rust.core.dataBean.template.WebTemplateData
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.LineParser
@@ -87,7 +88,7 @@ class TemplateMakerViewModel : BaseViewModel() {
             if (file.exists()) {
                 val data = FileOperator.readFile(file)
                 if (data == null) {
-                    Log.e(key, "无法读取文件 ${file.absolutePath}。")
+                    LogCat.e(key, "无法读取文件 ${file.absolutePath}。")
                     return
                 }
                 val type = FileOperator.getFileType(file)
@@ -96,7 +97,7 @@ class TemplateMakerViewModel : BaseViewModel() {
                     val code = json!!.getString("data")
                     val jsonArray = json!!.getJSONArray("action")
                     parsingSourceCode(code, jsonArray, func)
-                    Log.d(key, "已读取 ${file.absolutePath} 为本地模板文件。")
+                    LogCat.d(key, "已读取 ${file.absolutePath} 为本地模板文件。")
                 } else {
                     json = JSONObject()
                     json!!.put("data", data)
@@ -106,10 +107,10 @@ class TemplateMakerViewModel : BaseViewModel() {
                     )
 
                     parsingSourceCode(data, null, func)
-                    Log.d(key, "已读取 ${file.absolutePath} 为源文件。")
+                    LogCat.d(key, "已读取 ${file.absolutePath} 为源文件。")
                 }
             } else {
-                Log.e(key, "目标文件不存在 ${file.absolutePath}")
+                LogCat.e(key, "目标文件不存在 ${file.absolutePath}")
             }
         } else {
             TemplatePhp.instance.getTemplate(path ?: "", object : ApiCallBack<WebTemplateData> {
@@ -119,14 +120,14 @@ class TemplateMakerViewModel : BaseViewModel() {
                         val code = json!!.getString("data")
                         val jsonArray = json!!.getJSONArray("action")
                         parsingSourceCode(code, jsonArray, func)
-                        Log.d(key, "已加载远程模板 ${path} 。")
+                        LogCat.d(key, "已加载远程模板 ${path} 。")
                     } else {
-                        Log.e(key, "远程模板响应: ${t.message}")
+                        LogCat.e(key, "远程模板响应: ${t.message}")
                     }
                 }
 
                 override fun onFailure(e: Exception) {
-                    Log.e(key, "远程模板不存在 ${path}")
+                    LogCat.e(key, "远程模板不存在 ${path}")
                 }
 
             })

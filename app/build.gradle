@@ -30,9 +30,9 @@ android {
     defaultConfig {
         applicationId "com.coldmint.rust.pro"
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 23
-        versionName "2.1 Bata1_patch6(2022-10-1)"
+        targetSdkVersion 33
+        versionCode 24
+        versionName "2.1 Bata2(2023-1-14)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

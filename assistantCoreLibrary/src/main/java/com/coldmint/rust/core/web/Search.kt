@@ -6,6 +6,7 @@ import android.util.Log
 import com.coldmint.rust.core.dataBean.HotSearchData
 import com.coldmint.rust.core.dataBean.SearchSuggestionsData
 import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.google.gson.Gson
 import okhttp3.*
@@ -87,7 +88,7 @@ class Search private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    Log.d("搜索结果",data)
+                    LogCat.d("搜索结果",data)
                     val finalSearchSuggestionsData =
                         gson.fromJson(data, SearchSuggestionsData::class.java)
                     handler.post {

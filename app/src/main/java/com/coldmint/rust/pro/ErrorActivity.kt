@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import com.coldmint.rust.core.dataBean.ApiResponse
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.ErrorReport
@@ -51,7 +52,7 @@ class ErrorActivity() : BaseActivity<ActivityErrorBinding>() {
                     errorInfo.activityLog = CustomActivityOnCrash.getActivityLogFromIntent(intent)
                 }
                 viewBinding.errorInfo.text = errorInfo.allErrorDetails
-                Log.e("错误日志", errorInfo.allErrorDetails)
+                LogCat.e("错误日志", errorInfo.allErrorDetails)
                 if (AppSettings.getValue(AppSettings.Setting.ExperiencePlan, true)) {
                     val info = packageManager.getPackageInfo(packageName, 0)
                     ErrorReport.instance.send(

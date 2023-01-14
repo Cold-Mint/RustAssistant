@@ -12,6 +12,7 @@ import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.WebTemplatePackageListData
 import com.coldmint.rust.core.dataBean.template.TemplatePackage
+import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.TemplatePhp
@@ -152,7 +153,7 @@ class SaveTemplateFragment(val name: String, val json: JSONObject) : BottomSheet
             )
         )
         if (templateDirectory.exists() && templateDirectory.isDirectory) {
-            Log.d("加载本地模板", "正在读取" + templateDirectory.absolutePath)
+            LogCat.d("加载本地模板", "正在读取" + templateDirectory.absolutePath)
             val files = templateDirectory.listFiles()
             if (files.isNotEmpty()) {
                 files.forEach {
@@ -162,19 +163,19 @@ class SaveTemplateFragment(val name: String, val json: JSONObject) : BottomSheet
                             LocalTemplatePackage(it)
                         if (templatePackage.isTemplate) {
                             list.add(templatePackage)
-                            Log.w("加载本地模板", "已添加，文件" + it.absolutePath)
+                            LogCat.w("加载本地模板", "已添加，文件" + it.absolutePath)
                         } else {
-                            Log.w("加载本地模板", "文件" + it.absolutePath + "不是模板包")
+                            LogCat.w("加载本地模板", "文件" + it.absolutePath + "不是模板包")
                         }
                     } else {
-                        Log.w("加载本地模板", "文件" + it.absolutePath + "不是文件夹")
+                        LogCat.w("加载本地模板", "文件" + it.absolutePath + "不是文件夹")
                     }
                 }
             } else {
-                Log.w("加载本地模板", "目录" + templateDirectory.absolutePath + "内，没有文件，无法加载。")
+                LogCat.w("加载本地模板", "目录" + templateDirectory.absolutePath + "内，没有文件，无法加载。")
             }
         } else {
-            Log.e("加载本地模板", "模板目录不存在或不是文件夹" + templateDirectory.absolutePath)
+            LogCat.e("加载本地模板", "模板目录不存在或不是文件夹" + templateDirectory.absolutePath)
         }
 
     }

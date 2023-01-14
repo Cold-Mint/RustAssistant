@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -102,8 +103,27 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
     override fun onResume() {
         super.onResume()
-        val token = AppSettings.getValue(AppSettings.Setting.Token, "")
-        if (token.isNotBlank()) {
+        viewBinding.progressBar.isVisible = true
+        viewBinding.loginLayout.root.isVisible = false
+        viewBinding.contentLayout.isVisible = false
+        val loginStatus = AppSettings.getValue(AppSettings.Setting.LoginStatus, false)
+        if (loginStatus) {
+            viewBinding.progressBar.isVisible = false
+            viewBinding.loginLayout.root.isVisible = false
+            viewBinding.contentLayout.isVisible = true
+            viewBinding.root.isFillViewport = false
+            account = AppSettings.getValue(AppSettings.Setting.Account, "")
+            viewBinding.myHomeView.setOnClickListener {
+                val intent = Intent(
+                    requireActivity(),
+                    UserHomePageActivity::class.java
+                )
+                intent.putExtra("userId", account)
+                startActivity(
+                    intent
+                )
+            }
+            val token = AppSettings.getValue(AppSettings.Setting.Token, "")
             User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
 
                 override fun onFailure(e: Exception) {
@@ -126,9 +146,8 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                         }
                         viewBinding.coinView.text = String.format(
                             getString(
-                                R.string.coin_number,
-                                t.data.coinNumber
-                            )
+                                R.string.coin_number
+                            ), t.data.coinNumber
                         )
                         loadRecyclerView(t.data.permission)
                     } else {
@@ -139,24 +158,26 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                 }
 
             })
+        } else {
+            viewBinding.progressBar.isVisible = false
+            viewBinding.loginLayout.root.isVisible = true
+            viewBinding.contentLayout.isVisible = false
+            viewBinding.root.isFillViewport = true
         }
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        account = AppSettings.getValue(AppSettings.Setting.Account, "")
-        viewBinding.myHomeView.setOnClickListener {
-            val intent = Intent(
-                requireActivity(),
-                UserHomePageActivity::class.java
-            )
-            intent.putExtra("userId", account)
-            startActivity(
-                intent
-            )
-        }
-
         viewBinding.logOutButton.setOnClickListener {
             AppSettings.setValue(AppSettings.Setting.LoginStatus, false)
+//            GlobalMethod.isActive = false
+            AppSettings.setValue(
+                AppSettings.Setting.ExpirationTime,
+                0.toLong()
+            )
+            (requireActivity() as MainActivity).startViewModel.isActivationLiveData.value = false
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+        viewBinding.loginLayout.logView.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
     }

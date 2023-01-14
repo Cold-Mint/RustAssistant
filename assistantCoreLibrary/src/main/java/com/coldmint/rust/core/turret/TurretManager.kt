@@ -3,6 +3,7 @@ package com.coldmint.rust.core.turret
 import android.util.Log
 import android.view.ViewGroup
 import com.coldmint.rust.core.SourceFile
+import com.coldmint.rust.core.debug.LogCat
 import java.io.File
 
 /**
@@ -54,7 +55,7 @@ class TurretManager(val sourceFile: SourceFile) {
             var defaultImageFile: File? = null
             if (!defaultImageList.isNullOrEmpty()) {
                 defaultImageFile = defaultImageList.get(0)
-                Log.d("炮塔管理器-默认图像", defaultImageFile.absolutePath)
+                LogCat.d("炮塔管理器-默认图像", defaultImageFile.absolutePath)
             }
             allSection.forEach {
                 //遍历每一个炮塔
@@ -76,10 +77,10 @@ class TurretManager(val sourceFile: SourceFile) {
                     if (!fileList.isNullOrEmpty()) {
                         val file = fileList.get(0)
                         turretData.imageFile = file
-                        Log.d("炮塔管理器-$name", "设置炮塔图像" + file.absolutePath)
+                        LogCat.d("炮塔管理器-$name", "设置炮塔图像" + file.absolutePath)
                     } else {
                         turretData.imageFile = defaultImageFile
-                        Log.d("炮塔管理器-$name", "加载默认图像" + defaultImageFile?.absolutePath)
+                        LogCat.d("炮塔管理器-$name", "加载默认图像" + defaultImageFile?.absolutePath)
                     }
                     turretList.add(turretData)
                 }
@@ -139,11 +140,11 @@ class TurretManager(val sourceFile: SourceFile) {
             val use = it.name == turretName
             val view = viewMap[it.name]
             if (view == null) {
-                Log.e("炮塔管理器", "无法找到 ${it.name} 炮塔。")
+                LogCat.e("炮塔管理器", "无法找到 ${it.name} 炮塔。")
             } else {
                 view.setCanDrag(use)
             }
-            Log.d("炮塔管理器", "${it.name} 可用${use}")
+            LogCat.d("炮塔管理器", "${it.name} 可用${use}")
         }
     }
 
