@@ -73,7 +73,7 @@ class ApplicationListAdapter(
         viewBinding.appVersionView.text = data.versionName
         viewBinding.packageNameView.text = data.packageName
         viewBinding.root.setOnClickListener {
-            val popupMenu = PopupMenu(context, viewBinding.root)
+            val popupMenu = GlobalMethod.createPopMenu(viewBinding.root)
             popupMenu.menu.add(R.string.set_game_pack)
             popupMenu.menu.add(R.string.exportApk)
             popupMenu.menu.add(R.string.application_information)

@@ -265,7 +265,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     }
                 }
                 tab.view.setOnLongClickListener {
-                    val popupMenu = PopupMenu(this@EditActivity, it)
+                    val popupMenu = GlobalMethod.createPopMenu(it)
                     popupMenu.menu.add(R.string.open_directory_of_file)
                     if (viewModel.openedSourceFileListLiveData.value.size > 1) {
                         popupMenu.menu.add(R.string.close)
@@ -514,7 +514,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     private fun initStartView() {
         editStartBinding.fileList.layoutManager = LinearLayoutManager(this)
         editStartBinding.fab.setOnClickListener {
-            val popupMenu = PopupMenu(this@EditActivity, editStartBinding.fab)
+            val popupMenu = GlobalMethod.createPopMenu(editStartBinding.fab)
             if (fileAdapter != null) {
                 val selectPath = fileAdapter!!.selectPath
                 if (selectPath != null) {
@@ -686,7 +686,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     if (file == null) {
                         return@setOnClickListener
                     }
-                    val popupMenu = PopupMenu(this@EditActivity, it)
+                    val popupMenu = GlobalMethod.createPopMenu(it)
                     val cutBoardMenu = popupMenu.menu.addSubMenu(R.string.cut_board_operation)
                     val fileMenu = popupMenu.menu.addSubMenu(R.string.file_operation)
                     val bookmarksMenu = popupMenu.menu.addSubMenu(R.string.mine_bookmarks)
@@ -1272,9 +1272,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             R.id.display_source_code -> {
                 val file = File(viewModel.getNowOpenFilePath())
                 val code = FileOperator.readFile(file)
-                MaterialAlertDialogBuilder(this).setTitle(file.name).setMessage(code).setNegativeButton(R.string.dialog_ok){
-                    i,i2->
-                }.setCancelable(false).show()
+                MaterialAlertDialogBuilder(this).setTitle(file.name).setMessage(code)
+                    .setNegativeButton(R.string.dialog_ok) { i, i2 ->
+                    }.setCancelable(false).show()
             }
             R.id.clear_code_cache -> {
                 Snackbar.make(
@@ -1298,9 +1298,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     ).show()
                 }
             }
-            R.id.code_navigation -> {
+//            R.id.code_navigation -> {
 //                viewModel.executorService.submit {
-//                    val labels = viewBinding.codeEditor.textAnalyzeResult.navigation
+//                    val labels = viewBinding.codeEditor..navigation
 //                    if (labels == null || labels.size == 0) {
 //                        runOnUiThread {
 //                            Snackbar.make(
@@ -1342,7 +1342,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //                        }
 //                    }
 //                }
-            }
+//            }
             R.id.save_text -> {
                 val openedSourceFile =
                     viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition)
@@ -1395,7 +1395,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 viewBinding.searchLayout.isVisible = true
                 viewBinding.allButton.isVisible = false
                 viewBinding.replaceEditText.setText("")
-                viewBinding.replaceEditText.isVisible = false
+                viewBinding.replaceLayout.isVisible = false
                 viewBinding.findEditText.setText("")
             }
         }
@@ -1413,31 +1413,48 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         }
         viewBinding.nextButton.setOnClickListener {
             val find = viewBinding.findEditText.text.toString()
-            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
-            viewBinding.codeEditor.searcher.gotoNext()
+            if (find.isNotBlank()) {
+                viewBinding.codeEditor.searcher.search(
+                    find,
+                    EditorSearcher.SearchOptions(false, false)
+                )
+                viewBinding.codeEditor.searcher.gotoNext()
+            }
         }
         viewBinding.lastButton.setOnClickListener {
             val find = viewBinding.findEditText.text.toString()
-            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
-            viewBinding.codeEditor.searcher.gotoPrevious()
-
+            if (find.isNotBlank()) {
+                viewBinding.codeEditor.searcher.search(
+                    find,
+                    EditorSearcher.SearchOptions(false, false)
+                )
+                viewBinding.codeEditor.searcher.gotoPrevious()
+            }
         }
         viewBinding.allButton.setOnClickListener {
             val find = viewBinding.findEditText.text.toString()
             val re = viewBinding.replaceEditText.text.toString()
-            viewBinding.codeEditor.searcher.search(find, EditorSearcher.SearchOptions(false, false))
-            viewBinding.codeEditor.searcher.replaceAll(re)
+            if (find.isNotBlank() && re.isNotBlank()) {
+                viewBinding.codeEditor.searcher.search(
+                    find,
+                    EditorSearcher.SearchOptions(false, false)
+                )
+                viewBinding.codeEditor.searcher.replaceAll(re)
+            }
         }
         viewBinding.replaceButton.setOnClickListener {
             val isVisible = viewBinding.replaceLayout.isVisible
             if (isVisible) {
                 val find = viewBinding.findEditText.text.toString()
                 val re = viewBinding.replaceEditText.text.toString()
-                viewBinding.codeEditor.searcher.search(
-                    find,
-                    EditorSearcher.SearchOptions(false, false)
-                )
-                viewBinding.codeEditor.searcher.replaceThis(re)
+                if (find.isNotBlank() && re.isNotBlank()) {
+                    viewBinding.codeEditor.searcher.search(
+                        find,
+                        EditorSearcher.SearchOptions(false, false)
+                    )
+                    viewBinding.codeEditor.searcher.replaceThis(re)
+                    viewBinding.codeEditor.searcher.gotoNext()
+                }
             } else {
                 viewBinding.replaceLayout.isVisible = true
                 viewBinding.allButton.isVisible = true

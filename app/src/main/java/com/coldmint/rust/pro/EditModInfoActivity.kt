@@ -262,7 +262,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         }
 
         viewBinding.iconView.setOnClickListener {
-            val popupMenu = PopupMenu(this@EditModInfoActivity, viewBinding.iconView)
+            val popupMenu = GlobalMethod.createPopMenu(it)
             if (mNeedIcon) {
                 popupMenu.menu.add(R.string.change_image)
                 popupMenu.menu.add(R.string.del_image)

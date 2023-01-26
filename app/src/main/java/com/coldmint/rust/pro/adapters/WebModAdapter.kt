@@ -31,24 +31,7 @@ class WebModAdapter( context: Context,  dataList: MutableList<WebModListData.Dat
         position: Int
     ) {
         viewBinding.modNameView.text = data.name
-        val text = data.describe
-        val index = text.indexOf('\n')
-        if (index > -1) {
-            val show = text.subSequence(0, index)
-            if (show.length > WebMod.maxDescribeLength) {
-                viewBinding.modIntroductionView.text =
-                    show.subSequence(0, WebMod.maxDescribeLength).toString() + "..."
-            } else {
-                viewBinding.modIntroductionView.text = show
-            }
-        } else {
-            if (text.length > WebMod.maxDescribeLength) {
-                viewBinding.modIntroductionView.text =
-                    text.subSequence(0, WebMod.maxDescribeLength).toString() + "..."
-            } else {
-                viewBinding.modIntroductionView.text = text
-            }
-        }
+        viewBinding.modIntroductionView.text = data.describe
         viewBinding.modInfo.text = String.format(
             context.getString(R.string.web_mod_info),
             data.updateTime,

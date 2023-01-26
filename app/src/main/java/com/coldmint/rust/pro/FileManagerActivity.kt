@@ -18,6 +18,7 @@ import android.widget.*
 import android.widget.Toast.makeText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -189,6 +190,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         } else super.onKeyDown(keyCode, event)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun initAction() {
         viewBinding.fab.setOnClickListener {
             val intent = Intent()
@@ -222,7 +224,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
 //
 //                }
                 FileManagerViewModel.StartType.DEFAULT, FileManagerViewModel.StartType.SELECT_FILE, FileManagerViewModel.StartType.SELECT_DIRECTORY -> {
-                    val popupMenu = PopupMenu(this@FileManagerActivity, viewBinding.fab)
+                    var popupMenu = GlobalMethod.createPopMenu(viewBinding.fab)
                     if (adapter != null) {
                         val selectPath = adapter!!.selectPath
                         if (selectPath != null) {
@@ -738,7 +740,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
                             return@setOnClickListener
                         }
                         val finalFile = file
-                        val popupMenu = PopupMenu(this, fileItemBinding.more)
+                        val popupMenu = GlobalMethod.createPopMenu(fileItemBinding.more)
                         popupMenu.inflate(R.menu.menu_files_actions)
                         val bookAction = popupMenu.menu.findItem(R.id.bookmarkAction)
                         bookAction.title = if (viewModel.getBookmarkManager().contains(finalFile)) {
@@ -858,7 +860,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
             val nowLength = it.length
             val path = if (rootLength < nowLength) {
                 root + it.substring(rootLength)
-            }else{
+            } else {
                 it
             }
             val lineParser = LineParser(path)

@@ -70,10 +70,7 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
                                     WebModAllInfoAdapter(this@WorkManagementActivity, data)
                                 adapter.setItemEvent { i, itemWebmodAllInfoBinding, viewHolder, data ->
                                     itemWebmodAllInfoBinding.more.setOnClickListener {
-                                        val popupMenu = PopupMenu(
-                                            this@WorkManagementActivity,
-                                            itemWebmodAllInfoBinding.more
-                                        )
+                                        val popupMenu = GlobalMethod.createPopMenu(it)
                                         when (data.hidden) {
                                             0 -> {
                                                 popupMenu.menu.add(R.string.sold_out_mod)

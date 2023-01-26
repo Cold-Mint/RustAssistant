@@ -26,7 +26,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
          * @param size Float
          * @return Bitmap
          */
-        fun scaleBitmap(bitmap: Bitmap, size: Float): Bitmap {
+        fun scaleBitmap(bitmap: Bitmap, size: Float): Bitmap? {
             //创建新的图像背景
             val matrix = Matrix()
             matrix.setScale(size, size)
@@ -253,8 +253,10 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
     private fun drawImage(canvas: Canvas, bitmap: Bitmap) {
         val paint = Paint()
         val temBitmap = scaleBitmap(bitmap, cellSize.toFloat())
-        canvas.drawBitmap(temBitmap, startX.toFloat(), startY.toFloat(), paint)
-        temBitmap.recycle()
+        if (temBitmap != null) {
+            canvas.drawBitmap(temBitmap, startX.toFloat(), startY.toFloat(), paint)
+            temBitmap.recycle()
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {

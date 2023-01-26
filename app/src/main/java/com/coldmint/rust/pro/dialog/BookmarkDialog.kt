@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import com.coldmint.dialog.BaseAppDialog
 import com.coldmint.rust.pro.FileManagerActivity
 import com.coldmint.rust.pro.databinding.EditBookmarkBinding
+import com.google.android.material.textfield.TextInputLayout
 
 class BookmarkDialog(context: Context) : BaseAppDialog<BookmarkDialog>(context) {
 
@@ -55,8 +56,10 @@ class BookmarkDialog(context: Context) : BaseAppDialog<BookmarkDialog>(context) 
      * @param func Function1<[@kotlin.ParameterName] EditBookmarkBinding, Unit>
      */
     fun setButtonAction(func: ((editBookmarkBinding: EditBookmarkBinding) -> Unit)) {
-        editBookmarkBinding.button.setOnClickListener {
-            func.invoke(editBookmarkBinding)
+        editBookmarkBinding.pathInputLayout.setEndIconOnClickListener {
+            func.invoke(
+                editBookmarkBinding
+            )
         }
     }
 

@@ -149,7 +149,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         })
 
         viewBinding.iconView.setOnClickListener {
-            val popupMenu = PopupMenu(this, viewBinding.iconView)
+            val popupMenu = GlobalMethod.createPopMenu(it)
             popupMenu.menu.add(R.string.from_url)
             if (needIcon) {
                 popupMenu.menu.add(R.string.change_image)
@@ -168,18 +168,18 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     startIntent.putExtra("data", fileBundle)
                     startActivityForResult(startIntent, 1)
                 } else if (title == getString(R.string.from_url)) {
-                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip).setErrorTip { s, textInputLayout ->
-                        if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                            textInputLayout.error = getString(R.string.from_url_tip)
-                        } else {
-                            textInputLayout.isErrorEnabled = false
-                        }
-                    }.setPositiveButton(R.string.dialog_ok){
-                        input->
+                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip)
+                        .setErrorTip { s, textInputLayout ->
+                            if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                                textInputLayout.error = getString(R.string.from_url_tip)
+                            } else {
+                                textInputLayout.isErrorEnabled = false
+                            }
+                        }.setPositiveButton(R.string.dialog_ok) { input ->
                         needCleanCache = true
                         loadIcon(input)
                         true
-                    }.setNegativeButton(R.string.dialog_close){
+                    }.setNegativeButton(R.string.dialog_close) {
 
                     }.show()
                 } else {
@@ -195,7 +195,7 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
         }
 
         viewBinding.coverView.setOnClickListener {
-            val popupMenu = PopupMenu(this, viewBinding.coverView)
+            val popupMenu = GlobalMethod.createPopMenu(it)
             popupMenu.menu.add(R.string.from_url)
             if (needCover) {
                 popupMenu.menu.add(R.string.change_image)
@@ -214,18 +214,18 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                     startIntent.putExtra("data", fileBundle)
                     startActivityForResult(startIntent, 2)
                 } else if (title == getString(R.string.from_url)) {
-                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip).setErrorTip { s, textInputLayout ->
-                        if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
-                            textInputLayout.error = getString(R.string.from_url_tip)
-                        } else {
-                            textInputLayout.isErrorEnabled = false
-                        }
-                    }.setPositiveButton(R.string.dialog_ok){
-                            input->
+                    InputDialog(this).setTitle(R.string.from_url).setMessage(R.string.from_url_tip)
+                        .setErrorTip { s, textInputLayout ->
+                            if (s.matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$|^https://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"))) {
+                                textInputLayout.error = getString(R.string.from_url_tip)
+                            } else {
+                                textInputLayout.isErrorEnabled = false
+                            }
+                        }.setPositiveButton(R.string.dialog_ok) { input ->
                         needCleanCache = true
                         loadCover(input)
                         true
-                    }.setNegativeButton(R.string.dialog_close){
+                    }.setNegativeButton(R.string.dialog_close) {
 
                     }.show()
 
@@ -341,6 +341,14 @@ class EditUserInfoActivity : BaseActivity<ActivityEditUserInfoBinding>() {
                 val type = FileOperator.getFileType(newIconFile)
                 if (type == "png" || type == "jpg") {
                     val bitmap = BitmapFactory.decodeFile(newIconFile.absolutePath)
+                    if (bitmap == null) {
+                        Snackbar.make(
+                            viewBinding.button,
+                            getString(R.string.parsing_picture_error),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
                     if (bitmap.height == bitmap.width) {
                         needCleanCache = true
                         loadIcon(filePath)

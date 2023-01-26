@@ -201,19 +201,23 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     }
 
 
-    fun createAdapter(dataList: MutableList<WebModListData.Data>): WebModAdapter {
-        val adapter = WebModAdapter(context = requireContext(), dataList = dataList)
-        adapter.setItemEvent { i, webModItemBinding, viewHolder, data ->
-            webModItemBinding.root.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putString("modId", data.id)
-                bundle.putString("modName", data.name)
-                val intent = Intent(requireContext(), WebModInfoActivity::class.java)
-                intent.putExtra("data", bundle)
-                requireContext().startActivity(intent)
+    fun createAdapter(dataList: MutableList<WebModListData.Data>): WebModAdapter? {
+        if (isAdded) {
+            val adapter = WebModAdapter(context = requireContext(), dataList = dataList)
+            adapter.setItemEvent { i, webModItemBinding, viewHolder, data ->
+                webModItemBinding.root.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putString("modId", data.id)
+                    bundle.putString("modName", data.name)
+                    val intent = Intent(requireContext(), WebModInfoActivity::class.java)
+                    intent.putExtra("data", bundle)
+                    requireContext().startActivity(intent)
+                }
             }
+            return adapter
+        } else {
+            return null
         }
-        return adapter
     }
 
     override fun onResume() {

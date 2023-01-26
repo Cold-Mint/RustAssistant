@@ -158,24 +158,25 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
             if (bitmap == null) {
                 LogCat.e(debugKey, "无法加载炮塔图像。")
                 return
-            }
-            if (turretData.scaleValue != 1f) {
-                bitmap = TurretSketchpadView.scaleBitmap(
-                    bitmap, turretData.scaleValue
+            } else {
+                if (turretData.scaleValue != 1f) {
+                    bitmap = TurretSketchpadView.scaleBitmap(
+                        bitmap, turretData.scaleValue
+                    )
+                }
+                val androidCoordinate =
+                    turretSketchpadView!!.toAndroidCoordinate(turretData.gameCoordinateData)
+                bitmapW = bitmap!!.width
+                bitmapH = bitmap!!.height
+                canvas?.drawBitmap(
+                    bitmap,
+                    (androidCoordinate.x - bitmapW / 2).toFloat(),
+                    (androidCoordinate.y - bitmapH / 2).toFloat(),
+                    paint
                 )
-            }
-            val androidCoordinate =
-                turretSketchpadView!!.toAndroidCoordinate(turretData.gameCoordinateData)
-            bitmapW = bitmap.width
-            bitmapH = bitmap.height
-            canvas?.drawBitmap(
-                bitmap,
-                (androidCoordinate.x - bitmapW / 2).toFloat(),
-                (androidCoordinate.y - bitmapH / 2).toFloat(),
-                paint
-            )
-            if (!bitmap.isRecycled) {
-                bitmap.recycle()
+                if (!bitmap.isRecycled) {
+                    bitmap.recycle()
+                }
             }
         } else {
             LogCat.e(debugKey, "未设置炮塔数据，停止绘制。")

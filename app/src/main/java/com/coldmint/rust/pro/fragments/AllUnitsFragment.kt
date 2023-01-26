@@ -184,22 +184,24 @@ class AllUnitsFragment(
                     viewBinding.swipeRefreshLayout.isVisible = true
                     viewBinding.progressBar.isVisible = false
                     viewBinding.unitError.isVisible = false
-                    val adapter = UnitAdapter(requireContext(), dataList, "")
-                    adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
-                        unitItemBinding.root.setOnClickListener {
-                            openEditActivity(sourceFileClass)
+                    if (isAdded) {
+                        val adapter = UnitAdapter(requireContext(), dataList, "")
+                        adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
+                            unitItemBinding.root.setOnClickListener {
+                                openEditActivity(sourceFileClass)
+                            }
                         }
-                    }
-                    adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
-                        whenNumberChanged?.invoke(i2)
-                        if (i2 == 0) {
-                            loadFiles()
+                        adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
+                            whenNumberChanged?.invoke(i2)
+                            if (i2 == 0) {
+                                loadFiles()
+                            }
                         }
+                        FastScrollerBuilder(viewBinding.unitList).useMd2Style()
+                            .setPopupTextProvider(adapter).build()
+                        viewBinding.unitList.adapter = adapter
+                        whenNumberChanged?.invoke(dataList.size)
                     }
-                    FastScrollerBuilder(viewBinding.unitList).useMd2Style()
-                        .setPopupTextProvider(adapter).build()
-                    viewBinding.unitList.adapter = adapter
-                    whenNumberChanged?.invoke(dataList.size)
                 }
             }
         }

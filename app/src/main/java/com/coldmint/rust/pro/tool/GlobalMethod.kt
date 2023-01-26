@@ -12,7 +12,9 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
@@ -117,6 +119,23 @@ object GlobalMethod {
         return requestOptions
     }
 
+
+    /**
+     * 创建PopMenu
+     */
+    fun createPopMenu(view: View): PopupMenu {
+        val context = view.context;
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            PopupMenu(
+                context,
+                view,
+                Gravity.NO_GRAVITY,
+                0, R.style.Widget_Material3_PopupMenu
+            )
+        } else {
+            PopupMenu(context, view)
+        }
+    }
 
     /**
      * int颜色值转String

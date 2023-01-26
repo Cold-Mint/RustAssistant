@@ -452,7 +452,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
 
     private fun initIconView() {
         viewBinding.iconView.setOnClickListener {
-            val popupMenu = PopupMenu(this, viewBinding.iconView)
+            val popupMenu = GlobalMethod.createPopMenu(it)
             popupMenu.menu.add(R.string.from_url)
             if (needIcon) {
                 popupMenu.menu.add(R.string.change_image)

@@ -286,6 +286,7 @@
     <string name="create_new_section">创建节</string>
     <string name="subtitle">你好，世界！|新的开始，新的体验。|2.0重置版|给薄荷打钱~</string>
     <string name="web_link">网页链接</string>
+    <string name="parsing_picture_error">解析图片出错。</string>
 
     <!-- Preference Titles -->
     <string name="sync_header">开发者选项</string>

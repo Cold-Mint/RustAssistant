@@ -7,6 +7,7 @@ import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
 import com.coldmint.rust.pro.adapters.SearchResultAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentSearchResultBinding
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 /**
  * 搜索结果碎片
@@ -24,6 +25,11 @@ class SearchResultFragment(
 
         val adapter = SearchResultAdapter(requireContext(), keyword, filterList())
         viewBinding.recyclerView.adapter = adapter
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            MaterialDividerItemDecoration.VERTICAL
+        )
+        viewBinding.recyclerView.addItemDecoration(divider)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 

@@ -70,7 +70,7 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
                                 if (canLoadAll) {
                                     //如果可以加载全部用户资料（是管理员模式）
                                     val popupMenu =
-                                        PopupMenu(this@OrderListActivity, itemOrderBinding.root)
+                                        GlobalMethod.createPopMenu(itemOrderBinding.root)
                                     popupMenu.menu.add("设置订单")
                                     popupMenu.menu.add("查看用户资料")
                                     popupMenu.show()

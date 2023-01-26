@@ -65,11 +65,11 @@ class TurretManager(val sourceFile: SourceFile) {
                     var x = 0
                     var y = 0
                     val xData = sourceFile.readValueFromSection("x", it)
-                    if (xData != null) {
+                    if (xData != null && xData.isNotBlank()) {
                         x = xData.toFloat().toInt()
                     }
                     val yData = sourceFile.readValueFromSection("y", it)
-                    if (yData != null) {
+                    if (yData != null&& yData.isNotBlank()) {
                         y = yData.toFloat().toInt()
                     }
                     val turretData = TurretData(name, CoordinateData(x, y))

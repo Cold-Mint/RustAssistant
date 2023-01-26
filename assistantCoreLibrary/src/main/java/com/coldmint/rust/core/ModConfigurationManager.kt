@@ -33,7 +33,12 @@ class ModConfigurationManager(file: File) {
         return if (code == null) {
             null
         } else {
-            gson.fromJson(code, ModConfigurationData::class.java)
+            try {
+                gson.fromJson(code, ModConfigurationData::class.java)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
     }
 

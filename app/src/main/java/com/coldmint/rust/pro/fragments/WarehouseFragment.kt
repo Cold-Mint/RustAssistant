@@ -22,23 +22,25 @@ class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
 
 
     private fun loadTab() {
-        val mainActivity = activity as MainActivity
-        val tableLayout = mainActivity.tabLayout
-        if (tableLayout == null) {
-            viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
-        } else {
-            tableLayout.isVisible = true
-            TabLayoutMediator(tableLayout, viewBinding.pager)
-            { tab, position ->
-                when (position) {
-                    0 -> {
-                        tab.text = getText(R.string.mod_title)
+        if (isAdded) {
+            val mainActivity = activity as MainActivity
+            val tableLayout = mainActivity.tabLayout
+            if (tableLayout == null) {
+                viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
+            } else {
+                tableLayout.isVisible = true
+                TabLayoutMediator(tableLayout, viewBinding.pager)
+                { tab, position ->
+                    when (position) {
+                        0 -> {
+                            tab.text = getText(R.string.mod_title)
+                        }
+                        1 -> {
+                            tab.text = getText(R.string.map)
+                        }
                     }
-                    1 -> {
-                        tab.text = getText(R.string.map)
-                    }
-                }
-            }.attach()
+                }.attach()
+            }
         }
     }
 

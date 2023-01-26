@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.databinding.ActivityRecyclingStationBinding
+import com.coldmint.rust.pro.tool.GlobalMethod
 import java.io.File
 import java.util.ArrayList
 
@@ -70,7 +71,7 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
                             return@setOnClickListener
                         }
                         val popupMenu =
-                            PopupMenu(this@RecyclingStationActivity, fileItemBinding.more)
+                            GlobalMethod.createPopMenu(fileItemBinding.more)
                         popupMenu.menu.add(R.string.recovery_file)
                         popupMenu.menu.add(R.string.delete_title)
                         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->

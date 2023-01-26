@@ -63,11 +63,12 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+
             <LinearLayout
-                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -84,11 +85,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/replaceLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/replaceLayout"
-                    android:visibility="gone"
                     android:layout_marginTop="8dp"
+                    android:visibility="gone"
                     android:hint="@string/replace">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -129,13 +130,13 @@
 
 
                     <Button
-                        android:visibility="gone"
                         android:id="@+id/allButton"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/all" />
+                        android:text="@string/all"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/closeButton"

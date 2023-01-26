@@ -19,6 +19,7 @@
         app:showAsAction="always" />
 
     <item
+        android:visible="false"
         android:id="@+id/code_navigation"
         android:title="@string/code_navigation" />
 

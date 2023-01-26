@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
 import com.coldmint.rust.core.web.ServerConfiguration
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.UserHomePageActivity
 import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.base.BaseAdapter
@@ -46,8 +47,8 @@ class SearchResultAdapter(
         position: Int
     ) {
         val finalIcon = data.icon
+        viewBinding.imageView.isVisible = true
         if (finalIcon != null && finalIcon.isNotBlank()) {
-            viewBinding.imageView.isVisible = true
             if (data.type == "user") {
                 Glide.with(context).load(ServerConfiguration.getRealLink(finalIcon))
                     .apply(GlobalMethod.getRequestOptions(true)).into(viewBinding.imageView)
@@ -56,7 +57,13 @@ class SearchResultAdapter(
                     .into(viewBinding.imageView)
             }
         } else {
-            viewBinding.imageView.isVisible = false
+            if (data.type == "user"){
+                viewBinding.imageView.setImageResource(R.drawable.head_icon)
+            }else if (data.type == "mod"){
+                viewBinding.imageView.setImageResource(R.drawable.image)
+            }else{
+                viewBinding.imageView.isVisible = false
+            }
         }
         viewBinding.titleView.text = data.title
         val index = data.content.indexOf('\n')

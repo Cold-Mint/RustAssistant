@@ -63,7 +63,7 @@ class DynamicAdapter(context: Context, dataList: MutableList<DynamicItemDataBean
             TextStyleMaker.instance.clickEvent(context, type, data)
         }
         viewBinding.textview.setOnLongClickListener { view ->
-            val menu = PopupMenu(context, view)
+            val menu = GlobalMethod.createPopMenu(view)
             menu.menu.add(R.string.copy)
             menu.menu.add(R.string.delete_title)
             menu.setOnMenuItemClickListener {

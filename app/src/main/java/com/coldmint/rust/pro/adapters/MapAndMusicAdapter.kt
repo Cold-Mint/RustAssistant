@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.input.input
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.MapAndMusicItemBinding
+import com.coldmint.rust.pro.tool.GlobalMethod
 import java.io.File
 import java.util.ArrayList
 
@@ -28,7 +29,7 @@ class MapAndMusicAdapter(context: Context, dataList: ArrayList<File>, val isMusi
     ) {
         val fileType = FileOperator.getFileType(targetFile)
         var fileName = FileOperator.getPrefixName(targetFile)
-        val popupMenu = PopupMenu(context, viewBinding.root)
+        val popupMenu = GlobalMethod.createPopMenu(viewBinding.root)
         if (isMusic) {
             if (fileName.startsWith(prefixName)) {
                 popupMenu.menu.add(R.string.enable_loop)
