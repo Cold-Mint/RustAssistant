@@ -1,4 +1,4 @@
-package com.coldmint.rust.pro
+﻿package com.coldmint.rust.pro
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,6 +38,7 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
             list.add(ThanksDataBean("Ling ASDJ", "制作助手新手模板，已被整合至助手内置模版。跟随助手更新。", 2735951230))
             list.add(ThanksDataBean("Alice's Dream", "帮助薄荷优化代码表。", 3372003670))
             list.add(ThanksDataBean("克鲁鲁.采佩西", "帮助薄荷制作教程。", 2275140013))
+            list.add(ThanksDataBean("慕青","帮助薄荷修复助手bug，优化助手功能。",1966944300))
             viewBinding.recyclerView.adapter = ThanksAdapter(this, list)
 
         }
