@@ -152,11 +152,13 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
      * @param index Int
      */
     fun removeItem(index: Int) {
-        val data = dataList[index]
-        dataList.removeAt(index)
-        handler.post {
-            notifyItemRemoved(index)
-            itemChangeEvent?.onChanged(ChangeType.Remove, index, data, dataList.size)
+        if (index < dataList.size) {
+            val data = dataList[index]
+            dataList.removeAt(index)
+            handler.post {
+                notifyItemRemoved(index)
+                itemChangeEvent?.onChanged(ChangeType.Remove, index, data, dataList.size)
+            }
         }
     }
 

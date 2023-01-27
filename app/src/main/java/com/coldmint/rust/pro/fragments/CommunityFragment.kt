@@ -2,6 +2,7 @@ package com.coldmint.rust.pro.fragments
 
 import android.view.LayoutInflater
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -49,6 +50,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
             viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
         }
     }
+
+
+
 
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentCommunityBinding {

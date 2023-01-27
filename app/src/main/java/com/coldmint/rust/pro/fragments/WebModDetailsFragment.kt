@@ -39,7 +39,6 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
     }
 
 
-
     //Kotlin次构造函数
     constructor() : this("", MutableLiveData()) {
 
@@ -130,6 +129,9 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
         val token = AppSettings.getValue(AppSettings.Setting.Token, "")
         WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
             override fun onResponse(t: WebModInfoData) {
+                if (!isAdded) {
+                    return
+                }
                 if (t.code == ServerConfiguration.Success_Code) {
                     viewModel.developer = t.data.developer
                     modNameLiveData.value = t.data.name
