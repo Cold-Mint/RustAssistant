@@ -27,6 +27,9 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
          * @return Bitmap
          */
         fun scaleBitmap(bitmap: Bitmap, size: Float): Bitmap? {
+            if (size <= 0) {
+                return null
+            }
             //创建新的图像背景
             val matrix = Matrix()
             matrix.setScale(size, size)

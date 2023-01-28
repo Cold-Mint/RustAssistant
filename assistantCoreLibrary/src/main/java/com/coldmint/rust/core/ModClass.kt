@@ -46,7 +46,7 @@ class ModClass(file: File) {
      *
      * @return 模组名称
      */
-    lateinit var modName: String
+    var modName: String = "Null"
     private var upDateTime: Long = 0
 
     /**

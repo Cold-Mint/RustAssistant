@@ -74,7 +74,11 @@ class ModAdapter(context: Context, dataList: MutableList<ModClass>) :
     }
 
     override fun getPopupText(position: Int): String {
-        val s = dataList[position].modName
-        return getInitial(s).toString()
+        return if (dataList.size > position) {
+            val s = dataList[position].modName
+            getInitial(s).toString()
+        } else {
+            "#"
+        }
     }
 }

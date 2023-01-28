@@ -944,6 +944,8 @@
     <string name="update_number">更新次数</string>
     <string name="click_profile_picture_login">点击头像登录</string>
     <string name="log_in_discover_more">登录发现更多内容！</string>
+    <string name="compile_error">编译错误</string>
+    <string name="compile_error_message">很抱歉，源文件编译失败了。错误信息为：\n%1$s</string>
     <string name="follow_introduction">登录后即可解锁关注系统</string>
 
 </resources>

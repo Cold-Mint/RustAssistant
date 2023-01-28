@@ -39,7 +39,7 @@ import kotlin.concurrent.thread
  * @constructor
  */
 class ApplicationListAdapter(
-     context: Context, dataList: MutableList<PackageInfo>
+    context: Context, dataList: MutableList<PackageInfo>
 ) : BaseAdapter<ApplicationItemBinding, PackageInfo>(context, dataList) {
 
     val handler: Handler by lazy {
@@ -66,8 +66,14 @@ class ApplicationListAdapter(
         position: Int
     ) {
         val packageManager = context.packageManager
-        Glide.with(context).load(data.applicationInfo.loadIcon(packageManager)).apply(GlobalMethod.getRequestOptions())
-            .into(viewBinding.appIconView)
+        try {
+            Glide.with(context).load(data.applicationInfo.loadIcon(packageManager))
+                .apply(GlobalMethod.getRequestOptions())
+                .into(viewBinding.appIconView)
+        } catch (e: Exception) {
+            //解决内存超标问题
+            e.printStackTrace()
+        }
         val appName = data.applicationInfo.loadLabel(packageManager).toString()
         viewBinding.appNameView.text = appName
         viewBinding.appVersionView.text = data.versionName

@@ -138,20 +138,20 @@ class CompressionManager private constructor() {
                         }
                     }
                     flag = true
-                } catch (ex: IOException) {
+                } catch (ex: Exception) {
                     ex.printStackTrace()
                     flag = false
                 } finally {
                 }
             }
-        } catch (ex: IOException) {
+        } catch (ex: Exception) {
             ex.printStackTrace()
             flag = false
         } finally {
             if (zipFile != null) {
                 try {
                     zipFile.close()
-                } catch (ex: IOException) {
+                } catch (ex: Exception) {
                     flag = false
                 }
             }
@@ -235,7 +235,7 @@ class CompressionManager private constructor() {
             if (zipOutputStream != null) {
                 zipOutputStream!!.close()
             }
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         zipOutputStream = null

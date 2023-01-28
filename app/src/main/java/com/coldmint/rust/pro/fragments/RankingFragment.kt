@@ -88,6 +88,9 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
         viewBinding.swipeRefreshLayout.isVisible = false
         WebMod.instance.list(object : ApiCallBack<WebModListData> {
             override fun onResponse(t: WebModListData) {
+                if (!isAdded) {
+                    return
+                }
                 if (t.code == ServerConfiguration.Success_Code) {
                     val list = t.data
                     if (list != null && list.isNotEmpty()) {

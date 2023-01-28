@@ -34,6 +34,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
+import com.coldmint.rust.pro.databean.ErrorInfo
 import com.coldmint.rust.pro.databinding.ActivityEditBinding
 import com.coldmint.rust.pro.databinding.EditStartBinding
 import com.coldmint.rust.pro.edit.CodeToolAdapter
@@ -47,6 +48,8 @@ import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher
 import io.github.rosemoe.sora.text.CharPosition
 import io.github.rosemoe.sora.text.ContentReference
@@ -160,6 +163,20 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
      * 加载主要的观察者
      */
     fun loadMainObserve() {
+        viewModel.memberErrorInfoFun = {
+            val info = ErrorInfo()
+            val saveData = String.format(getString(R.string.compile_error_message), it)
+            info.allErrorDetails = it
+            info.activityLog = "EditActivity-编译代码错误"
+            info.save()
+            CoreDialog(this).setTitle(R.string.compile_error)
+                .setMessage(saveData)
+                .setPositiveButton(R.string.share) {
+                    FileOperator.shareFile(this, info.getLogFile())
+                }.setNegativeButton(R.string.dialog_cancel) {
+
+                }.show()
+        }
         viewModel.needSaveLiveData.observe(this) {
             if (it) {
                 CoreDialog(this).setTitle(R.string.edit_function).setMessage(R.string.text_changed)
@@ -1344,22 +1361,26 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //                }
 //            }
             R.id.save_text -> {
-                val openedSourceFile =
-                    viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition)
-                val needSave =
-                    openedSourceFile.isChanged(viewBinding.codeEditor.text.toString())
-                if (needSave) {
-                    viewModel.compilerFile(openedSourceFile) {
-                        viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
-                            viewBinding.tabLayout.selectedTabPosition
-                        ).save(it)
+                try {
+                    val openedSourceFile =
+                        viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition)
+                    val needSave =
+                        openedSourceFile.isChanged(viewBinding.codeEditor.text.toString())
+                    if (needSave) {
+                        viewModel.compilerFile(openedSourceFile) {
+                            viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
+                                viewBinding.tabLayout.selectedTabPosition
+                            ).save(it)
+                        }
                     }
+                    Snackbar.make(
+                        viewBinding.recyclerview,
+                        R.string.save_complete2,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-                Snackbar.make(
-                    viewBinding.recyclerview,
-                    R.string.save_complete2,
-                    Snackbar.LENGTH_SHORT
-                ).show()
             }
             R.id.show_line_number -> {
                 viewBinding.codeEditor.isLineNumberEnabled =

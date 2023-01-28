@@ -27,10 +27,12 @@ import java.util.concurrent.Executors
  * @date 2022/1/14 15:54
  */
 class HistoryUnitFragment(
-    val fragmentActivity: FragmentActivity,
-    val modClass: ModClass, val fileDataBase: FileDataBase
 ) :
     BaseFragment<FragmentHistoryBinding>() {
+    var fragmentActivity: FragmentActivity? = null
+    var modClass: ModClass? = null
+    var fileDataBase: FileDataBase? = null
+
     //当内容改变时的数据监听
     var whenNumberChanged: ((Int) -> Unit)? = null
     val executorService: ExecutorService = Executors.newSingleThreadExecutor()
@@ -56,12 +58,15 @@ class HistoryUnitFragment(
     fun loadList() {
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
+            if (fileDataBase == null) {
+                return@submit
+            }
             handler.post {
                 viewBinding.unitError.isVisible = false
                 viewBinding.progressBar.isVisible = true
                 viewBinding.unitList.isVisible = false
             }
-            val dataList = fileDataBase.getHistoryDao().getAll().toMutableList()
+            val dataList = fileDataBase!!.getHistoryDao().getAll().toMutableList()
             if (dataList.isEmpty()) {
                 handler.post {
                     showInfoToView(R.string.not_find_history)
@@ -84,7 +89,7 @@ class HistoryUnitFragment(
                                         needUpDateUnitsList = true
                                     }
                                     executorService.submit {
-                                        fileDataBase.getHistoryDao().delete(historyRecord)
+                                        fileDataBase!!.getHistoryDao().delete(historyRecord)
                                     }
                                     true
                                 },
@@ -119,13 +124,15 @@ class HistoryUnitFragment(
      * @param file SourceFileClass
      */
     fun openEditActivity(file: SourceFile) {
-        val bundle = Bundle()
-        val path = file.file.absolutePath
-        bundle.putString("path", path)
-        bundle.putString("modPath", modClass.modFile.absolutePath)
-        val intent = Intent(requireContext(), EditActivity::class.java)
-        intent.putExtra("data", bundle)
-        fragmentActivity.startActivityForResult(intent, 2)
+        if (modClass != null && fragmentActivity != null) {
+            val bundle = Bundle()
+            val path = file.file.absolutePath
+            bundle.putString("path", path)
+            bundle.putString("modPath", modClass!!.modFile.absolutePath)
+            val intent = Intent(requireContext(), EditActivity::class.java)
+            intent.putExtra("data", bundle)
+            fragmentActivity!!.startActivityForResult(intent, 2)
+        }
     }
 
     /**

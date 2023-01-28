@@ -152,7 +152,7 @@ abstract class BaseAdapter<ViewBindingType : ViewBinding, DataType>(
      * @param index Int
      */
     fun removeItem(index: Int) {
-        if (index < dataList.size) {
+        if (index > -1 && index < dataList.size) {
             val data = dataList[index]
             dataList.removeAt(index)
             handler.post {

@@ -26,7 +26,11 @@ class ModPageAdapter(
     }
 
     val historyUnitFragment: HistoryUnitFragment by lazy {
-        HistoryUnitFragment(fragmentActivity, modClass, fileDataBase)
+        val fragment = HistoryUnitFragment()
+        fragment.fragmentActivity = fragmentActivity
+        fragment.modClass = modClass
+        fragment.fileDataBase = fileDataBase
+        fragment
     }
 
     fun setAllUnitsChanged(changed: ((Int) -> Unit)?) {

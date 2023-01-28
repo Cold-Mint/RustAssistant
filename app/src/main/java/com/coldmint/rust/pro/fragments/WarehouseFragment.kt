@@ -50,6 +50,8 @@ class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.pager.adapter = WarehouseAdapter(this)
+        //解决启动为仓库页面，点击社区，再返回仓库重复崩溃的问题
+        viewBinding.pager.isSaveEnabled = false
         loadTab()
     }
 

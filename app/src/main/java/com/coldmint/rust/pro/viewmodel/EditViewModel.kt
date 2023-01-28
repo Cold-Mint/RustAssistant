@@ -14,6 +14,8 @@ import com.coldmint.rust.pro.livedata.OpenedSourceFileListLiveData
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,13 +38,24 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
     var targetFile: File? = null
 
     val codeTranslate by lazy {
-        CodeTranslate(getApplication())
+        val c = CodeTranslate(getApplication())
+        c.setCompileErrorRecordFun {
+            //将信息上传至FireBase
+            Firebase.crashlytics.setCustomKey("type", "代码编译错误")
+            Firebase.crashlytics.recordException(it)
+        }
+        c
     }
 
     /**
      * 模组类
      */
     var modClass: ModClass? = null
+
+    /**
+     * 错误信息回调
+     */
+    var memberErrorInfoFun: ((String) -> Unit)? = null
 
     /**
      * 是否正在复制文件
@@ -136,11 +149,15 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      */
     fun compilerFile(
         openedSourceFile: OpenedSourceFile,
-        func: (String) -> Unit
+        func: (String) -> Unit,
     ) {
         codeTranslate.setTranslate(false)
-        codeTranslate.start(openedSourceFile.getEditText()) {
-            func.invoke(it)
+        codeTranslate.start(openedSourceFile.getEditText()) { success, data ->
+            if (success) {
+                func.invoke(data)
+            } else {
+                memberErrorInfoFun?.invoke(data)
+            }
         }
     }
 
@@ -173,9 +190,14 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
                     val code = FileOperator.readFile(File(getNowOpenFilePath())) ?: return@submit
                     it.setTranslation(code)
                     codeTranslate.setTranslate(true)
-                    codeTranslate.start(code){
-                        codeLiveData.postValue(it)
-                        loadingLiveData.postValue(false)
+                    codeTranslate.start(code) { success, data ->
+                        if (success) {
+                            codeLiveData.postValue(data)
+                            loadingLiveData.postValue(false)
+                        } else {
+                            //翻译失败
+                            memberErrorInfoFun?.invoke(data)
+                        }
                     }
                     return@submit
                 }
@@ -192,26 +214,30 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
         executorService.submit {
             val code = FileOperator.readFile(File(path)) ?: return@submit
             codeTranslate.setTranslate(true)
-            codeTranslate.start(code){
-                CompletionItemConverter.setSourceFilePath(path)
-                val openedSourceFile = OpenedSourceFile(path)
-                openedSourceFile.setTranslation(it)
-                val index = openedSourceFileListLiveData.add(openedSourceFile)
-                if (index == -1) {
-                    nowFilePath = path
-                    codeLiveData.postValue(it)
-                    addHistoryRecord(SourceFile(File(path)))
-                } else {
-                    val oldOpenedSourceFile =
-                        openedSourceFileListLiveData.getOpenedSourceFile(index)
-                    //如果不是当前打开的文件
-                    if (nowFilePath != oldOpenedSourceFile.file.absolutePath) {
-                        nowFilePath = oldOpenedSourceFile.file.absolutePath
-                        codeLiveData.postValue(oldOpenedSourceFile.getEditText())
-                        openedSourceFileListLiveData.refresh()
+            codeTranslate.start(code) { success, data ->
+                if (success) {
+                    CompletionItemConverter.setSourceFilePath(path)
+                    val openedSourceFile = OpenedSourceFile(path)
+                    openedSourceFile.setTranslation(data)
+                    val index = openedSourceFileListLiveData.add(openedSourceFile)
+                    if (index == -1) {
+                        nowFilePath = path
+                        codeLiveData.postValue(data)
+                        addHistoryRecord(SourceFile(File(path)))
+                    } else {
+                        val oldOpenedSourceFile =
+                            openedSourceFileListLiveData.getOpenedSourceFile(index)
+                        //如果不是当前打开的文件
+                        if (nowFilePath != oldOpenedSourceFile.file.absolutePath) {
+                            nowFilePath = oldOpenedSourceFile.file.absolutePath
+                            codeLiveData.postValue(oldOpenedSourceFile.getEditText())
+                            openedSourceFileListLiveData.refresh()
+                        }
                     }
+                    loadingLiveData.postValue(false)
+                } else {
+                    memberErrorInfoFun?.invoke(data)
                 }
-                loadingLiveData.postValue(false)
             }
         }
     }
@@ -311,8 +337,12 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      */
     fun saveOneFile(openedSourceFile: OpenedSourceFile) {
         codeTranslate.setTranslate(false)
-        codeTranslate.start(openedSourceFile.getEditText()){
-            openedSourceFile.save(it)
+        codeTranslate.start(openedSourceFile.getEditText()) { success, code ->
+            if (success) {
+                openedSourceFile.save(code)
+            } else {
+                memberErrorInfoFun?.invoke(code)
+            }
         }
     }
 
@@ -330,16 +360,24 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
                 if (openedSourceFile.isChanged(text)) {
                     needSave = true
                     codeTranslate.setTranslate(false)
-                    codeTranslate.start(openedSourceFile.getEditText()){
-                        openedSourceFile.save(it)
+                    codeTranslate.start(openedSourceFile.getEditText()) { success, code ->
+                        if (success) {
+                            openedSourceFile.save(code)
+                        } else {
+                            memberErrorInfoFun?.invoke(code)
+                        }
                     }
                 }
             } else {
                 if (openedSourceFile.isNeedSave()) {
                     needSave = true
                     codeTranslate.setTranslate(false)
-                    codeTranslate.start(openedSourceFile.getEditText()){
-                        openedSourceFile.save(it)
+                    codeTranslate.start(openedSourceFile.getEditText()) { success, code ->
+                        if (success) {
+                            openedSourceFile.save(code)
+                        } else {
+                            memberErrorInfoFun?.invoke(code)
+                        }
                     }
                 }
             }

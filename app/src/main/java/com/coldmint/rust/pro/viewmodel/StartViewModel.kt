@@ -40,6 +40,8 @@ import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
@@ -132,12 +134,14 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         val status = AppSettings.getValue(AppSettings.Setting.LoginStatus, false)
         if (!status) {
             needLoginLiveData.value = true
+            Firebase.crashlytics.setUserId("")
             return
         }
         //验证登录
         val token = AppSettings.getValue(AppSettings.Setting.Token, "")
         if (token.isBlank()) {
             needLoginLiveData.value = true
+            Firebase.crashlytics.setUserId("")
         } else {
             User.getUserActivationInfo(token, object : ApiCallBack<ActivationInfo> {
                 override fun onFailure(e: Exception) {
@@ -147,6 +151,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
                     )
                     if (localTime == (-2).toLong()) {
                         isActivationLiveData.value = true
+                        Firebase.crashlytics.setUserId("")
                     } else {
                         val nowTime = System.currentTimeMillis()
                         //本地时间大于当前时间 激活
@@ -166,6 +171,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
                             time
                         )
                         isActivationLiveData.value = activationInfo.data.activation
+                        Firebase.crashlytics.setUserId(activationInfo.data.account)
                     } else {
 //                        用户登录失败
                         verifyErrorMsgLiveData.value = activationInfo.message

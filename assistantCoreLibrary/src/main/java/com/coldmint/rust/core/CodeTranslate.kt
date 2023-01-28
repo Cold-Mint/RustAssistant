@@ -89,6 +89,19 @@ class CodeTranslate(val context: Context) {
     private var translateMode: Boolean = true
 
     /**
+     * 设置编译异常记录
+     */
+    private var compileErrorRecord: ((Exception) -> Unit)? = null
+
+    /**
+     * 设置编译异常上报
+     */
+    public fun setCompileErrorRecordFun(func: ((Exception) -> Unit)?) {
+        compileErrorRecord = func
+    }
+
+
+    /**
      * 设置是否启用英文模式 当启用时禁用翻译和编译功能
      * @param enable Boolean
      */
@@ -116,9 +129,10 @@ class CodeTranslate(val context: Context) {
 
     /**
      * 开始工作
-     * @param func Function1<String, Unit>
+     *
+     * @param func （是否翻译成功,结果）若true，则结果为翻译结果，false结果为异常信息
      */
-    fun start(input: String, func: (String) -> Unit) {
+    fun start(input: String, func: (Boolean, String) -> Unit) {
         val handler = Handler(Looper.getMainLooper())
         val scope = CoroutineScope(Job())
         num++
@@ -137,219 +151,229 @@ class CodeTranslate(val context: Context) {
                     "代码翻译", isError = true
                 )
                 handler.post {
-                    func.invoke(input)
+                    func.invoke(true, input)
                 }
                 return@launch
             }
 
-            val tokenizer = StringTokenizer(input, CodeTranslate.split, true)
-            //缓存翻译数据，以便加速重复数据的翻译
-            val translationMap = HashMap<String, String>()
-            //保存每次代码的翻译结果
-            val codeResult = StringBuilder()
-            //保存完整的翻译结果
-            val translationResult = StringBuilder()
-            var codeBlockType = CodeBlockType.Key
-            //保存资源引用值（应该看做整体处理）
-            val referenceResult = StringBuilder()
-            while (tokenizer.hasMoreTokens()) {
-                val code = tokenizer.nextToken()
-                if (translationMap.containsKey(code)) {
-                    if (codeBlockType == CodeBlockType.Reference) {
-                        referenceResult.append(translationMap[code])
+            try {
+                val tokenizer = StringTokenizer(input, CodeTranslate.split, true)
+                //缓存翻译数据，以便加速重复数据的翻译
+                val translationMap = HashMap<String, String>()
+                //保存每次代码的翻译结果
+                val codeResult = StringBuilder()
+                //保存完整的翻译结果
+                val translationResult = StringBuilder()
+                var codeBlockType = CodeBlockType.Key
+                //保存资源引用值（应该看做整体处理）
+                val referenceResult = StringBuilder()
+                while (tokenizer.hasMoreTokens()) {
+                    val code = tokenizer.nextToken()
+                    if (translationMap.containsKey(code)) {
+                        if (codeBlockType == CodeBlockType.Reference) {
+                            referenceResult.append(translationMap[code])
+                        } else {
+                            translationResult.append(translationMap[code])
+                        }
                     } else {
-                        translationResult.append(translationMap[code])
-                    }
-                } else {
-                    codeResult.clear()
-                    when (code) {
-                        "\n" -> {
-                            if (codeBlockType == CodeBlockType.Reference) {
-                                val referenceValue = referenceResult.toString()
-                                val codeInfo = if (translateMode) {
-                                    codeDataBase.getCodeDao().findCodeByCode(referenceValue)
-                                } else {
-                                    codeDataBase.getCodeDao().findCodeByTranslate(referenceValue)
+                        codeResult.clear()
+                        when (code) {
+                            "\n" -> {
+                                if (codeBlockType == CodeBlockType.Reference) {
+                                    val referenceValue = referenceResult.toString()
+                                    val codeInfo = if (translateMode) {
+                                        codeDataBase.getCodeDao().findCodeByCode(referenceValue)
+                                    } else {
+                                        codeDataBase.getCodeDao()
+                                            .findCodeByTranslate(referenceValue)
+                                    }
+                                    if (codeInfo == null) {
+                                        translationResult.append(referenceResult)
+                                    } else {
+                                        translationResult.append(
+                                            if (translateMode) {
+                                                codeInfo.translate
+                                            } else {
+                                                codeInfo.code
+                                            }
+                                        )
+                                    }
+                                    DebugHelper.printLog(
+                                        CodeTranslate.debugKey,
+                                        "追加引用值[" + referenceValue + "]",
+                                        "翻译行引用处理"
+                                    )
+                                    referenceResult.clear()
                                 }
-                                if (codeInfo == null) {
-                                    translationResult.append(referenceResult)
+                                codeBlockType = CodeBlockType.Key
+                                codeResult.append(code)
+                            }
+                            "\r" -> {
+                            }
+                            " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> {
+                                if (codeBlockType == CodeBlockType.Reference) {
+                                    referenceResult.append(code)
                                 } else {
-                                    translationResult.append(
-                                        if (translateMode) {
-                                            codeInfo.translate
-                                        } else {
-                                            codeInfo.code
-                                        }
+                                    codeResult.append(
+                                        code
                                     )
                                 }
+                            }
+                            ":" -> {
+                                if (codeBlockType == CodeBlockType.Reference) {
+                                    referenceResult.append(code)
+                                } else {
+                                    if (codeBlockType == CodeBlockType.Key) {
+                                        codeBlockType =
+                                            CodeBlockType.Value
+                                    }
+                                    codeResult.append(code)
+                                }
+                            }
+                            else -> if (codeBlockType == CodeBlockType.Note) {
+                                codeResult.append(code)
+                            } else if (codeBlockType == CodeBlockType.Reference) {
+                                //资源引用值应该被整体处理
                                 DebugHelper.printLog(
                                     CodeTranslate.debugKey,
-                                    "追加引用值[" + referenceValue + "]",
-                                    "翻译行引用处理"
+                                    "翻译添加引用值[" + code + "]",
+                                    "翻译代码处理"
                                 )
-                                referenceResult.clear()
-                            }
-                            codeBlockType = CodeBlockType.Key
-                            codeResult.append(code)
-                        }
-                        "\r" -> {
-                        }
-                        " ", ",", "(", ")", "=", "%", "{", "}", "+", "*", "/" -> {
-                            if (codeBlockType == CodeBlockType.Reference) {
                                 referenceResult.append(code)
                             } else {
-                                codeResult.append(
-                                    code
-                                )
-                            }
-                        }
-                        ":" -> {
-                            if (codeBlockType == CodeBlockType.Reference) {
-                                referenceResult.append(code)
-                            } else {
-                                if (codeBlockType == CodeBlockType.Key) {
-                                    codeBlockType =
-                                        CodeBlockType.Value
-                                }
-                                codeResult.append(code)
-                            }
-                        }
-                        else -> if (codeBlockType == CodeBlockType.Note) {
-                            codeResult.append(code)
-                        } else if (codeBlockType == CodeBlockType.Reference) {
-                            //资源引用值应该被整体处理
-                            DebugHelper.printLog(
-                                CodeTranslate.debugKey,
-                                "翻译添加引用值[" + code + "]",
-                                "翻译代码处理"
-                            )
-                            referenceResult.append(code)
-                        } else {
-                            if (code.startsWith("#")) {
-                                codeBlockType = CodeBlockType.Note
-                                codeResult.append(code)
-                            } else if (code.startsWith("[") && code.endsWith("]")) {
-                                val symbolPosition = code.lastIndexOf("_")
-                                if (symbolPosition > 0) {
-                                    val sectionPrefixName = code.substring(1, symbolPosition)
-                                    codeResult.append("[")
-                                    val info = if (translateMode) {
-                                        codeDataBase.getSectionDao()
-                                            .findSectionInfoByCode(sectionPrefixName)
+                                if (code.startsWith("#")) {
+                                    codeBlockType = CodeBlockType.Note
+                                    codeResult.append(code)
+                                } else if (code.startsWith("[") && code.endsWith("]")) {
+                                    val symbolPosition = code.lastIndexOf("_")
+                                    if (symbolPosition > 0) {
+                                        val sectionPrefixName = code.substring(1, symbolPosition)
+                                        codeResult.append("[")
+                                        val info = if (translateMode) {
+                                            codeDataBase.getSectionDao()
+                                                .findSectionInfoByCode(sectionPrefixName)
+                                        } else {
+                                            codeDataBase.getSectionDao()
+                                                .findSectionInfoByTranslate(sectionPrefixName)
+                                        }
+                                        if (translateMode) {
+                                            codeResult.append(
+                                                info?.translate ?: sectionPrefixName
+                                            )
+                                        } else {
+                                            codeResult.append(
+                                                info?.code ?: sectionPrefixName
+                                            )
+                                        }
+                                        codeResult.append("_")
+                                        codeResult.append(code.substring(symbolPosition + 1))
                                     } else {
-                                        codeDataBase.getSectionDao()
-                                            .findSectionInfoByTranslate(sectionPrefixName)
+                                        val sectionCode = code.substring(1, code.length - 1)
+                                        codeResult.append("[")
+                                        val info = if (translateMode) {
+                                            codeDataBase.getSectionDao()
+                                                .findSectionInfoByCode(sectionCode)
+                                        } else {
+                                            codeDataBase.getSectionDao()
+                                                .findSectionInfoByTranslate(sectionCode)
+                                        }
+                                        if (translateMode) {
+                                            codeResult.append(
+                                                info?.translate ?: sectionCode
+                                            )
+                                        } else {
+                                            codeResult.append(
+                                                info?.code ?: sectionCode
+                                            )
+                                        }
+                                        codeResult.append("]")
                                     }
-                                    if (translateMode) {
-                                        codeResult.append(
-                                            info?.translate ?: sectionPrefixName
-                                        )
-                                    } else {
-                                        codeResult.append(
-                                            info?.code ?: sectionPrefixName
-                                        )
-                                    }
-                                    codeResult.append("_")
-                                    codeResult.append(code.substring(symbolPosition + 1))
                                 } else {
-                                    val sectionCode = code.substring(1, code.length - 1)
-                                    codeResult.append("[")
-                                    val info = if (translateMode) {
-                                        codeDataBase.getSectionDao()
-                                            .findSectionInfoByCode(sectionCode)
+                                    //翻译代码
+                                    val codeInfo = if (translateMode) {
+                                        codeDataBase.getCodeDao().findCodeByCode(code)
                                     } else {
-                                        codeDataBase.getSectionDao()
-                                            .findSectionInfoByTranslate(sectionCode)
+                                        codeDataBase.getCodeDao().findCodeByTranslate(code)
                                     }
-                                    if (translateMode) {
-                                        codeResult.append(
-                                            info?.translate ?: sectionCode
-                                        )
-                                    } else {
-                                        codeResult.append(
-                                            info?.code ?: sectionCode
-                                        )
-                                    }
-                                    codeResult.append("]")
-                                }
-                            } else {
-                                //翻译代码
-                                val codeInfo = if (translateMode){
-                                    codeDataBase.getCodeDao().findCodeByCode(code)
-                                }else{
-                                    codeDataBase.getCodeDao().findCodeByTranslate(code)
-                                }
-                                if (codeInfo == null) {
-                                    if (code.contains("_")) {
-                                        val lineParser = LineParser(code)
-                                        lineParser.symbol = "_"
-                                        lineParser.analyse(object : LineParserEvent {
-                                            override fun processingData(
-                                                lineNum: Int,
-                                                lineData: String,
-                                                isEnd: Boolean
-                                            ): Boolean {
-                                                val temCodeInfo = if (translateMode) {
-                                                    codeDataBase.getCodeDao()
-                                                        .findCodeByCode(lineData.trim())
-                                                } else {
-                                                    codeDataBase.getCodeDao()
-                                                        .findCodeByTranslate(lineData.trim())
-                                                }
-                                                if (temCodeInfo == null) {
-                                                    codeResult.append(lineData)
-                                                } else {
-                                                    if (translateMode) {
-                                                        codeResult.append(temCodeInfo.translate)
+                                    if (codeInfo == null) {
+                                        if (code.contains("_")) {
+                                            val lineParser = LineParser(code)
+                                            lineParser.symbol = "_"
+                                            lineParser.analyse(object : LineParserEvent {
+                                                override fun processingData(
+                                                    lineNum: Int,
+                                                    lineData: String,
+                                                    isEnd: Boolean
+                                                ): Boolean {
+                                                    val temCodeInfo = if (translateMode) {
+                                                        codeDataBase.getCodeDao()
+                                                            .findCodeByCode(lineData.trim())
                                                     } else {
-                                                        codeResult.append(temCodeInfo.code)
+                                                        codeDataBase.getCodeDao()
+                                                            .findCodeByTranslate(lineData.trim())
                                                     }
+                                                    if (temCodeInfo == null) {
+                                                        codeResult.append(lineData)
+                                                    } else {
+                                                        if (translateMode) {
+                                                            codeResult.append(temCodeInfo.translate)
+                                                        } else {
+                                                            codeResult.append(temCodeInfo.code)
+                                                        }
+                                                    }
+                                                    if (!isEnd) {
+                                                        codeResult.append(lineParser.symbol)
+                                                    }
+                                                    return true
                                                 }
-                                                if (!isEnd) {
-                                                    codeResult.append(lineParser.symbol)
-                                                }
-                                                return true
-                                            }
-                                        })
+                                            })
+                                        } else {
+                                            codeResult.append(code)
+                                        }
                                     } else {
-                                        codeResult.append(code)
-                                    }
-                                } else {
-                                    //是否需要检查值
-                                    if (codeBlockType == CodeBlockType.Key) {
-                                        val type = getValueData(codeInfo.type)
-                                        val tag = type?.tag
-                                        if (!tag.isNullOrBlank()) {
-                                            //如果此类型为特殊标注，那么设置为注释
-                                            codeBlockType =
-                                                CodeBlockType.Reference
+                                        //是否需要检查值
+                                        if (codeBlockType == CodeBlockType.Key) {
+                                            val type = getValueData(codeInfo.type)
+                                            val tag = type?.tag
+                                            if (!tag.isNullOrBlank()) {
+                                                //如果此类型为特殊标注，那么设置为注释
+                                                codeBlockType =
+                                                    CodeBlockType.Reference
+                                            }
+                                        }
+                                        if (translateMode) {
+                                            codeResult.append(codeInfo.translate)
+                                        } else {
+                                            codeResult.append(codeInfo.code)
                                         }
                                     }
-                                    if (translateMode)
-                                    {
-                                        codeResult.append(codeInfo.translate)
-                                    }else{
-                                        codeResult.append(codeInfo.code)
-                                    }
                                 }
                             }
                         }
+                        //如果代码不是注释，也不是换行，不是冒号，那么缓存它。
+                        if (codeBlockType != CodeBlockType.Note && codeBlockType != CodeBlockType.Reference && code != ":" && code != "\n") {
+                            translationMap[code] = codeResult.toString()
+                        }
+                        translationResult.append(codeResult.toString())
+                        DebugHelper.printLog(
+                            CodeTranslate.debugKey,
+                            "代码[" + code + "]译文[" + codeResult.toString() + "]是否翻译[" + (code != codeResult.toString()) + "]",
+                            "翻译"
+                        )
                     }
-                    //如果代码不是注释，也不是换行，不是冒号，那么缓存它。
-                    if (codeBlockType != CodeBlockType.Note && codeBlockType != CodeBlockType.Reference && code != ":" && code != "\n") {
-                        translationMap[code] = codeResult.toString()
-                    }
-                    translationResult.append(codeResult.toString())
-                    DebugHelper.printLog(
-                        CodeTranslate.debugKey,
-                        "代码[" + code + "]译文[" + codeResult.toString() + "]是否翻译[" + (code != codeResult.toString()) + "]",
-                        "翻译"
-                    )
+                }
+                handler.post {
+                    func.invoke(true, translationResult.toString())
+                }
+            } catch (e: Exception) {
+                compileErrorRecord?.invoke(e)
+                e.printStackTrace()
+                handler.post {
+                    //第一个布尔值表示是否翻译成功
+                    func.invoke(false, e.toString())
                 }
             }
-            handler.post {
-                func.invoke(translationResult.toString())
-            }
+
         }
     }
 

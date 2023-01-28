@@ -98,7 +98,7 @@ class UserListActivity : BaseActivity<ActivityUserListBinding>() {
                 override fun onResponse(t: FollowUserListData) {
                     if (t.code == ServerConfiguration.Success_Code) {
                         val dataList = t.data
-                        if (dataList != null) {
+                        if (dataList != null && dataList.size > 0) {
                             viewBinding.loadLayout.isVisible = false
                             viewBinding.recyclerView.isVisible = true
                             val adapter = UserAdapter(this@UserListActivity, dataList)

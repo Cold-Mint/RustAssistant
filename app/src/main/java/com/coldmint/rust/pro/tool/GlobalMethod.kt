@@ -11,6 +11,9 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -225,29 +228,33 @@ object GlobalMethod {
     fun showUpdateLog(context: Context, modId: String) {
         WebMod.instance.getUpdateRecord(modId, object : ApiCallBack<WebModUpdateLogData> {
             override fun onResponse(t: WebModUpdateLogData) {
-                if (t.code == ServerConfiguration.Success_Code) {
-                    val data = t.data
-                    if (data != null && data.isNotEmpty()) {
-                        val stringBuilder = StringBuilder()
-                        data.forEach {
-                            stringBuilder.append(it.versionName)
-                            stringBuilder.append("\n")
-                            stringBuilder.append(it.updateLog)
-                            stringBuilder.append("\n")
-                            stringBuilder.append(it.time)
-                            stringBuilder.append("\n\n------\n\n")
+                try {
+                    if (t.code == ServerConfiguration.Success_Code) {
+                        val data = t.data
+                        if (data != null && data.isNotEmpty()) {
+                            val stringBuilder = StringBuilder()
+                            data.forEach {
+                                stringBuilder.append(it.versionName)
+                                stringBuilder.append("\n")
+                                stringBuilder.append(it.updateLog)
+                                stringBuilder.append("\n")
+                                stringBuilder.append(it.time)
+                                stringBuilder.append("\n\n------\n\n")
+                            }
+                            val title =
+                                context.getString(R.string.update_record) + "(" + data.size + ")"
+                            MaterialAlertDialogBuilder(context).setTitle(title)
+                                .setMessage(stringBuilder.toString()).setCancelable(false)
+                                .setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                                }.show()
+                        } else {
+                            Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                         }
-                        val title =
-                            context.getString(R.string.update_record) + "(" + data.size + ")"
-                        MaterialAlertDialogBuilder(context).setTitle(title)
-                            .setMessage(stringBuilder.toString()).setCancelable(false)
-                            .setPositiveButton(R.string.dialog_ok) { i, i2 ->
-                            }.show()
                     } else {
                         Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
 
