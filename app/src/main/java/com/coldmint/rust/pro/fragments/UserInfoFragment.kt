@@ -168,6 +168,10 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.logOutButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("账号", account)
+            firebaseAnalytics.setUserId(null);
+            firebaseAnalytics.logEvent(GlobalMethod.Event_LOGOUT, bundle)
             AppSettings.setValue(AppSettings.Setting.LoginStatus, false)
 //            GlobalMethod.isActive = false
             AppSettings.setValue(

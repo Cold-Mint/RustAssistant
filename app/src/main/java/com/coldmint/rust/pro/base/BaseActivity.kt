@@ -24,6 +24,9 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.hjq.language.MultiLanguages
 import java.util.*
 
@@ -31,6 +34,7 @@ import java.util.*
 abstract class BaseActivity<ViewBingType : ViewBinding> :
     AppCompatActivity() {
 
+    protected lateinit var firebaseAnalytics: FirebaseAnalytics
 
     abstract fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean)
 
@@ -46,6 +50,7 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        firebaseAnalytics = Firebase.analytics
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         whenCreateActivity(savedInstanceState, false)

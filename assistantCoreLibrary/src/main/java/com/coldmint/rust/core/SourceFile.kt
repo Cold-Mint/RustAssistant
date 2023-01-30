@@ -119,10 +119,10 @@ class SourceFile(text: String) {
     fun findResourceFiles(value: String?, checkExists: Boolean): Array<File>? {
         var value = value
         if (modclass == null || !this::file.isInitialized) {
-            DebugHelper.printLog("搜索资源文件","无法搜索，因为没有初始化文件或模组类。", isError = true)
+            DebugHelper.printLog("搜索资源文件", "无法搜索，因为没有初始化文件或模组类。", isError = true)
             return null
         }
-        DebugHelper.printLog("搜索资源文件","准备开始 文件路径${file.absolutePath}值${value}")
+        DebugHelper.printLog("搜索资源文件", "准备开始 文件路径${file.absolutePath}值${value}")
         val none = "NONE"
         val auto = "AUTO"
         val shared = "SHARED:"
@@ -139,15 +139,22 @@ class SourceFile(text: String) {
                 if (checkExists) {
                     if (target.exists()) {
                         result.add(target)
-                    }else{
-                        DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}解析Root路径为 ${target.absolutePath} 文件不存在！", isError = true)
+                    } else {
+                        DebugHelper.printLog(
+                            "搜索资源文件",
+                            "文件${file.absolutePath}解析Root路径为 ${target.absolutePath} 文件不存在！",
+                            isError = true
+                        )
                     }
                 } else {
                     result.add(target)
                 }
-                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}解析Root路径为 ${target.absolutePath}")
+                DebugHelper.printLog(
+                    "搜索资源文件",
+                    "文件${file.absolutePath}解析Root路径为 ${target.absolutePath}"
+                )
             } else if (value.contains(",")) {
-                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath}启用多文件解析。")
+                DebugHelper.printLog("搜索资源文件", "文件${file.absolutePath}启用多文件解析。")
                 val lineParser = LineParser(value)
                 lineParser.needTrim = true
                 lineParser.symbol = ","
@@ -163,13 +170,20 @@ class SourceFile(text: String) {
                             if (checkExists) {
                                 if (target.exists()) {
                                     result.add(target)
-                                }else{
-                                    DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath} 不存在!", isError = true)
+                                } else {
+                                    DebugHelper.printLog(
+                                        "搜索资源文件",
+                                        "文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath} 不存在!",
+                                        isError = true
+                                    )
                                 }
                             } else {
                                 result.add(target)
                             }
-                            DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath}")
+                            DebugHelper.printLog(
+                                "搜索资源文件",
+                                "文件${file.absolutePath} 多文件分割 第${lineNum}个文件 ${target.absolutePath}"
+                            )
                         }
                         return true
                     }
@@ -183,13 +197,20 @@ class SourceFile(text: String) {
                 if (checkExists) {
                     if (target.exists()) {
                         result.add(target)
-                    }else{
-                        DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 解析常规文件 ${target.absolutePath} 不存在!", isError = true)
+                    } else {
+                        DebugHelper.printLog(
+                            "搜索资源文件",
+                            "文件${file.absolutePath} 解析常规文件 ${target.absolutePath} 不存在!",
+                            isError = true
+                        )
                     }
                 } else {
                     result.add(target)
                 }
-                DebugHelper.printLog("搜索资源文件","文件${file.absolutePath} 解析常规文件 ${target.absolutePath}")
+                DebugHelper.printLog(
+                    "搜索资源文件",
+                    "文件${file.absolutePath} 解析常规文件 ${target.absolutePath}"
+                )
             }
             if (result.size > 0) {
                 result.toTypedArray()
@@ -459,6 +480,7 @@ class SourceFile(text: String) {
      * @param section 节
      */
     fun writeValueOrAddKey(key: String, value: String, section: String) {
+
         //先尝试改
         val modify = writeValueFromSection(key, value, section)
         if (!modify) {
@@ -481,42 +503,47 @@ class SourceFile(text: String) {
      * @return Boolean 是否修改成功
      */
     fun writeValueFromSection(key: String, value: String, section: String): Boolean {
-        var key = key
-        var section = section
-        key = "\n$key:"
-        section = "\n[$section]\n"
-        val info: String
-        var hasSymbol = true
-        if (text.startsWith("\n")) {
-            info = "\n$text\n["
-        } else {
-            info = "\n\n$text\n["
-            hasSymbol = false
-        }
-        val sectionstartnum = info.indexOf(section)
-        if (sectionstartnum > -1) {
-            val sectionendnum = info.indexOf("\n[", sectionstartnum + section.length)
-            val result =
-                info.substring(sectionstartnum + section.length, sectionendnum).trim()
-            val sinfo = "\n${result}\n"
-            if (sinfo.contains(key)) {
-                val startnum = sinfo.indexOf(key)
-                val symbolnum = sinfo.indexOf(":", startnum)
-                val endnum = sinfo.indexOf("\n", symbolnum)
-                val stringBuilder = StringBuilder()
-                stringBuilder.append(info.substring(1, sectionstartnum))
-                stringBuilder.append(section)
-                stringBuilder.append(sinfo.substring(1, symbolnum + 1))
-                stringBuilder.append(value)
-                stringBuilder.append(sinfo.substring(endnum, sinfo.length - 1))
-                stringBuilder.append(info.substring(sectionendnum, info.length - 2))
-                text = if (hasSymbol) {
-                    stringBuilder.toString()
-                } else {
-                    stringBuilder.substring(1)
-                }
-                return true
+        try {
+            var key = key
+            var section = section
+            key = "\n$key:"
+            section = "\n[$section]\n"
+            val info: String
+            var hasSymbol = true
+            if (text.startsWith("\n")) {
+                info = "\n$text\n["
+            } else {
+                info = "\n\n$text\n["
+                hasSymbol = false
             }
+            val sectionstartnum = info.indexOf(section)
+            if (sectionstartnum > -1) {
+                val sectionendnum = info.indexOf("\n[", sectionstartnum + section.length)
+                val result =
+                    info.substring(sectionstartnum + section.length, sectionendnum).trim()
+                val sinfo = "\n${result}\n"
+                if (sinfo.contains(key)) {
+                    val startnum = sinfo.indexOf(key)
+                    val symbolnum = sinfo.indexOf(":", startnum)
+                    val endnum = sinfo.indexOf("\n", symbolnum)
+                    val stringBuilder = StringBuilder()
+                    stringBuilder.append(info.substring(1, sectionstartnum))
+                    stringBuilder.append(section)
+                    stringBuilder.append(sinfo.substring(1, symbolnum + 1))
+                    stringBuilder.append(value)
+                    stringBuilder.append(sinfo.substring(endnum, sinfo.length - 1))
+                    stringBuilder.append(info.substring(sectionendnum, info.length - 2))
+                    text = if (hasSymbol) {
+                        stringBuilder.toString()
+                    } else {
+                        stringBuilder.substring(1)
+                    }
+                    return true
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
         return false
     }
@@ -525,12 +552,12 @@ class SourceFile(text: String) {
      * 获取单位图标
      * @return Drawable?
      */
-    fun getIcon(): Drawable? {
-        var mainIcon: Drawable? = null
+    fun getIcon(): String? {
+        var mainIcon: String? = null
         val baseImages = findResourceFilesFromSection("image", "graphics", true)
         if (baseImages != null && baseImages.isNotEmpty()) {
             val file = baseImages[0]
-            mainIcon = Drawable.createFromPath(file.absolutePath)
+            mainIcon = file.absolutePath
         }
         return mainIcon
     }

@@ -8,8 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
+    protected lateinit var firebaseAnalytics: FirebaseAnalytics
 
     val viewBinding: T by lazy {
         getViewBindingObject(layoutInflater)
@@ -53,6 +57,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
         whenViewCreated(layoutInflater, savedInstanceState)
     }
 }

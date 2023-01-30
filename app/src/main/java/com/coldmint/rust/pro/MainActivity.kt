@@ -642,6 +642,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 opIntent.putExtra("userId", account)
                 startActivity(opIntent)
             }
+            firebaseAnalytics.setUserId(account)
         }
 
         startViewModel.needLoginLiveData.observe(this) {

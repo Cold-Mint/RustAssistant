@@ -25,7 +25,6 @@ class UnitAdapter(
 ) : BaseAdapter<UnitItemBinding, SourceFile>(context, dataList), PopupTextProvider {
 
 
-
     private val language: String by lazy {
         AppSettings.getValue(
             AppSettings.Setting.AppLanguage,
@@ -72,20 +71,14 @@ class UnitAdapter(
             }
             viewBinding.unitTimeView.text = formatter.format(sourceFile.file.lastModified())
             val imageView = viewBinding.iconView
-            val drawable = sourceFile.getIcon()
-            if (drawable != null) {
-                Glide.with(context).load(drawable).apply(
-                    RequestOptions().override(200).diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                ).into(imageView)
+            val path = sourceFile.getIcon()
+            if (path != null) {
+                Glide.with(context).load(path).apply(GlobalMethod.getRequestOptions()).into(imageView)
             } else {
-                Glide.with(context).load(
-                    GlobalMethod.tintDrawable(
-                        context.getDrawable(R.drawable.image),
-                        ColorStateList.valueOf(GlobalMethod.getColorPrimary(context))
-                    )
-                ).apply(
-                    RequestOptions().override(200).diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                ).into(imageView)
+                Glide.with(context).load(  GlobalMethod.tintDrawable(
+                    context.getDrawable(R.drawable.image),
+                    ColorStateList.valueOf(GlobalMethod.getColorPrimary(context))
+                )).apply(GlobalMethod.getRequestOptions().override(200)).into(imageView)
             }
         } catch (e: Exception) {
             viewBinding.unitDescribeView.text = e.toString()
@@ -93,7 +86,11 @@ class UnitAdapter(
     }
 
     override fun getPopupText(position: Int): String {
-        return getInitial(dataList[position].getName(language)).toString()
+        return if (dataList.size > position) {
+            getInitial(dataList[position].getName(language)).toString()
+        } else {
+            "#"
+        }
     }
 
 

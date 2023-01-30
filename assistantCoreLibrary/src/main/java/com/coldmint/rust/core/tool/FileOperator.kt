@@ -117,8 +117,6 @@ object FileOperator {
     }
 
 
-
-
     /**
      * 调用app打开文件
      *
@@ -638,11 +636,13 @@ object FileOperator {
         if (target.exists()) {
             result = if (target.isDirectory) {
                 val files = target.listFiles()
-                for (mfile in files) {
-                    if (mfile.isDirectory) {
-                        delete_files(mfile)
-                    } else {
-                        mfile.delete()
+                if (files != null) {
+                    for (mfile in files) {
+                        if (mfile.isDirectory) {
+                            delete_files(mfile)
+                        } else {
+                            mfile.delete()
+                        }
                     }
                 }
                 target.delete()

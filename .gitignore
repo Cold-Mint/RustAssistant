@@ -48,3 +48,16 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Gradle build files
+.gradle/
+build/
+release/
+
+# Local configuration file (sdk path, etc)
+local.properties

@@ -197,10 +197,10 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
 
         val gender = spaceInfoData.data.gender
         if (gender > 0) {
-            Glide.with(this).load(R.drawable.boy).apply(GlobalMethod.getRequestOptions())
+            Glide.with(application).load(R.drawable.boy).apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.genderView)
         } else {
-            Glide.with(this).load(R.drawable.girl).apply(GlobalMethod.getRequestOptions())
+            Glide.with(application).load(R.drawable.girl).apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.genderView)
         }
 

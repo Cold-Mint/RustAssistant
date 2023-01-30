@@ -99,7 +99,6 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
     fun getNowOpenFilePath(): String {
         val temPath = nowFilePath
         return if (temPath == null) {
-            throw NullPointerException("无法获取最近打开的文件，请先打开文件")
             ""
         } else {
             temPath

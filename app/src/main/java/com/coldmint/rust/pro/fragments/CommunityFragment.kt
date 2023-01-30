@@ -25,6 +25,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
 
 
     fun loadTab() {
+        if (!isAdded) {
+            return
+        }
         val mainActivity = requireActivity() as MainActivity
         val tabLayout: TabLayout? = mainActivity.tabLayout
         if (tabLayout != null) {
@@ -50,9 +53,6 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
             viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
         }
     }
-
-
-
 
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentCommunityBinding {
