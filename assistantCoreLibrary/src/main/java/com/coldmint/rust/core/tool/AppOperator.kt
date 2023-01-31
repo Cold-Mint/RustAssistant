@@ -145,25 +145,29 @@ object AppOperator {
      */
     @SuppressLint("QueryPermissionsNeeded")
     fun openApp(context: Context, packageName: String) {
-        var mainAct: String? = null
-        val pkgMag = context.packageManager
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-        intent.flags = Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or Intent.FLAG_ACTIVITY_NEW_TASK
-        @SuppressLint("WrongConstant") val list =
-            pkgMag.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES)
-        for (i in list.indices) {
-            val info = list[i]
-            if (info.activityInfo.packageName == packageName) {
-                mainAct = info.activityInfo.name
-                break
+        try {
+            var mainAct: String? = null
+            val pkgMag = context.packageManager
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.flags = Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or Intent.FLAG_ACTIVITY_NEW_TASK
+            @SuppressLint("WrongConstant") val list =
+                pkgMag.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES)
+            for (i in list.indices) {
+                val info = list[i]
+                if (info.activityInfo.packageName == packageName) {
+                    mainAct = info.activityInfo.name
+                    break
+                }
             }
+            if (mainAct!!.isEmpty()) {
+                return
+            }
+            intent.component = ComponentName(packageName, mainAct)
+            context.startActivity(intent)
+        }catch (e:Exception){
+            e.printStackTrace()
         }
-        if (mainAct!!.isEmpty()) {
-            return
-        }
-        intent.component = ComponentName(packageName, mainAct)
-        context.startActivity(intent)
     }
 
     /**

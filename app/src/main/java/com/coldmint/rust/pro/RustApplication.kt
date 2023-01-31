@@ -21,9 +21,20 @@ import java.util.*
 
 class RustApplication : Application() {
 
+    companion object {
+        private lateinit var instanceObject: RustApplication
+
+        /**
+         * 获取实例对象
+         */
+        fun getInstance(): RustApplication {
+            return instanceObject
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
+        instanceObject = this
         AppSettings.initAppSettings(this)
         //动态颜色
         val options = DynamicColorsOptions.Builder()
@@ -35,7 +46,7 @@ class RustApplication : Application() {
                     )
             }.build()
         DynamicColors.applyToActivitiesIfAvailable(this, options)
-        LogCat.attachObserver(object : LogCatObserver{
+        LogCat.attachObserver(object : LogCatObserver {
             override fun onReceiveLog(msg: String) {
                 Firebase.crashlytics.log(msg)
             }

@@ -36,6 +36,10 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
 
     private fun initView() {
         setTitle(R.string.file_importer)
+        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
+        if (account.isNotBlank()) {
+            firebaseAnalytics.setUserId(account)
+        }
         startViewModel.initAllData()
         GlobalMethod.requestStoragePermissions(this) {
             if (it) {
@@ -385,53 +389,71 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                 }
                 return@Runnable
             }
-            val parcelFileDescriptor = contentResolver.openFileDescriptor(uri!!, "r")
-            if (parcelFileDescriptor != null) {
-                val fileDescriptor = parcelFileDescriptor.fileDescriptor
-                val inputStream = FileInputStream(fileDescriptor)
-                val newFile = File(outputDirectory.absolutePath + "/" + fileName)
-                if (newFile.exists()) {
-                    handler.post {
-                        MaterialAlertDialogBuilder(this).setTitle(R.string.import_name)
-                            .setCancelable(false)
-                            .setMessage(
-                                String.format(
-                                    getString(R.string.covers_the_import_mod),
-                                    fileName
-                                )
-                            ).setPositiveButton(
-                                R.string.dialog_ok
-                            ) { dialog, which ->
-                                newFile.delete()
-                                importMod(outputDirectory)
-                            }
-                            .setNegativeButton(R.string.dialog_cancel, null).show()
+            try {
+                val parcelFileDescriptor = contentResolver.openFileDescriptor(uri!!, "r")
+                if (parcelFileDescriptor != null) {
+                    val fileDescriptor = parcelFileDescriptor.fileDescriptor
+                    val inputStream = FileInputStream(fileDescriptor)
+                    val newFile = File(outputDirectory.absolutePath + "/" + fileName)
+                    if (newFile.exists()) {
+                        handler.post {
+                            MaterialAlertDialogBuilder(this).setTitle(R.string.import_name)
+                                .setCancelable(false)
+                                .setMessage(
+                                    String.format(
+                                        getString(R.string.covers_the_import_mod),
+                                        fileName
+                                    )
+                                ).setPositiveButton(
+                                    R.string.dialog_ok
+                                ) { dialog, which ->
+                                    newFile.delete()
+                                    importMod(outputDirectory)
+                                }
+                                .setNegativeButton(R.string.dialog_cancel, null).show()
+                        }
+                        return@Runnable
                     }
-                    return@Runnable
-                }
-                handler.post {
-                    viewBinding.okButton.setText(R.string.importing)
-                    viewBinding.okButton.setBackgroundColor(
-                        GlobalMethod.getThemeColor(
-                            this,
-                            R.attr.colorPrimaryVariant
-                        )
-                    )
-                }
-                val result = copyFile(inputStream, newFile)
-                if (result) {
                     handler.post {
+                        viewBinding.okButton.setText(R.string.importing)
+                        viewBinding.okButton.setBackgroundColor(
+                            GlobalMethod.getThemeColor(
+                                this,
+                                R.attr.colorPrimaryVariant
+                            )
+                        )
+                    }
+                    val result = copyFile(inputStream, newFile)
+                    if (result) {
+                        handler.post {
+                            handler.post {
+                                viewBinding.okButton.setBackgroundColor(
+                                    GlobalMethod.getColorPrimary(
+                                        this
+                                    )
+                                )
+                                viewBinding.okButton.isVisible = false
+                                Snackbar.make(
+                                    viewBinding.okButton,
+                                    String.format(
+                                        getString(R.string.import_complete),
+                                        fileName
+                                    ), Snackbar.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    } else {
                         handler.post {
                             viewBinding.okButton.setBackgroundColor(
                                 GlobalMethod.getColorPrimary(
                                     this
                                 )
                             )
-                            viewBinding.okButton.isVisible = false
+                            viewBinding.okButton.setText(R.string.import_name)
                             Snackbar.make(
                                 viewBinding.okButton,
                                 String.format(
-                                    getString(R.string.import_complete),
+                                    getString(R.string.import_failed),
                                     fileName
                                 ), Snackbar.LENGTH_LONG
                             ).show()
@@ -439,26 +461,16 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
                     }
                 } else {
                     handler.post {
-                        viewBinding.okButton.setBackgroundColor(
-                            GlobalMethod.getColorPrimary(
-                                this
-                            )
-                        )
-                        viewBinding.okButton.setText(R.string.import_name)
-                        Snackbar.make(
-                            viewBinding.okButton,
-                            String.format(
-                                getString(R.string.import_failed),
-                                fileName
-                            ), Snackbar.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(this, "parcelFileDescriptor为空", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
-            } else {
-                handler.post {
-                    Toast.makeText(this, "parcelFileDescriptor为空", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            }catch (e:Exception){
+                e.printStackTrace()
+                Snackbar.make(
+                    viewBinding.okButton,
+                    e.toString(), Snackbar.LENGTH_LONG
+                ).show()
             }
         }).start()
     }

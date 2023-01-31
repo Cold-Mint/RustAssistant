@@ -13,6 +13,7 @@ data class CodeInfo(
     @PrimaryKey val code: String,
     @ColumnInfo(name = "translate") val translate: String,
     @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "demo") val demo: String = "",
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "add_version") val addVersion: Int,
     @ColumnInfo(name = "remove_version") val removeVersion: Int = 1,

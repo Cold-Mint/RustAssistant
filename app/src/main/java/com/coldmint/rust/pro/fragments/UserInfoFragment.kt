@@ -28,7 +28,8 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
      * 加载列表
      */
     fun loadRecyclerView(permission: Int) {
-        val layoutManager = GridLayoutManager(requireContext(), 4)
+
+        val layoutManager = GridLayoutManager(RustApplication.getInstance(), 4)
         viewBinding.recyclerView.layoutManager = layoutManager
         val dataList = ArrayList<CommunityServiceInfo>()
         dataList.add(CommunityServiceInfo(R.string.work_management, R.drawable.work_management))
@@ -45,7 +46,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
                 dataList.add(CommunityServiceInfo(R.string.order_manager, R.drawable.order_manager))
             }
         }
-        val adapter = CommunityServiceAdapter(requireContext(), dataList)
+        val adapter = CommunityServiceAdapter(RustApplication.getInstance(), dataList)
         adapter.setItemEvent { i, itemServiceBinding, viewHolder, communityServiceInfo ->
             itemServiceBinding.root.setOnClickListener {
                 when (communityServiceInfo.titleRes) {
