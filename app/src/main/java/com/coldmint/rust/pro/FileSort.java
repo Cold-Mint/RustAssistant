@@ -5,7 +5,9 @@ import java.util.List;
 
 public class FileSort {
     final int name=0,time=1,size=2,type=3;
+    //0表示 名称排序  1表示 时间排序  2表示 大小排序  3表示类型排序
     public static String[] type_list;
+    //内置的类型排序筛选器数据 可以不用 但是类型排序必须要进行筛选才能正常排序
     public FileSort(List<File> a,int manner){
         switch (manner){
             case name:
@@ -22,6 +24,7 @@ public class FileSort {
                 break;
             default:
         }
+        //一个内置的排序筛选器 也可以在外部调用 FileSort.sort_front(List<File> a) 等静态的方法
     }
     public static void sort_front(List<File> a){
         Collections.sort(a, new Comparator<File>() {
@@ -35,6 +38,7 @@ public class FileSort {
             }
         });
     }
+    //文件夹在前面的排序算法 每次sort_name等排序方法前后或者都会调研次方法
 
     public static void sort_name(List<File> a){
         Collections.sort(a,new Comparator<File>() {
@@ -65,9 +69,7 @@ public class FileSort {
         });
         sort_front(a);
     }
-
-    public void sort_size(List<File> a){
-
+    public static void sort_size(List<File> a){
         Collections.sort(a, new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
@@ -84,27 +86,25 @@ public class FileSort {
     }
     public static void sort_type(List<File> a){
         //文件类型排序 按照后缀优先级
-//        System.out.println(type_list[0]);
+        sort_front(a);
+        //先进行文件夹在前面的排序算法
         Collections.sort(a, new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
                 if (o1.isFile()) {
-                  String name_a = o1.getName();
-                  String o_z = name_a.substring(name_a.lastIndexOf("."));
-//                  System.out.println(o_z);
-                  //获取 name_a文件名字的后缀
-                  int length=length(type_list,o_z);
-                  System.out.println(length);
+                  String name=o1.getName();
+                  String suffix=name.substring(name.lastIndexOf("."));
+                  //获取name文件名字的后缀
+                  int length=length(type_list,suffix);
                   //查找后缀是不是存在于 type_list数据中 如果存在返回存在位置 如果不存在则返回<0的值
                   if (length>=0)
                       return -1;
                 } else if (o2.isFile()) {
-                    String name_a = o2.getName();
-//                    System.out.println(name_a);
-                    String o_z = name_a.substring(name_a.lastIndexOf("."));
-
-                    //获取 name_a文件名字的后缀
-                    int length=length(type_list,o_z);
+                    String name = o2.getName();
+                    String suffix = name.substring(name.lastIndexOf("."));
+                    //获取name文件名字的后缀
+                    int length=length(type_list,suffix);
+                    //查找后缀是不是存在于 type_list数据中 如果存在返回存在位置 如果不存在则返回<0的值
                     if (length>=0)
                         return 1;
                 }
@@ -113,6 +113,7 @@ public class FileSort {
         });
     }
     private static int length(String a){
+        //调用内部数组type_list去进行筛选让后返回位置
         for (int i=0;i<type_list.length;i++){
             if (type_list[i].equals(a)){
                 return i;
@@ -121,6 +122,7 @@ public class FileSort {
         return -1;
     }
     private static int length(String[] sz,String a){
+        //引入外部数据sz 去进行筛选让后返回位置
         for (int i=0;i<sz.length;i++){
             if (sz[i].equals(a)) {
                 return i;
