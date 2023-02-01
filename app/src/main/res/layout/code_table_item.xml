@@ -33,17 +33,28 @@
         android:text="描述" />
 
     <TextView
+        android:id="@+id/demoView"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionView"
+        android:layout_marginTop="5dp"
+        android:text="demo" />
+
+    <TextView
         style="@style/TextAppearance.Material3.BodySmall"
         android:id="@+id/valueTypeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionView"
+        android:layout_below="@id/demoView"
         android:layout_marginTop="5dp"
         android:text="值类型" />
 
     <TextView
         android:id="@+id/versionView"
         android:layout_width="wrap_content"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/valueTypeView"
         android:layout_marginLeft="8dp"

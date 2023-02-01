@@ -17,5 +17,5 @@ data class CodeInfo(
     @ColumnInfo(name = "add_version") val addVersion: Int,
     @ColumnInfo(name = "remove_version") val removeVersion: Int = 1,
     @ColumnInfo(name = "section") val section: String,
-    @ColumnInfo(name = "demo") val demo: String = "",
+    @ColumnInfo(name = "demo") val demo: String = " ",
 )

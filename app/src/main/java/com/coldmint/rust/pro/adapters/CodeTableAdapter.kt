@@ -142,6 +142,11 @@ class CodeTableAdapter(
         resultView.titleView.setOnClickListener {
             GlobalMethod.copyText(context, codeInfo.translate, it)
         }
+
+        val demo = codeInfo.demo
+        resultView.demoView.isVisible = demo.isNotBlank()
+        resultView.demoView.text = demo
+
         resultView.subTitleView.text = codeInfo.code
         resultView.subTitleView.setOnClickListener {
             GlobalMethod.copyText(context, codeInfo.code, it)
@@ -156,7 +161,7 @@ class CodeTableAdapter(
             val chip = Chip(context)
             chip.text = text
             chip.setOnClickListener {
-                labelFunction?.invoke(lineNum, it,  text )
+                labelFunction?.invoke(lineNum, it, text)
             }
             resultView.chipGroup.addView(chip)
             true

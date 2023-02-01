@@ -35,7 +35,8 @@ abstract class FileDataBase : RoomDatabase() {
             if (openNewDataBase && instance != null) {
                 instance!!.close()
                 instance =
-                    Room.databaseBuilder(context, FileDataBase::class.java, name).build()
+                    Room.databaseBuilder(context, FileDataBase::class.java, name)
+                        .fallbackToDestructiveMigration().build()
                 return instance!!
             }
             if (instance == null) {
@@ -43,7 +44,8 @@ abstract class FileDataBase : RoomDatabase() {
                 {
                     if (instance == null) {
                         instance =
-                            Room.databaseBuilder(context, FileDataBase::class.java, name).build()
+                            Room.databaseBuilder(context, FileDataBase::class.java, name)
+                                .fallbackToDestructiveMigration().build()
                     }
                 }
             }

@@ -3,9 +3,14 @@ package com.coldmint.rust.core.database.code
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.Index
+import androidx.room.RenameColumn
+import androidx.room.RenameTable
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.AutoMigrationSpec
 import com.coldmint.rust.core.DataSet
 import com.coldmint.rust.core.dataBean.dataset.*
 import com.coldmint.rust.core.database.file.FileDataBase
@@ -20,12 +25,13 @@ import java.util.concurrent.Executors
  */
 @Database(
     entities = [ChainInspection::class, CodeInfo::class, SectionInfo::class, ValueTypeInfo::class, Version::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class CodeDataBase : RoomDatabase() {
     companion object {
         private var instance: CodeDataBase? = null
+
 
         fun getInstance(
             context: Context,
@@ -36,6 +42,7 @@ abstract class CodeDataBase : RoomDatabase() {
                 instance!!.close()
                 instance =
                     Room.databaseBuilder(context.applicationContext, CodeDataBase::class.java, name)
+                        .fallbackToDestructiveMigration()
                         .build()
                 return instance!!
             }
@@ -48,7 +55,7 @@ abstract class CodeDataBase : RoomDatabase() {
                                 context.applicationContext,
                                 CodeDataBase::class.java,
                                 name
-                            ).build()
+                            ).fallbackToDestructiveMigration().build()
                     }
                 }
             }
