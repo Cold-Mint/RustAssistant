@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/LineView"
         android:text="示例代码:"
-        android:textColor="#b99bf8" />
+        android:textColor="?attr/colorSecondary" />
 
     <TextView
         android:id="@+id/demoView"
