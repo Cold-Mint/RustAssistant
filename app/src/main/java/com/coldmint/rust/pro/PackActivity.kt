@@ -22,6 +22,7 @@ import com.coldmint.rust.core.interfaces.LineParserEvent
 import com.coldmint.rust.core.tool.FileFinder2
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.databinding.ActivityPackBinding
+import com.coldmint.rust.pro.tool.EventRecord
 import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
@@ -307,7 +308,10 @@ class PackActivity : BaseActivity<ActivityPackBinding>() {
                 }
 
                 override fun whenCompressionComplete(result: Boolean) {
-                    handler.post { resetButton(result) }
+                    handler.post {
+                        EventRecord.packMod(targetFile.name)
+                        resetButton(result)
+                    }
                 }
             }, object : CompressionInterceptor {
                 override val sourceFileRule: String

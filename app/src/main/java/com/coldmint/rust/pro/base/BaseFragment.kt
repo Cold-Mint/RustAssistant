@@ -16,6 +16,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     protected lateinit var firebaseAnalytics: FirebaseAnalytics
 
     val viewBinding: T by lazy {
+        val layoutInflater = LayoutInflater.from(requireActivity())
         getViewBindingObject(layoutInflater)
     }
 

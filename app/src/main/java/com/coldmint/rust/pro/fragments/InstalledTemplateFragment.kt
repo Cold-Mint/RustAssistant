@@ -164,16 +164,18 @@ class InstalledTemplateFragment : BaseFragment<FragmentInstalledTemplateBinding>
             }
         }
         viewModel.setLoadCallBack {
-            mTemplateAdapter = TemplateAdapter(
-                requireContext(),
-                viewModel.getGroupData(),
-                viewModel.getItemData(),
-                viewModel.environmentLanguage, startTemplateParserActivity
-            )
-            viewBinding.expandableList.setAdapter(mTemplateAdapter)
-            val path = viewModel.createPathLiveData.value.toString()
-            mTemplateAdapter.setCreatePath(path)
-            LogCat.d("创建目录观察者", "模板适配器设置目录为${path}。")
+            if (isAdded) {
+                mTemplateAdapter = TemplateAdapter(
+                    requireContext(),
+                    viewModel.getGroupData(),
+                    viewModel.getItemData(),
+                    viewModel.environmentLanguage, startTemplateParserActivity
+                )
+                viewBinding.expandableList.setAdapter(mTemplateAdapter)
+                val path = viewModel.createPathLiveData.value.toString()
+                mTemplateAdapter.setCreatePath(path)
+                LogCat.d("创建目录观察者", "模板适配器设置目录为${path}。")
+            }
         }
         viewModel.loadTemplate(requireContext())
     }

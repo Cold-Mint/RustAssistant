@@ -47,8 +47,7 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
-    const val Event_LOGOUT = "logOut"
-    const val Event_LOGIN = "logIn"
+
 
 
     /**

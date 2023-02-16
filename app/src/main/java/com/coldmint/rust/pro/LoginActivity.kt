@@ -30,6 +30,7 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityLoginBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.EmailAutoCompleteHelper
+import com.coldmint.rust.pro.tool.EventRecord
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.snackbar.Snackbar
 import com.gyf.immersionbar.ktx.immersionBar
@@ -124,10 +125,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             viewBinding.button.setText(R.string.login)
                             if (userData.code == ServerConfiguration.Success_Code) {
                                 //记录登录事件
-                                val bundle = Bundle()
-                                bundle.putString("账号", userData.data.account)
-                                firebaseAnalytics.logEvent(GlobalMethod.Event_LOGIN, bundle)
-                                firebaseAnalytics.setUserId(userData.data.account)
+                                EventRecord.setUserId(account)
+                                EventRecord.login()
                                 AppSettings.forceSetValue(AppSettings.Setting.PassWord, passWord)
                                 AppSettings.forceSetValue(
                                     AppSettings.Setting.Account,

@@ -116,11 +116,16 @@ class TemplateMakerViewModel : BaseViewModel() {
             TemplatePhp.instance.getTemplate(path ?: "", object : ApiCallBack<WebTemplateData> {
                 override fun onResponse(t: WebTemplateData) {
                     if (t.code == ServerConfiguration.Success_Code) {
-                        json = JSONObject(t.data.content)
-                        val code = json!!.getString("data")
-                        val jsonArray = json!!.getJSONArray("action")
-                        parsingSourceCode(code, jsonArray, func)
-                        LogCat.d(key, "已加载远程模板 ${path} 。")
+                        try {
+                            json = JSONObject(t.data.content)
+                            val code = json!!.getString("data")
+                            val jsonArray = json!!.getJSONArray("action")
+                            parsingSourceCode(code, jsonArray, func)
+                            LogCat.d(key, "已加载远程模板 ${path} 。")
+                        }catch (e:Exception){
+                            e.printStackTrace()
+                            LogCat.d(key, "远程模板加载异常。"+e.toString())
+                        }
                     } else {
                         LogCat.e(key, "远程模板响应: ${t.message}")
                     }

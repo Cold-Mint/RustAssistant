@@ -39,6 +39,7 @@ import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
 import com.coldmint.rust.pro.fragments.UserGroupFragment
+import com.coldmint.rust.pro.tool.EventRecord
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -642,7 +643,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 opIntent.putExtra("userId", account)
                 startActivity(opIntent)
             }
-            firebaseAnalytics.setUserId(account)
+            EventRecord.setUserId(account)
         }
 
         startViewModel.needLoginLiveData.observe(this) {

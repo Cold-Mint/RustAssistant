@@ -19,6 +19,7 @@ import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databean.CommunityServiceInfo
 import com.coldmint.rust.pro.databinding.FragmentUserInfoBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.EventRecord
 import com.coldmint.rust.pro.tool.GlobalMethod
 
 class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
@@ -169,10 +170,8 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.logOutButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("账号", account)
-            firebaseAnalytics.setUserId(null);
-            firebaseAnalytics.logEvent(GlobalMethod.Event_LOGOUT, bundle)
+            EventRecord.logout()
+            EventRecord.setUserId(null)
             AppSettings.setValue(AppSettings.Setting.LoginStatus, false)
 //            GlobalMethod.isActive = false
             AppSettings.setValue(

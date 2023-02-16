@@ -371,7 +371,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                         iconFile.delete()
                     }
                     val bitmap = BitmapFactory.decodeFile(newIconFile.absolutePath)
-                    if (bitmap.height == bitmap.width) {
+                    if (bitmap != null && bitmap.height == bitmap.width) {
                         if (FileOperator.copyFile(newIconFile, iconFile)) {
                             Glide.with(this@EditModInfoActivity).load(newIconFile)
                                 .apply(GlobalMethod.getRequestOptions())

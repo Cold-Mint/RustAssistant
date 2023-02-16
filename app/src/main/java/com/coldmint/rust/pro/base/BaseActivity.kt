@@ -34,7 +34,6 @@ import java.util.*
 abstract class BaseActivity<ViewBingType : ViewBinding> :
     AppCompatActivity() {
 
-    protected lateinit var firebaseAnalytics: FirebaseAnalytics
 
     abstract fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean)
 
@@ -50,7 +49,6 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        firebaseAnalytics = Firebase.analytics
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         whenCreateActivity(savedInstanceState, false)

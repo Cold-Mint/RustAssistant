@@ -17,6 +17,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.tool.FileOperator.copyFile
 import com.coldmint.rust.pro.databinding.ActivityImporterBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.tool.EventRecord
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -38,7 +39,7 @@ class ImporterActivity : BaseActivity<ActivityImporterBinding>() {
         setTitle(R.string.file_importer)
         val account = AppSettings.getValue(AppSettings.Setting.Account, "")
         if (account.isNotBlank()) {
-            firebaseAnalytics.setUserId(account)
+            EventRecord.setUserId(account)
         }
         startViewModel.initAllData()
         GlobalMethod.requestStoragePermissions(this) {
