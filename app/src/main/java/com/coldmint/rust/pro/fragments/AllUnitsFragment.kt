@@ -43,11 +43,12 @@ import kotlin.collections.ArrayList
  * @date 2022/1/13 21:32
  */
 class AllUnitsFragment(
-    val fragmentActivity: FragmentActivity,
-    val modClass: ModClass,
-    val fileDatabase: FileDataBase
+
 ) :
     BaseFragment<FragmentAllUnitsBinding>() {
+    var fragmentActivity: FragmentActivity? = null
+    var modClass: ModClass? = null
+    var fileDatabase: FileDataBase? = null
     var whenNumberChanged: ((Int) -> Unit)? = null
     val executorService = Executors.newSingleThreadExecutor()
     val dataList: ArrayList<SourceFile> = ArrayList()
@@ -80,11 +81,11 @@ class AllUnitsFragment(
             val bundle = Bundle()
             val path = file.file.absolutePath
             bundle.putString("path", path)
-            bundle.putString("modPath", modClass.modFile.absolutePath)
+            bundle.putString("modPath", modClass!!.modFile.absolutePath)
             addFileToHistory(file, handler = handler, whenAddComplete = {
                 val intent = Intent(requireContext(), EditActivity::class.java)
                 intent.putExtra("data", bundle)
-                fragmentActivity.startActivityForResult(intent, 2)
+                fragmentActivity?.startActivityForResult(intent, 2)
             })
         }
     }
@@ -110,7 +111,7 @@ class AllUnitsFragment(
                 )
             ) + " (" + file.file.name + ")"
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val historyDao = fileDatabase.getHistoryDao()
+            val historyDao = fileDatabase!!.getHistoryDao()
             val newHistoryRecord = HistoryRecord(
                 path,
                 name,
@@ -140,7 +141,7 @@ class AllUnitsFragment(
      * 加载列表
      * @param file File
      */
-    fun loadFiles(file: File = modClass.modFile) {
+    fun loadFiles(file: File = modClass!!.modFile) {
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
@@ -150,23 +151,27 @@ class AllUnitsFragment(
             }
             dataList.clear()
             val fileFinder2 = FileFinder2(file)
-            val data = modClass.modConfigurationManager?.readData()
+            val data = modClass!!.modConfigurationManager?.readData()
             val sourceFileFilteringRule =
                 Regex(data?.sourceFileFilteringRule ?: ".+\\.ini|.+\\.template")
             fileFinder2.setFinderListener(object : FileFinderListener {
                 override fun whenFindFile(file: File): Boolean {
+                    if (fileDatabase == null || modClass == null)
+                    {
+                        return false
+                    }
                     //此处在这里判断的目的是将所有文件录入数据库
                     if (file.name.matches(sourceFileFilteringRule)) {
-                        val sourceFileClass = SourceFile(file, modClass)
-                        fileDatabase.addValuesFromSourceFile(requireContext(), sourceFileClass)
+                        val sourceFileClass = SourceFile(file, modClass!!)
+                        fileDatabase!!.addValuesFromSourceFile(requireContext(), sourceFileClass)
                         dataList.add(sourceFileClass)
                     }
                     val fileTable = FileDataBase.createFileInfoFromFile(file)
-                    if (fileDatabase.getFileInfoDao().findFileInfoByPath(file.absolutePath) == null
+                    if (fileDatabase!!.getFileInfoDao().findFileInfoByPath(file.absolutePath) == null
                     ) {
-                        fileDatabase.getFileInfoDao().insert(fileTable)
+                        fileDatabase!!.getFileInfoDao().insert(fileTable)
                     } else {
-                        fileDatabase.getFileInfoDao().update(fileTable)
+                        fileDatabase!!.getFileInfoDao().update(fileTable)
                     }
                     return true
                 }
@@ -248,7 +253,7 @@ class AllUnitsFragment(
     /**
      * 高级搜索
      */
-    fun advancedSearch(file: File = modClass.modFile, configuration: SearchConfiguration) {
+    fun advancedSearch(file: File = modClass!!.modFile, configuration: SearchConfiguration) {
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
@@ -257,7 +262,7 @@ class AllUnitsFragment(
                 viewBinding.unitError.isVisible = false
             }
             dataList.clear()
-            val data = modClass.modConfigurationManager?.readData()
+            val data = modClass!!.modConfigurationManager?.readData()
             val sourceFileFilteringRule = data?.sourceFileFilteringRule ?: ".+\\.ini|.+\\.template"
             val language = AppSettings
                 .getValue(AppSettings.Setting.AppLanguage, Locale.getDefault().language)

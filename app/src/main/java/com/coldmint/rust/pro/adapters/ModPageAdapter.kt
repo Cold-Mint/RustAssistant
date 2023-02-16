@@ -22,7 +22,10 @@ class ModPageAdapter(
         FileDataBase.getInstance(fragmentActivity, modClass.modName, openNewDataBase = true)
     }
     val allUnitsFragment: AllUnitsFragment by lazy {
-        AllUnitsFragment(fragmentActivity, modClass, fileDataBase)
+        val fragment = AllUnitsFragment()
+        fragment.modClass = modClass
+        fragment.fileDatabase = fileDataBase
+        fragment
     }
 
     val historyUnitFragment: HistoryUnitFragment by lazy {

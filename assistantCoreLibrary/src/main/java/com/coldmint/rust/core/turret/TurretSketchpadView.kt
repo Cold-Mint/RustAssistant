@@ -121,14 +121,22 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
      * @return CoordinateData
      */
     fun toGameCoordinate(androidCoordinateData: CoordinateData): CoordinateData {
-        val x = (androidCoordinateData.x - centreX) / cellSize
-        val y = (androidCoordinateData.y - centreY) / cellSize
-        val game = CoordinateData(x, y)
-        LogCat.d(
-            debug,
-            "转换游戏坐标，安卓坐标${androidCoordinateData} 游戏坐标${game}"
-        )
-        return game
+        if (cellSize > 0) {
+            val x = (androidCoordinateData.x - centreX) / cellSize
+            val y = (androidCoordinateData.y - centreY) / cellSize
+            val game = CoordinateData(x, y)
+            LogCat.d(
+                debug,
+                "转换游戏坐标，安卓坐标${androidCoordinateData} 游戏坐标${game}"
+            )
+            return game
+        } else {
+            LogCat.d(
+                debug,
+                "转换游戏坐标，安卓坐标${androidCoordinateData} 单位尺寸为0 游戏坐标返回原点"
+            )
+            return CoordinateData()
+        }
     }
 
     /**

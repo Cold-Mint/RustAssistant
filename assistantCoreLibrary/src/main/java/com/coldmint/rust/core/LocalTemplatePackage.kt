@@ -44,7 +44,12 @@ class LocalTemplatePackage(val directest: File) : TemplatePackage {
      */
     fun getInfo(): TemplateInfo? {
         val data = FileOperator.readFile(infoFile) ?: return null
-        return gson.fromJson(data, TemplateInfo::class.java)
+        try {
+            return gson.fromJson(data, TemplateInfo::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     /**

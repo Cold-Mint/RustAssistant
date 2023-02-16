@@ -275,7 +275,7 @@ object FileOperator {
             outputStream.write(text.toByteArray())
             outputStream.close()
             true
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             false
         }
