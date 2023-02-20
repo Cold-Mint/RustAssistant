@@ -73,30 +73,32 @@ class InsertCoinsFragment(val modId: String) : BaseFragment<FragmentInsertCoinsB
         }
         WebMod.instance.getInsertCoinHistory(modId, object : ApiCallBack<InsertCoinHistoryData> {
             override fun onResponse(t: InsertCoinHistoryData) {
-                val dataList = t.data
-                if (dataList.isNullOrEmpty()) {
-                    viewBinding.recyclerView.isVisible = false
-                    if (useLinearProgressIndicator) {
-                        viewBinding.linearProgressIndicator.isVisible = false
-                    }
-                    viewBinding.loadLayout.isVisible = true
-                    viewBinding.coinRecordsView.text = getString(R.string.coin_records)
-                } else {
-                    val adapter = InsertCoinsAdapter(requireContext(), dataList)
-                    adapter.setItemEvent { i, itemInsertCoinsBinding, viewHolder, data ->
-                        itemInsertCoinsBinding.imageView.setOnClickListener {
-                            gotoUserPage(data.account)
+                if (isAdded) {
+                    val dataList = t.data
+                    if (dataList.isNullOrEmpty()) {
+                        viewBinding.recyclerView.isVisible = false
+                        if (useLinearProgressIndicator) {
+                            viewBinding.linearProgressIndicator.isVisible = false
                         }
+                        viewBinding.loadLayout.isVisible = true
+                        viewBinding.coinRecordsView.text = getString(R.string.coin_records)
+                    } else {
+                        val adapter = InsertCoinsAdapter(requireContext(), dataList)
+                        adapter.setItemEvent { i, itemInsertCoinsBinding, viewHolder, data ->
+                            itemInsertCoinsBinding.imageView.setOnClickListener {
+                                gotoUserPage(data.account)
+                            }
+                        }
+                        viewBinding.recyclerView.adapter =
+                            adapter
+                        val data = getString(R.string.coin_records) + "(" + dataList.size + ")"
+                        viewBinding.coinRecordsView.text = data
+                        viewBinding.recyclerView.isVisible = true
+                        if (useLinearProgressIndicator) {
+                            viewBinding.linearProgressIndicator.isVisible = false
+                        }
+                        viewBinding.loadLayout.isVisible = false
                     }
-                    viewBinding.recyclerView.adapter =
-                        adapter
-                    val data = getString(R.string.coin_records) + "(" + dataList.size + ")"
-                    viewBinding.coinRecordsView.text = data
-                    viewBinding.recyclerView.isVisible = true
-                    if (useLinearProgressIndicator) {
-                        viewBinding.linearProgressIndicator.isVisible = false
-                    }
-                    viewBinding.loadLayout.isVisible = false
                 }
             }
 
