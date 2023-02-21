@@ -12,6 +12,7 @@ import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.pro.adapters.TemplateListAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentLocalTemplateBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -51,7 +52,7 @@ class LocalTemplateFragment : BaseFragment<FragmentLocalTemplateBinding>() {
             }
             if (mutableList.isNotEmpty()) {
                 val listAdapter = TemplateListAdapter(requireContext(), mutableList, language, path)
-                val layoutManager = LinearLayoutManager(activity)
+                val layoutManager = StableLinearLayoutManager(requireContext())
                 viewBinding.templateList.layoutManager = layoutManager
                 viewBinding.templateList.adapter = listAdapter
                 viewBinding.swipeRefreshLayout.isVisible = true

@@ -15,6 +15,7 @@ import com.coldmint.rust.pro.adapters.ReportAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityReportListBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * @author Cold Mint
@@ -30,7 +31,7 @@ class ReportListActivity : BaseActivity<ActivityReportListBinding>() {
                 showInfoToView(R.string.please_login_first)
                 return
             }
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             loadList(account)
         }
     }

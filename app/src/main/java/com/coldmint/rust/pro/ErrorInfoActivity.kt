@@ -14,6 +14,7 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.ErrorInfo
 import com.coldmint.rust.pro.databinding.ActivityErrorInfoBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.gson.Gson
 import java.io.File
 import java.util.concurrent.Executors
@@ -30,7 +31,7 @@ class ErrorInfoActivity : BaseActivity<ActivityErrorInfoBinding>() {
         if (canUseView) {
             setTitle(R.string.see_error_info)
             setReturnButton()
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             val path = AppSettings.dataRootDirectory + "/carsh/"
             loadList(path)
         }

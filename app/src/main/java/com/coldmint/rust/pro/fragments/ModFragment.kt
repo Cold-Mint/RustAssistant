@@ -21,6 +21,7 @@ import com.coldmint.rust.pro.databinding.FragmentModBinding
 import com.coldmint.rust.pro.databinding.ModListItemBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.coldmint.rust.pro.viewmodel.ModViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -338,7 +339,7 @@ class ModFragment : BaseFragment<FragmentModBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.modList.layoutManager = LinearLayoutManager(context)
+        viewBinding.modList.layoutManager = StableLinearLayoutManager(requireContext())
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL

@@ -15,6 +15,7 @@ import com.coldmint.rust.pro.adapters.HotSearchAdapter
 import com.coldmint.rust.pro.adapters.SearchSuggestionsAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivitySearchBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * 搜索界面
@@ -23,8 +24,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         title = getString(R.string.search)
         setReturnButton()
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        viewBinding.hotSearchView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
+        viewBinding.hotSearchView.layoutManager = StableLinearLayoutManager(this)
         loadSearchView()
         loadHotSearch()
     }

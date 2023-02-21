@@ -19,6 +19,7 @@ import com.coldmint.rust.core.ModClass
 import com.coldmint.rust.pro.adapters.AttachFileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityGlobalOperationsBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.coldmint.rust.pro.viewmodel.GlobalOperationsViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -56,7 +57,7 @@ class GlobalOperationsActivity : BaseActivity<ActivityGlobalOperationsBinding>()
             viewModel.setModPath(modPath)
             loadTextWatcher()
             loadOnClickListener()
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             viewModel.fileListLiveData.observe(this) {
                 viewBinding.operationCard.isVisible = true
                 viewBinding.resultCard.isVisible = true

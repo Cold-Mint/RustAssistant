@@ -15,6 +15,7 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.GuideData
 import com.coldmint.rust.pro.databinding.ActivityCreationWizardBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
 
@@ -40,7 +41,7 @@ class CreationWizardActivity : BaseActivity<ActivityCreationWizardBinding>() {
             return
         }
         type = temType
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
         when (temType) {
             "mod" -> {
                 loadMod()

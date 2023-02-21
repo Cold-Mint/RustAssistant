@@ -17,6 +17,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.HistoryAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentHistoryBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -37,7 +38,7 @@ class HistoryUnitFragment(
     var whenNumberChanged: ((Int) -> Unit)? = null
     val executorService: ExecutorService = Executors.newSingleThreadExecutor()
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.unitList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.unitList.layoutManager = StableLinearLayoutManager(requireContext())
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL

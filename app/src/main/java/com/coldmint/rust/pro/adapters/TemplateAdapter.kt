@@ -89,15 +89,19 @@ class TemplateAdapter(
         view: View?,
         parent: ViewGroup
     ): View {
-
         val templateGroupBinding = TemplateGroupBinding.inflate(layoutInflater, parent, false)
-        val templateClass = mGroup[groupPosition]
-        templateGroupBinding.templateName.text = templateClass.getName()
-        templateGroupBinding.templateNum.text = String.format(
-            templateNum,
-            mItemList[groupPosition].size
-        )
-        return templateGroupBinding.root
+        try {
+            val templateClass = mGroup[groupPosition]
+            templateGroupBinding.templateName.text = templateClass.getName()
+            templateGroupBinding.templateNum.text = String.format(
+                templateNum,
+                mItemList[groupPosition].size
+            )
+            return templateGroupBinding.root
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return templateGroupBinding.root
+        }
     }
 
     //获取子项的view

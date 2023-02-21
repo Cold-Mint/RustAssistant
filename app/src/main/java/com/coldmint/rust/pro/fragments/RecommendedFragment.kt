@@ -24,6 +24,7 @@ import com.coldmint.rust.pro.databinding.FragmentRecommendedBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.color.DynamicColors
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
@@ -232,10 +233,10 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.latestReleaseView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.latestReleaseView.layoutManager = StableLinearLayoutManager(requireContext())
         viewBinding.soleRecommendedRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
-        viewBinding.randomRecommendedView.layoutManager = LinearLayoutManager(requireContext())
+            StableLinearLayoutManager(requireContext())
+        viewBinding.randomRecommendedView.layoutManager = StableLinearLayoutManager(requireContext())
         loadRandomRecommended()
         viewBinding.changeRandomRecommended.setOnClickListener {
             loadRandomRecommended()

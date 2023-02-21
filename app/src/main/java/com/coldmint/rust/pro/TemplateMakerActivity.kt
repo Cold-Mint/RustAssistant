@@ -31,6 +31,7 @@ import com.coldmint.rust.pro.databinding.AttachFilesBinding
 import com.coldmint.rust.pro.fragments.EditTurretInfoFragment
 import com.coldmint.rust.pro.fragments.SaveTemplateFragment
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.coldmint.rust.pro.viewmodel.TemplateMakerViewModel
 import com.google.gson.Gson
 import org.json.JSONArray
@@ -64,7 +65,7 @@ class TemplateMakerActivity : BaseActivity<ActivityTemplateMakerBinding>() {
             }
             viewModel.isLocal(local)
             viewModel.setPath(path)
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             viewModel.getCodeData { jsonArray, list ->
                 templateMakerAdapter = TemplateMakerAdapter(this, list)
                 if (jsonArray != null) {

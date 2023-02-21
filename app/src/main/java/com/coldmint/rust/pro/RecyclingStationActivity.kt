@@ -14,6 +14,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.databinding.ActivityRecyclingStationBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import java.io.File
 import java.util.ArrayList
 
@@ -27,7 +28,7 @@ class RecyclingStationActivity : BaseActivity<ActivityRecyclingStationBinding>()
             setReturnButton()
             title = getString(R.string.enable_the_recovery_station)
             viewBinding.backupList.layoutManager =
-                LinearLayoutManager(this@RecyclingStationActivity)
+                StableLinearLayoutManager(this@RecyclingStationActivity)
             val workFolderPath = AppSettings.getValue(
                 AppSettings.Setting.RecoveryStationFolder,
                 this@RecyclingStationActivity.filesDir.absolutePath + "/backup/"

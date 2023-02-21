@@ -12,13 +12,14 @@ import com.coldmint.rust.pro.adapters.MyWebTemplateAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentNetworkTemplateBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * 网络模板管理器
  */
 class NetworkTemplateFragment : BaseFragment<FragmentNetworkTemplateBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(requireContext())
         loadList()
         viewBinding.swipeRefreshLayout.setOnRefreshListener {
             loadList()

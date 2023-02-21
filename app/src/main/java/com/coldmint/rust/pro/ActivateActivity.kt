@@ -31,6 +31,7 @@ import com.coldmint.rust.pro.databean.FunctionInfo
 import com.coldmint.rust.pro.databinding.ActivityActivateBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
@@ -49,11 +50,11 @@ class ActivateActivity : BaseActivity<ActivityActivateBinding>() {
                 if (t.code == ServerConfiguration.Success_Code) {
                     val data = t.data
                     if (data != null && data.isNotEmpty()) {
-                        val layoutManager = LinearLayoutManager(this@ActivateActivity)
+                        val layoutManager = StableLinearLayoutManager(this@ActivateActivity)
                         layoutManager.orientation = RecyclerView.HORIZONTAL
                         viewBinding.recyclerview.layoutManager = layoutManager
                         viewBinding.couponRecyclerview.layoutManager =
-                            LinearLayoutManager(this@ActivateActivity)
+                            StableLinearLayoutManager(this@ActivateActivity)
                         val adapter = PlanAdapter(this@ActivateActivity, data)
                         planAdapter = adapter
                         adapter.setItemEvent { i, itemPlanBinding, viewHolder, data ->

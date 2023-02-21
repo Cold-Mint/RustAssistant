@@ -8,6 +8,7 @@ import com.coldmint.rust.pro.adapters.ThanksAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.ThanksDataBean
 import com.coldmint.rust.pro.databinding.ActivityThanksBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 /**
@@ -32,7 +33,7 @@ class ThanksActivity : BaseActivity<ActivityThanksBinding>() {
             viewBinding.recyclerView.addItemDecoration(
                 divider
             )
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             val list = ArrayList<ThanksDataBean>()
             list.add(ThanksDataBean("空调大郎", "帮助翻译俄语版本。", 1491779490))
             list.add(ThanksDataBean("JDSA Ling", "制作助手新手模板，已被整合至助手内置模版。跟随助手更新。", 2735951230))

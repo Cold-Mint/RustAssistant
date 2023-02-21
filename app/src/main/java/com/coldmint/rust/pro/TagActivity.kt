@@ -13,6 +13,7 @@ import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityTagBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * @author Cold Mint
@@ -128,7 +129,7 @@ class TagActivity : BaseActivity<ActivityTagBinding>() {
             }
             titleStr = bundle.getString("title")
             val action = bundle.getString("action")
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
 
             if (action == null) {
                 showError("错误，action为空")

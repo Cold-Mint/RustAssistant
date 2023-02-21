@@ -23,6 +23,7 @@ import com.coldmint.rust.pro.FileManagerActivity
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.TemplateBottomDialogBinding
 import com.coldmint.rust.pro.databinding.TemplateListItemBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
@@ -272,7 +273,7 @@ class TemplateListAdapter(
                     TemplateBottomDialogBinding.inflate(LayoutInflater.from(context))
                 bottomSheetDialog.setContentView(templateBottomDialogBinding.root)
                 templateBottomDialogBinding.templateActionList.layoutManager =
-                    LinearLayoutManager(context)
+                    StableLinearLayoutManager(context)
                 templateBottomDialogBinding.titleView.text = data.getName()
                 val list = ArrayList<String>()
                 list.add(editInfo)

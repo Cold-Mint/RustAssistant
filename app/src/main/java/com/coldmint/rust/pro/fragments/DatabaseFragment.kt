@@ -26,6 +26,7 @@ import com.coldmint.rust.pro.adapters.DataSetAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentDatabaseBinding
 import com.coldmint.rust.pro.databinding.DialogDatasetBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.gson.Gson
 import java.io.File
 import java.util.concurrent.Executors
@@ -34,7 +35,7 @@ import kotlin.collections.ArrayList
 class DatabaseFragment : BaseFragment<FragmentDatabaseBinding>() {
 
     fun loadList() {
-        viewBinding.databaseList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.databaseList.layoutManager = StableLinearLayoutManager(requireContext())
         val database_directory = AppSettings.getValue(
             AppSettings.Setting.DatabaseDirectory,
             requireContext().filesDir.absolutePath + "/databases/"

@@ -10,6 +10,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.UserGroupAdapter
 import com.coldmint.rust.pro.databean.UserGroupData
 import com.coldmint.rust.pro.databinding.FragmentUserGroupBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
@@ -30,7 +31,7 @@ class UserGroupFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(requireContext())
         val dataList = ArrayList<UserGroupData>()
         dataList.add(UserGroupData(R.drawable.ic_qq, R.string.qq_group))
         dataList.add(UserGroupData(R.drawable.ic_discord, R.string.discord_group))

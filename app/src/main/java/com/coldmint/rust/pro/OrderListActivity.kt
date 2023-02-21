@@ -21,6 +21,7 @@ import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.ActivityOrderListBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -46,7 +47,7 @@ class OrderListActivity : BaseActivity<ActivityOrderListBinding>() {
             }
             val thisIntent = intent
             loadAll = thisIntent.getBooleanExtra("loadAll", false)
-            viewBinding.recyclerview.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerview.layoutManager = StableLinearLayoutManager(this)
             loadList(loadAll)
         }
     }

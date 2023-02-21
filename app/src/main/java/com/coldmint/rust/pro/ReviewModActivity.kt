@@ -16,6 +16,7 @@ import com.coldmint.rust.pro.adapters.AuditModAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityReviewModBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -35,7 +36,7 @@ class ReviewModActivity : BaseActivity<ActivityReviewModBinding>() {
                 showInfoToView(resId = R.string.please_login_first)
                 return
             }
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             loadList()
         }
     }

@@ -15,6 +15,7 @@ import com.coldmint.rust.pro.adapters.TemplateItemAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityNetworkTemplatePackageDetailsBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class NetworkTemplatePackageDetailsActivity :
@@ -31,7 +32,7 @@ class NetworkTemplatePackageDetailsActivity :
 //        createDirectory = intent.getStringExtra("createDirectory")
         title = getString(R.string.title)
         setReturnButton()
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
         val divider = MaterialDividerItemDecoration(
             this,
             MaterialDividerItemDecoration.VERTICAL

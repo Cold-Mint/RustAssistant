@@ -20,6 +20,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.ValueAdapter
 import com.coldmint.rust.pro.databinding.ActivityValueTypeBinding
 import com.coldmint.rust.pro.databinding.EditValueBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONArray
 import org.json.JSONObject
@@ -291,7 +292,7 @@ class ValueTypeActivity : BaseActivity<ActivityValueTypeBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             title = getText(R.string.value_type_manager)
-            viewBinding.valueList.layoutManager = LinearLayoutManager(this@ValueTypeActivity)
+            viewBinding.valueList.layoutManager = StableLinearLayoutManager(this@ValueTypeActivity)
             setReturnButton()
             loadList()
             viewBinding.fab.setOnClickListener { showEditDialog(null) }

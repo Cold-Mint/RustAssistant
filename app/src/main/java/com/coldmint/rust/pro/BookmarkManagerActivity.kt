@@ -21,6 +21,7 @@ import com.coldmint.rust.pro.databean.Bookmark
 import com.coldmint.rust.pro.databinding.ActivityBookmarkManagerBinding
 import com.coldmint.rust.pro.databinding.EditBookmarkBinding
 import com.coldmint.rust.pro.dialog.BookmarkDialog
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import java.io.File
@@ -240,7 +241,7 @@ class BookmarkManagerActivity : BaseActivity<ActivityBookmarkManagerBinding>() {
             bookmarkManager = BookmarkManager(this@BookmarkManagerActivity)
             bookmarkManager.load()
             viewBinding.bookmarkList.layoutManager =
-                LinearLayoutManager(this@BookmarkManagerActivity)
+                StableLinearLayoutManager(this@BookmarkManagerActivity)
             val bookmarks = bookmarkManager.list()
             updateView(bookmarks)
             viewBinding.fab.setOnClickListener {

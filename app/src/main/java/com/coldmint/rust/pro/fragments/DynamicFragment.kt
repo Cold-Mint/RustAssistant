@@ -13,6 +13,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.DynamicAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentDynamicBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * @author Cold Mint
@@ -57,7 +58,7 @@ class DynamicFragment(val userId: String) : BaseFragment<FragmentDynamicBinding>
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(requireContext())
         loadList()
     }
 }

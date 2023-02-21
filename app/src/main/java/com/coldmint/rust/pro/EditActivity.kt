@@ -44,6 +44,7 @@ import com.coldmint.rust.pro.interfaces.BookmarkListener
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -457,7 +458,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //     * 初始化右侧视图
 //     */
 //    fun initEndView() {
-//        editEndBinding.logView.layoutManager = LinearLayoutManager(this)
+//        editEndBinding.logView.layoutManager = StableLinearLayoutManager(this)
 //    }
 
     //当用户切换到其他应用界面时
@@ -529,7 +530,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 
 
     private fun initStartView() {
-        editStartBinding.fileList.layoutManager = LinearLayoutManager(this)
+        editStartBinding.fileList.layoutManager = StableLinearLayoutManager(this)
         editStartBinding.fab.setOnClickListener {
             val popupMenu = GlobalMethod.createPopMenu(editStartBinding.fab)
             if (fileAdapter != null) {
@@ -1094,7 +1095,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 }
             }
         }
-        val linearLayoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = StableLinearLayoutManager(this)
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
         viewBinding.recyclerview.isVisible = true
         viewBinding.recyclerview.layoutManager = linearLayoutManager

@@ -23,6 +23,7 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityWorkmangementBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 
@@ -256,7 +257,7 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
         if (canUseView) {
             title = getString(R.string.work_management)
             setReturnButton()
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this)
             val divider = MaterialDividerItemDecoration(
                 this,
                 MaterialDividerItemDecoration.VERTICAL

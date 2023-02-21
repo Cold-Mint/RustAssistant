@@ -21,6 +21,7 @@ import com.coldmint.rust.pro.adapters.UserHeadAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentFollowBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * 关注者
@@ -223,10 +224,10 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.rootLayout.layoutTransition.setAnimateParentHierarchy(false)
         viewBinding.linearLayout2.layoutTransition.setAnimateParentHierarchy(false)
-        val linearLayoutManager = LinearLayoutManager(requireContext())
+        val linearLayoutManager = StableLinearLayoutManager(requireContext())
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
         viewBinding.headRecyclerView.layoutManager = linearLayoutManager
-        val linearLayoutManager2 = LinearLayoutManager(requireContext())
+        val linearLayoutManager2 = StableLinearLayoutManager(requireContext())
         viewBinding.recyclerView.layoutManager = linearLayoutManager2
         loadViewIfNeed()
     }

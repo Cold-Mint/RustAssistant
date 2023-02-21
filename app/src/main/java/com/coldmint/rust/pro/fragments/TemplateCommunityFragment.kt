@@ -19,6 +19,7 @@ import com.coldmint.rust.pro.adapters.WebTemplateAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentTemplateCommunityBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
@@ -37,7 +38,7 @@ class TemplateCommunityFragment : BaseFragment<FragmentTemplateCommunityBinding>
             divider
         )
 
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(requireContext())
         loadData()
         viewBinding.swipeRefreshLayout.setOnRefreshListener {
             loadData()
@@ -50,6 +51,9 @@ class TemplateCommunityFragment : BaseFragment<FragmentTemplateCommunityBinding>
         TemplatePhp.instance.getPublicTemplatePackageList(token, object :
             ApiCallBack<WebTemplatePackageListData> {
             override fun onResponse(t: WebTemplatePackageListData) {
+                if (!isAdded){
+                    return
+                }
                 viewBinding.swipeRefreshLayout.isVisible = true
                 viewBinding.loadView.isVisible = false
                 viewBinding.errorLayout.isVisible = false

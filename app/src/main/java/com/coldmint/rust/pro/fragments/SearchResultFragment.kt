@@ -7,6 +7,7 @@ import com.coldmint.rust.core.dataBean.user.SearchResultDataBean
 import com.coldmint.rust.pro.adapters.SearchResultAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentSearchResultBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 /**
@@ -30,7 +31,7 @@ class SearchResultFragment(
             MaterialDividerItemDecoration.VERTICAL
         )
         viewBinding.recyclerView.addItemDecoration(divider)
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(requireContext())
     }
 
     /**

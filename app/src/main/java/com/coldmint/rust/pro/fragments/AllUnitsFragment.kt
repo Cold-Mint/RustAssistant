@@ -30,6 +30,7 @@ import com.coldmint.rust.pro.adapters.UnitAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentAllUnitsBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
@@ -54,7 +55,7 @@ class AllUnitsFragment(
     val dataList: ArrayList<SourceFile> = ArrayList()
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.unitList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.unitList.layoutManager = StableLinearLayoutManager(requireContext())
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL

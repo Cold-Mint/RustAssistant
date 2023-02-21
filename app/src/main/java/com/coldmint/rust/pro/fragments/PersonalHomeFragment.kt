@@ -16,6 +16,7 @@ import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentPersonalHomeBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
  * @author Cold Mint
@@ -29,9 +30,9 @@ class PersonalHomeFragment(val userId: String) : BaseFragment<FragmentPersonalHo
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.latestWorkRecycleView.layoutManager =
-            LinearLayoutManager(requireContext())
+            StableLinearLayoutManager(requireContext())
         viewBinding.highestScoreRecycleView.layoutManager =
-            LinearLayoutManager(requireContext())
+            StableLinearLayoutManager(requireContext())
         viewBinding.highestScoreActionView.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(

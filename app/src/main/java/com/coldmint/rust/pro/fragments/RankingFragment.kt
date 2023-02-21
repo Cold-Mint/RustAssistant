@@ -19,6 +19,7 @@ import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentRankingBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.chip.Chip
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
@@ -30,7 +31,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     var lastOffset = 0
     var lastPosition = 0
     val linearLayoutManager by lazy {
-        LinearLayoutManager(requireContext())
+        StableLinearLayoutManager(requireContext())
     }
     private var sortMode: WebMod.SortMode = WebMod.SortMode.Download_Number
 

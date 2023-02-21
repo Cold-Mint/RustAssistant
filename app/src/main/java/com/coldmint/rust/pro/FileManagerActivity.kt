@@ -33,6 +33,7 @@ import com.coldmint.rust.pro.databean.FileTab
 import com.coldmint.rust.pro.databinding.ActivityFileBinding
 import com.coldmint.rust.pro.interfaces.BookmarkListener
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -190,10 +191,8 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
         } else super.onKeyDown(keyCode, event)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun initAction() {
         viewBinding.fab.setOnClickListener {
-            val intent = Intent()
             val startType = viewModel.startTypeData
             when (startType) {
 //                "exportFile" -> {
@@ -507,8 +506,8 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             setReturnButton()
-            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this@FileManagerActivity)
-            val linearLayoutManager = LinearLayoutManager(this)
+            viewBinding.recyclerView.layoutManager = StableLinearLayoutManager(this@FileManagerActivity)
+            val linearLayoutManager = StableLinearLayoutManager(this)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
             viewBinding.fileTabNav.layoutManager = linearLayoutManager
             loadTitle()

@@ -20,6 +20,7 @@ import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.TemplateSelectAdapter
 import com.coldmint.rust.pro.databinding.FragmentSaveTemplateBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.json.JSONObject
 import java.io.File
@@ -47,7 +48,7 @@ class SaveTemplateFragment(val name: String, val json: JSONObject) : BottomSheet
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentSaveTemplateBinding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
+            StableLinearLayoutManager(requireContext())
         loadWebTemplate {
             loadLocalTemplate(requireContext())
             loadList()

@@ -22,6 +22,7 @@ import com.coldmint.rust.pro.adapters.MapAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentMapBinding
 import com.coldmint.rust.pro.tool.AppSettings
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.File
 import kotlin.concurrent.thread
@@ -136,7 +137,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.mapList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.mapList.layoutManager = StableLinearLayoutManager(requireContext())
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.VERTICAL

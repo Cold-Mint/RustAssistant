@@ -38,6 +38,7 @@ import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.LoadFileLayoutBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -78,7 +79,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         if (canUseView) {
             title = getText(R.string.release)
             setReturnButton()
-            val layoutManager = LinearLayoutManager(this)
+            val layoutManager = StableLinearLayoutManager(this)
             layoutManager.orientation = RecyclerView.HORIZONTAL
             viewBinding.screenshotRecyclerView.layoutManager = layoutManager
             screenshotAdapter = ScreenshotAdapter(this, list)

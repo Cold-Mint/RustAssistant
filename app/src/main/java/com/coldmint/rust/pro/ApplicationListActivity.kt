@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import com.coldmint.rust.pro.adapters.ApplicationListAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityApplicationListBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import java.util.ArrayList
 
 class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {
@@ -130,7 +131,7 @@ class ApplicationListActivity : BaseActivity<ActivityApplicationListBinding>() {
 //                LinearLayoutManager.VERTICAL
 //            )
 //        )
-        viewBinding.appListView.layoutManager = LinearLayoutManager(this@ApplicationListActivity)
+        viewBinding.appListView.layoutManager = StableLinearLayoutManager(this@ApplicationListActivity)
 
     }
 

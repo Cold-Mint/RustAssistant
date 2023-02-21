@@ -273,7 +273,7 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (mainImagePath != null && canvas != null) {
-            val bitmap = BitmapFactory.decodeFile(mainImagePath)
+            val bitmap = BitmapFactory.decodeFile(mainImagePath) ?: return
             //计算坐标
             calculateCoordinate(bitmap)
             //设置图像

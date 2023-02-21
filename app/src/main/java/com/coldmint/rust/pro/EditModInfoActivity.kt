@@ -27,6 +27,7 @@ import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.adapters.MapAndMusicAdapter
 import com.coldmint.rust.pro.databinding.ActivityEditModInfoBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import java.io.File
 import java.lang.StringBuilder
 import java.util.ArrayList
@@ -475,7 +476,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                 }
             }
             val mapAndMusicAdapter = MapAndMusicAdapter(this, files, true)
-            val layoutManager = LinearLayoutManager(this@EditModInfoActivity)
+            val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
             mapAndMusicAdapter.setItemChangeEvent { changeType, i, file, i2 ->
                 viewBinding.musicPathView.text =
                     String.format(getString(R.string.filenum), i2)
@@ -558,7 +559,7 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
                 }
             }
             val mapAndMapAdapter = MapAndMusicAdapter(this, files, false)
-            val layoutManager = LinearLayoutManager(this@EditModInfoActivity)
+            val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
             mapAndMapAdapter.setItemChangeEvent { changeType, i, file, i2 ->
                 viewBinding.mapPathView.text =
                     String.format(getString(R.string.filenum), i2)

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.pro.adapters.LibAdapter
 import com.coldmint.rust.pro.databean.LibInfo
 import com.coldmint.rust.pro.databinding.ActivityLibraryBinding
+import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.util.ArrayList
 
@@ -190,7 +191,7 @@ class LibraryActivity : BaseActivity<ActivityLibraryBinding>() {
             viewBinding.libsView.addItemDecoration(
                 divider
             )
-            viewBinding.libsView.layoutManager = LinearLayoutManager(this@LibraryActivity)
+            viewBinding.libsView.layoutManager = StableLinearLayoutManager(this@LibraryActivity)
             val libAdapter = LibAdapter(this@LibraryActivity, getLibInfoList())
             viewBinding.libsView.adapter = libAdapter
         }
