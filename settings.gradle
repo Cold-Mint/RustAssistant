@@ -1,4 +1,4 @@
 include ':app'
-rootProject.name = "铁锈助手"
+rootProject.name = "RustedAssistant"
 include ':assistantCoreLibrary'
 include ':dialog'

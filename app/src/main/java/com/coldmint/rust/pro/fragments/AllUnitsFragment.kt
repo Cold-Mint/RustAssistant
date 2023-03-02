@@ -12,6 +12,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -157,8 +158,7 @@ class AllUnitsFragment(
                 Regex(data?.sourceFileFilteringRule ?: ".+\\.ini|.+\\.template")
             fileFinder2.setFinderListener(object : FileFinderListener {
                 override fun whenFindFile(file: File): Boolean {
-                    if (fileDatabase == null || modClass == null)
-                    {
+                    if (fileDatabase == null || modClass == null) {
                         return false
                     }
                     //此处在这里判断的目的是将所有文件录入数据库
@@ -168,7 +168,8 @@ class AllUnitsFragment(
                         dataList.add(sourceFileClass)
                     }
                     val fileTable = FileDataBase.createFileInfoFromFile(file)
-                    if (fileDatabase!!.getFileInfoDao().findFileInfoByPath(file.absolutePath) == null
+                    if (fileDatabase!!.getFileInfoDao()
+                            .findFileInfoByPath(file.absolutePath) == null
                     ) {
                         fileDatabase!!.getFileInfoDao().insert(fileTable)
                     } else {
@@ -190,24 +191,22 @@ class AllUnitsFragment(
                     viewBinding.swipeRefreshLayout.isVisible = true
                     viewBinding.progressBar.isVisible = false
                     viewBinding.unitError.isVisible = false
-                    if (isAdded) {
-                        val adapter = UnitAdapter(requireContext(), dataList, "")
-                        adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
-                            unitItemBinding.root.setOnClickListener {
-                                openEditActivity(sourceFileClass)
-                            }
+                    val adapter = UnitAdapter(requireContext(), dataList, "")
+                    adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
+                        unitItemBinding.root.setOnClickListener {
+                            openEditActivity(sourceFileClass)
                         }
-                        adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
-                            whenNumberChanged?.invoke(i2)
-                            if (i2 == 0) {
-                                loadFiles()
-                            }
-                        }
-                        FastScrollerBuilder(viewBinding.unitList).useMd2Style()
-                            .setPopupTextProvider(adapter).build()
-                        viewBinding.unitList.adapter = adapter
-                        whenNumberChanged?.invoke(dataList.size)
                     }
+                    adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
+                        whenNumberChanged?.invoke(i2)
+                        if (i2 == 0) {
+                            loadFiles()
+                        }
+                    }
+                    FastScrollerBuilder(viewBinding.unitList).useMd2Style()
+                        .setPopupTextProvider(adapter).build()
+                    viewBinding.unitList.adapter = adapter
+                    whenNumberChanged?.invoke(dataList.size)
                 }
             }
         }

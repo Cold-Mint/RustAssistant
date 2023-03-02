@@ -247,10 +247,10 @@ class ModFragment : BaseFragment<FragmentModBinding>() {
             configurationManager?.readData()
         val works: MutableList<String> = ArrayList()
         if (modClass.modFile.isDirectory) {
-            val developerMode = AppSettings.getValue(AppSettings.Setting.DeveloperMode, false)
-            if (developerMode) {
-                works.add(getString(R.string.generate_error_report))
-            }
+//            val developerMode = AppSettings.getValue(AppSettings.Setting.DeveloperMode, false)
+//            if (developerMode) {
+//                works.add(getString(R.string.generate_error_report))
+//            }
             if (GlobalMethod.isActive) {
                 works.add(getString(R.string.mod_action1))
                 if (modClass.hasInfo()) {

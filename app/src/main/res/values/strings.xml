@@ -703,7 +703,7 @@
     <string name="renewal">续费</string>
     <string name="renewal_tip_title">续费提醒</string>
     <string name="renewal_tip_msg">您的账号(%1$s)将于%2$d天后到期。</string>
-    <string name="forever_time">永久激活</string>
+    <string name="forever_time">赞助者</string>
     <string name="can_t_activate">您已永久激活。</string>
     <string name="report">举报</string>
     <string name="report_t">举报-%1$s</string>
