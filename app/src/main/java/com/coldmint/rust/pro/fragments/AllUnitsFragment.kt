@@ -87,7 +87,7 @@ class AllUnitsFragment(
             addFileToHistory(file, handler = handler, whenAddComplete = {
                 val intent = Intent(requireContext(), EditActivity::class.java)
                 intent.putExtra("data", bundle)
-                fragmentActivity?.startActivityForResult(intent, 2)
+                requireActivity().startActivity(intent)
             })
         }
     }

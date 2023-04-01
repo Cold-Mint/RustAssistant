@@ -550,7 +550,6 @@
     <string name="location_info">位于%1$s第%2$d行：</string>
     <string name="covers_the_import">您正在尝试导入低版本的模板包(%1$s)，当前版本(%2$s)，这将覆盖更新的内容。要继续嘛?</string>
     <string name="covers_the_import_mod">%1$s已存在，这将覆盖旧的内容。要继续嘛?</string>
-    <string name="help">使用文档</string>
     <string name="empty_text">无法为空文件制作模板。</string>
     <string name="value_selector_array_describe">使用\",\"分割参数，也可以使用\"[\"和\"]\"注解参数。例如:[喜欢:like]，喜欢将被显示给用户，选中后，写入like。</string>
     <string name="template_save_complete">模板添加完成，请现在退出模板制作器嘛？</string>
@@ -947,5 +946,9 @@
     <string name="compile_error">编译错误</string>
     <string name="compile_error_message">很抱歉，源文件编译失败了。错误信息为：\n%1$s</string>
     <string name="follow_introduction">登录后即可解锁关注系统</string>
-
+    <string name="help">帮助</string>
+    <string name="template_help_message">助手使用模板创建单位，模板的本质是一段json描述。助手模板解析器会解析json，构建出用户界面。您可以在\"模板社区\"订阅您感兴趣的模板。订阅后会随时保持更新。</string>
+    <string name="obtain_source_code_msg">在Github上查看铁锈助手的源代码，助手已开源，欢迎二次开发。</string>
+    <string name="obtain_source_code">获取源代码</string>
+    <string name="setting_obtain_source_code" translatable="false">ObtainSourceCode</string>
 </resources>

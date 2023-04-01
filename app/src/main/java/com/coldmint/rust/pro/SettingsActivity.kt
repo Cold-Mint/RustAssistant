@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.bumptech.glide.Glide
+import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.databinding.ActivitySettingsBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
@@ -73,6 +74,12 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_see_error_info))
             errorInfo!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 startActivity(Intent(context, ErrorInfoActivity::class.java))
+                true
+            }
+
+            val obtainSourceCode = manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_obtain_source_code))
+            obtainSourceCode!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                AppOperator.useBrowserAccessWebPage(requireContext(),"https://github.com/Cold-Mint/RustAssistant")
                 true
             }
 

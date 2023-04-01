@@ -4,8 +4,11 @@ import com.coldmint.rust.pro.base.BaseActivity
 import android.os.Bundle
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.adapters.CreateUnitPageAdapter
 import com.coldmint.rust.pro.databinding.ActivityCreateUnitBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,6 +22,23 @@ class CreateUnitActivity : BaseActivity<ActivityCreateUnitBinding>() {
             setReturnButton()
             initView()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_create_unit, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.help) {
+            val dialog =
+                CoreDialog(this).setTitle(R.string.help).setMessage(R.string.template_help_message)
+            dialog.setPositiveButton(R.string.dialog_ok) {
+
+            }
+            dialog.show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun initView() {

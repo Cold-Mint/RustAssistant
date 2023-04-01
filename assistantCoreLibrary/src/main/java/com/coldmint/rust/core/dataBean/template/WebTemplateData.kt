@@ -40,8 +40,13 @@ data class WebTemplateData(
         private lateinit var jsonObject: JSONObject
 
         override fun getJson(): JSONObject {
-            if (!this::jsonObject.isInitialized) {
-                jsonObject = JSONObject(content)
+            try {
+                if (!this::jsonObject.isInitialized) {
+                    jsonObject = JSONObject(content)
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+                jsonObject = JSONObject()
             }
             return jsonObject
         }
