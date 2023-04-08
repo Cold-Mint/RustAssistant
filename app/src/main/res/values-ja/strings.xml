@@ -439,7 +439,7 @@
     <string name="user_name">ユーザー名</string>
     <string name="report_mod">通報モジュール</string>
     <string name="report_user">ユーザーを通報する</string>
-    <string name="view_the_report_object">(%1$s)を見る</string>
+    <string name="view_the_report_object">を見る</string>
     <string name="bookmark_already_exists">サインがありますので、パスを変更してください。</string>
     <string name="feedback">意見のフィードバック</string>
     <string name="please_set_main_image">本体画像を設定してください。</string>
@@ -687,7 +687,6 @@
     <string name="girl">女</string>
     <string name="search_hint">検索内容を入力してください</string>
     <string name="report_to_deal">通報処理</string>
-    <string name="banned_mod">通報され、管理人に撤去された。</string>
     <string name="unable_to_report">このモジュールは隠れていて、通報することができません。</string>
     <string name="unable_to_report2">自分のモジュールを通報することはできません、もしモジュールを降ろすことを希望するならば\「作品管理\」に行ってください。</string>
     <string name="admin">管理人</string>

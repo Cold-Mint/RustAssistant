@@ -25,6 +25,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>() {
         map["mod_comments"] = R.string.search_type_mod_comments
         map["mod_versions"] = R.string.search_type_mod_versions
         map["purchase_plan"] = R.string.search_type_purchase_plan
+        map["template_package"] = R.string.search_type_template_package
         map
     }
 

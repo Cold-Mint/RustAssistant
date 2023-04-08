@@ -28,6 +28,9 @@ class BrowserActivity : BaseActivity<ActivityBrowserBinding>() {
         }
         setReturnButton()
         viewBinding.webView.loadUrl(link)
+        //是否启用Js
+        val enableJs = intent.getBooleanExtra("javaScriptEnabled",false);
+        viewBinding.webView.settings.javaScriptEnabled = enableJs
         viewBinding.webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 viewBinding.linearProgressIndicator.isVisible = true

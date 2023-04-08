@@ -221,12 +221,21 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mod_icon" />
 
-                        <ImageView
-                            android:id="@+id/iconView"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_margin="8dp"
-                            android:src="@drawable/image" />
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.Material3.CardView.Filled"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp">
+
+                            <ImageView
+                                android:id="@+id/iconView"
+                                android:layout_width="72dp"
+                                android:layout_height="72dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/image" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
 
                     </LinearLayout>
 
@@ -325,7 +334,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:animateLayoutChanges="true"
                     android:orientation="vertical">
 

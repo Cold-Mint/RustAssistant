@@ -5,6 +5,8 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Shader
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
@@ -13,6 +15,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
@@ -25,6 +28,7 @@ import com.coldmint.rust.pro.adapters.UserHomeStateAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityUserHomePageBinding
 import com.coldmint.rust.pro.dialog.CommentDialog
+import com.coldmint.rust.pro.tool.AnimUtil
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.appbar.AppBarLayout
@@ -45,7 +49,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
     val userHomeStateAdapter by lazy {
         UserHomeStateAdapter(this, userId)
     }
-
+    var needShowFab = false
 
     //旧的备份数据
     var oldSpaceInfoData: SpaceInfoData? = null
@@ -120,7 +124,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         if (account == null) {
             viewBinding.button.text = getString(R.string.please_login_first)
             viewBinding.button.isEnabled = false
-        }else{
+        } else {
             if (account == userId) {
                 viewBinding.button.text = getString(R.string.editData)
             } else {
@@ -131,7 +135,8 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                             if (data != null && ServerConfiguration.isEvent(data)) {
                                 when (data) {
                                     "@event:已互粉" -> {
-                                        viewBinding.button.text = getString(R.string.each_other_follow)
+                                        viewBinding.button.text =
+                                            getString(R.string.each_other_follow)
                                     }
                                     "@event:已关注" -> {
                                         viewBinding.button.text = getString(R.string.followed)
@@ -237,20 +242,53 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         if (cover != null) {
             Glide.with(this).load(ServerConfiguration.getRealLink(cover))
                 .into(viewBinding.coverView)
+            Glide.with(this).load(ServerConfiguration.getRealLink(cover))
+                .into(viewBinding.fullCoverView)
         }
 
         viewBinding.viewPager.adapter = userHomeStateAdapter
 
 
         viewBinding.coverView.setOnClickListener {
-            if (cover != null) {
-                val intent = Intent(this@UserHomePageActivity, FullScreenCoverActivity::class.java)
-                val name = getString(R.string.transition_cover)
-                val options =
-                    ActivityOptions.makeSceneTransitionAnimation(this, viewBinding.coverView, name)
-                intent.putExtra("iconLink", cover)
-                this@UserHomePageActivity.startActivity(intent, options.toBundle())
+            if (cover == null) {
+                return@setOnClickListener
             }
+            viewBinding.coverView.visibility = View.INVISIBLE
+            AnimUtil.doAnim(
+                this,
+                R.anim.overall_drop,
+                listOf(viewBinding.appBar, viewBinding.viewPager)
+            ) { views ->
+                views.forEach {
+                    it.isVisible = false
+                }
+                needShowFab = viewBinding.fab.isShown
+                if (needShowFab) {
+                    viewBinding.fab.hide()
+                }
+                viewBinding.fullCoverView.isVisible = true
+            }
+        }
+
+        viewBinding.fullCoverView.setOnClickListener {
+            if (cover == null) {
+                return@setOnClickListener
+            }
+            viewBinding.fullCoverView.isVisible = false
+            AnimUtil.doAnim(
+                this,
+                R.anim.overall_up,
+                listOf(viewBinding.appBar, viewBinding.viewPager)
+            ) { views ->
+                views.forEach {
+                    it.isVisible = true
+                }
+                if (needShowFab) {
+                    viewBinding.fab.show()
+                }
+                viewBinding.coverView.isVisible = true
+            }
+
         }
 
         fans = spaceInfoData.data.fans

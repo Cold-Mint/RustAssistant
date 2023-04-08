@@ -461,7 +461,7 @@
     <string name="user_name">用户名</string>
     <string name="report_mod">举报模组</string>
     <string name="report_user">举报用户</string>
-    <string name="view_the_report_object">查看(%1$s)</string>
+    <string name="view_the_report_object">查看</string>
     <string name="bookmark_already_exists">此书签已存在，请更换路径。</string>
     <string name="feedback">意见反馈</string>
     <string name="please_set_main_image">请设置主体图像。</string>
@@ -717,7 +717,7 @@
     <string name="girl">女</string>
     <string name="search_hint">请输入搜索内容</string>
     <string name="report_to_deal">举报处理</string>
-    <string name="banned_mod">因举报，被管理员下架。</string>
+    <string name="banned_mod">因举报，被管理员下架</string>
     <string name="unable_to_report">此模组是隐藏的，无法举报。</string>
     <string name="unable_to_report2">不能举报自己的模组，若希望下架模组请前往\"作品管理\"。</string>
     <string name="admin">管理员</string>
@@ -951,4 +951,8 @@
     <string name="obtain_source_code_msg">在Github上查看铁锈助手的源代码，助手已开源，欢迎二次开发。</string>
     <string name="obtain_source_code">获取源代码</string>
     <string name="setting_obtain_source_code" translatable="false">ObtainSourceCode</string>
+    <string name="rust_api">铁锈Api-Code</string>
+    <string name="search_type_template_package">模板包</string>
+    <string name="public_mod">公开</string>
+    <string name="private_mod">私有</string>
 </resources>

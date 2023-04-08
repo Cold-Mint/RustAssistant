@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -86,6 +87,19 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             viewBinding.screenshotRecyclerView.adapter = screenshotAdapter
             initData()
         }
+    }
+
+    /**
+     * 加载默认图像
+     */
+    fun loadDefaultImage() {
+        val drawable = getDrawable(R.drawable.image)
+        viewBinding.iconView.setImageDrawable(
+            GlobalMethod.tintDrawable(
+                drawable,
+                ColorStateList.valueOf(GlobalMethod.getColorPrimary(this))
+            )
+        )
     }
 
 
@@ -179,13 +193,16 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             viewBinding.modIdEdit.setText(
                 Pinyin.toPinyin(temModClass.modName, "_").lowercase(Locale.getDefault())
             )
+            viewBinding.versionNameEdit.setText("1.0")
             viewBinding.modNameEdit.setText(temModClass.modName)
             val description = temModClass.readValueFromInfoSection("description", "mod")
             if (description != null) {
                 viewBinding.modDescribeEdit.setText(description)
             }
             val finalLink = temModClass.readResourceFromInfo("thumbnail")?.absolutePath
-            if (finalLink != null) {
+            if (finalLink == null) {
+                loadDefaultImage()
+            } else {
                 loadIcon(finalLink)
             }
         }
@@ -224,6 +241,8 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         val icon = t.data.icon
         if (icon != null && icon.isNotBlank()) {
             loadIcon(ServerConfiguration.getRealLink(icon))
+        } else {
+            loadDefaultImage()
         }
 
         val screenshots = t.data.screenshots
@@ -390,7 +409,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 bundle.putString("tag", lineData)
                                 bundle.putString(
                                     "title",
-                                    String.format(getString(R.string.tag_title), s)
+                                    String.format(getString(R.string.tag_title), lineData)
                                 )
                                 bundle.putString("action", "tag")
                                 val thisIntent =
@@ -490,7 +509,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                     if (link != null) {
                         needIcon = false
                     }
-                    viewBinding.iconView.setImageResource(R.drawable.image)
+                    loadDefaultImage()
                 }
                 false
             }

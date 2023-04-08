@@ -361,6 +361,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             false
         }
 
+        menu.findItem(R.id.rust_api).setOnMenuItemClickListener {
+            val thisIntent = Intent(this, BrowserActivity::class.java)
+            thisIntent.putExtra("link", "https://rustedwarfareapicode.top/")
+            thisIntent.putExtra("javaScriptEnabled", true)
+            startActivity(thisIntent)
+            false
+        }
+
         menu.findItem(R.id.about).setOnMenuItemClickListener {
             startActivity(Intent(this@MainActivity, AboutActivity::class.java))
             false

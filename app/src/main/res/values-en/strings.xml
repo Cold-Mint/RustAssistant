@@ -439,7 +439,7 @@
     <string name="user_name">The user name</string>
     <string name="report_mod">Report mod</string>
     <string name="report_user">To report the user</string>
-    <string name="view_the_report_object">Check (%1$s)</string>
+    <string name="view_the_report_object">Check</string>
     <string name="bookmark_already_exists">The book label already exists. Please change the path.</string>
     <string name="feedback">feedback</string>
     <string name="please_set_main_image">Please set the main image.</string>
@@ -687,7 +687,6 @@
     <string name="girl">female</string>
     <string name="search_hint">Please enter your search content</string>
     <string name="report_to_deal">To report to deal with</string>
-    <string name="banned_mod">Because of the report, was removed by the administrator.</string>
     <string name="unable_to_report">This mod is hidden and cannot be reported.</string>
     <string name="unable_to_report2">You cannot report your own mods. If you want to remove a mod, please go to \"Work Management\".</string>
     <string name="admin">The administrator</string>

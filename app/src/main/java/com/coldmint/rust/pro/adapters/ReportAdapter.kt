@@ -27,8 +27,8 @@ import java.lang.StringBuilder
  * @date 2022/1/9 11:03
  */
 class ReportAdapter(
-     context: Context,
-     dataList: MutableList<ReportItemDataBean.Data>
+    context: Context,
+    dataList: MutableList<ReportItemDataBean.Data>
 ) :
     BaseAdapter<ItemReportBinding, ReportItemDataBean.Data>(context, dataList) {
     override fun getViewBindingObject(
@@ -54,7 +54,7 @@ class ReportAdapter(
         viewBinding.timeView.text = data.time
         viewBinding.nameView.text = data.userName
         viewBinding.openView.text =
-            String.format(context.getString(R.string.view_the_report_object), data.target)
+            context.getString(R.string.view_the_report_object)
         when (data.type) {
             "mod" -> {
                 viewBinding.typeView.setText(R.string.report_mod)

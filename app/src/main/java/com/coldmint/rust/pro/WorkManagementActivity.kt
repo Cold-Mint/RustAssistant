@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
+import com.coldmint.dialog.databinding.DialogCoreBinding
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.mod.WebModAllInfoData
 import com.coldmint.rust.core.dataBean.mod.WebModListData
@@ -70,30 +72,27 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
                                 val adapter =
                                     WebModAllInfoAdapter(this@WorkManagementActivity, data)
                                 adapter.setItemEvent { i, itemWebmodAllInfoBinding, viewHolder, data ->
+
                                     itemWebmodAllInfoBinding.more.setOnClickListener {
                                         val popupMenu = GlobalMethod.createPopMenu(it)
                                         when (data.hidden) {
                                             0 -> {
+                                                //上架状态
                                                 popupMenu.menu.add(R.string.sold_out_mod)
+                                                popupMenu.menu.add(R.string.work_of_home_page)
+                                                popupMenu.menu.add(R.string.submit_the_update)
                                             }
-                                            1 -> {
-                                                //等待审核
-                                                itemWebmodAllInfoBinding.modIntroductionView.setText(
-                                                    R.string.not_audit
-                                                )
-                                            }
+
                                             -1 -> {
+                                                //用户手动隐藏
                                                 popupMenu.menu.add(R.string.review_audit)
+                                                popupMenu.menu.add(R.string.work_of_home_page)
+
                                             }
-                                            -2 -> {
-                                                //被管理员举报下架
-                                                itemWebmodAllInfoBinding.modIntroductionView.setText(
-                                                    R.string.banned_mod
-                                                )
+                                            else -> {
+
                                             }
                                         }
-                                        popupMenu.menu.add(R.string.work_of_home_page)
-                                        popupMenu.menu.add(R.string.submit_the_update)
                                         popupMenu.menu.add(R.string.update_record)
                                         popupMenu.show()
                                         popupMenu.setOnMenuItemClickListener {
@@ -128,88 +127,88 @@ class WorkManagementActivity : BaseActivity<ActivityWorkmangementBinding>() {
                                                     startActivity(intent)
                                                 }
                                                 getString(R.string.sold_out_mod) -> {
-                                                    MaterialDialog(this@WorkManagementActivity).show {
-                                                        title(R.string.sold_out_mod).message(R.string.sold_out_mod_tip)
-                                                            .positiveButton(R.string.dialog_ok)
-                                                            .positiveButton {
-                                                                WebMod.instance.soldOutMod(
-                                                                    data.developer,
-                                                                    data.id,
-                                                                    object :
-                                                                        ApiCallBack<ApiResponse> {
-                                                                        override fun onResponse(
-                                                                            t: ApiResponse
-                                                                        ) {
-                                                                            if (t.code == ServerConfiguration.Success_Code) {
-                                                                                data.hidden = -1
-                                                                            } else {
-                                                                                Snackbar.make(
-                                                                                    viewBinding.recyclerView,
-                                                                                    t.message,
-                                                                                    Snackbar.LENGTH_SHORT
-                                                                                ).show()
-                                                                            }
+                                                    CoreDialog(this@WorkManagementActivity).setTitle(
+                                                        R.string.sold_out_mod
+                                                    ).setMessage(R.string.sold_out_mod_tip)
+                                                        .setPositiveButton(R.string.dialog_ok) {
+                                                            WebMod.instance.soldOutMod(
+                                                                data.developer,
+                                                                data.id,
+                                                                object :
+                                                                    ApiCallBack<ApiResponse> {
+                                                                    override fun onResponse(
+                                                                        t: ApiResponse
+                                                                    ) {
+                                                                        if (t.code == ServerConfiguration.Success_Code) {
+                                                                            data.hidden = -1
+                                                                            adapter.notifyItemChanged(i)
+                                                                        } else {
+                                                                            Snackbar.make(
+                                                                                viewBinding.recyclerView,
+                                                                                t.message,
+                                                                                Snackbar.LENGTH_SHORT
+                                                                            ).show()
                                                                         }
+                                                                    }
 
-                                                                        override fun onFailure(e: Exception) {
-                                                                            showInternetError(
-                                                                                view = viewBinding.recyclerView,
-                                                                                exception = e
-                                                                            )
-                                                                        }
+                                                                    override fun onFailure(e: Exception) {
+                                                                        showInternetError(
+                                                                            view = viewBinding.recyclerView,
+                                                                            exception = e
+                                                                        )
+                                                                    }
 
-                                                                    })
-                                                            }
-                                                            .negativeButton(R.string.dialog_cancel)
-                                                            .cancelable(false)
-                                                    }
+                                                                })
+                                                        }
+                                                        .setNegativeButton(R.string.dialog_cancel) {
+
+                                                        }
+                                                        .setCancelable(false).show()
                                                 }
                                                 getString(R.string.review_audit) -> {
-                                                    MaterialDialog(this@WorkManagementActivity).show {
-                                                        title(R.string.review_audit).message(
-                                                            text =
-                                                            String.format(
-                                                                getString(R.string.review_audit_mod_tip),
-                                                                data.name
-                                                            )
+                                                    CoreDialog(this@WorkManagementActivity).setTitle(
+                                                        R.string.review_audit
+                                                    ).setMessage(
+                                                        String.format(
+                                                            getString(R.string.review_audit_mod_tip),
+                                                            data.name
                                                         )
-                                                            .positiveButton(R.string.dialog_ok)
-                                                            .positiveButton {
-                                                                WebMod.instance.afreshAuditMod(
-                                                                    AppSettings
-                                                                        .getValue(
-                                                                            AppSettings.Setting.Token,
-                                                                            ""
-                                                                        ),
-                                                                    data.id,
-                                                                    object :
-                                                                        ApiCallBack<ApiResponse> {
-                                                                        override fun onResponse(
-                                                                            t: ApiResponse
-                                                                        ) {
-                                                                            if (t.code == ServerConfiguration.Success_Code) {
-                                                                                data.hidden = 1
-                                                                            } else {
-                                                                                Snackbar.make(
-                                                                                    viewBinding.recyclerView,
-                                                                                    t.message,
-                                                                                    Snackbar.LENGTH_SHORT
-                                                                                ).show()
-                                                                            }
-                                                                        }
+                                                    ).setPositiveButton(R.string.dialog_ok) {
+                                                        WebMod.instance.afreshAuditMod(
+                                                            AppSettings
+                                                                .getValue(
+                                                                    AppSettings.Setting.Token,
+                                                                    ""
+                                                                ),
+                                                            data.id,
+                                                            object :
+                                                                ApiCallBack<ApiResponse> {
+                                                                override fun onResponse(
+                                                                    t: ApiResponse
+                                                                ) {
+                                                                    if (t.code == ServerConfiguration.Success_Code) {
+                                                                        data.hidden = 1
+                                                                        adapter.notifyItemChanged(i)
+                                                                    } else {
+                                                                        Snackbar.make(
+                                                                            viewBinding.recyclerView,
+                                                                            t.message,
+                                                                            Snackbar.LENGTH_SHORT
+                                                                        ).show()
+                                                                    }
+                                                                }
 
-                                                                        override fun onFailure(e: Exception) {
-                                                                            showInternetError(
-                                                                                view = viewBinding.recyclerView,
-                                                                                exception = e
-                                                                            )
-                                                                        }
+                                                                override fun onFailure(e: Exception) {
+                                                                    showInternetError(
+                                                                        view = viewBinding.recyclerView,
+                                                                        exception = e
+                                                                    )
+                                                                }
 
-                                                                    })
-                                                            }
-                                                            .negativeButton(R.string.dialog_cancel)
-                                                            .cancelable(false)
-                                                    }
+                                                            })
+                                                    }.setNegativeButton(R.string.dialog_cancel) {
+
+                                                    }.setCancelable(false).show()
                                                 }
                                             }
                                             false

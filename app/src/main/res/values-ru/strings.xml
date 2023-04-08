@@ -438,7 +438,7 @@
     <string name="user_name">Имя пользователя.</string>
     <string name="report_mod">Группа доноров</string>
     <string name="report_user">Сообщать о потребителе</string>
-    <string name="view_the_report_object">Смотрите.</string>
+    <string name="view_the_report_object">Смотрите</string>
     <string name="bookmark_already_exists">Подписание книги уже существует.</string>
     <string name="feedback">Обратная связь мнений</string>
     <string name="please_set_main_image">Пожалуйста, установите основные изображения.</string>
@@ -686,7 +686,6 @@
     <string name="girl">женщин</string>
     <string name="search_hint">Введите, пожалуйста, содержимое поиска</string>
     <string name="report_to_deal">Отчет.</string>
-    <string name="banned_mod">Был снят с крючка администратором за жалобу.</string>
     <string name="unable_to_report">Этот модуль скрыт и не может быть донесён.</string>
     <string name="unable_to_report2">Не могу сообщить о своей группе моделей, и если вы хотите, чтобы она ушла с подиума, пожалуйста, пройдите в/управление работами /.</string>
     <string name="admin">Администратор.</string>

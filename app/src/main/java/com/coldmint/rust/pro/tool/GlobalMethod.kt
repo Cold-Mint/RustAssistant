@@ -348,7 +348,6 @@ object GlobalMethod {
         }
     }
 
-    //打开指定app
     //图像着色
     fun tintDrawable(drawable: Drawable?, colors: ColorStateList?): Drawable {
         val wrappedDrawable = DrawableCompat.wrap(drawable!!)
