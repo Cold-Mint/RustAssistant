@@ -955,4 +955,5 @@
     <string name="search_type_template_package">模板包</string>
     <string name="public_mod">公开</string>
     <string name="private_mod">私有</string>
+    <string name="minVersion">最低游戏版本</string>
 </resources>

@@ -52,11 +52,17 @@ data class WebTemplateData(
         }
 
         override fun getName(language: String): String {
-            return if (getJson().has("name_$language")) {
-                return getJson().getString("name_$language")
-            } else {
-                return getJson().getString("name")
+            try {
+                return if (getJson().has("name_$language")) {
+                    return getJson().getString("name_$language")
+                } else {
+                    return getJson().getString("name")
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+                return "Unknown"
             }
+
         }
 
         override fun getIcon(): Any? {

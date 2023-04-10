@@ -26,9 +26,10 @@ class TemplateParserViewModel : BaseViewModel() {
     //json数据
     private var jsonData: JSONObject? = null
     private var template: Template? = null
-    private lateinit var arrayList :ArrayList<TemplateParser>
+    private lateinit var arrayList: ArrayList<TemplateParser>
+
     //文件输出目录
-    private var outPutPath : String? = null
+    private var outPutPath: String? = null
 
 
     //创建目录
@@ -58,7 +59,12 @@ class TemplateParserViewModel : BaseViewModel() {
      * @return String
      */
     fun getCode(): String {
-        return jsonData?.getString("data") ?: ""
+        try {
+            return jsonData?.getString("data") ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ""
+        }
     }
 
 
@@ -97,7 +103,7 @@ class TemplateParserViewModel : BaseViewModel() {
             createDirectory
         }
         LogCat.d("构建文件", "是否需要独立创建文件夹${independentFolder} 文件夹目录${createPath}")
-        if (independentFolder){
+        if (independentFolder) {
             val folder = File(createPath)
             if (folder.exists()) {
                 LogCat.e("构建文件", "创建目录${createPath}已存在。")
@@ -124,7 +130,7 @@ class TemplateParserViewModel : BaseViewModel() {
      * 获取文件输出目录（当构建文件完毕后，返回有效值。否则返回null）
      * @return String?
      */
-    fun getOutputPath():String?{
+    fun getOutputPath(): String? {
         return outPutPath
     }
 
@@ -175,57 +181,63 @@ class TemplateParserViewModel : BaseViewModel() {
      * @return ArrayList<TemplateParser>
      */
     fun getTemplateParserList(context: Context): ArrayList<TemplateParser> {
-        if (this::arrayList.isInitialized)
-        {
-            LogCat.d("获取模板解析器","已经被调用了一次，返回成员变量")
+        if (this::arrayList.isInitialized) {
+            LogCat.d("获取模板解析器", "已经被调用了一次，返回成员变量")
             return arrayList
         }
         arrayList = ArrayList()
         val gson = Gson()
-        val jsonArray = jsonData?.getJSONArray("action")
-        if (jsonArray == null) {
-            LogCat.e("获取模板解析器", "此模板没有action，无法读取。")
-            return arrayList
-        } else {
-            val len = jsonArray.length()
-            for (i in 0 until len) {
-                val templateParserData = jsonArray.getJSONObject(i)
-                when (templateParserData.getString("type")) {
-                    "input" -> {
-                        arrayList.add(
-                            InputParser(
-                                context,
-                                gson.fromJson(
-                                    templateParserData.toString(4),
-                                    InputParserDataBean::class.java
+        try {
+            val jsonArray = jsonData?.getJSONArray("action")
+            if (jsonArray == null) {
+                LogCat.e("获取模板解析器", "此模板没有action，无法读取。")
+                return arrayList
+            } else {
+                val len = jsonArray.length()
+                for (i in 0 until len) {
+                    val templateParserData = jsonArray.getJSONObject(i)
+                    when (templateParserData.getString("type")) {
+                        "input" -> {
+                            arrayList.add(
+                                InputParser(
+                                    context,
+                                    gson.fromJson(
+                                        templateParserData.toString(4),
+                                        InputParserDataBean::class.java
+                                    )
                                 )
                             )
-                        )
-                    }
-                    "comment" -> {
-                        arrayList.add(
-                            IntroducingParser(
-                                context, gson.fromJson(
-                                    templateParserData.toString(4),
-                                    IntroducingDataBean::class.java
+                        }
+                        "comment" -> {
+                            arrayList.add(
+                                IntroducingParser(
+                                    context, gson.fromJson(
+                                        templateParserData.toString(4),
+                                        IntroducingDataBean::class.java
+                                    )
                                 )
                             )
-                        )
-                    }
-                    "valueSelector" -> {
-                        arrayList.add(
-                            ListParser(
-                                context, gson.fromJson(
-                                    templateParserData.toString(4),
-                                    ListParserDataBean::class.java
+                        }
+                        "valueSelector" -> {
+                            arrayList.add(
+                                ListParser(
+                                    context, gson.fromJson(
+                                        templateParserData.toString(4),
+                                        ListParserDataBean::class.java
+                                    )
                                 )
                             )
-                        )
+                        }
                     }
                 }
+                return arrayList
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            LogCat.e("获取模板解析器", "解析action出错$e。")
             return arrayList
         }
+
     }
 
 }

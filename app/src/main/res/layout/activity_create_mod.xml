@@ -70,11 +70,27 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/createbutton"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/minVersionInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:counterEnabled="true"
                 android:layout_below="@id/modDescribeInputLayout"
+                app:counterMaxLength="20"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:hint="@string/minVersion"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/createbutton"
+                android:layout_below="@id/minVersionInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/create" />
 
 
