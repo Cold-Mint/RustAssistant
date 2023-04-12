@@ -49,15 +49,27 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        super.onCreate(savedInstanceState)
-        whenCreateActivity(savedInstanceState, false)
-        setContentView(viewBinding.root)
-        val toolBar = findViewById<MaterialToolbar>(R.id.toolbar)
-        if (toolBar != null) {
-            setSupportActionBar(toolBar)
+        try {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            super.onCreate(savedInstanceState)
+            whenCreateActivity(savedInstanceState, false)
+            setContentView(viewBinding.root)
+            val toolBar = findViewById<MaterialToolbar>(R.id.toolbar)
+            if (toolBar != null) {
+                setSupportActionBar(toolBar)
+            }
+            whenCreateActivity(savedInstanceState, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val dialog = CoreDialog(this)
+            dialog.setTitle(R.string.error)
+            dialog.setMessage(e.toString())
+            dialog.setPositiveButton(R.string.dialog_close) {
+                finish()
+            }
+            dialog.show()
+
         }
-        whenCreateActivity(savedInstanceState, true)
     }
 
 
@@ -163,8 +175,8 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
                 Snackbar.LENGTH_SHORT
             )
                 .setAction(R.string.show_details) {
-                    CoreDialog(this).setTitle(R.string.details).setMessage( thisMsg)
-                        .setPositiveButton(R.string.dialog_ok){
+                    CoreDialog(this).setTitle(R.string.details).setMessage(thisMsg)
+                        .setPositiveButton(R.string.dialog_ok) {
 
                         }.show()
                 }.show()

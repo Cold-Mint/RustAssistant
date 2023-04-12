@@ -104,71 +104,71 @@ class TextStyleMaker private constructor() {
                     val num3 = start3Index
                     val type = spannable.subSequence(num1 + start.length, num2).toString()
                     val data: String = spannable.subSequence(num2 + start2.length, num3).toString()
-                    val chipDrawable = ChipDrawable.createFromResource(context, R.xml.chip)
-                    chipDrawable.text = data
-                    when (type) {
-                        "mod" -> {
-                            chipDrawable.chipIcon = context.getDrawable(R.drawable.mod)
-                        }
-                        "user" -> {
-                            chipDrawable.chipIcon = context.getDrawable(R.drawable.head_icon)
-//                            User.getIcon(data, object : ApiCallBack<IconData> {
-//                                override fun onResponse(t: IconData) {
-//                                    val data2 = t.data
-//                                    if (data2 != null) {
-//                                        chipDrawable.text = data2.userName
-//
-//                                        Glide.with(context)
-//                                            .load(ServerConfiguration.getRealLink(data2.headIcon!!))
-//                                            .apply(GlobalMethod.getRequestOptions(true))
-//                                            .into(
-//                                                object : CustomTarget<Drawable>() {
-//                                                    override fun onResourceReady(
-//                                                        resource: Drawable,
-//                                                        transition: Transition<in Drawable>?
-//                                                    ) {
-//                                                        chipDrawable.chipIcon = resource
-//                                                    }
-//
-//                                                    override fun onLoadCleared(placeholder: Drawable?) {
-//
-//                                                    }
-//
-//                                                }
-//                                            )
-//                                    }
-//                                }
-//
-//                                override fun onFailure(e: Exception) {
-//                                }
-//
-//                            })
-                        }
-                        "activate"->{
-                            chipDrawable.chipIcon =
-                                context.getDrawable(R.drawable.store)
-                            chipDrawable.text = context.getString(R.string.activate)
-                        }
-                        "link" -> {
-                            chipDrawable.chipIcon =
-                                context.getDrawable(R.drawable.ic_baseline_link_24)
-                        }
-                        else -> {
-                            chipDrawable.chipIcon = context.getDrawable(R.drawable.image)
-                        }
-                    }
-                    chipDrawable.closeIcon = null
-                    chipDrawable.setBounds(
-                        0,
-                        0,
-                        chipDrawable.intrinsicWidth,
-                        chipDrawable.intrinsicHeight
-                    )
-                    val span = ImageSpan(chipDrawable)
-                    spannable.setSpan(
-                        span, startIndex,
-                        start3Index + start3.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
+//                    val chipDrawable = ChipDrawable.createFromResource(context, R.xml.chip)
+//                    chipDrawable.text = data
+//                    when (type) {
+//                        "mod" -> {
+//                            chipDrawable.chipIcon = context.getDrawable(R.drawable.mod)
+//                        }
+//                        "user" -> {
+//                            chipDrawable.chipIcon = context.getDrawable(R.drawable.head_icon)
+////                            User.getIcon(data, object : ApiCallBack<IconData> {
+////                                override fun onResponse(t: IconData) {
+////                                    val data2 = t.data
+////                                    if (data2 != null) {
+////                                        chipDrawable.text = data2.userName
+////
+////                                        Glide.with(context)
+////                                            .load(ServerConfiguration.getRealLink(data2.headIcon!!))
+////                                            .apply(GlobalMethod.getRequestOptions(true))
+////                                            .into(
+////                                                object : CustomTarget<Drawable>() {
+////                                                    override fun onResourceReady(
+////                                                        resource: Drawable,
+////                                                        transition: Transition<in Drawable>?
+////                                                    ) {
+////                                                        chipDrawable.chipIcon = resource
+////                                                    }
+////
+////                                                    override fun onLoadCleared(placeholder: Drawable?) {
+////
+////                                                    }
+////
+////                                                }
+////                                            )
+////                                    }
+////                                }
+////
+////                                override fun onFailure(e: Exception) {
+////                                }
+////
+////                            })
+//                        }
+//                        "activate"->{
+//                            chipDrawable.chipIcon =
+//                                context.getDrawable(R.drawable.store)
+//                            chipDrawable.text = context.getString(R.string.activate)
+//                        }
+//                        "link" -> {
+//                            chipDrawable.chipIcon =
+//                                context.getDrawable(R.drawable.ic_baseline_link_24)
+//                        }
+//                        else -> {
+//                            chipDrawable.chipIcon = context.getDrawable(R.drawable.image)
+//                        }
+//                    }
+//                    chipDrawable.closeIcon = null
+//                    chipDrawable.setBounds(
+//                        0,
+//                        0,
+//                        chipDrawable.intrinsicWidth,
+//                        chipDrawable.intrinsicHeight
+//                    )
+//                    val span = ImageSpan(chipDrawable)
+//                    spannable.setSpan(
+//                        span, startIndex,
+//                        start3Index + start3.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+//                    )
                     spannable.setSpan(
                         object : ClickableSpan() {
                             override fun onClick(p0: View) {

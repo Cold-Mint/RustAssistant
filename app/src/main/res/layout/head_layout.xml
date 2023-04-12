@@ -7,12 +7,15 @@
     android:orientation="vertical">
 
     <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:layout_marginTop="32dp"
         android:id="@+id/imageView"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginHorizontal="16dp"
-        android:src="@drawable/head_icon" />
+        android:src="@drawable/head_icon"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/nameView"

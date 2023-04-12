@@ -110,6 +110,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="false"
                         android:src="@drawable/next" />
 
 

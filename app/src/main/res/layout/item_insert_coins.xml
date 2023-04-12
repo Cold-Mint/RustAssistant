@@ -4,6 +4,9 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
         android:id="@+id/imageView"
         android:layout_width="60dp"
         android:layout_height="60dp"

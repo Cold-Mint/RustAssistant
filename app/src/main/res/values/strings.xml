@@ -826,7 +826,7 @@
     <string name="change_server_complete">已更改服务器。</string>
     <string name="order_manager">订单管理</string>
     <string name="log_out">登出</string>
-    <string name="user_info">最近登录:%1$s uid:%2$s ip归属地:%3$s</string>
+    <string name="user_info">最近登录:%1$s ip归属地:%2$s</string>
     <string name="use_coupon">将使用优惠券创建订单，仍继续嘛?(创建订单完成后，将优惠券消耗)</string>
     <string name="use">使用</string>
     <string name="account_or_email">账号/电子邮件</string>
@@ -956,4 +956,5 @@
     <string name="public_mod">公开</string>
     <string name="private_mod">私有</string>
     <string name="minVersion">最低游戏版本</string>
+    <string name="thumbs_up">点赞</string>
 </resources>

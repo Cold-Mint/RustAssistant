@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
     <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:id="@+id/iconView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/head_icon" />
+        android:src="@drawable/head_icon"
+        android:focusable="true" />
 
     <LinearLayout
         android:id="@+id/headLayout"
@@ -43,8 +47,58 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/headLayout"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/no_content" />
+
+    <ImageView
+        android:id="@+id/thumb_up_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_below="@id/contentView"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
+        android:clickable="true"
+        android:src="@drawable/outline_thumb_up_24"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/thumb_up_text_view"
+        style="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/thumb_up_image_view"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/thumb_up_image_view"
+        android:text="0" />
+
+    <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:id="@+id/share_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@id/contentView"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/thumb_up_text_view"
+        android:padding="2dp"
+        android:src="@drawable/ic_outline_share_24"
+        android:focusable="true" />
+
+    <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:id="@+id/more_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@id/contentView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
+        android:src="@drawable/more"
+        android:focusable="true" />
 
 
 </RelativeLayout>

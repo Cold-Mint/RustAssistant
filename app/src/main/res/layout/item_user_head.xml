@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:id="@+id/headIconView"
         android:layout_width="56dp"
         android:layout_height="56dp"

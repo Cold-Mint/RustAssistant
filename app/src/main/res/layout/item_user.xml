@@ -24,19 +24,19 @@
 
         <TextView
             android:id="@+id/nameView"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"
-            style="@style/TextAppearance.Material3.TitleMedium" />
+            android:text="@string/name" />
 
         <TextView
-            android:singleLine="true"
-            android:ellipsize="end"
-            style="@style/TextAppearance.Material3.BodySmall"
             android:id="@+id/describeView"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@string/describe" />
     </LinearLayout>
 

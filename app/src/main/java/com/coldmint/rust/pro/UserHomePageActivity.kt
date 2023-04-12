@@ -194,7 +194,6 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         viewBinding.loginTimeView.text = String.format(
             getString(R.string.user_info),
             spaceInfoData.data.loginTime,
-            spaceInfoData.data.account,
             spaceInfoData.data.location
         )
 

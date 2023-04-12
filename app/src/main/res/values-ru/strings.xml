@@ -787,7 +787,6 @@
     <string name="change_server_complete">Сервер был изменен.</string>
     <string name="order_manager">Управление заказом</string>
     <string name="log_out">напечата</string>
-    <string name="user_info">Зарегистрировано недавно :%1$s uid:%2$s  местожительство:%3$s</string>
     <string name="use_coupon">Мы используем купоны, чтобы создать порядок. (после создания заказа, купоны будут расходуться)</string>
     <string name="use">использова</string>
     <string name="account_or_email">Номер счета/письмо</string>
