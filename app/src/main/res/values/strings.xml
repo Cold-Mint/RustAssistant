@@ -50,8 +50,8 @@
     <string name="dialog_search">正在扫描%1$s...</string>
     <string name="dialog_remove">正在移动%1$s...</string>
     <string name="dialog_packing">正在添加%1$s...</string>
-    <string name="pack_success">已成功打包%1$s，要分享给朋友嘛？</string>
-    <string name="pack_success2">已成功打包%1$s，要开始导出嘛？</string>
+    <string name="pack_success">已成功打包%1$s，确认分享给朋友吗？</string>
+    <string name="pack_success2">已成功打包%1$s，确认开始导出吗？</string>
     <string name="pack_file_success">打包完成。</string>
     <string name="pack_failed">打包失败</string>
     <string name="repair_complete">修复完成</string>
@@ -63,6 +63,10 @@
     <string name="menu_title3">数据集</string>
     <string name="data_array">数据数组(以\"|\"分割):</string>
     <string name="delete_title">删除</string>
+    <string name="delete_comment">删除评论</string>
+    <string name="delete_dynamic">删除动态</string>
+    <string name="delete_dynamic_tip">确认删除此条动态吗？</string>
+    <string name="delete_comment_tip">确认删除\"%1$s\"的评论吗？</string>
     <string name="del_moding">正在删除...</string>
     <string name="del_moding_tip">正在删除\"%1$s\"...</string>
     <string name="restoreing">正在还原...</string>
@@ -236,7 +240,7 @@
     <!--编译错误-->
 
     <string name="not_save_exit">不保存退出</string>
-    <string name="save_settings">检查到配置信息更新，要保存更改嘛?</string>
+    <string name="save_settings">检查到配置信息更新，确认保存更改吗?</string>
     <string name="saveing">正在保存%1$s...</string>
     <string name="save_complete">%1$s保存完成。</string>
     <string name="save_complete2">保存完成。</string>
@@ -252,7 +256,7 @@
     <string name="import_error1">解压文件时出错。</string>
     <string name="import_effor7">不可识别的路径。</string>
     <string name="delete_unit">删除单位</string>
-    <string name="delete_prompt">要删除 %1$s 嘛? </string>
+    <string name="delete_prompt">确认删除 %1$s 吗? </string>
     <!--导入-->
     <string name="importing">导入中...</string>
     <string name="import_name">导入</string>
@@ -374,7 +378,7 @@
     <string name="not_find_template">没有找到模板</string>
     <string name="night_mode">深色主题</string>
     <string name="copy_complete">已复制%1$s。</string>e
-    <string name="text_changed">您有文件尚未保存，要保存更改嘛？</string>
+    <string name="text_changed">您有文件尚未保存，确认保存更改吗？</string>
     <string name="collapse_info">崩溃信息</string>
     <string name="load_system_application">显示系统应用</string>
     <string name="choose_color">选择颜色</string>
@@ -437,6 +441,7 @@
     <string name="open_tip">立即以%1$.2f元开通</string>
     <string name="packing">打包中...</string>
     <string name="share_mod">分享</string>
+    <string name="share_message">分享</string>
     <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">清理代码缓存</string>
     <string name="custom_symbol">自定义符号栏</string>
@@ -542,17 +547,17 @@
     <string name="build_database">构建项目...</string>
     <string name="build_database_complete">构建项目完成。</string>
     <string name="rebuild_project">重构项目</string>
-    <string name="rebuild_project_tip">要清理缓存数据并重新构建索引嘛?</string>
+    <string name="rebuild_project_tip">确认清理缓存数据并重新构建索引吗?</string>
     <string name="clean_up_cache_and_rebuild">立即重构项目</string>
     <string name="import_type_could_not_be_resolved">无法解析导入类型\"%1$s\"。</string>
     <string name="import_path_could_not_be_resolved">无法识别路径\"%1$s\"。</string>
     <string name="uri_null">uri错误。</string>
     <string name="location_info">位于%1$s第%2$d行：</string>
-    <string name="covers_the_import">您正在尝试导入低版本的模板包(%1$s)，当前版本(%2$s)，这将覆盖更新的内容。要继续嘛?</string>
-    <string name="covers_the_import_mod">%1$s已存在，这将覆盖旧的内容。要继续嘛?</string>
+    <string name="covers_the_import">您正在尝试导入低版本的模板包(%1$s)，当前版本(%2$s)，这将覆盖更新的内容。确认继续吗?</string>
+    <string name="covers_the_import_mod">%1$s已存在，这将覆盖旧的内容。确认继续吗?</string>
     <string name="empty_text">无法为空文件制作模板。</string>
     <string name="value_selector_array_describe">使用\",\"分割参数，也可以使用\"[\"和\"]\"注解参数。例如:[喜欢:like]，喜欢将被显示给用户，选中后，写入like。</string>
-    <string name="template_save_complete">模板添加完成，请现在退出模板制作器嘛？</string>
+    <string name="template_save_complete">模板添加完成，现在退出模板制作器吗？</string>
     <string name="edit_template">编辑模板</string>
     <string name="file_type_tip">已智能推断文件类型为\"%1$s\"。</string>
     <string name="file_type_define">默认创建ini文件。</string>
@@ -578,7 +583,7 @@
     <string name="screenshot">截图:</string>
     <string name="required">必填</string>
     <string name="selectable">可选</string>
-    <string name="exit_tip">要退出\"%1$s\"嘛?</string>
+    <string name="exit_tip">退出\"%1$s\"吗?</string>
     <string name="path">路径</string>
     <string name="from_url">从url添加</string>
     <string name="sign_error">安全验证</string>
@@ -617,7 +622,7 @@
     <string name="each_other_follow">已互粉</string>
     <string name="followed">已关注</string>
     <string name="defollow">取消关注</string>
-    <string name="defollow_tip">要取消关注\"%1$s\"嘛?</string>
+    <string name="defollow_tip">取消关注\"%1$s\"吗?</string>
     <string name="head_icon">头像:</string>
     <string name="signature">个性签名</string>
     <string name="gender">性别</string>
@@ -670,7 +675,7 @@
     <string name="data_transfer">数据传输</string>
     <string name="using_mobile_networks">允许使用数据网络</string>
     <string name="using_mobile_networks_tip">使用移动网络上传下载模组，可能会产生额外的流量费用。</string>
-    <string name="using_mobile_networks_msg">使用移动网络上传下载模组，可能会产生额外的流量费用。仍然继续嘛?</string>
+    <string name="using_mobile_networks_msg">使用移动网络上传下载模组，可能会产生额外的流量费用。仍然继续吗?</string>
     <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">请先关注你喜欢的作者</string>
     <string name="my_follow">我的关注</string>
@@ -684,7 +689,7 @@
     <string name="pay_attention_new">关注新作</string>
     <string name="version_name_tip">版本名显示在更新记录内。</string>
     <string name="sold_out_mod_tip">上架重新需要审核，要下架嘛?</string>
-    <string name="review_audit_mod_tip">要重新审核%1$s嘛?</string>
+    <string name="review_audit_mod_tip">确认重新审核%1$s吗?</string>
     <string name="review_audit">重新审核</string>
     <string name="warehouse">仓库</string>
     <string name="not_find_map">没有地图</string>
@@ -742,7 +747,7 @@
     <string name="wechat">微信</string>
     <string name="setting">设置</string>
     <string name="order_list">订单列表</string>
-    <string name="copy_orderid">要复制订单编号(%1$s)嘛?</string>
+    <string name="copy_orderid">确认复制订单编号(%1$s)吗?</string>
     <string name="remove_fans_tip">确认要移除粉丝 %1$s 嘛?</string>
     <string name="ban_fans">同时将此用户加入黑名单</string>
     <string name="reject_follow">拒绝关注</string>
@@ -827,7 +832,7 @@
     <string name="order_manager">订单管理</string>
     <string name="log_out">登出</string>
     <string name="user_info">最近登录:%1$s ip归属地:%2$s</string>
-    <string name="use_coupon">将使用优惠券创建订单，仍继续嘛?(创建订单完成后，将优惠券消耗)</string>
+    <string name="use_coupon">将使用优惠券创建订单，仍继续吗?(创建订单完成后，将优惠券消耗)</string>
     <string name="use">使用</string>
     <string name="account_or_email">账号/电子邮件</string>
     <string name="account_error4">找不到用户，请检查电子邮件地址是否正确。</string>
@@ -860,10 +865,10 @@
     <string name="update_and_iteration">版本更新与用户体验计划</string>
     <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
     <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
-    <string name="is_paid">请问您付款了嘛?（未支付的订单将过期，无法再为其付款）。</string>
+    <string name="is_paid">请问您付款了吗?（未支付的订单将过期，无法再为其付款）。</string>
     <string name="paid_yes">是的，我付款了</string>
     <string name="paid_no">放弃订单</string>
-    <string name="preferential_price">已为您优惠%1$.2f元，仍然放弃订单嘛，放弃订单后不返还优惠券。</string>
+    <string name="preferential_price">已为您优惠%1$.2f元，仍然放弃订单吗，放弃订单后不返还优惠券。</string>
     <string name="paid_continue">继续支付</string>
     <string name="mail_helper">不知道自己的邮箱地址?点击这里查看帮助</string>
     <string name="qq_number">QQ号</string>
@@ -902,7 +907,7 @@
     <string name="customize_edit_text">定制编辑框</string>
     <string name="subscription">订阅</string>
     <string name="de_subscription">退订</string>
-    <string name="de_subscription_msg">要退订%1$s嘛?</string>
+    <string name="de_subscription_msg">确认退订%1$s吗?</string>
     <string name="keyword_color">关键字颜色</string>
     <string name="text_color">普通文本颜色</string>
     <string name="edit_text_color">字体颜色</string>

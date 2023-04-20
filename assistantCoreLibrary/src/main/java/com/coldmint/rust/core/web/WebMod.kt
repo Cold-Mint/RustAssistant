@@ -21,7 +21,8 @@ class WebMod private constructor() {
 
         Latest_Time("latestTime"), Download_Number("downloadNumber"), Coin_Number("coinNumber"), Unit_Number(
             "unitNumber"
-        ),Update_Number("updateNumber");
+        ),
+        Update_Number("updateNumber");
 
         /**
          * 获取枚举代表的值
@@ -163,6 +164,61 @@ class WebMod private constructor() {
         val request =
             Request.Builder()
                 .url(ServerConfiguration.website + "php/mod.php?action=insertCoins")
+                .post(requestBody).build()
+        val call = okHttpClient.newCall(request)
+        val handler = Handler(Looper.getMainLooper())
+        val gson = Gson()
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                handler.post { apiCallBack.onFailure(e) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val body = response.body
+                    if (body == null) {
+                        handler.post {
+                            apiCallBack.onFailure(NullPointerException())
+                        }
+                    } else {
+                        val data = body.string()
+                        val finalApiResponse =
+                            gson.fromJson(data, ApiResponse::class.java)
+                        handler.post {
+                            apiCallBack.onResponse(finalApiResponse)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    handler.post {
+                        apiCallBack.onFailure(e)
+                    }
+                }
+            }
+
+        })
+    }
+
+
+    /**
+     * 修改评论可见状态(默认隐藏评论)
+     */
+    fun modifyCommentVisibility(
+        adminToken: String,
+        commentId: Int,
+        apiCallBack: ApiCallBack<ApiResponse>,
+        hide: Boolean = true
+    ) {
+        val hideCode = if (hide) 1 else 0
+        val okHttpClient = ServerConfiguration.initOkHttpClient()
+        val requestBodyBuilder: FormBody.Builder =
+            FormBody.Builder().add("adminToken", adminToken).add("commentId", commentId.toString())
+                .add("hide", hideCode.toString())
+        val requestBody = requestBodyBuilder.build()
+        val request =
+            Request.Builder()
+                .url(ServerConfiguration.website + "php/mod.php?action=modifyCommentVisibility")
                 .post(requestBody).build()
         val call = okHttpClient.newCall(request)
         val handler = Handler(Looper.getMainLooper())

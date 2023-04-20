@@ -10,6 +10,7 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.DynamicItemDataBean
 import com.coldmint.rust.core.interfaces.ApiCallBack
@@ -62,7 +63,10 @@ class DynamicAdapter(context: Context, dataList: MutableList<DynamicItemDataBean
         TextStyleMaker.instance.load(viewBinding.contentView, data.content) { type, data ->
             TextStyleMaker.instance.clickEvent(context, type, data)
         }
-        viewBinding.contentView.setOnLongClickListener { view ->
+        viewBinding.shareImageView.setOnClickListener {
+            AppOperator.shareText(context, context.getString(R.string.share_message), data.content);
+        }
+        viewBinding.moreImageView.setOnClickListener { view ->
             val menu = GlobalMethod.createPopMenu(view)
             menu.menu.add(R.string.copy)
             menu.menu.add(R.string.delete_title)
@@ -73,42 +77,47 @@ class DynamicAdapter(context: Context, dataList: MutableList<DynamicItemDataBean
                         GlobalMethod.copyText(context, data.content, view)
                     }
                     context.getString(R.string.delete_title) -> {
-                        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
-                        val appId =
-                            AppSettings
-                                .getValue(AppSettings.Setting.AppID, "")
-                        Dynamic.instance.deleteDynamic(
-                            account,
-                            appId,
-                            data.id,
-                            object : ApiCallBack<ApiResponse> {
-                                override fun onResponse(t: ApiResponse) {
-                                    //成功与否执行都一样
-                                    if (t.code == ServerConfiguration.Success_Code) {
-                                        removeItem(viewHolder.adapterPosition)
-                                    }
-                                    Snackbar.make(
-                                        viewBinding.root,
-                                        t.message,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
+                        CoreDialog(context).setTitle(R.string.delete_dynamic)
+                            .setMessage(R.string.delete_dynamic_tip)
+                            .setPositiveButton(R.string.dialog_ok) {
+                                val account = AppSettings.getValue(AppSettings.Setting.Account, "")
+                                val appId =
+                                    AppSettings
+                                        .getValue(AppSettings.Setting.AppID, "")
+                                Dynamic.instance.deleteDynamic(
+                                    account,
+                                    appId,
+                                    data.id,
+                                    object : ApiCallBack<ApiResponse> {
+                                        override fun onResponse(t: ApiResponse) {
+                                            //成功与否执行都一样
+                                            if (t.code == ServerConfiguration.Success_Code) {
+                                                removeItem(viewHolder.adapterPosition)
+                                            }
+                                            Snackbar.make(
+                                                viewBinding.root,
+                                                t.message,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
 
-                                override fun onFailure(e: Exception) {
-                                    Snackbar.make(
-                                        viewBinding.root,
-                                        R.string.network_error,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
+                                        override fun onFailure(e: Exception) {
+                                            Snackbar.make(
+                                                viewBinding.root,
+                                                R.string.network_error,
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                        }
 
-                            })
+                                    })
+                            }.setNegativeButton(R.string.dialog_cancel) {
+
+                        }.show()
                     }
                 }
                 true
             }
             menu.show()
-            true
         }
     }
 
