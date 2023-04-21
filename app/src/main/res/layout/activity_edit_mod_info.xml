@@ -51,9 +51,9 @@
 
                     <!--模组图标-->
                     <LinearLayout
-                        android:layout_marginTop="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical">
 
                         <TextView
@@ -65,18 +65,17 @@
                         <com.google.android.material.card.MaterialCardView
                             style="@style/Widget.Material3.CardView.Filled"
                             android:layout_width="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp">
 
                             <ImageView
-                                android:scaleType="centerCrop"
                                 android:id="@+id/iconView"
                                 android:layout_width="72dp"
                                 android:layout_height="72dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/image" />
 
                         </com.google.android.material.card.MaterialCardView>
-
 
 
                     </LinearLayout>
@@ -174,12 +173,14 @@
                         android:text="@string/add" />
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/expandMusicList"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_below="@id/musicPathView"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignTop="@id/addMusic"
                         android:layout_alignBottom="@id/enabledMusic"
                         android:layout_alignParentEnd="true"
+                        android:padding="2dp"
                         android:src="@drawable/expand_icon"
                         app:tint="?android:colorControlNormal" />
 
@@ -260,12 +261,14 @@
                         android:text="@string/add" />
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/expandMapList"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_below="@id/mapPathView"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignTop="@id/addMap"
                         android:layout_alignBottom="@id/enabledMap"
                         android:layout_alignParentEnd="true"
+                        android:padding="2dp"
                         android:src="@drawable/expand_icon"
                         app:tint="?android:colorControlNormal" />
 

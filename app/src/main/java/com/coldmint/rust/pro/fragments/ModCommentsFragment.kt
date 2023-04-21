@@ -109,6 +109,21 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
         loadCommentList(modId)
     }
 
+    fun commentSizeChange(size: Int){
+        if (size == 0){
+            viewBinding.titleView.text = getString(R.string.discussion)
+            viewBinding.recyclerView.isVisible = false
+            viewBinding.noContentLayout.isVisible = true
+        }else{
+            viewBinding.titleView.text =
+                getString(R.string.discussion) + "(" + size + ")"
+
+            viewBinding.recyclerView.isVisible = true
+            viewBinding.noContentLayout.isVisible = false
+        }
+
+    }
+
     /**
      * 加载评论列表
      * @param modId String
@@ -116,7 +131,7 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
     fun loadCommentList(modId: String, useLinearProgressIndicator: Boolean = true) {
         val key = "加载评论列表"
         if (useLinearProgressIndicator) {
-            viewBinding.linearProgressIndicator.isVisible = true
+            viewBinding.linearProgressIndicator.visibility = View.VISIBLE
         }
         WebMod.instance.getCommentsList(modId, object : ApiCallBack<WebModCommentData> {
             override fun onResponse(t: WebModCommentData) {
@@ -124,34 +139,34 @@ class ModCommentsFragment(val modId: String) : BaseFragment<FragmentModCommentsB
                 if (list.isNullOrEmpty()) {
                     DebugHelper.printLog(key, "为空", isError = true)
                     if (useLinearProgressIndicator) {
-                        viewBinding.linearProgressIndicator.isVisible = false
+                        viewBinding.linearProgressIndicator.visibility = View.INVISIBLE
                     }
-                    viewBinding.titleView.text = getString(R.string.discussion)
-                    viewBinding.recyclerView.isVisible = false
-                    viewBinding.noContentLayout.isVisible = true
+                  commentSizeChange(0)
                 } else {
                     DebugHelper.printLog(key, "共${list.size}条数据")
-                    viewBinding.titleView.text =
-                        getString(R.string.discussion) + "(" + list.size + ")"
+                    commentSizeChange(list.size)
                     if (useLinearProgressIndicator) {
-                        viewBinding.linearProgressIndicator.isVisible = false
+                        viewBinding.linearProgressIndicator.visibility = View.INVISIBLE
                     }
-                    viewBinding.recyclerView.isVisible = true
-                    viewBinding.noContentLayout.isVisible = false
                     val adapter = CommentAdapter(requireContext(), list)
                     adapter.setItemEvent { i, itemCommentBinding, viewHolder, data ->
                         itemCommentBinding.iconView.setOnClickListener {
                             gotoUserPage(data.account)
                         }
                     }
-                    viewBinding.recyclerView.adapter =  adapter
+                    adapter.setItemChangeEvent { changeType, i, data, i2 ->
+                        viewBinding.titleView.text =
+                            getString(R.string.discussion) + "(" + i2 + ")"
+                        commentSizeChange(i2)
+                    }
+                    viewBinding.recyclerView.adapter = adapter
                 }
             }
 
             override fun onFailure(e: Exception) {
                 DebugHelper.printLog(key, "加载失败", isError = true)
                 if (useLinearProgressIndicator) {
-                    viewBinding.linearProgressIndicator.isVisible = false
+                    viewBinding.linearProgressIndicator.visibility = View.INVISIBLE
                 }
                 viewBinding.titleView.text = getString(R.string.discussion)
                 viewBinding.recyclerView.isVisible = false

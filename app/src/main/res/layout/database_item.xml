@@ -33,12 +33,12 @@
         style="@style/TextAppearance.Material3.BodySmall"/>
 
     <Button
-        style="@style/Widget.Material3.Button.OutlinedButton"
         android:id="@+id/database_use"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="使用"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:text="使用" />
 
 </RelativeLayout>

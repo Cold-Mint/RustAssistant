@@ -66,6 +66,9 @@ class DynamicAdapter(context: Context, dataList: MutableList<DynamicItemDataBean
         viewBinding.shareImageView.setOnClickListener {
             AppOperator.shareText(context, context.getString(R.string.share_message), data.content);
         }
+        viewBinding.thumbUpImageView.setOnClickListener {
+            Snackbar.make(viewBinding.thumbUpImageView,R.string.temporarily_unavailable,Snackbar.LENGTH_SHORT).show()
+        }
         viewBinding.moreImageView.setOnClickListener { view ->
             val menu = GlobalMethod.createPopMenu(view)
             menu.menu.add(R.string.copy)

@@ -56,6 +56,9 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
         } else {
             data.time + " " + data.location
         }
+        viewBinding.thumbUpImageView.setOnClickListener {
+            Snackbar.make(viewBinding.thumbUpImageView,R.string.temporarily_unavailable,Snackbar.LENGTH_SHORT).show()
+        }
         viewBinding.shareImageView.setOnClickListener {
             AppOperator.shareText(context, context.getString(R.string.share_message), data.content);
         }

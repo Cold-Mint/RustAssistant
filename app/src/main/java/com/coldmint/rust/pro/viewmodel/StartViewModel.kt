@@ -347,15 +347,9 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
      */
     private fun initRes() {
         try {
-            val language = Locale.getDefault().language
-            DebugHelper.printLog("初始化资源", "语言" + language)
-            if (language == "zh") {
-                unzipDataSet("dataBase.rdb", true)
-                unzipDataSet("dataBase_en.rdb")
-            } else {
-                unzipDataSet("dataBase.rdb")
-                unzipDataSet("dataBase_en.rdb", true)
-            }
+//            val language = Locale.getDefault().language
+//            DebugHelper.printLog("初始化资源", "语言" + language)
+            unzipDataSet("dataBase_v2.2.0.rdb", true)
 
             val defaultValues = File(context.filesDir.absolutePath + "/values.json")
             if (!defaultValues.exists()) {
@@ -368,7 +362,7 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        importingTemplatePackage("baseTemplate.rp")
+        importingTemplatePackage("baseTemplate_v2.0.rp")
     }
 
 

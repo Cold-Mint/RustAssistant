@@ -18,7 +18,9 @@ data class DataBaseManifest(
     @SerializedName("versionName")
     val versionName: String,
     @SerializedName("versionNumber")
-    val versionNumber: Int
+    val versionNumber: Int,
+    @SerializedName("minAppVersion")
+    val minAppVersion:Int = Int.MAX_VALUE
 ) {
     data class Tables(
         @SerializedName("chain_inspection")

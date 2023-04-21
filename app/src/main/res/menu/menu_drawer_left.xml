@@ -55,10 +55,15 @@
             android:title="@string/set_up" />
 
 
+<!--        <item-->
+<!--            android:id="@+id/user_group"-->
+<!--            android:icon="@drawable/ic_outline_free_breakfast_24"-->
+<!--            android:title="@string/user_group" />-->
         <item
-            android:id="@+id/user_group"
-            android:icon="@drawable/ic_outline_free_breakfast_24"
-            android:title="@string/user_group" />
+            android:id="@+id/github"
+            android:icon="@drawable/github"
+            android:title="@string/github" />
+
         <item
             android:id="@+id/rust_api"
             android:icon="@drawable/outline_book_24"

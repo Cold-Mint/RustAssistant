@@ -420,6 +420,7 @@
     <string name="unable_cut">无法剪切此文件夹，该文件夹内有文件正在使用。</string>
     <string name="unable_del">无法删除此文件夹，该文件夹内有文件正在使用。</string>
     <string name="recovery_prompt">已将\"%1$s\"移动至回收站。</string>
+    <string name="temporarily_unavailable">暂不可用，请等待下个版本！</string>
     <string name="recoverying_prompt">正在移动\"%1$s\"...</string>
     <string name="open_directory_of_file">打开文件所在目录</string>
     <string name="unable_to_detect">您的模组可能无法被游戏检查。</string>
@@ -962,4 +963,7 @@
     <string name="private_mod">私有</string>
     <string name="minVersion">最低游戏版本</string>
     <string name="thumbs_up">点赞</string>
+    <string name="github">GitHub</string>
+    <string name="dataset_not_exist">DataBaseManifest.json不存在，无法加载信息。</string>
+    <string name="dataset_minversion_low">此数据集仅适用于旧版本助手。</string>
 </resources>

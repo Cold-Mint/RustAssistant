@@ -260,11 +260,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val codeTable = menu.findItem(R.id.code_table)
         val mod = menu.findItem(R.id.mod_item)
         val community = menu.findItem(R.id.community_item)
-        val group = menu.findItem(R.id.user_group)
-        group.setOnMenuItemClickListener {
-            viewBinding.drawerlayout.closeDrawer((GravityCompat.START))
-            val userGroupFragment = UserGroupFragment()
-            userGroupFragment.show(supportFragmentManager, "userGroup")
+//        val group = menu.findItem(R.id.user_group)
+//        group.setOnMenuItemClickListener {
+//            viewBinding.drawerlayout.closeDrawer((GravityCompat.START))
+//            val userGroupFragment = UserGroupFragment()
+//            userGroupFragment.show(supportFragmentManager, "userGroup")
+//            false
+//        }
+        val gitHub = menu.findItem(R.id.github)
+        gitHub.setOnMenuItemClickListener {
+            AppOperator.useBrowserAccessWebPage(this,"https://github.com/Cold-Mint/RustAssistant")
             false
         }
 //        val help = menu.findItem(R.id.help)

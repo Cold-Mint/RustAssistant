@@ -77,11 +77,11 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 true
             }
 
-            val obtainSourceCode = manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_obtain_source_code))
-            obtainSourceCode!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                AppOperator.useBrowserAccessWebPage(requireContext(),"https://github.com/Cold-Mint/RustAssistant")
-                true
-            }
+//            val obtainSourceCode = manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_obtain_source_code))
+//            obtainSourceCode!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+//                AppOperator.useBrowserAccessWebPage(requireContext(),"https://github.com/Cold-Mint/RustAssistant")
+//                true
+//            }
 
             val game = manager.findPreference<PreferenceScreen>("set_game_pack")
             game!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {

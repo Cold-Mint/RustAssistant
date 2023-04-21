@@ -19,6 +19,8 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -253,6 +255,39 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         return FileOperator.writeFile(mModClass.infoFile, resultBuilder.toString())
     }
 
+    /**
+     * 执行旋转动画
+     */
+    private fun doRotateAnimation(
+        view: View,
+        fromDegrees: Float,
+        toDegrees: Float, event: ((Boolean) -> Unit)? = null
+    ) {
+        view.clearAnimation()
+        // 计算视图中心点的坐标
+        val centerX = view.width / 2
+        val centerY = view.height / 2
+        // 创建旋转动画，并设置中心点为视图中心
+        val rotateAnimation =
+            RotateAnimation(fromDegrees, toDegrees, centerX.toFloat(), centerY.toFloat())
+        rotateAnimation.duration = 150
+        rotateAnimation.fillAfter = true // 设置FillAfter属性为true，使动画结束后保持最后一帧的状态
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+                event?.invoke(false)
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                event?.invoke(true)
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+            }
+        })
+        // 启动动画
+        view.startAnimation(rotateAnimation)
+    }
+
     fun initAction() {
         viewBinding.modNameEdit.addTextChangedListener {
             viewBinding.modNameInputLayout.isErrorEnabled = false
@@ -408,13 +443,15 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
             viewBinding.expandMusicList.isVisible = true
             viewBinding.enabledMusic.text = getString(R.string.disabled)
         } else {
-            showMusicConfigurationView(true)
-            viewBinding.musicListView.isVisible = false
-            viewBinding.addMusic.isVisible = false
-            viewBinding.expandMusicList.isVisible = false
-            viewBinding.enabledMusic.text = getText(R.string.enabled)
-            viewBinding.musicPathView.text = getString(R.string.no_enabled)
-            viewBinding.musicPathView.isVisible = true
+            showMusicConfigurationView(true) {
+                viewBinding.musicListView.isVisible = false
+                viewBinding.addMusic.isVisible = false
+                viewBinding.expandMusicList.clearAnimation()
+                viewBinding.expandMusicList.isVisible = false
+                viewBinding.enabledMusic.text = getText(R.string.enabled)
+                viewBinding.musicPathView.text = getString(R.string.no_enabled)
+                viewBinding.musicPathView.isVisible = true
+            }
         }
     }
 
@@ -452,45 +489,47 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
      * @param hide 隐藏视图
      */
     @SuppressLint("StringFormatMatches")
-    fun showMusicConfigurationView(hide: Boolean) {
+    fun showMusicConfigurationView(hide: Boolean, func: (() -> Unit)? = null) {
         if (hide) {
-            viewBinding.expandMusicList.setImageResource(R.drawable.animator_expand_off)
-            mExpandMusicList = false
-            viewBinding.musicOperation.isVisible = false
-            viewBinding.musicPathView.isVisible = false
-        } else {
-            viewBinding.expandMusicList.setImageResource(R.drawable.animator_expand_on)
-            mExpandMusicList = true
-            viewBinding.musicOperation.isVisible = true
-            val musicFolder = musicFolder
-            if (!musicFolder.exists()) {
-                musicFolder.mkdirs()
-            }
-            val files = ArrayList<File>()
-            val fileArray = musicFolder.listFiles()
-            if (fileArray.isNotEmpty()) {
-                for (f in fileArray) {
-                    if (FileOperator.getFileType(f) == "ogg") {
-                        files.add(f)
-                    }
+            doRotateAnimation(viewBinding.expandMusicList, 180f, 360f) {
+                if (it) {
+                    mExpandMusicList = false
+                    viewBinding.musicOperation.isVisible = false
+                    viewBinding.musicPathView.isVisible = false
+                    func?.invoke()
                 }
             }
-            val mapAndMusicAdapter = MapAndMusicAdapter(this, files, true)
-            val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
-            mapAndMusicAdapter.setItemChangeEvent { changeType, i, file, i2 ->
-                viewBinding.musicPathView.text =
-                    String.format(getString(R.string.filenum), i2)
-            }
-
-            viewBinding.musicListView.layoutManager = layoutManager
-            viewBinding.musicListView.adapter = mapAndMusicAdapter
-            viewBinding.musicPathView.isVisible = true
-            viewBinding.musicPathView.text = String.format(getString(R.string.filenum), files.size)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            (viewBinding.expandMusicList.drawable as AnimatedVectorDrawable).start()
         } else {
-            (viewBinding.expandMusicList.drawable as AnimatedVectorDrawableCompat).start()
+            doRotateAnimation(viewBinding.expandMusicList, 0f, 180f) {
+                mExpandMusicList = true
+                viewBinding.musicOperation.isVisible = true
+                val musicFolder = musicFolder
+                if (!musicFolder.exists()) {
+                    musicFolder.mkdirs()
+                }
+                val files = ArrayList<File>()
+                val fileArray = musicFolder.listFiles()
+                if (fileArray.isNotEmpty()) {
+                    for (f in fileArray) {
+                        if (FileOperator.getFileType(f) == "ogg") {
+                            files.add(f)
+                        }
+                    }
+                }
+                val mapAndMusicAdapter = MapAndMusicAdapter(this, files, true)
+                val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
+                mapAndMusicAdapter.setItemChangeEvent { changeType, i, file, i2 ->
+                    viewBinding.musicPathView.text =
+                        String.format(getString(R.string.filenum), i2)
+                }
+
+                viewBinding.musicListView.layoutManager = layoutManager
+                viewBinding.musicListView.adapter = mapAndMusicAdapter
+                viewBinding.musicPathView.isVisible = true
+                viewBinding.musicPathView.text =
+                    String.format(getString(R.string.filenum), files.size)
+                func?.invoke()
+            }
         }
     }
 
@@ -506,12 +545,14 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
             viewBinding.mapPathView.isVisible = false
             viewBinding.enabledMap.text = getString(R.string.disabled)
         } else {
-            showMapConfigurationView(true)
-            viewBinding.expandMapList.isVisible = false
-            viewBinding.addMap.isVisible = false
-            viewBinding.enabledMap.text = getText(R.string.enabled)
-            viewBinding.mapPathView.text = getString(R.string.no_enabled)
-            viewBinding.mapPathView.isVisible = true
+            showMapConfigurationView(true) {
+                viewBinding.expandMapList.clearAnimation()
+                viewBinding.expandMapList.isVisible = false
+                viewBinding.addMap.isVisible = false
+                viewBinding.enabledMap.text = getText(R.string.enabled)
+                viewBinding.mapPathView.text = getString(R.string.no_enabled)
+                viewBinding.mapPathView.isVisible = true
+            }
         }
     }
 
@@ -535,44 +576,48 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
      * @param hide 隐藏视图
      */
     @SuppressLint("StringFormatMatches")
-    fun showMapConfigurationView(hide: Boolean) {
+    fun showMapConfigurationView(hide: Boolean, func: (() -> Unit)? = null) {
         if (hide) {
-            viewBinding.expandMapList.setImageResource(R.drawable.animator_expand_off)
-            mExpandMapList = false
-            viewBinding.mapOperation.isVisible = false
-            viewBinding.mapPathView.isVisible = false
-        } else {
-            viewBinding.expandMapList.setImageResource(R.drawable.animator_expand_on)
-            mExpandMapList = true
-            viewBinding.mapOperation.isVisible = true
-            val mapFolder = mapFolder
-            if (!mapFolder.exists()) {
-                mapFolder.mkdirs()
-            }
-            val files = ArrayList<File>()
-            val fileArray = mapFolder.listFiles()
-            if (fileArray.isNotEmpty()) {
-                for (f in fileArray) {
-                    if (FileOperator.getFileType(f) == "tmx") {
-                        files.add(f)
-                    }
+            doRotateAnimation(viewBinding.expandMapList, 180f, 360f) {
+                if (it) {
+                    mExpandMapList = false
+                    viewBinding.mapOperation.isVisible = false
+                    viewBinding.mapPathView.isVisible = false
+                    func?.invoke()
                 }
             }
-            val mapAndMapAdapter = MapAndMusicAdapter(this, files, false)
-            val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
-            mapAndMapAdapter.setItemChangeEvent { changeType, i, file, i2 ->
-                viewBinding.mapPathView.text =
-                    String.format(getString(R.string.filenum), i2)
-            }
-            viewBinding.mapListView.layoutManager = layoutManager
-            viewBinding.mapListView.adapter = mapAndMapAdapter
-            viewBinding.mapPathView.isVisible = true
-            viewBinding.mapPathView.text = String.format(getString(R.string.filenum), files.size)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            (viewBinding.expandMapList.drawable as AnimatedVectorDrawable).start()
         } else {
-            (viewBinding.expandMapList.drawable as AnimatedVectorDrawableCompat).start()
+            doRotateAnimation(viewBinding.expandMapList, 0f, 180f) {
+                if (it) {
+                    mExpandMapList = true
+                    viewBinding.mapOperation.isVisible = true
+                    val mapFolder = mapFolder
+                    if (!mapFolder.exists()) {
+                        mapFolder.mkdirs()
+                    }
+                    val files = ArrayList<File>()
+                    val fileArray = mapFolder.listFiles()
+                    if (fileArray.isNotEmpty()) {
+                        for (f in fileArray) {
+                            if (FileOperator.getFileType(f) == "tmx") {
+                                files.add(f)
+                            }
+                        }
+                    }
+                    val mapAndMapAdapter = MapAndMusicAdapter(this, files, false)
+                    val layoutManager = StableLinearLayoutManager(this@EditModInfoActivity)
+                    mapAndMapAdapter.setItemChangeEvent { changeType, i, file, i2 ->
+                        viewBinding.mapPathView.text =
+                            String.format(getString(R.string.filenum), i2)
+                    }
+                    viewBinding.mapListView.layoutManager = layoutManager
+                    viewBinding.mapListView.adapter = mapAndMapAdapter
+                    viewBinding.mapPathView.isVisible = true
+                    viewBinding.mapPathView.text =
+                        String.format(getString(R.string.filenum), files.size)
+                    func?.invoke()
+                }
+            }
         }
     }
 
