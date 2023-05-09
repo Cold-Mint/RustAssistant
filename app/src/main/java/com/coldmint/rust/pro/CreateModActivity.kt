@@ -108,6 +108,11 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
             stringBuilder.append(name)
             stringBuilder.append("\ndescription: ")
             stringBuilder.append(describe)
+            val minVersion:String = viewBinding.minVersionEdit.text.toString()
+            if (minVersion.isNotBlank()){
+                stringBuilder.append("\nminVersion: ")
+                stringBuilder.append(minVersion)
+            }
             val mod_directory =
                 File(Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/" + name)
             if (mod_directory.exists()) {

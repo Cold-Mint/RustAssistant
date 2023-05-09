@@ -81,6 +81,13 @@
     </string-array>
 
 
+    <string-array name="game_versions">
+        <item>1.15</item>
+        <item>1.15p11</item>
+        <item>1.15p9</item>
+    </string-array>
+
+
     <string-array name="dateset_read_tips">
         <item>@string/read_mode_additional_tip</item>
         <item>@string/read_mode_update_tip</item>

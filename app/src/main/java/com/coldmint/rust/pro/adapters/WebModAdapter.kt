@@ -43,6 +43,8 @@ class WebModAdapter( context: Context,  dataList: MutableList<WebModListData.Dat
             val path: String = ServerConfiguration.getRealLink(icon)
             Glide.with(context).load(path).apply(GlobalMethod.getRequestOptions())
                 .into(viewBinding.modIcon)
+        }else{
+            viewBinding.modIcon.setImageResource(R.drawable.image)
         }
     }
 

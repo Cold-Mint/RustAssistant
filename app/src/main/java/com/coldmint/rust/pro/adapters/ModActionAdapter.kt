@@ -25,6 +25,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.*
 import com.google.android.material.snackbar.Snackbar
@@ -323,23 +324,19 @@ class ModActionAdapter(
         if (file.isDirectory) {
             val needShowTip = AppSettings.getValue(AppSettings.Setting.ShareTip, true)
             if (needShowTip) {
-                val materialDialog = MaterialDialog(mContext, MaterialDialog.DEFAULT_BEHAVIOR)
-                materialDialog.title(R.string.packmod, null)
-                materialDialog.message(R.string.share_tip, null, null)
-                materialDialog.positiveButton(
-                    R.string.dialog_ok,
-                    null
-                ) { materialDialog: MaterialDialog? ->
+                val materialDialog = CoreDialog(mContext)
+                materialDialog.setTitle(R.string.packmod)
+                materialDialog.setMessage(R.string.share_tip)
+                materialDialog.setPositiveButton(
+                    R.string.dialog_ok
+                ) {
                     packShare(file)
-                    null
                 }
-                materialDialog.negativeButton(
-                    R.string.no_longer_prompt,
-                    null
-                ) { materialDialog: MaterialDialog? ->
+                materialDialog.setNegativeButton(
+                    R.string.no_longer_prompt
+                ) {
                     AppSettings.setValue(AppSettings.Setting.ShareTip, false)
                     packShare(file)
-                    null
                 }
                 materialDialog.show()
             } else {
@@ -357,17 +354,16 @@ class ModActionAdapter(
      */
     private fun packShare(file: File) {
         val modClass = ModClass(file)
-        val materialDialog = MaterialDialog(mContext)
+        val materialDialog = CoreDialog(mContext)
         Thread(object : Runnable {
             override fun run() {
                 handler.post {
-                    materialDialog.title(R.string.packmod).message(
-                        text =
+                    materialDialog.setTitle(R.string.packmod).setMessage(
                         String.format(
                             mContext.getString(R.string.dialog_packing),
                             modClass.modName
                         )
-                    ).cancelable(false).positiveButton(R.string.dialog_close2) {
+                    ).setCancelable(false).setPositiveButton(R.string.dialog_close2) {
                         Snackbar.make(
                             mModFragment.requireView(),
                             R.string.dialog_close_tip3,
@@ -385,8 +381,7 @@ class ModActionAdapter(
                 compressionManager.compression(file, toFile, object : CompressionListener {
                     override fun whenCompressionFile(file: File): Boolean {
                         handler.post {
-                            materialDialog.message(
-                                text =
+                            materialDialog.setMessage(
                                 String.format(
                                     mContext.getString(R.string.dialog_packing),
                                     file.name
@@ -398,8 +393,7 @@ class ModActionAdapter(
 
                     override fun whenCompressionFolder(folder: File): Boolean {
                         handler.post {
-                            materialDialog.message(
-                                text =
+                            materialDialog.setMessage(
                                 String.format(
                                     mContext.getString(R.string.dialog_packing),
                                     folder.name
@@ -412,19 +406,20 @@ class ModActionAdapter(
                     override fun whenCompressionComplete(result: Boolean) {
                         handler.post {
                             if (result) {
-                                materialDialog.title(R.string.share_mod).message(
-                                    text =
-                                    String.format(
-                                        mContext.getString(R.string.pack_success),
-                                        modClass.modName
-                                    )
-                                ).clearPositiveListeners().positiveButton(R.string.share_mod) {
-                                    FileOperator.shareFile(
-                                        mContext, toFile
-                                    )
-                                }.negativeButton(R.string.dialog_cancel) {
-                                    toFile.delete()
-                                }.show()
+                                materialDialog.dismiss()
+                                CoreDialog(mContext)
+                                    .setTitle(R.string.share_mod).setMessage(
+                                        String.format(
+                                            mContext.getString(R.string.pack_success),
+                                            modClass.modName
+                                        )
+                                    ).setPositiveButton(R.string.share_mod) {
+                                        FileOperator.shareFile(
+                                            mContext, toFile
+                                        )
+                                    }.setNegativeButton(R.string.dialog_cancel) {
+                                        toFile.delete()
+                                    }.show()
                             } else {
                                 materialDialog.dismiss()
                                 Snackbar.make(

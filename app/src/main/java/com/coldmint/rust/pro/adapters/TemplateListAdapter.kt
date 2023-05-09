@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.CompressionManager
 import com.coldmint.rust.core.LocalTemplatePackage
 import com.coldmint.rust.core.interfaces.CompressionListener
@@ -61,7 +62,7 @@ class TemplateListAdapter(
      * @param localTemplatePackage LocalTemplatePackage
      */
     private fun share(context: Context, localTemplatePackage: LocalTemplatePackage) {
-        val materialDialog = MaterialDialog(context)
+        val materialDialog = CoreDialog(context)
         val handler = Handler(Looper.getMainLooper())
         Thread {
             val cacheDirectory =
@@ -77,8 +78,10 @@ class TemplateListAdapter(
                 toFile.delete()
             }
             handler.post {
-                materialDialog.title(R.string.packmod)
-                    .positiveButton(R.string.dialog_close2)
+                materialDialog.setTitle(R.string.packmod)
+                    .setPositiveButton(R.string.dialog_close2){
+
+                    }
                 materialDialog.show()
             }
             val compressionManager =
@@ -94,7 +97,7 @@ class TemplateListAdapter(
                             file.name
                         )
                         handler.post {
-                            materialDialog.message(text = msg)
+                            materialDialog.setMessage(msg)
                         }
                         return true
                     }
@@ -105,7 +108,7 @@ class TemplateListAdapter(
                             folder.name
                         )
                         handler.post {
-                            materialDialog.message(text = msg)
+                            materialDialog.setMessage(msg)
                         }
                         return true
                     }
@@ -114,23 +117,22 @@ class TemplateListAdapter(
                         handler.post {
                             materialDialog.dismiss()
                             if (result) {
-                                MaterialDialog(context).show {
-                                    title(R.string.share_mod).message(
-                                        text = String.format(
-                                            context.getString(R.string.pack_success),
-                                            localTemplatePackage.getName()
-                                        )
-                                    ).positiveButton(R.string.share) {
-                                        FileOperator.shareFile(
-                                            context,
-                                            toFile
-                                        )
-                                    }.negativeButton(R.string.dialog_cancel)
-                                }
+                                CoreDialog(context).setTitle(R.string.share_mod).setMessage(
+                                    String.format(
+                                        context.getString(R.string.pack_success),
+                                        localTemplatePackage.getName()
+                                    )
+                                ).setPositiveButton(R.string.share) {
+                                    FileOperator.shareFile(
+                                        context,
+                                        toFile
+                                    )
+                                }.setNegativeButton(R.string.dialog_cancel) {
+
+                                }.show()
                             } else {
-                                MaterialDialog(context).show {
-                                    title(R.string.share_mod).message(R.string.pack_failed)
-                                        .positiveButton(R.string.dialog_ok)
+                                CoreDialog(context).setTitle(R.string.share_mod).setMessage(R.string.pack_failed).setPositiveButton(R.string.dialog_ok){
+
                                 }
                             }
                         }

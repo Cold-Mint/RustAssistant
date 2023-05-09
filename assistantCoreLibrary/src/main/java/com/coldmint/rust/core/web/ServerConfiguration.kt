@@ -161,14 +161,14 @@ object ServerConfiguration {
             throw NullPointerException("String不能为空")
         } else if (string.startsWith("http://") || string.startsWith("https://")) {
             //如果说直链
-            LogCat.d("真实路径组合", "直链" + string)
+            LogCat.d("getRealLink", "直链 " + string)
             string
         } else if (string.startsWith(Environment.getExternalStorageDirectory().absolutePath) || string.startsWith(
                 "/data/"
             )
         ) {
             //如果是文件路径
-            LogCat.d("真实路径组合", "是文件路径" + string)
+            LogCat.d("getRealLink", "是文件路径 " + string)
             string
         } else {
             //如果开头包含../上级目录
@@ -185,7 +185,7 @@ object ServerConfiguration {
                     "${website}/${string}"
                 }
             }
-            LogCat.d("真实路径组合", result)
+            LogCat.d("getRealLink", result)
             result
         }
     }

@@ -119,6 +119,10 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
         if (description != null) {
             viewBinding.modDescribeEdit.setText(description)
         }
+        val minVersion = mModClass.readValueFromInfoSection("minVersion", "mod")
+        if (minVersion!= null) {
+            viewBinding.minVersionEdit.setText(minVersion)
+        }
         val modIcon = mModClass.modIcon
         if (modIcon == null) {
             loadDefaultImage()
@@ -216,6 +220,11 @@ class EditModInfoActivity : BaseActivity<ActivityEditModInfoBinding>() {
             return false
         }
         resultBuilder.append(description)
+        val minVersion = viewBinding.minVersionEdit.text.toString()
+        if (minVersion.isNotBlank()) {
+            resultBuilder.append("\nminVersion:")
+            resultBuilder.append(minVersion)
+        }
         if (mNeedIcon) {
             var iconName = mModClass.readValueFromInfoSection("thumbnail", "mod")
             if (iconName == null) {

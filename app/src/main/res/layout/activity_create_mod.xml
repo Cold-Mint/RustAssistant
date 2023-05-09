@@ -83,6 +83,8 @@
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:hint="@string/minVersion"
+                    android:id="@+id/minVersionEdit"
+                    app:simpleItems="@array/game_versions"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 

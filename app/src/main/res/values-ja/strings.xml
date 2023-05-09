@@ -765,7 +765,6 @@
     <string name="version_name_error2">バージョン番号名が%1$sのコミットが存在する。</string>
     <string name="update_tip">更新履歴を作成します。</string>
     <string name="update_log">日誌を更新する</string>
-    <string name="recent_update">最近の更新:%1$s</string>
     <string name="update_record">記録を更新する</string>
     <string name="search_mod_key">\\"%1$s\\"に関する検索結果</string>
     <string name="result">結果</string>

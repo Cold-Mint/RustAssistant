@@ -77,22 +77,24 @@
                     android:layout_alignBottom="@id/nameView"
                     android:layout_marginLeft="8dp"
                     android:layout_toEndOf="@id/nameView"
+                    style="@style/Widget.Material3.CardView.Filled"
                     android:visibility="gone"
-                    app:cardBackgroundColor="@color/blue_500"
-                    app:cardCornerRadius="3dp">
+                    app:cardCornerRadius="4dp"
+                    app:cardBackgroundColor="@color/blue_500">
 
                     <LinearLayout
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="1dp">
+                        android:padding="4dp">
 
                         <TextView
                             android:id="@+id/positionView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/path"
-                            android:textColor="@color/white"
-                            android:textSize="13dp" />
+                            android:textSize="10sp"
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
 
@@ -107,6 +109,15 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/cardView"
                     android:src="@drawable/boy" />
+
+                <ImageView
+                    android:id="@+id/github"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignBottom="@id/genderView"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/genderView"
+                    android:src="@drawable/github" />
 
 
                 <TextView

@@ -809,7 +809,7 @@
     <string name="version_name_error2">已存在版本号名为%1$s的提交。</string>
     <string name="update_tip">编写您的更新日志。</string>
     <string name="update_log">更新日志</string>
-    <string name="recent_update">最近更新:%1$s</string>
+    <string name="recent_update">最低版本:%1$s 最近更新:%2$s</string>
     <string name="update_record">更新记录</string>
     <string name="search_mod_key">关于\"%1$s\"的搜索结果</string>
     <string name="result">结果</string>
@@ -962,6 +962,7 @@
     <string name="public_mod">公开</string>
     <string name="private_mod">私有</string>
     <string name="minVersion">最低游戏版本</string>
+    <string name="minVersion_tip">选择游戏的最低版本，可留空。</string>
     <string name="thumbs_up">点赞</string>
     <string name="github">GitHub</string>
     <string name="dataset_not_exist">DataBaseManifest.json不存在，无法加载信息。</string>

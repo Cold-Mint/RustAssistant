@@ -27,6 +27,8 @@ data class WebModInfoData(
         val screenshots: String? = null,
         val tags: String,
         val unitNumber: Int,
-        val updateTime: String
+        val updateTime: String,
+        val coinNumber: Int = 0,
+        val minVersion: String = "未知"
     )
 }

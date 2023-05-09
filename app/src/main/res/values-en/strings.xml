@@ -765,7 +765,6 @@
     <string name="version_name_error2">A commit with version number %1$s already exists.</string>
     <string name="update_tip">Write your update log.</string>
     <string name="update_log">Update log</string>
-    <string name="recent_update">Last updated :%1$s</string>
     <string name="update_record">Update record</string>
     <string name="search_mod_key">Search results for "%1$s"</string>
     <string name="result">The results of</string>

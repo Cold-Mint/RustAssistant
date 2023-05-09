@@ -220,6 +220,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         viewBinding.modUpdateInputLayout.isVisible = true
         viewBinding.versionNameEdit.setText(t.data.versionName)
         viewBinding.modDescribeEdit.setText(t.data.describe)
+        viewBinding.minVersionEdit.setText(t.data.minVersion)
         val outputTags: StringBuilder = StringBuilder()
         lineParser.text = t.data.tags
         lineParser.parserSymbol = true
@@ -724,6 +725,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                 return
             }
         }
+        val minVersion: String = viewBinding.minVersionEdit.text.toString()
         val tagsBuilder = StringBuilder()
         val lineParser = LineParser(tags)
         lineParser.symbol = ","
@@ -783,7 +785,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         } else {
                             releaseModWork(
                                 modId, modName, modDescribe, versionName,
-                                tagsBuilder, file
+                                minVersion, tagsBuilder, file
                             )
                         }
                     } else {
@@ -804,7 +806,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 } else {
                                     releaseModWork(
                                         modId, modName, modDescribe, versionName,
-                                        tagsBuilder, file
+                                        minVersion, tagsBuilder, file
                                     )
                                 }
                             }.setNegativeButton(R.string.always_allow) {
@@ -823,7 +825,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 } else {
                                     releaseModWork(
                                         modId, modName, modDescribe, versionName,
-                                        tagsBuilder, file
+                                        minVersion, tagsBuilder, file
                                     )
                                 }
                             }.setNeutralButton(R.string.dialog_cancel) {
@@ -846,7 +848,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                     } else {
                         releaseModWork(
                             modId, modName, modDescribe, versionName,
-                            tagsBuilder, file
+                            minVersion, tagsBuilder, file
                         )
                     }
                 }
@@ -868,6 +870,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
         modName: String,
         modDescribe: String,
         versionName: String,
+        minVersion: String?,
         tagsBuilder: StringBuilder, file: File
     ) {
         val loadFileLayoutBinding = LoadFileLayoutBinding.inflate(layoutInflater)
@@ -881,7 +884,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
             modName,
             modDescribe,
             tagsBuilder.toString(),
-            unitnum,
+            unitnum, minVersion = minVersion,
             iconLink = iconLink, file = file, screenshotList = list, versionName = versionName,
             apiCallBack = object : ApiCallBack<ApiResponse> {
                 override fun onResponse(t: ApiResponse) {

@@ -1104,6 +1104,7 @@ class WebMod private constructor() {
         unitNum: Int,
         versionName: String,
         iconLink: String?,
+        minVersion: String?,
         file: File,
         apiCallBack: ApiCallBack<ApiResponse>,
         progressListener: ProgressListener? = null, screenshotList: ArrayList<String>? = null
@@ -1117,6 +1118,9 @@ class WebMod private constructor() {
                 .addFormDataPart("versionName", versionName)
                 .addFormDataPart("unitNumber", unitNum.toString())
                 .addFormDataPart("file", file.name, file.asRequestBody())
+        if (minVersion!= null && minVersion.isNotEmpty()) {
+            builder.addFormDataPart("minVersion", minVersion)
+        }
         if (iconLink != null) {
             if (ServerConfiguration.canConvertedToFile(iconLink)) {
                 val iconFile = File(iconLink)

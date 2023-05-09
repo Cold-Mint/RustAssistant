@@ -33,6 +33,7 @@ import com.coldmint.rust.pro.databinding.FragmentAllUnitsBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.io.File
 import java.text.SimpleDateFormat
@@ -143,7 +144,11 @@ class AllUnitsFragment(
      * 加载列表
      * @param file File
      */
-    fun loadFiles(file: File = modClass!!.modFile) {
+    fun loadFiles(file: File? = modClass?.modFile) {
+        if (file == null) {
+            Snackbar.make(viewBinding.unitList,R.string.file_not_exist,Snackbar.LENGTH_SHORT).show()
+            return
+        }
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {

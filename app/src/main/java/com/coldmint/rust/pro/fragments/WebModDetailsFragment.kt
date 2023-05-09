@@ -226,7 +226,11 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
                             t.data.versionName
                         )
                     viewBinding.updateTimeView.text =
-                        String.format(getString(R.string.recent_update), t.data.updateTime)
+                        String.format(
+                            getString(R.string.recent_update),
+                            t.data.minVersion,
+                            t.data.updateTime
+                        )
                     if (t.data.hidden == 0) {
                         viewBinding.hideTextView.isVisible = false
                     }

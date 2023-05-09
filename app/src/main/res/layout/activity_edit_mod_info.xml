@@ -121,6 +121,22 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/minVersionInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="20">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/minVersionEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/minVersion"
+                            app:simpleItems="@array/game_versions" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -173,7 +189,6 @@
                         android:text="@string/add" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/expandMusicList"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -182,6 +197,7 @@
                         android:layout_alignParentEnd="true"
                         android:padding="2dp"
                         android:src="@drawable/expand_icon"
+                        android:visibility="gone"
                         app:tint="?android:colorControlNormal" />
 
                     <LinearLayout
@@ -261,7 +277,6 @@
                         android:text="@string/add" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/expandMapList"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -270,6 +285,7 @@
                         android:layout_alignParentEnd="true"
                         android:padding="2dp"
                         android:src="@drawable/expand_icon"
+                        android:visibility="gone"
                         app:tint="?android:colorControlNormal" />
 
                     <LinearLayout

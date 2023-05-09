@@ -764,7 +764,6 @@
     <string name="version_name_error2">Существующая версия под названием % $.</string>
     <string name="update_tip">Напиши свой новый журнал.</string>
     <string name="update_log">Обновить журнал</string>
-    <string name="recent_update">Последние новости :% $</string>
     <string name="update_record">Обновить запись.</string>
     <string name="search_mod_key">Результаты поиска \"% \ $\ \\"</string>
     <string name="result">результат</string>

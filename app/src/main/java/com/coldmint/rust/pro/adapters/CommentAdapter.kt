@@ -1,6 +1,7 @@
 package com.coldmint.rust.pro.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +46,10 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
         position: Int
     ) {
         val icon = data.headIcon
-        if (icon != null) {
+        Log.d("CommentAdapter", "图标路径" + icon)
+        if (icon == null || icon.isBlank()) {
+            viewBinding.iconView.setImageResource(R.drawable.head_icon)
+        } else {
             Glide.with(context).load(ServerConfiguration.getRealLink(icon))
                 .apply(GlobalMethod.getRequestOptions(true))
                 .into(viewBinding.iconView)
@@ -57,7 +61,11 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
             data.time + " " + data.location
         }
         viewBinding.thumbUpImageView.setOnClickListener {
-            Snackbar.make(viewBinding.thumbUpImageView,R.string.temporarily_unavailable,Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                viewBinding.thumbUpImageView,
+                R.string.temporarily_unavailable,
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
         viewBinding.shareImageView.setOnClickListener {
             AppOperator.shareText(context, context.getString(R.string.share_message), data.content);
@@ -78,7 +86,7 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
                                 context.getString(R.string.delete_comment_tip),
                                 data.userName
                             )
-                        ).setPositiveButton(R.string.dialog_ok){
+                        ).setPositiveButton(R.string.dialog_ok) {
                             val token = AppSettings.getValue(AppSettings.Setting.Token, "")
                             if (token.isNullOrBlank()) {
                                 Snackbar.make(
@@ -117,7 +125,7 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
                                         }
                                     })
                             }
-                        }.setNegativeButton(R.string.dialog_cancel){
+                        }.setNegativeButton(R.string.dialog_cancel) {
 
                         }.show()
                     }
