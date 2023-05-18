@@ -659,14 +659,20 @@ class ModActionAdapter(
                             }
                         }
                         handler.post {
-                            materialDialog.dismiss()
-                            val modClass = ModClass(unzip_path)
-                            if (!modClass.hasInfo()) {
-                                val repairThread = RepairThread()
-                                repairThread.setModpath(unzip_path.absolutePath)
-                                repairThread.start()
+                            try {
+                                materialDialog.dismiss()
+                                val modClass = ModClass(unzip_path)
+                                if (!modClass.hasInfo()) {
+                                    val repairThread = RepairThread()
+                                    repairThread.setModpath(unzip_path.absolutePath)
+                                    repairThread.start()
+                                }
+                                mModFragment.loadModList()
+                            }catch (e: Exception) {
+                                //此处try-catch用于处理某些情况下，materialDialog.dismiss()无法获取上下文环境的问题。
+                                // https://console.firebase.google.com/project/rust-assistant-58ca5/crashlytics/app/android:com.coldmint.rust.pro/issues/6daf3a4848ba02f1fb7eee1b8498f9e6?hl=zh-cn&time=last-seven-days&sessionEventKey=645E56A60377000134A21E1A97CE75C2_1810764589804755675
+                                e.printStackTrace()
                             }
-                            mModFragment.loadModList()
                         }
                     } else {
                         handler.post {

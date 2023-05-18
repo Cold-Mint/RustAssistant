@@ -128,7 +128,9 @@ class AllUnitsFragment(
                 historyDao.update(newHistoryRecord)
             }
             useHandler.post {
-                whenAddComplete.invoke()
+                if (isAdded) {
+                    whenAddComplete.invoke()
+                }
             }
         }
         if (useThread) {
@@ -146,15 +148,18 @@ class AllUnitsFragment(
      */
     fun loadFiles(file: File? = modClass?.modFile) {
         if (file == null) {
-            Snackbar.make(viewBinding.unitList,R.string.file_not_exist,Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(viewBinding.unitList, R.string.file_not_exist, Snackbar.LENGTH_SHORT)
+                .show()
             return
         }
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
-                viewBinding.swipeRefreshLayout.isVisible = false
-                viewBinding.progressBar.isVisible = true
-                viewBinding.unitError.isVisible = false
+                if (isAdded) {
+                    viewBinding.swipeRefreshLayout.isVisible = false
+                    viewBinding.progressBar.isVisible = true
+                    viewBinding.unitError.isVisible = false
+                }
             }
             dataList.clear()
             val fileFinder2 = FileFinder2(file)
@@ -193,25 +198,27 @@ class AllUnitsFragment(
                 notFindUnits(handler)
             } else {
                 handler.post {
-                    viewBinding.swipeRefreshLayout.isVisible = true
-                    viewBinding.progressBar.isVisible = false
-                    viewBinding.unitError.isVisible = false
-                    val adapter = UnitAdapter(requireContext(), dataList, "")
-                    adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
-                        unitItemBinding.root.setOnClickListener {
-                            openEditActivity(sourceFileClass)
+                    if (isAdded) {
+                        viewBinding.swipeRefreshLayout.isVisible = true
+                        viewBinding.progressBar.isVisible = false
+                        viewBinding.unitError.isVisible = false
+                        val adapter = UnitAdapter(requireContext(), dataList, "")
+                        adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
+                            unitItemBinding.root.setOnClickListener {
+                                openEditActivity(sourceFileClass)
+                            }
                         }
-                    }
-                    adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
-                        whenNumberChanged?.invoke(i2)
-                        if (i2 == 0) {
-                            loadFiles()
+                        adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
+                            whenNumberChanged?.invoke(i2)
+                            if (i2 == 0) {
+                                loadFiles()
+                            }
                         }
+                        FastScrollerBuilder(viewBinding.unitList).useMd2Style()
+                            .setPopupTextProvider(adapter).build()
+                        viewBinding.unitList.adapter = adapter
+                        whenNumberChanged?.invoke(dataList.size)
                     }
-                    FastScrollerBuilder(viewBinding.unitList).useMd2Style()
-                        .setPopupTextProvider(adapter).build()
-                    viewBinding.unitList.adapter = adapter
-                    whenNumberChanged?.invoke(dataList.size)
                 }
             }
         }
@@ -225,32 +232,34 @@ class AllUnitsFragment(
     fun notFindUnits(handler: Handler? = null, key: String? = null, searchMode: Boolean = false) {
         val temHandler = handler ?: Handler(Looper.getMainLooper())
         temHandler.post {
-            viewBinding.swipeRefreshLayout.isVisible = false
-            viewBinding.progressBar.isVisible = false
-            viewBinding.unitError.isVisible = true
-            if (key != null) {
-                val source =
-                    String.format(getString(R.string.not_find_units_name), key)
-                val spannableString = SpannableString(source)
-                val action = getString(R.string.not_find_units_action)
-                spannableString.setSpan(object : ClickableSpan() {
-                    override fun onClick(widget: View) {
-                        loadFiles()
-                    }
-                }, source.indexOf(action), source.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-                viewBinding.unitError.movementMethod = LinkMovementMethod.getInstance()
-                viewBinding.unitError.text = spannableString
-            } else {
-                if (searchMode) {
-                    viewBinding.unitError.text = getString(R.string.search_tip)
-                    viewBinding.unitError.setOnClickListener {
-                        loadFiles()
-                    }
+            if (isAdded) {
+                viewBinding.swipeRefreshLayout.isVisible = false
+                viewBinding.progressBar.isVisible = false
+                viewBinding.unitError.isVisible = true
+                if (key != null) {
+                    val source =
+                        String.format(getString(R.string.not_find_units_name), key)
+                    val spannableString = SpannableString(source)
+                    val action = getString(R.string.not_find_units_action)
+                    spannableString.setSpan(object : ClickableSpan() {
+                        override fun onClick(widget: View) {
+                            loadFiles()
+                        }
+                    }, source.indexOf(action), source.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                    viewBinding.unitError.movementMethod = LinkMovementMethod.getInstance()
+                    viewBinding.unitError.text = spannableString
                 } else {
-                    viewBinding.unitError.setText(R.string.not_find_units)
+                    if (searchMode) {
+                        viewBinding.unitError.text = getString(R.string.search_tip)
+                        viewBinding.unitError.setOnClickListener {
+                            loadFiles()
+                        }
+                    } else {
+                        viewBinding.unitError.setText(R.string.not_find_units)
+                    }
                 }
+                whenNumberChanged?.invoke(0)
             }
-            whenNumberChanged?.invoke(0)
         }
     }
 
@@ -262,9 +271,11 @@ class AllUnitsFragment(
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
             handler.post {
-                viewBinding.swipeRefreshLayout.isVisible = false
-                viewBinding.progressBar.isVisible = true
-                viewBinding.unitError.isVisible = false
+                if (isAdded) {
+                    viewBinding.swipeRefreshLayout.isVisible = false
+                    viewBinding.progressBar.isVisible = true
+                    viewBinding.unitError.isVisible = false
+                }
             }
             dataList.clear()
             val data = modClass!!.modConfigurationManager?.readData()
@@ -324,27 +335,30 @@ class AllUnitsFragment(
                 notFindUnits(handler, searchMode = true)
             } else {
                 handler.post {
-                    viewBinding.swipeRefreshLayout.isVisible = true
-                    viewBinding.progressBar.isVisible = false
-                    viewBinding.unitError.isVisible = true
-                    viewBinding.unitError.text = getString(R.string.search_tip)
-                    viewBinding.unitError.setOnClickListener {
-                        loadFiles()
-                    }
-                    val adapter = UnitAdapter(requireContext(), dataList, configuration.unitName)
-                    adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
-                        unitItemBinding.root.setOnClickListener {
-                            openEditActivity(sourceFileClass)
-                        }
-                    }
-                    adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
-                        whenNumberChanged?.invoke(i2)
-                        if (i2 == 0) {
+                    if (isAdded) {
+                        viewBinding.swipeRefreshLayout.isVisible = true
+                        viewBinding.progressBar.isVisible = false
+                        viewBinding.unitError.isVisible = true
+                        viewBinding.unitError.text = getString(R.string.search_tip)
+                        viewBinding.unitError.setOnClickListener {
                             loadFiles()
                         }
+                        val adapter =
+                            UnitAdapter(requireContext(), dataList, configuration.unitName)
+                        adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
+                            unitItemBinding.root.setOnClickListener {
+                                openEditActivity(sourceFileClass)
+                            }
+                        }
+                        adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
+                            whenNumberChanged?.invoke(i2)
+                            if (i2 == 0) {
+                                loadFiles()
+                            }
+                        }
+                        viewBinding.unitList.adapter = adapter
+                        whenNumberChanged?.invoke(dataList.size)
                     }
-                    viewBinding.unitList.adapter = adapter
-                    whenNumberChanged?.invoke(dataList.size)
                 }
             }
         }
@@ -372,27 +386,29 @@ class AllUnitsFragment(
                     notFindUnits(handler, key)
                 } else {
                     handler.post {
-                        viewBinding.swipeRefreshLayout.isVisible = true
-                        viewBinding.progressBar.isVisible = false
-                        viewBinding.unitError.isVisible = true
-                        viewBinding.unitError.text = getString(R.string.not_find_units_action)
-                        viewBinding.unitError.setOnClickListener {
-                            loadFiles()
-                        }
-                        val adapter = UnitAdapter(requireContext(), newList, key)
-                        adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
-                            unitItemBinding.root.setOnClickListener {
-                                openEditActivity(sourceFileClass)
-                            }
-                        }
-                        adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
-                            whenNumberChanged?.invoke(i2)
-                            if (i2 == 0) {
+                        if (isAdded) {
+                            viewBinding.swipeRefreshLayout.isVisible = true
+                            viewBinding.progressBar.isVisible = false
+                            viewBinding.unitError.isVisible = true
+                            viewBinding.unitError.text = getString(R.string.not_find_units_action)
+                            viewBinding.unitError.setOnClickListener {
                                 loadFiles()
                             }
+                            val adapter = UnitAdapter(requireContext(), newList, key)
+                            adapter.setItemEvent { i, unitItemBinding, viewHolder, sourceFileClass ->
+                                unitItemBinding.root.setOnClickListener {
+                                    openEditActivity(sourceFileClass)
+                                }
+                            }
+                            adapter.setItemChangeEvent { changeType, i, sourceFileClass, i2 ->
+                                whenNumberChanged?.invoke(i2)
+                                if (i2 == 0) {
+                                    loadFiles()
+                                }
+                            }
+                            viewBinding.unitList.adapter = adapter
+                            whenNumberChanged?.invoke(newList.size)
                         }
-                        viewBinding.unitList.adapter = adapter
-                        whenNumberChanged?.invoke(newList.size)
                     }
                 }
             }

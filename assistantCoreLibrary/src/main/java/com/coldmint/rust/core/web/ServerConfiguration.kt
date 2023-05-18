@@ -26,7 +26,7 @@ object ServerConfiguration {
 
     //电脑查 ip [ipconfig]
     private const val testIp = "http://10.0.2.2/"
-    const val defaultIp = "http://39.105.229.249/"
+    const val defaultIp = "https://rust.coldmint.top/"
     var website = defaultIp
     const val Success_Code = 0
     const val Error_Code = 1

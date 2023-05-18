@@ -41,10 +41,14 @@ class BannerManager private constructor() {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val data = response.body!!.string()
-                    val finalBannerItemDataBean =
+                    val finalBannerItemDataBean: BannerItemDataBean? =
                         gson.fromJson(data, BannerItemDataBean::class.java)
-                    handler.post {
-                        apiCallBack.onResponse(finalBannerItemDataBean)
+                    if (finalBannerItemDataBean == null) {
+                        handler.post { apiCallBack.onFailure(IOException()) }
+                    } else {
+                        handler.post {
+                            apiCallBack.onResponse(finalBannerItemDataBean)
+                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

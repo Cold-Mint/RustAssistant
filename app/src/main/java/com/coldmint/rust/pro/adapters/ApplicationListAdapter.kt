@@ -124,10 +124,14 @@ class ApplicationListAdapter(
                             apkFolder.mkdirs()
                         }
                         handler.post {
-                            materialDialog.show {
-                                title(R.string.export_apk_title).message(
-                                    R.string.export_apk_load
-                                ).positiveButton(R.string.dialog_close).cancelable(false)
+                            try {
+                                materialDialog.show {
+                                    title(R.string.export_apk_title).message(
+                                        R.string.export_apk_load
+                                    ).positiveButton(R.string.dialog_close).cancelable(false)
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
                         }
                         val path = folder + "/" + appName + "_" + data.versionName + ".apk"
@@ -146,12 +150,16 @@ class ApplicationListAdapter(
                             }
                         } else {
                             handler.post {
-                                materialDialog.dismiss()
-                                Snackbar.make(
-                                    viewBinding.root,
-                                    context.getString(R.string.export_apk_failure),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
+                                try {
+                                    materialDialog.dismiss()
+                                    Snackbar.make(
+                                        viewBinding.root,
+                                        context.getString(R.string.export_apk_failure),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         }
                     }.start()
