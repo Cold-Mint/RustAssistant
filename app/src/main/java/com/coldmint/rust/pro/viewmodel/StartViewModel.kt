@@ -258,6 +258,8 @@ class StartViewModel(application: Application) : BaseAndroidViewModel(applicatio
             AppSettings.Setting.DynamicColor,
             DynamicColors.isDynamicColorAvailable()
         )
+        //如果是安卓12或更低，那么默认启用。安卓13默认关闭
+        AppSettings.initSetting(AppSettings.Setting.ClipboardCue,Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
         AppSettings.initSetting(AppSettings.Setting.KeywordColor, "#2196f3")
         AppSettings.initSetting(AppSettings.Setting.SectionColor, "#e91e63")
         AppSettings.initSetting(AppSettings.Setting.TextColor, "#212121")

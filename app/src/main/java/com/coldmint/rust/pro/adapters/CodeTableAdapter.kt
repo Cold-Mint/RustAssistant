@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
+import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
@@ -20,6 +21,7 @@ import com.coldmint.rust.pro.databinding.CodeTableItemBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.concurrent.Executors
 
 class CodeTableAdapter(
@@ -144,8 +146,16 @@ class CodeTableAdapter(
         }
 
         val demo = codeInfo.demo
-        resultView.demoView.isVisible = demo.isNotBlank()
-        resultView.demoView.text = demo
+        resultView.imageView.isVisible = demo.isNotBlank()
+        resultView.imageView.setOnClickListener {
+            val dialog = MaterialAlertDialogBuilder(context);
+            dialog.setTitle(R.string.code_demo)
+            dialog.setMessage(demo)
+            dialog.setPositiveButton(R.string.dialog_ok){
+                v,a->
+            }
+            dialog.show()
+        }
 
         resultView.subTitleView.text = codeInfo.code
         resultView.subTitleView.setOnClickListener {

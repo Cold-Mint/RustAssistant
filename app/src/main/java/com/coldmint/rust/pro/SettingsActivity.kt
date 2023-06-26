@@ -62,6 +62,12 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 true
             }
 
+            val clipboardCue = manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_clipboard_cue))
+            // Only show a toast for Android 12 and lower.
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2){
+                //如果是安卓12或更低
+                clipboardCue?.isEnabled = false
+            }
             val dynamicColor =
                 manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_dynamic_color))
             if (!DynamicColors.isDynamicColorAvailable()) {

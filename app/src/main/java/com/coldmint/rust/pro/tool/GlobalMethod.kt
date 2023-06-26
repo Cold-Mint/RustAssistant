@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -20,6 +21,7 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.load.MultiTransformation
@@ -47,7 +49,6 @@ object GlobalMethod {
     const val DEFAULT_GAME_PACKAGE = "com.corrodinggames.rts"
     const val DEBUG_SIGN = "963dfd616924b27f9247a35e45bc130a"
     const val RELEASE_SIGN = "5320b24894fe7ed449842a81a2dfceda"
-
 
 
     /**
@@ -300,7 +301,8 @@ object GlobalMethod {
                 scope.showRequestReasonDialog(
                     deniedList,
                     activity.getString(R.string.dialog_title),
-                    activity.getString(R.string.dialog_confirm),activity.getString(R.string.dialog_cancel)
+                    activity.getString(R.string.dialog_confirm),
+                    activity.getString(R.string.dialog_cancel)
                 )
             }
             .request { allGranted, grantedList, deniedList ->
@@ -335,16 +337,21 @@ object GlobalMethod {
      * @param showView 展示的视图（设置为null则不展示提示）
      */
     fun copyText(context: Context, text: String, showView: View? = null) {
-        val clipboardManager =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText(text, text)
-        clipboardManager.setPrimaryClip(clipData)
+        val clipboardManager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        // When setting the clip board text.
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("", text))
         if (showView != null) {
-            Snackbar.make(
-                showView,
-                String.format(context.getText(R.string.copy_complete).toString(), text),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            if (AppSettings.getValue(
+                    AppSettings.Setting.ClipboardCue,
+                    Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2
+                )
+            ) {
+                Snackbar.make(
+                    showView,
+                    String.format(context.getText(R.string.copy_complete).toString(), text),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

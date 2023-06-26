@@ -880,6 +880,7 @@
     <string name="display_source_code">显示源代码</string>
     <string name="dynamic_color">动态颜色</string>
     <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
+    <string name="setting_clipboard_cue" translatable="false">ClipboardCue</string>
     <string name="dynamic_color_tip">跟随设备壁纸更换主题色。</string>
     <string name="dynamic_color_disabled">此设备不支持动态颜色。</string>
     <string name="an_unsupported_file_type">不支持的文件格式%1$s。</string>
@@ -967,4 +968,7 @@
     <string name="github">GitHub</string>
     <string name="dataset_not_exist">DataBaseManifest.json不存在，无法加载信息。</string>
     <string name="dataset_minversion_low">此数据集仅适用于旧版本助手。</string>
+    <string name="code_demo">示例代码</string>
+    <string name="clipboard_cue">剪切板提示</string>
+    <string name="clipboard_cue_tip">在安卓13及以上系统，应用将内容复制到剪贴板时，弹出提示。</string>
 </resources>

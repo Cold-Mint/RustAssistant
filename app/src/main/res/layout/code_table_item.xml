@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/titleView"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/imageView"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,54 +27,56 @@
 
     <TextView
         android:id="@+id/descriptionView"
-        android:layout_width="match_parent"
         style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subTitleView"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
         android:text="描述" />
 
-    <View
-        android:id="@+id/LineView"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        android:background="?android:colorPrimary"
-        android:layout_below="@id/descriptionView"/>
+
+    <ImageView
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageView"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/baseline_help_outline_24" />
+
+<!--    <TextView-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:id="@+id/DemoTitleView"-->
+<!--        style="@style/TextAppearance.Material3.BodySmall"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/descriptionView"-->
+<!--        android:text="示例代码:"-->
+<!--        android:textColor="?attr/colorSecondary" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/demoView"-->
+<!--        style="@style/TextAppearance.Material3.BodySmall"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/descriptionView"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:text="demo"-->
+<!--        android:visibility="gone" />-->
 
     <TextView
-        android:id="@+id/DemoTitleView"
-        style="@style/TextAppearance.Material3.BodyMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/LineView"
-        android:text="示例代码:"
-        android:textColor="?attr/colorSecondary" />
-
-    <TextView
-        android:id="@+id/demoView"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        style="@style/TextAppearance.Material3.BodySmall"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/DemoTitleView"
-        android:layout_marginTop="5dp"
-        android:text="demo" />
-
-    <TextView
-        style="@style/TextAppearance.Material3.BodySmall"
         android:id="@+id/valueTypeView"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/demoView"
+        android:layout_below="@id/descriptionView"
         android:layout_marginTop="5dp"
         android:text="值类型" />
 
     <TextView
         android:id="@+id/versionView"
-        android:layout_width="wrap_content"
         style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/valueTypeView"
         android:layout_marginLeft="8dp"
@@ -83,9 +87,9 @@
         android:id="@+id/chipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:singleLine="false"
         android:layout_below="@id/valueTypeView"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        app:singleLine="false">
 
     </com.google.android.material.chip.ChipGroup>
 

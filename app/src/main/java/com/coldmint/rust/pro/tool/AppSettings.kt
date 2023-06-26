@@ -38,7 +38,7 @@ object AppSettings {
     }
 
     enum class Setting {
-        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath, SimpleDisplayOfAutoCompleteMenu, SourceFileType
+        DatabaseDirectory, DatabasePath, TemplateDirectory, AppLanguage, DeveloperMode, CustomSymbol, AutoCreateNomedia, OnlyLoadConantLanguageTemple, NightMode, GamePackage, KeywordColor, KeywordColorDark, AnnotationColor, AnnotationColorDark, TextColor, TextColorDark, SectionColor, SectionColorDark, KeepRwmodFile, EnableRecoveryStation, RecoveryStationFileSaveDays, RecoveryStationFolder, IndependentFolder, SetGameStorage, PackDirectory, IdentifiersPromptNumber, UserName, UseJetBrainsMonoFont, AppID, Account, PassWord, ExpirationTime, CheckBetaUpdate, UpdateData, ShareTip, AgreePolicy, EnglishEditingMode, NightModeFollowSystem, UseMobileNetwork, MapFolder, ModFolder, UseTheCommunityAsTheLaunchPage, AutoSave, ServerAddress, Token, LoginStatus, DynamicColor, ExperiencePlan, FileSortType, CodeEditBackGroundEnable, BlurTransformationValue, CodeEditBackGroundPath, SimpleDisplayOfAutoCompleteMenu, SourceFileType, ClipboardCue
 
     }
 
@@ -135,6 +135,7 @@ object AppSettings {
             mApplication.getString(R.string.setting_simple_display_of_auto_complete_menu)
         //setting_source_file_type
         map[Setting.SourceFileType] = mApplication.getString(R.string.setting_source_file_type)
+        map[Setting.ClipboardCue] = mApplication.getString(R.string.setting_clipboard_cue)
         //仅保存不可显示
         map[Setting.SetGameStorage] = "SetGameStorage"
         map[Setting.AppID] = "AppId"
@@ -235,18 +236,23 @@ object AppSettings {
                 is String -> {
                     editor.putString(name, value as String)
                 }
+
                 is Boolean -> {
                     editor.putBoolean(name, value as Boolean)
                 }
+
                 is Int -> {
                     editor.putInt(name, value as Int)
                 }
+
                 is Float -> {
                     editor.putFloat(name, value as Float)
                 }
+
                 is Long -> {
                     editor.putLong(name, value as Long)
                 }
+
                 else -> {
                     return false
                 }
@@ -271,18 +277,23 @@ object AppSettings {
             is String -> {
                 editor.putString(name, value as String)
             }
+
             is Boolean -> {
                 editor.putBoolean(name, value as Boolean)
             }
+
             is Int -> {
                 editor.putInt(name, value as Int)
             }
+
             is Float -> {
                 editor.putFloat(name, value as Float)
             }
+
             is Long -> {
                 editor.putLong(name, value as Long)
             }
+
             else -> {
                 return false
             }
