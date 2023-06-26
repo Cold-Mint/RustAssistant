@@ -13,6 +13,10 @@
         path="rustedWarfare/maps" />
 
     <external-path
+        name="root"
+        path="." />
+
+    <external-path
         name="bin"
         path="rustAssistant/bin" />
 

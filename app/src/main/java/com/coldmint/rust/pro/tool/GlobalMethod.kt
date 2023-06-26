@@ -300,7 +300,7 @@ object GlobalMethod {
                 scope.showRequestReasonDialog(
                     deniedList,
                     activity.getString(R.string.dialog_title),
-                    activity.getString(R.string.dialog_confirm)
+                    activity.getString(R.string.dialog_confirm),activity.getString(R.string.dialog_cancel)
                 )
             }
             .request { allGranted, grantedList, deniedList ->
