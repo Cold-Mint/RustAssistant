@@ -15,6 +15,7 @@
 
     <application
         android:name=".RustApplication"
+        android:localeConfig="@xml/locale_config"
         android:hasFragileUserData="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
