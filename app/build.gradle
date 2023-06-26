@@ -24,12 +24,12 @@ android {
             keyAlias 'coldmint'
         }
     }
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.coldmint.rust.pro"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 27
         versionName "2.1 Bata5(2023-4-21)"
@@ -72,6 +72,13 @@ android {
 
 
 dependencies {
+    configurations.all {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+    }
+    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0') {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    }
+
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -92,6 +99,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.0"
 
     implementation "dev.rikka.rikkax.preference:simplemenu-preference:1.0.3"
+    implementation "dev.rikka.rikkax.material:material-preference:2.0.0"
 
     //沉浸式状态栏
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
@@ -113,8 +121,9 @@ dependencies {
     implementation 'com.github.florent37:glidepalette:2.1.2'
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'com.google.android.material:material:1.9.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'dev.rikka.rikkax.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"

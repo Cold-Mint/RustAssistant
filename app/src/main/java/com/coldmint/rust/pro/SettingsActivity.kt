@@ -18,9 +18,11 @@ import com.coldmint.rust.pro.databinding.ActivitySettingsBinding
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import rikka.material.preference.MaterialSwitchPreference
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,49 +55,58 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 }
 
             val english_editing_mode =
-                manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_english_editing_mode))
+                manager.findPreference<MaterialSwitchPreference>(requireContext().getString(R.string.setting_english_editing_mode))
 
-            val customizeEdit = manager.findPreference<PreferenceScreen>("customize_edit")
+            val customizeEdit = manager.findPreference<Preference>("customize_edit")
             customizeEdit!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 val intent = Intent(requireContext(), CustomizeEditTextActivity::class.java)
                 startActivity(intent)
                 true
             }
 
-            val clipboardCue = manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_clipboard_cue))
+            val clipboardCue =
+                manager.findPreference<MaterialSwitchPreference>(requireContext().getString(R.string.setting_clipboard_cue))
             // Only show a toast for Android 12 and lower.
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2){
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
                 //如果是安卓12或更低
                 clipboardCue?.isEnabled = false
             }
             val dynamicColor =
-                manager.findPreference<SwitchPreference>(requireContext().getString(R.string.setting_dynamic_color))
+                manager.findPreference<MaterialSwitchPreference>(requireContext().getString(R.string.setting_dynamic_color))
             if (!DynamicColors.isDynamicColorAvailable()) {
                 //动态颜色不可用
                 dynamicColor?.summary = getString(R.string.dynamic_color_disabled)
                 dynamicColor?.isEnabled = false
             }
+            dynamicColor?.setOnPreferenceChangeListener { preference, newValue ->
+                if (newValue is Boolean) {
+                    if (AppSettings.getValue(AppSettings.Setting.DynamicColor, DynamicColors.isDynamicColorAvailable()) != newValue) {
+                        activity?.recreate()
+                    }
+                }
+                true
+            }
 
             val errorInfo =
-                manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_see_error_info))
+                manager.findPreference<Preference>(requireContext().getString(R.string.setting_see_error_info))
             errorInfo!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 startActivity(Intent(context, ErrorInfoActivity::class.java))
                 true
             }
 
-//            val obtainSourceCode = manager.findPreference<PreferenceScreen>(requireContext().getString(R.string.setting_obtain_source_code))
+//            val obtainSourceCode = manager.findPreference<Preference>(requireContext().getString(R.string.setting_obtain_source_code))
 //            obtainSourceCode!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
 //                AppOperator.useBrowserAccessWebPage(requireContext(),"https://github.com/Cold-Mint/RustAssistant")
 //                true
 //            }
 
-            val game = manager.findPreference<PreferenceScreen>("set_game_pack")
+            val game = manager.findPreference<Preference>("set_game_pack")
             game!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 startActivity(Intent(context, ApplicationListActivity::class.java))
                 true
             }
             val valueTypeManager =
-                manager.findPreference<PreferenceScreen>("value_type_manager")
+                manager.findPreference<Preference>("value_type_manager")
             valueTypeManager!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     val intent = Intent(context, ValueTypeActivity::class.java)
@@ -103,7 +114,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                     true
                 }
             val openRecoveryStation =
-                manager.findPreference<PreferenceScreen>("open_recovery_station")
+                manager.findPreference<Preference>("open_recovery_station")
             openRecoveryStation!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     startActivity(Intent(context, RecyclingStationActivity::class.java))
@@ -111,7 +122,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 }
 
             val clearCache =
-                manager.findPreference<PreferenceScreen>(getString(R.string.setting_clear_cache))
+                manager.findPreference<Preference>(getString(R.string.setting_clear_cache))
             clearCache!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     val items = ArrayList<String>()
@@ -143,10 +154,12 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                                                     Glide.get(requireContext()).clearMemory()
                                                 }
                                             }
+
                                             getString(R.string.code_cache) -> {
                                                 FileOperator.delete_files(requireContext().codeCacheDir)
                                                 FileOperator.delete_files(requireContext().cacheDir)
                                             }
+
                                             getString(R.string.history_cache) -> {
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                                     FileOperator.delete_files(File(requireActivity().applicationContext.dataDir.absolutePath + "/databases"))
@@ -179,8 +192,8 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                     true
                 }
 
-            val nightMode: SwitchPreference? =
-                manager.findPreference<SwitchPreference>(getString(R.string.setting_night_mode))
+            val nightMode: MaterialSwitchPreference? =
+                manager.findPreference<MaterialSwitchPreference>(getString(R.string.setting_night_mode))
             nightMode?.setOnPreferenceChangeListener { preference, newValue ->
                 val booleanValue = newValue as Boolean
                 if (booleanValue) {
@@ -192,8 +205,8 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
             }
 
 
-            val nightModeFollowSystem: SwitchPreference? =
-                manager.findPreference<SwitchPreference>(getString(R.string.setting_night_mode_follow_system))
+            val nightModeFollowSystem: MaterialSwitchPreference? =
+                manager.findPreference<MaterialSwitchPreference>(getString(R.string.setting_night_mode_follow_system))
             nightModeFollowSystem?.setOnPreferenceChangeListener { preference, newValue ->
                 if (nightMode != null) {
                     val useValue = newValue as Boolean
@@ -232,7 +245,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                 }
 
                 val useCommunity =
-                    manager.findPreference<SwitchPreference>(getString(R.string.setting_use_the_community_as_the_launch_page))
+                    manager.findPreference<MaterialSwitchPreference>(getString(R.string.setting_use_the_community_as_the_launch_page))
                 if (useCommunity != null) {
                     useCommunity.isVisible = false
                 }
@@ -252,6 +265,10 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
 
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
+            this.getTheme().applyStyle(
+                rikka.material.preference.R.style.ThemeOverlay_Rikka_Material3_Preference,
+                true
+            );
             title = getString(R.string.set_up)
             setReturnButton()
             val settingsFragment = SettingsFragment()

@@ -638,11 +638,11 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
      */
     fun loadMineBookmarksMenu() {
         if (this::menuBinding.isInitialized) {
-            menuBinding.mineBookmarksMenu.subMenu.clear()
+            menuBinding.mineBookmarksMenu.subMenu?.clear()
             viewModel.getBookmarkManager().fromList(object : BookmarkListener {
                 override fun find(path: String, name: String) {
-                    val item = menuBinding.mineBookmarksMenu.subMenu.add(name)
-                    item.setOnMenuItemClickListener {
+                    val item = menuBinding.mineBookmarksMenu.subMenu?.add(name)
+                    item?.setOnMenuItemClickListener {
                         viewModel.currentPathLiveData.value = path
                         true
                     }

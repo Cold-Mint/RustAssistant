@@ -12,7 +12,7 @@
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="true"
             android:summary="@string/clipboard_cue_tip"
             android:title="@string/clipboard_cue"
@@ -24,28 +24,28 @@
     <PreferenceCategory android:title="@string/appearance">
 
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="true"
             android:summary="@string/dynamic_color_tip"
             android:title="@string/dynamic_color"
             app:key="@string/setting_dynamic_color"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:title="@string/night_mode_follow_system"
             app:defaultValue="true"
             app:key="@string/setting_night_mode_follow_system"
             app:summary="@string/night_mode_follow_system_tip"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:title="@string/night_mode"
             app:defaultValue="false"
             app:key="@string/setting_night_mode"
             app:summary="@string/night_mode_auto"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:title="@string/use_the_community_as_the_launch_page"
             app:defaultValue="true"
             app:key="@string/setting_use_the_community_as_the_launch_page"
@@ -72,7 +72,7 @@
     <PreferenceCategory android:title="@string/data_transfer">
 
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:title="@string/using_mobile_networks"
             app:defaultValue="false"
             app:key="@string/setting_use_mobile_network"
@@ -91,13 +91,13 @@
         app:key="editGroup"
         app:title="@string/edit_title">
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="false"
             app:key="@string/setting_english_editing_mode"
             app:summary="@string/english_editing_mode_describe"
             app:title="@string/english_editing_mode" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_use_jetBrains_mono_font"
             app:summary="@string/use_jetBrains_mono_font_describe"
@@ -108,7 +108,7 @@
             app:title="@string/custom_symbol"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="true"
             android:key="@string/setting_simple_display_of_auto_complete_menu"
             android:title="@string/simple_display_of_auto_complete_menu"
@@ -122,13 +122,13 @@
             app:title="@string/identifiers_prompt_number"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_auto_save"
             app:summary="@string/auto_save_describe"
             app:title="@string/auto_save" />
 
-        <PreferenceScreen
+        <Preference
             app:key="customize_edit"
             app:title="@string/customize_edit_text"
             app:summary="@string/customize_edit_text_description"/>
@@ -139,7 +139,7 @@
         app:key="gamePackGroup"
         app:title="@string/game_pack">
 
-        <PreferenceScreen
+        <Preference
             app:key="set_game_pack"
             app:summary="@string/select_the_game_package_description"
             app:title="@string/select_the_game_pack" />
@@ -157,14 +157,14 @@
             app:title="@string/mod_folder"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_auto_create_nomedia"
             app:summaryOff="@string/auto_create_nomedia_off"
             app:summaryOn="@string/auto_create_nomedia_on"
             app:title="@string/auto_create_nomedia" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_keep_rwmod_file"
             app:summary="@string/keep_rwmod_file_description"
@@ -176,7 +176,7 @@
             app:useSimpleSummaryProvider="true" />
 
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_enable_recovery_station"
             app:summary="@string/description_of_the_recovery_station"
@@ -197,13 +197,13 @@
             app:title="@string/recovery_station_file_save_days"
             app:useSimpleSummaryProvider="true" />
 
-        <PreferenceScreen
+        <Preference
             app:dependency="@string/setting_enable_recovery_station"
             app:key="open_recovery_station"
             app:summary="@string/description_of_manage_the_recovery_station"
             app:title="@string/manage_the_recovery_station" />
 
-        <PreferenceScreen
+        <Preference
             app:key="value_type_manager"
             app:summary="@string/value_type_manager_describe"
             app:title="@string/value_type_manager" />
@@ -225,14 +225,14 @@
         app:key="templateGroup"
         app:title="@string/template_title">
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="false"
             app:key="@string/setting_only_load_conant_language_temple"
             app:summaryOff="@string/only_load_coniant_language_template_off"
             app:summaryOn="@string/only_load_coniant_language_template_off"
             app:title="@string/only_load_coniant_language_template" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="@string/setting_independent_folder"
             app:summary="@string/independent_folder_description"
@@ -243,13 +243,13 @@
     <PreferenceCategory
         android:title="@string/update_and_iteration"
         app:key="updateGroup">
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="false"
             app:key="@string/setting_check_beta_update"
             app:summary="@string/check_beta_update_describe"
             app:title="@string/check_beta_update" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="true"
             android:key="@string/setting_experience_the_plan"
             app:summary="@string/experience_the_plan_describe"
@@ -261,7 +261,7 @@
         app:key="cacheGroup"
         app:title="@string/cache">
 
-        <PreferenceScreen
+        <Preference
             app:key="@string/setting_clear_cache"
             app:summary="@string/clear_cache_description"
             app:title="@string/clear_cache" />
@@ -272,17 +272,17 @@
         app:key="developerModeGroup"
         app:title="@string/sync_header">
 
-<!--        <PreferenceScreen-->
+<!--        <Preference-->
 <!--            app:key="@string/setting_obtain_source_code"-->
 <!--            android:summary="@string/obtain_source_code_msg"-->
 <!--            app:title="@string/obtain_source_code"/>-->
 
-        <PreferenceScreen
+        <Preference
             app:key="@string/setting_see_error_info"
             app:summary="@string/see_error_info_tip"
             app:title="@string/see_error_info" />
 
-        <SwitchPreference
+        <rikka.material.preference.MaterialSwitchPreference
             app:key="@string/setting_developer_mode"
             app:summaryOff="@string/developers_mode_off"
             app:summaryOn="@string/developers_mode_on"

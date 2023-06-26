@@ -41,6 +41,7 @@ import com.coldmint.rust.pro.databinding.HeadLayoutBinding
 import com.coldmint.rust.pro.fragments.UserGroupFragment
 import com.coldmint.rust.pro.tool.EventRecord
 import com.coldmint.rust.pro.viewmodel.StartViewModel
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -56,6 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var oldLanguage: String? = null
     private var first = true
+    var oldDynamicColor = false
     var tabLayout: TabLayout? = null
     val headLayout by lazy {
         HeadLayoutBinding.inflate(layoutInflater)
@@ -238,6 +240,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (first) {
             first = false
         } else {
+            val newDynamicColor = AppSettings.getValue(
+                AppSettings.Setting.DynamicColor,
+                DynamicColors.isDynamicColorAvailable()
+            );
+            if (oldDynamicColor != newDynamicColor) {
+                recreate()
+                return
+            }
             val newLanguage = AppSettings.getValue(AppSettings.Setting.AppLanguage, "en")
             if (oldLanguage != newLanguage) {
                 recreate()
@@ -269,7 +279,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //        }
         val gitHub = menu.findItem(R.id.github)
         gitHub.setOnMenuItemClickListener {
-            AppOperator.useBrowserAccessWebPage(this,"https://github.com/Cold-Mint/RustAssistant")
+            AppOperator.useBrowserAccessWebPage(this, "https://github.com/Cold-Mint/RustAssistant")
             false
         }
 //        val help = menu.findItem(R.id.help)
@@ -315,11 +325,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         intent.putExtra("type", "mod")
                         startActivity(intent)
                     }
+
                     templateItem -> {
                         val intent = Intent(this, CreationWizardActivity::class.java)
                         intent.putExtra("type", "template")
                         startActivity(intent)
                     }
+
                     else -> {
                     }
                 }
@@ -721,6 +733,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             oldLanguage = AppSettings.getValue(AppSettings.Setting.AppLanguage, "en")
+            oldDynamicColor = AppSettings.getValue(
+                AppSettings.Setting.DynamicColor,
+                DynamicColors.isDynamicColorAvailable()
+            );
             useToolbarSetSupportActionBar()
             initNav()
             observeStartViewModel()
