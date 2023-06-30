@@ -42,6 +42,7 @@
     <string name="navigation_tip">全%1$d項目でクイックナビゲーションに対応。</string>
     <string name="qq_pay">QQ財布</string>
     <string name="wechat_pay">ウィーチャットペイ</string>
+    <string name="paypal">PayPal</string>
     <string name="alipay">アリペイ</string>
     <string name="dialog_title2">だしぬけ</string>
     <string name="dialog_title3">復旧</string>
@@ -62,6 +63,10 @@
     <string name="menu_title3">データセット</string>
     <string name="data_array">データの配列(\ \" | \分割で):</string>
     <string name="delete_title">削除</string>
+    <string name="delete_comment">コメントを削除します</string>
+    <string name="delete_dynamic">削除の動きです</string>
+    <string name="delete_dynamic_tip">この記事を削除することを確認しますか\?</string>
+    <string name="delete_comment_tip">\\"%1$s\\"のコメントを削除することを確認しますか\?</string>
     <string name="del_moding">削除中…</string>
     <string name="del_moding_tip">\\"%1$s\\"を削除中…</string>
     <string name="restoreing">還元しています…</string>
@@ -285,6 +290,7 @@
     <string name="create_new_section">創建節</string>
     <string name="subtitle">こんにちは、世界!|新しいから、新しい体験。2.0にリセット版| |ミント打钱~</string>
     <string name="web_link">ウェブページへのリンク</string>
+    <string name="parsing_picture_error">画像解析が間違っています。</string>
 
     <!-- Preference Titles -->
     <string name="sync_header">開発者オプション</string>
@@ -392,12 +398,29 @@
     <string name="keep_rwmod_file_description">モジュールを伸張する際、ソースファイルを保持する。</string>
     <string name="keep_rwmod_file">ソースファイルを保存する</string>
     <string name="clear_recovery_station">ごみ箱を空にする</string>
+    <string name="setting_database_path" translatable="false">DatabasePath</string>
+    <string name="setting_app_language" translatable="false">AppLanguage</string>
+    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
+    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
+    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
+    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
+    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
+    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
+    <string name="setting_night_mode" translatable="false">NightMode</string>
+    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
+    <string name="setting_app_version" translatable="false">AppVersion</string>
+    <string name="setting_game_package" translatable="false">GamePackage</string>
+    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
+    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
+    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
+    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">ユニットごとに独立したフォルダを作成する。</string>
     <string name="independent_folder">独立フォルダを作成する</string>
     <string name="unable_rename">ファイルを使用しているフォルダの名前を変更することはできません。</string>
     <string name="unable_cut">使用中のファイルが入ったフォルダを切り取ることはできません。</string>
     <string name="unable_del">ファイルが使用中のこのフォルダを削除することはできません。</string>
     <string name="recovery_prompt">\\"%1$s\\"をごみ箱に移動しました。</string>
+    <string name="temporarily_unavailable">しばらく利用できません、次のバージョンを待ってください!</string>
     <string name="recoverying_prompt">\\"%1$s\\"移働しています…</string>
     <string name="open_directory_of_file">ファイルがあるディレクトリを開く</string>
     <string name="unable_to_detect">あなたのモジュールはゲームでチェックできないかもしれません。</string>
@@ -410,6 +433,7 @@
     <string name="no_app_installed">%1$sはインストールされていません。</string>
     <string name="restore_all">全部還元する</string>
     <string name="all_saves_are_completed">%1$dファイルを保存しました。</string>
+    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
     <string name="about">について</string>
     <string name="libs">オープンソース・ライセンス</string>
     <string name="additional_selection">付加項</string>
@@ -418,8 +442,11 @@
     <string name="open_tip">直ちに%1$.2f元で開通する</string>
     <string name="packing">お持ち帰り中…</string>
     <string name="share_mod">分かち合い</string>
+    <string name="share_message">分かち合います</string>
+    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">コードキャッシュのクリーンアップ</string>
     <string name="custom_symbol">カスタム記号バー</string>
+    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">識別子が数を示す</string>
     <string name="recovery_file">还元</string>
     <string name="pack_directory">カタログを梱包する</string>
@@ -436,6 +463,7 @@
     <string name="add_bookmark_fail">しおりを付けるのに失敗します。</string>
     <string name="bookmark_jump_failed">しおりが指し示す書類は存在しない。</string>
     <string name="unit_directory">単位目録。</string>
+    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">ユーザー名</string>
     <string name="report_mod">通報モジュール</string>
     <string name="report_user">ユーザーを通報する</string>
@@ -443,6 +471,7 @@
     <string name="bookmark_already_exists">サインがありますので、パスを変更してください。</string>
     <string name="feedback">意見のフィードバック</string>
     <string name="please_set_main_image">本体画像を設定してください。</string>
+    <string name="setting_use_jetBrains_mono_font" translatable="false">UseJetBrainsMonoFont</string>
     <string name="use_jetBrains_mono_font">JetBrains Monoフォントを使う</string>
     <string name="use_jetBrains_mono_font_describe">アシスタントに内蔵されているフォントは、強くお勧めします。</string>
     <string name="directory_does_not_exist">目次は存在しない。</string>
@@ -457,8 +486,10 @@
     <string name="register_successed">登録に成功する</string>
     <string name="registration_success_message">アカウントのアクティベーションコードをメールアドレスに送信しました。受信していない場合、メールボックスは迷惑メールと見なされる可能性があります。ごみ箱をチェックしてください。</string>
     <string name="please_login_first">まず登録してください。</string>
+    <string name="tourist_pattern">ビジターモードです</string>
     <string name="network_error">ネットワークエラー。</string>
     <string name="check_update_failure">アップデートの失敗をチェックする。</string>
+    <string name="setting_check_beta_update" translatable="false">CheckBetaUpdate</string>
     <string name="check_beta_update">ベータアップデートをチェックする</string>
     <string name="check_beta_update_describe">Releaseバージョンでのみ有効となり、ベータバージョンでは、強制アップデートが采用されます。</string>
     <string name="loading_values">数値を載せる…</string>
@@ -490,7 +521,7 @@
     <string name="not_found_data2">このテンプレートには静的なデータはありません。</string>
     <string name="remove_empty_lines">空行を除去する</string>
     <string name="recycle_source_file">梱包完了後ソースファイルを回収</string>
-    <string name="error_title">\\"%1$s\\"が意図せずアウトしたことを検出する。</string>
+    <string name="error_title">%1$s が意図せずアウトしたことを検出する。</string>
     <string name="error_content">クラッシュレポートが作成されました。開発者はこの奔砕報告書を利用して、この問題の将来の解決策を見出す。</string>
     <string name="share_log">ミスレポートを共有する</string>
     <string name="restart">プログラムを再起動する</string>
@@ -525,7 +556,6 @@
     <string name="location_info">%1$sの%2$d行に位置する:</string>
     <string name="covers_the_import">テンプレートパッケージの下位バージョン(%1$s)、現在のバージョン(%2$s)の導入を試みています。これにより、更新された内容がカバーされます。続けるの\?</string>
     <string name="covers_the_import_mod">%1$sが存在し、これは古いコンテンツを上書きします。続けるの\?</string>
-    <string name="help">ドキュメントを使う</string>
     <string name="empty_text">空のファイルにテンプレートを作ることはできません。</string>
     <string name="value_selector_array_describe">\\"、\\"分割パラメータを使用し、\\"[\\"と\\"]\\"注釈パラメータを使用することもできます。例えば、[好き:like]は、好きがユーザに表示され、選択した後、likeを書き込む。</string>
     <string name="template_save_complete">テンプレート作成器は完成して、今退出してくださいテンプレートを追加しますか\?</string>
@@ -534,6 +564,7 @@
     <string name="file_type_define">iniファイルをデフォルトで作成する。</string>
     <string name="file_type_tip2">「%1$s\」と入力したいかもしれません。</string>
     <string name="is_building">単位データをロードしているので、ロードしてからこの机能を使ってみてください。</string>
+    <string name="setting_english_editing_mode" translatable="false">EnglishEditingMode</string>
     <string name="english_editing_mode_describe">英語を使用してあなたのモジュールを書いて、そして中国語のヒントを持って、文法はすばらしいです。</string>
     <string name="english_editing_mode">ネイティブ開発モデル</string>
     <string name="mt_installed">開発言語として英語を使用していますか\?\\"MTマネージャ\\"上で仕事をするより、ヘルパーは英文コードのヒント机能と、モジュール環境のインテリジェントなヒントがあります。</string>
@@ -637,6 +668,7 @@
     <string name="activate">活性化</string>
     <string name="money">￥% 1ドル.2f</string>
     <string name="discount_prompt">%1$s省%2$.2f元</string>
+    <string name="setting_night_mode_follow_system" translatable="false">NightModeFollowSystem</string>
     <string name="night_mode_follow_system">システム追従ダークモード</string>
     <string name="night_mode_follow_system_tip">ダークモードをオンまたはオフします</string>
     <string name="downlod">ダウンロード</string>
@@ -645,6 +677,7 @@
     <string name="using_mobile_networks">データネットワークを使って</string>
     <string name="using_mobile_networks_tip">モバイルネットワークを使用してモジュールをアップロードすると、追加の通信料金が発生する可能性があります。</string>
     <string name="using_mobile_networks_msg">モバイルネットワークを使用してモジュールをアップロードすると、追加の通信料金が発生する可能性があります。続けますか\?</string>
+    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">まずは好きな著者に注目してください</string>
     <string name="my_follow">私の関心は</string>
     <string name="no_dynamic">動きがない</string>
@@ -662,11 +695,14 @@
     <string name="warehouse">倉庫</string>
     <string name="not_find_map">地図が見つからない</string>
     <string name="del_map">削除</string>
+    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">地図目次</string>
+    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">モジュールカタログ</string>
     <string name="edit_map">地図を編集する</string>
     <string name="edit_map_tip">地図編集ツールとしてNotTiledをお勧めします。</string>
     <string name="downlod_nottiled">NotTiledをダウンロードする</string>
+    <string name="setting_use_the_community_as_the_launch_page" translatable="false">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">コミュニティを立ち上げページとして使う</string>
     <string name="use_the_community_as_the_launch_page_tip">デフォルトの有効化</string>
     <string name="renewal">続料</string>
@@ -687,6 +723,7 @@
     <string name="girl">女</string>
     <string name="search_hint">検索内容を入力してください</string>
     <string name="report_to_deal">通報処理</string>
+    <string name="banned_mod">通報して管理人に撤去されました</string>
     <string name="unable_to_report">このモジュールは隠れていて、通報することができません。</string>
     <string name="unable_to_report2">自分のモジュールを通報することはできません、もしモジュールを降ろすことを希望するならば\「作品管理\」に行ってください。</string>
     <string name="admin">管理人</string>
@@ -701,8 +738,11 @@
     <string name="payment_reminders">私達はあなたの注文を受け取ってから24時間以内にあなたの口座にチャージして、辛抱強く待ってください。ご注文が24時間以内に処理されない場合は、ご注文番号をご提出ください。</string>
     <string name="pay">支給</string>
     <string name="pay_type">支払い方法:</string>
+    <string name="next">次です</string>
+    <string name="last">前です</string>
     <string name="pay_tip">%1$s内で,%2$s元を支払ってください</string>
     <string name="sava_code_and_copy_id">入金コードを保存し備考をコピーする</string>
+    <string name="paypal_payment">ペイパルで支払います。</string>
     <string name="pay_tip2">qrコード画像をあなたのデバイスに保存しました。今、%1$s支払いにジャンプしますか\?</string>
     <string name="qq">ティッカー</string>
     <string name="wechat">wechat</string>
@@ -718,6 +758,7 @@
     <string name="delete_source_file_check">ソースファイルを削除する</string>
     <string name="init_all_units">初期化ユニットの一覧</string>
     <string name="clear_cache">キャッシュの清算</string>
+    <string name="setting_clear_cache" translatable="false">ClearCache</string>
     <string name="clear_cache_description">キャッシュはアプリケーションの使用中に生成され、ヘルパーはキャッシュを読み取って加速する。</string>
     <string name="cache">キャッシュとストレージ</string>
     <string name="history_cache">ファイル開封記録</string>
@@ -731,6 +772,7 @@
     <string name="search_unit_name">単位名を検索したい</string>
     <string name="auto_save_describe">他のプログラムに切り替えると、自動的にコードが保存されます。</string>
     <string name="auto_save">自動保存</string>
+    <string name="setting_auto_save" translatable="false">AutoSave</string>
     <string name="auto_save_toast">自動保存されています。</string>
     <string name="is_code">コードだ</string>
     <string name="search_tip">検索を取り消す</string>
@@ -751,11 +793,13 @@
     <string name="synchronous_ok">シンクロ成功。</string>
     <string name="synchronous_failure">シンクロ失敗。</string>
     <string name="synchronous_ing">シンクロしてる…</string>
+    <string name="setting_server_address" translatable="false">ServerAddress</string>
     <string name="server_address_configuration">サーバアドレス構成</string>
     <string name="associated_tip">%1$sからの関連性のヒント</string>
     <string name="login_tip">ログイン后、あなたは:\n-アップロード、モジュールをダウンロードすることができます。\n-コミュニティ内で友達とおしゃべりをする。\n-使用中文編集你的模組!\n-好きなクリエイターに注目</string>
     <string name="error_description">何をなさっていたのですか。</string>
     <string name="no_error">まちがいはない</string>
+    <string name="setting_see_error_info" translatable="false">SeeErrorInfo</string>
     <string name="see_error_info">クラッシュログ</string>
     <string name="see_error_info_tip">このデバイスのクラッシュ記録を確認します。</string>
     <string name="can_not_tip_value">申し訳ありませんが、現時点で値を提示できません。</string>
@@ -765,6 +809,7 @@
     <string name="version_name_error2">バージョン番号名が%1$sのコミットが存在する。</string>
     <string name="update_tip">更新履歴を作成します。</string>
     <string name="update_log">日誌を更新する</string>
+    <string name="recent_update">最低バージョン:%1$s最近の更新:%2$sです</string>
     <string name="update_record">記録を更新する</string>
     <string name="search_mod_key">\\"%1$s\\"に関する検索結果</string>
     <string name="result">結果</string>
@@ -787,6 +832,7 @@
     <string name="change_server_complete">サーバーを変更しました。</string>
     <string name="order_manager">注文管理</string>
     <string name="log_out">掲載</string>
+    <string name="user_info">最近登録:%1$s ip帰属地:%2$sです</string>
     <string name="use_coupon">クーポンを使った注文を作成しますが、継続しますか\?(注文作成完了後、クーポンを消費)</string>
     <string name="use">使用</string>
     <string name="account_or_email">アカウント/ eメール</string>
@@ -818,6 +864,8 @@
     <string name="experience_the_plan_describe">匿名送信ソフト奔砕情報。</string>
     <string name="anonymous_send_completed">匿名送信済みエラー</string>
     <string name="update_and_iteration">アップデートとユーザー体験プログラム</string>
+    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
+    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">お支払いはされましたか\?未払いの注文は期限が切れ、支払いができなくなります。</string>
     <string name="paid_yes">はい、支払いました</string>
     <string name="paid_no">注文を放棄する</string>
@@ -831,6 +879,8 @@
     <string name="confirm_password_error">パスワードが二度一致しなかった。</string>
     <string name="display_source_code">ソースコードを表示する</string>
     <string name="dynamic_color">ダイナミックカラー</string>
+    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
+    <string name="setting_clipboard_cue" translatable="false">ClipboardCue</string>
     <string name="dynamic_color_tip">壁紙に合わせてテーマカラーを変更します。</string>
     <string name="dynamic_color_disabled">この装置は動的色をサポートしない。</string>
     <string name="an_unsupported_file_type">サポートされていないファイルフォーマット%1$s。</string>
@@ -848,7 +898,13 @@
     <string name="file_list_action_sort_by_type">タイプ</string>
     <string name="file_list_action_sort_by_size">大きさ</string>
     <string name="file_list_action_sort_by_last_modified">時間を修正する</string>
+    <string name="setting_file_list_action_sort_by_name" translatable="false">ByName</string>
+    <string name="setting_file_list_action_sort_by_type" translatable="false">ByType</string>
+    <string name="setting_file_list_action_sort_by_size" translatable="false">BySize</string>
+    <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">書類並べ替え方式</string>
+    <string name="setting_file_sort_type" translatable="false">FileSortType</string>
+    <string name="setting_simple_display_of_auto_complete_menu" translatable="false">SimpleDisplayOfAutoCompleteMenu</string>
     <string name="template_id">テンプレートid</string>
     <string name="customize_edit_text">カスタマイズ編集ボックス</string>
     <string name="subscription">購読</string>
@@ -881,5 +937,38 @@
     <string name="search_suggestions_null">検索の提案はない。</string>
     <string name="search_suggestions_loading">検索の提案を得る…</string>
     <string name="search_suggestions_number">合計%1$dの検索提案。</string>
-
+    <string name="simple_display_of_auto_complete_menu_describe">自動完了メニュー内の記述や画像を非表示にします。</string>
+    <string name="simple_display_of_auto_complete_menu">簡易メニューです</string>
+    <string name="search_key">検索キーワードです</string>
+    <string name="share_mod_msg">私はモジュールを共有しました%1$s,ダウンロードリンク:%2$s\n鉄錆助手をダウンロードして参加する評論、作品にコインを投入します。Appダウンロードリンク:%3$sです</string>
+    <string name="setting_source_file_type" translatable="false">sourceFileType</string>
+    <string name="setting_source_file_type_title">ソースファイルタイプ</string>
+    <string name="setting_source_file_type_describe">設定元ファイルタイプは、設定形式に準拠したファイルをテキスト編集形式で開きます。コンマでフォーマットを分割します。</string>
+    <string name="download_num">ダウンロードします</string>
+    <string name="coin_num">コイン投入数です</string>
+    <string name="unit_number">単位の数です</string>
+    <string name="update_number">更新回数です</string>
+    <string name="click_profile_picture_login">プロフィール画像をクリックしてログインします。</string>
+    <string name="log_in_discover_more">登録してもっと内容を発見します!</string>
+    <string name="compile_error">コンパイルエラーです</string>
+    <string name="compile_error_message">申し訳ありませんが、ソースファイルのコンパイルに失敗しました。エラーメッセージは\n%1$sです</string>
+    <string name="follow_introduction">ログインするとフォローシステムが解除されます</string>
+    <string name="help">ドキュメントを使う</string>
+    <string name="template_help_message">アシスタントはテンプレートを使用してユニットを作成します。テンプレートの本質はjson記述です。ヘルパーテンプレートパーサーがjsonを解析し、ユーザーインターフェースを構築します。興味のあるテンプレートは\\"テンプレートコミュニティ\\"で登録できます。購読後は随時更新されます。</string>
+    <string name="obtain_source_code_msg">Githubで錆びたヘルパーのソースコードを見ると、ヘルパーはオープンソース化されており、再開発を歓迎しています。</string>
+    <string name="obtain_source_code">ソースコードを取得します</string>
+    <string name="setting_obtain_source_code" translatable="false">ObtainSourceCode</string>
+    <string name="rust_api">サビape-codeです</string>
+    <string name="search_type_template_package">テンプレートパッケージです</string>
+    <string name="public_mod">公開します</string>
+    <string name="private_mod">プライベートです</string>
+    <string name="minVersion">ゲームの最低バージョンです</string>
+    <string name="minVersion_tip">ゲームの最低バージョンを選択して、残すことができます。</string>
+    <string name="thumbs_up">いいですね</string>
+    <string name="github">GitHub</string>
+    <string name="dataset_not_exist">databasemanifest.jsonは存在せず、情報をロードできません。</string>
+    <string name="dataset_minversion_low">このデータセットは古いバージョンのアシスタントにのみ適用されます。</string>
+    <string name="code_demo">コード例です</string>
+    <string name="clipboard_cue">クリップボードのヒントです</string>
+    <string name="clipboard_cue_tip">android 13以降では、アプリがクリップボードにコンテンツをコピーすると表示されます。</string>
 </resources>

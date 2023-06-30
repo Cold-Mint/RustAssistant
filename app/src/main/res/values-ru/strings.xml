@@ -11,19 +11,20 @@
     <string name="parse_file_exception">Файл анализирует аномалию</string>
     <string name="select_directents">Выбирать каталог</string>
     <string name="select_file">Выбери файл.</string>
+    <string name="select_file_ok">%1$s</string>
     <string name="root_path">Корневой каталог</string>
     <string name="select_image">Выбери образ.</string>
     <string name="change_image">Смени изображение.</string>
     <string name="del_image">Удалите изображение.</string>
     <string name="remove">удал</string>
-    <string name="remove_image_item">Удаление изображения, расположенного в \ % $\ \\?</string>
+    <string name="remove_image_item">Удаление изображения, расположенного в \%1$s\\?</string>
     <string name="open">откр</string>
     <string name="open_public">публичн</string>
     <string name="open_private">частн</string>
     <string name="open_nottiled">откройте</string>
     <string name="create_unit_complete">Создание единицы завершено</string>
     <string name="create_unit_failed">Ошибка создания единицы</string>
-    <string name="create_uniting">Создаем единицу...</string>
+    <string name="create_uniting">Создаем единицу…</string>
     <string name="build_unit">Строительная единица</string>
     <string name="dialog_ok">увер</string>
     <string name="activation_app">Активировать помощника ржавчины</string>
@@ -41,6 +42,7 @@
     <string name="navigation_tip">В общей сложности 1 % проектов поддерживают быструю навигацию.</string>
     <string name="qq_pay">Кошелек кью.</string>
     <string name="wechat_pay">Микровера.</string>
+    <string name="paypal">Через 2co</string>
     <string name="alipay">Плати.</string>
     <string name="dialog_title2">декомпресс</string>
     <string name="dialog_title3">восстанов</string>
@@ -61,6 +63,10 @@
     <string name="menu_title3">Набор данных</string>
     <string name="data_array">Массив Дан (\ \"- да \\" раздел) :</string>
     <string name="delete_title">удал</string>
+    <string name="delete_comment">Удали комментарии.</string>
+    <string name="delete_dynamic">Удаление динамики</string>
+    <string name="delete_dynamic_tip">Подтвердите удаление этого сообщения\?</string>
+    <string name="delete_comment_tip">Подтверждаю ли комментарий, удаляющий \ % $\ \\?</string>
     <string name="del_moding">Удаляется...</string>
     <string name="del_moding_tip">Удаляет \ % $\</string>
     <string name="restoreing">Восстанавливается...</string>
@@ -284,6 +290,7 @@
     <string name="create_new_section">Фестиваль создания</string>
     <string name="subtitle">Привет, мир! - да нов начинан, нов оп. - да 2.0 перезагрузк-да для мятн кстат\"</string>
     <string name="web_link">Ссылка на веб-страницу</string>
+    <string name="parsing_picture_error">Анализ снимков дал сбой.</string>
 
     <!-- Preference Titles -->
     <string name="sync_header">Опция разработчика</string>
@@ -391,12 +398,29 @@
     <string name="keep_rwmod_file_description">Когда распакуете модуль, сохраните исходный файл.</string>
     <string name="keep_rwmod_file">Сохранять исходный файл</string>
     <string name="clear_recovery_station">Очистите место сброса</string>
+    <string name="setting_database_path" translatable="false">DatabasePath</string>
+    <string name="setting_app_language" translatable="false">AppLanguage</string>
+    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
+    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
+    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
+    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
+    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
+    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
+    <string name="setting_night_mode" translatable="false">NightMode</string>
+    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
+    <string name="setting_app_version" translatable="false">AppVersion</string>
+    <string name="setting_game_package" translatable="false">GamePackage</string>
+    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
+    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
+    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
+    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">Создать независимые папки для каждой единицы.</string>
     <string name="independent_folder">Создание независимой папки</string>
     <string name="unable_rename">Эту папку нельзя переименовать, в ней используются файлы.</string>
     <string name="unable_cut">Невозможно разрезать эту папку, в которой используются файлы.</string>
     <string name="unable_del">Невозможно удалить эту папку, в которой используются файлы.</string>
     <string name="recovery_prompt">Переместил \ % \ \ \ \ \ в утилизацию.</string>
+    <string name="temporarily_unavailable">Временно недоступна, пожалуйста, дождитесь следующей версии!</string>
     <string name="recoverying_prompt">♪ в движении / / % $/</string>
     <string name="open_directory_of_file">Откройте каталог, в котором хранятся файлы</string>
     <string name="unable_to_detect">Ваши модели могут не быть проверены игрой.</string>
@@ -409,6 +433,7 @@
     <string name="no_app_installed">Не было установлено никаких $%.</string>
     <string name="restore_all">Полное восстановление.</string>
     <string name="all_saves_are_completed">Сохранились документы на сумму $1 %.</string>
+    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
     <string name="about">о</string>
     <string name="libs">Открытый исходный код</string>
     <string name="additional_selection">Дополнительный член</string>
@@ -417,8 +442,11 @@
     <string name="open_tip">Немедленное открытие на сумму $1.2f</string>
     <string name="packing">В упаковке...</string>
     <string name="share_mod">подел</string>
+    <string name="share_message">подел</string>
+    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">Очистить кэш кода</string>
     <string name="custom_symbol">Самоопределение колонки символов</string>
+    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">Идентификатор указывает на количество</string>
     <string name="recovery_file">восстановлен</string>
     <string name="pack_directory">Паковать каталог</string>
@@ -435,6 +463,7 @@
     <string name="add_bookmark_fail">Закладка не удалась.</string>
     <string name="bookmark_jump_failed">Бумаги, на которые указывает закладка, не существуют.</string>
     <string name="unit_directory">Единичный каталог</string>
+    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">Имя пользователя.</string>
     <string name="report_mod">Группа доноров</string>
     <string name="report_user">Сообщать о потребителе</string>
@@ -442,6 +471,7 @@
     <string name="bookmark_already_exists">Подписание книги уже существует.</string>
     <string name="feedback">Обратная связь мнений</string>
     <string name="please_set_main_image">Пожалуйста, установите основные изображения.</string>
+    <string name="setting_use_jetBrains_mono_font" translatable="false">UseJetBrainsMonoFont</string>
     <string name="use_jetBrains_mono_font">Используйте шрифт JetBrains Mono</string>
     <string name="use_jetBrains_mono_font_describe">Шрифт, встроенный в ассистентку, настоятельно рекомендуется использовать.</string>
     <string name="directory_does_not_exist">Каталога не существует.</string>
@@ -456,8 +486,10 @@
     <string name="register_successed">Регистрация прошла успешно.</string>
     <string name="registration_success_message">Код активации аккаунта был отправлен на ваш почтовый ящик. Если письмо не было получено, почтовый ящик можно рассматривать как спам. Пожалуйста, проверьте мусорные баки.</string>
     <string name="please_login_first">Заходите, пожалуйста.</string>
+    <string name="tourist_pattern">Туристский режим</string>
     <string name="network_error">Интернет-ошибка.</string>
     <string name="check_update_failure">Проверка не удалась.</string>
+    <string name="setting_check_beta_update" translatable="false">CheckBetaUpdate</string>
     <string name="check_beta_update">Проверь бета-обновления</string>
     <string name="check_beta_update_describe">Введена в действие только в версии Release, бета-версии, с обязательным обновлением.</string>
     <string name="loading_values">Количество загрузки...</string>
@@ -489,7 +521,7 @@
     <string name="not_found_data2">В этом шаблоне нет статических данных.</string>
     <string name="remove_empty_lines">Убрать пустые строки.</string>
     <string name="recycle_source_file">Упакуйте исходные документы, когда закончите</string>
-    <string name="error_title">Обнаружилось, что \"% \ $\ \ \ \ \ \ \ \ \\" был неожиданно удален.</string>
+    <string name="error_title">Обнаружилось, что %1$s был неожиданно удален.</string>
     <string name="error_content">Получено сообщение о повреждениях. Разработчики найдут решение этой проблемы с помощью этого доклада о разбивании.</string>
     <string name="share_log">Делиться сообщениями об ошибках</string>
     <string name="restart">Перезагрузка.</string>
@@ -524,7 +556,6 @@
     <string name="location_info">Он находится в строке 1-2 доллара США:</string>
     <string name="covers_the_import">Вы пытаетесь импортировать в низкобюджетную версию шаблона (% $), существующую версию (% $2$), которая покроет обновление. Хочешь продолжить\?</string>
     <string name="covers_the_import_mod">10% уже существуют, и это покроет старые расходы. Хочешь продолжить\?</string>
-    <string name="help">Используй документы.</string>
     <string name="empty_text">Не могу сделать шаблон для пустых файлов.</string>
     <string name="value_selector_array_describe">Используя \"\ \ \ \\" для сегментации параметров, можно также использовать\" \ \ \ \ \ \ \ \ \ \ \ \\" для выявления параметров. Например :[нравится :like], нравится, чтобы его показали пользователям, а после отбора записывают в like.</string>
     <string name="template_save_complete">Вы закончили\?</string>
@@ -533,6 +564,7 @@
     <string name="file_type_define">По умолчанию создаётся файл ini.</string>
     <string name="file_type_tip2">Вы, наверное, хотите напечатать \"% $\"\?</string>
     <string name="is_building">Загружаю единицу данных, пожалуйста, попробуйте использовать эту функцию после загрузки.</string>
+    <string name="setting_english_editing_mode" translatable="false">EnglishEditingMode</string>
     <string name="english_editing_mode_describe">Напишите свою моду на английском языке, с китайской подсказок и грамматикой.</string>
     <string name="english_editing_mode">Модель развития прототипа</string>
     <string name="mt_installed">Вы используете английский в качестве языка разработки\? В отличие от работы в \ \\"MT management \", ассистенты имеют возможность давать советы по английскому коду, а также умные советы, направленные на окружающую среду модуля.</string>
@@ -636,6 +668,7 @@
     <string name="activate">активирова</string>
     <string name="money">1$.2f</string>
     <string name="discount_prompt">$1 % сэкономлено $2%2f</string>
+    <string name="setting_night_mode_follow_system" translatable="false">NightModeFollowSystem</string>
     <string name="night_mode_follow_system">Следуйте за системой в темном режиме</string>
     <string name="night_mode_follow_system_tip">Следуйте за системой включения или выключения темного режима</string>
     <string name="downlod">загрузк</string>
@@ -644,6 +677,7 @@
     <string name="using_mobile_networks">Разрешите использовать сеть данных</string>
     <string name="using_mobile_networks_tip">Использование мобильной сети для загрузки модулей может привести к дополнительным расходам.</string>
     <string name="using_mobile_networks_msg">Использование мобильной сети для загрузки модулей может привести к дополнительным расходам. Все еще\?</string>
+    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">Сосредоточьтесь на авторе, который вам нравится</string>
     <string name="my_follow">Мое внимание.</string>
     <string name="no_dynamic">Ничего.</string>
@@ -661,11 +695,14 @@
     <string name="warehouse">склад</string>
     <string name="not_find_map">Карты нет.</string>
     <string name="del_map">удал</string>
+    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">Каталог карт</string>
+    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">Групповой каталог</string>
     <string name="edit_map">Редактировать карту</string>
     <string name="edit_map_tip">Мы рекомендуем NotTiled в качестве инструмента редактирования карт.</string>
     <string name="downlod_nottiled">загрузка</string>
+    <string name="setting_use_the_community_as_the_launch_page" translatable="false">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">Используйте сообщество в качестве стартовой страницы</string>
     <string name="use_the_community_as_the_launch_page_tip">По умолчанию.</string>
     <string name="renewal">продлен</string>
@@ -686,6 +723,7 @@
     <string name="girl">женщин</string>
     <string name="search_hint">Введите, пожалуйста, содержимое поиска</string>
     <string name="report_to_deal">Отчет.</string>
+    <string name="banned_mod">Был снят с крючка администратором за жалобу</string>
     <string name="unable_to_report">Этот модуль скрыт и не может быть донесён.</string>
     <string name="unable_to_report2">Не могу сообщить о своей группе моделей, и если вы хотите, чтобы она ушла с подиума, пожалуйста, пройдите в/управление работами /.</string>
     <string name="admin">Администратор.</string>
@@ -700,8 +738,11 @@
     <string name="payment_reminders">Мы переведем деньги на ваш счет в течение 24 часов после получения приказа. Если ваш заказ не будет выполнен в течение 24 часов, пожалуйста, сообщите нам ваш номер заказа.</string>
     <string name="pay">плат</string>
     <string name="pay_type">Способ оплаты:</string>
+    <string name="next">след</string>
+    <string name="last">на</string>
     <string name="pay_tip">Пожалуйста, заплатите $2 % в пределах $1</string>
     <string name="sava_code_and_copy_id">Сохрани код сбора и скопируй примечание</string>
+    <string name="paypal_payment">Заплати через PayPal</string>
     <string name="pay_tip2">Мы разместили двухмерные изображения на вашем оборудовании. Переходите к оплате в размере $%\?</string>
     <string name="qq">QQ</string>
     <string name="wechat">wechat</string>
@@ -717,6 +758,7 @@
     <string name="delete_source_file_check">Удаление исходного файла</string>
     <string name="init_all_units">Инициализированный список единиц...</string>
     <string name="clear_cache">Очистка кэша</string>
+    <string name="setting_clear_cache" translatable="false">ClearCache</string>
     <string name="clear_cache_description">Возникает при медленном использовании приложений, а помощник ускоряется, читая кэш.</string>
     <string name="cache">Кэш и место хранения</string>
     <string name="history_cache">Открыть файл</string>
@@ -730,6 +772,7 @@
     <string name="search_unit_name">Поиск названия</string>
     <string name="auto_save_describe">Автоматическое сохранение кода при переключении на другие программы.</string>
     <string name="auto_save">Автоматическое сохранение</string>
+    <string name="setting_auto_save" translatable="false">AutoSave</string>
     <string name="auto_save_toast">Автоматическое сохранение.</string>
     <string name="is_code">Это код.</string>
     <string name="search_tip">Прекратить поиск</string>
@@ -750,11 +793,13 @@
     <string name="synchronous_ok">Синхронизация завершена.</string>
     <string name="synchronous_failure">Синхронизация не работает.</string>
     <string name="synchronous_ing">Синхронизирую...</string>
+    <string name="setting_server_address" translatable="false">ServerAddress</string>
     <string name="server_address_configuration">Размещение адреса сервера</string>
     <string name="associated_tip">Контактный совет от $1 %</string>
     <string name="login_tip">После логина вы можете: загрузка, загрузка модульной группы. · плавно разговаривая с друзьями внутри сообщества. Редактировать вашу моду на китайском языке! Обрати внимание на своего любимого создателя</string>
     <string name="error_description">Что вы делали в это время\?</string>
     <string name="no_error">Никаких ошибок.</string>
+    <string name="setting_see_error_info" translatable="false">SeeErrorInfo</string>
     <string name="see_error_info">Журнал аварии</string>
     <string name="see_error_info_tip">Проверьте записи о авариях на этом устройстве.</string>
     <string name="can_not_tip_value">Извините, сейчас не могу сказать.</string>
@@ -764,6 +809,7 @@
     <string name="version_name_error2">Существующая версия под названием % $.</string>
     <string name="update_tip">Напиши свой новый журнал.</string>
     <string name="update_log">Обновить журнал</string>
+    <string name="recent_update">Минимальная версия: $1 недавно была обновлена :%2$</string>
     <string name="update_record">Обновить запись.</string>
     <string name="search_mod_key">Результаты поиска \"% \ $\ \\"</string>
     <string name="result">результат</string>
@@ -786,6 +832,7 @@
     <string name="change_server_complete">Сервер был изменен.</string>
     <string name="order_manager">Управление заказом</string>
     <string name="log_out">напечата</string>
+    <string name="user_info">Недавняя регистрация :%1$ip принадлежит % $2 %</string>
     <string name="use_coupon">Мы используем купоны, чтобы создать порядок. (после создания заказа, купоны будут расходуться)</string>
     <string name="use">использова</string>
     <string name="account_or_email">Номер счета/письмо</string>
@@ -817,6 +864,8 @@
     <string name="experience_the_plan_describe">Анонимная отправка программного обеспечения для уничтожения информации.</string>
     <string name="anonymous_send_completed">Анонимная ошибка отправлена</string>
     <string name="update_and_iteration">Обновление версии с программой пользовательского опыта</string>
+    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
+    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">Вы заплатили\? (неоплаченный заказ будет просрочен и не сможет больше платить за него).</string>
     <string name="paid_yes">Да, я заплатил за него</string>
     <string name="paid_no">Отставить приказ.</string>
@@ -830,6 +879,8 @@
     <string name="confirm_password_error">Два разных пароля.</string>
     <string name="display_source_code">Покажи исходный код.</string>
     <string name="dynamic_color">Динамический цвет</string>
+    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
+    <string name="setting_clipboard_cue" translatable="false">ClipboardCue</string>
     <string name="dynamic_color_tip">Следуйте за обоями устройства для замены тематического цвета.</string>
     <string name="dynamic_color_disabled">Это устройство не поддерживает динамические цвета.</string>
     <string name="an_unsupported_file_type">Неподдерживаемый формат файла составляет 1 %.</string>
@@ -847,7 +898,13 @@
     <string name="file_list_action_sort_by_type">тип</string>
     <string name="file_list_action_sort_by_size">размер</string>
     <string name="file_list_action_sort_by_last_modified">Время на изменение.</string>
+    <string name="setting_file_list_action_sort_by_name" translatable="false">ByName</string>
+    <string name="setting_file_list_action_sort_by_type" translatable="false">ByType</string>
+    <string name="setting_file_list_action_sort_by_size" translatable="false">BySize</string>
+    <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">Способ сортировки файлов</string>
+    <string name="setting_file_sort_type" translatable="false">FileSortType</string>
+    <string name="setting_simple_display_of_auto_complete_menu" translatable="false">SimpleDisplayOfAutoCompleteMenu</string>
     <string name="template_id">Удостоверение шаблона</string>
     <string name="customize_edit_text">Специальная монтажная рама</string>
     <string name="subscription">подписк</string>
@@ -880,6 +937,38 @@
     <string name="search_suggestions_null">Никаких советов по поиску.</string>
     <string name="search_suggestions_loading">Получить ордер на обыск...</string>
     <string name="search_suggestions_number">1 % от общей суммы рекомендаций по поиску.</string>
-    <string name="select_file_ok">%1$s</string>
-
+    <string name="simple_display_of_auto_complete_menu_describe">Скрытое описание и изображение в автоматическом завершении меню.</string>
+    <string name="simple_display_of_auto_complete_menu">Простая версия автоматически завершает меню</string>
+    <string name="search_key">Поиск ключевого слова</string>
+    <string name="share_mod_msg">Я поделился с группой на 1 %, скачал ссылку: 2 доллара США для скачивания ржавчивого ассистента, который мог бы принять участие в комментариях и вложить деньги в работу. Приложение скачивает ссылку: %3 доллара</string>
+    <string name="setting_source_file_type" translatable="false">sourceFileType</string>
+    <string name="setting_source_file_type_title">Исходный тип файла</string>
+    <string name="setting_source_file_type_describe">Тип исходного файла, который соответствует формату конфигурации, будет открыт в виде текстового редактирования. Разделены на запятые в разных форматах.</string>
+    <string name="download_num">Загрузка.</string>
+    <string name="coin_num">Число жетонов.</string>
+    <string name="unit_number">Единица.</string>
+    <string name="update_number">обновление</string>
+    <string name="click_profile_picture_login">Нажмите на логин аватаров</string>
+    <string name="log_in_discover_more">Логин обнаружил больше!</string>
+    <string name="compile_error">Ошибка компиляции</string>
+    <string name="compile_error_message">Мне жаль, но исходная компиляция не удалась. Ложная информация: 1 % \ $</string>
+    <string name="follow_introduction">Можно открыть систему наблюдения сразу после входа</string>
+    <string name="help">Используй документы.</string>
+    <string name="template_help_message">Помощник использует шаблон для создания единицы, который по существу является описанием json. Помощник анализатор шаблонов проанализирует json и создаст пользовательский интерфейс. Вы можете подписаться на шаблоны, которые вас интересуют в \\" сообщество шаблонов \". Мы будем держать вас в курсе после подписания.</string>
+    <string name="obtain_source_code_msg">Проверьте исходный код ржавого ассистента на Github, который был открыт и добро пожаловать на вторичную разработку.</string>
+    <string name="obtain_source_code">Получить исходный код.</string>
+    <string name="setting_obtain_source_code" translatable="false">ObtainSourceCode</string>
+    <string name="rust_api">ржавчина</string>
+    <string name="search_type_template_package">Шаблон.</string>
+    <string name="public_mod">публичн</string>
+    <string name="private_mod">частн</string>
+    <string name="minVersion">Минимальная версия игры</string>
+    <string name="minVersion_tip">Выберите минимальную версию игры и оставьте её пустой.</string>
+    <string name="thumbs_up">лайк</string>
+    <string name="github">3. Гитуб</string>
+    <string name="dataset_not_exist">Databasemanifis.json не существует и не может загружать информацию.</string>
+    <string name="dataset_minversion_low">Этот набор данных доступен только для старых версий помощников.</string>
+    <string name="code_demo">Образцовый код</string>
+    <string name="clipboard_cue">Подсказка к разделочной доске</string>
+    <string name="clipboard_cue_tip">В системах андроида 13 и выше, когда приложение копирует содержимое на планшет, появляются подсказки.</string>
 </resources>

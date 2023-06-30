@@ -42,6 +42,7 @@
     <string name="navigation_tip">A total of %1$d items support quick navigation.</string>
     <string name="qq_pay">QQ wallet</string>
     <string name="wechat_pay">WeChat Pay</string>
+    <string name="paypal">PayPal</string>
     <string name="alipay">Alipay</string>
     <string name="dialog_title2">decompress</string>
     <string name="dialog_title3">repair</string>
@@ -62,6 +63,10 @@
     <string name="menu_title3">data set</string>
     <string name="data_array">Data array (separated by \\"|\\"):</string>
     <string name="delete_title">delete</string>
+    <string name="delete_comment">Delete a comment</string>
+    <string name="delete_dynamic">Deletion dynamic</string>
+    <string name="delete_dynamic_tip">Are you sure to delete this post\?</string>
+    <string name="delete_comment_tip">Are you sure to delete the comment \\"%1$s\\"\?</string>
     <string name="del_moding">deleting…</string>
     <string name="del_moding_tip">Deleting "%1$s"…</string>
     <string name="restoreing">Restoring…</string>
@@ -139,15 +144,15 @@
     <string name="not_find_code_name">No code found with name containing %1$s, unfilter</string>
     <string name="not_find_section_name">Code for section %1$s not found, unfilter</string>
     <string name="not_find_units_action">Cancellation filter</string>
-    <string name="filtering">In the filter...</string>
+    <string name="filtering">In the filter…</string>
     <string name="unable_open_database">Unable to open dataset</string>
     <string name="enable_loop">Enable loop play</string>
     <string name="disabled_loop">Disable looping</string>
     <string name="noloop">[no loop]%1$s</string>
-    <string name="loading_units">Loading units...</string>
-    <string name="loading_files">Loading files...</string>
-    <string name="loading_bookmarks">Loading bookmarks...</string>
-    <string name="calculating">Calculating...</string>
+    <string name="loading_units">Loading units…</string>
+    <string name="loading_files">Loading files…</string>
+    <string name="loading_bookmarks">Loading bookmarks…</string>
+    <string name="calculating">Calculating…</string>
     <string name="no_bookmark">No bookmark</string>
     <string name="filenum">Total %1$s items</string>
     <string name="not_find_database">No data set was found</string>
@@ -236,7 +241,7 @@
 
     <string name="not_save_exit">Exit without saving</string>
     <string name="save_settings">Check for configuration updates. Do you want to save the changes\?</string>
-    <string name="saveing">Saving %1$s...</string>
+    <string name="saveing">Saving %1$s…</string>
     <string name="save_complete">%1$s saved.</string>
     <string name="save_complete2">The save is complete.</string>
 
@@ -253,7 +258,7 @@
     <string name="delete_unit">Remove the unit</string>
     <string name="delete_prompt">Delete %1$s?</string>
     <!--导入-->
-    <string name="importing">In the import...</string>
+    <string name="importing">In the import…</string>
     <string name="import_name">The import</string>
     <string name="import_complete">%1$s  import succeeded.</string>
     <string name="import_failed">%1$s import failed.</string>
@@ -276,8 +281,8 @@
     <string name="empty_line_prompt">Find %1$d blank lines to view details</string>
     <string name="note_prompt">Find %1$d comments to see the details</string>
     <string name="no_optimized_content">There are no projects to optimize.</string>
-    <string name="load_optimized_item">Load optimization projects...</string>
-    <string name="optimizationing">In the optimization...</string>
+    <string name="load_optimized_item">Load optimization projects…</string>
+    <string name="optimizationing">In the optimization…</string>
     <string name="code_tip">Code hinting</string>
     <string name="code_tip_error1">Unable to prompt code, please place cursor in any section.</string>
     <string name="code_tip_error2">Move the cursor to the next line to prompt this section of code.</string>
@@ -285,6 +290,7 @@
     <string name="create_new_section">Create a section</string>
     <string name="subtitle">Hello world! | new beginning, a new experience. | | reset version 2.0 to mint farm ~</string>
     <string name="web_link">Web link</string>
+    <string name="parsing_picture_error">Error parsing picture.</string>
 
     <!-- Preference Titles -->
     <string name="sync_header">Developer options</string>
@@ -301,7 +307,7 @@
 
     <!-- Messages Preferences -->
     <string name="reply_title">language</string>
-    <string name="load_database">Load the data set...</string>
+    <string name="load_database">Load the data set…</string>
     <string name="load_database_failed">Failed to load dataset</string>
     <!-- Sync Preferences -->
     <string name="developers_mode">Developer mode</string>
@@ -319,7 +325,7 @@
     <string name="application_information">The application of information</string>
     <string name="set_up">SetUp</string>
     <string name="only_load_coniant_language_template">Load only templates that match the language</string>
-    <string name="load_application">Loading the app list...</string>
+    <string name="load_application">Loading the app list…</string>
     <string name="return_directents">return</string>
     <string name="template_info">Template information</string>
     <string name="add_file">Add files</string>
@@ -343,11 +349,11 @@
     <string name="dialog_close_tip2">It has been switched to background repair.</string>
     <string name="dialog_close_tip3">It\'s been switched to backstage packaging.</string>
     <string name="compilation_prompt">Compile the log</string>
-    <string name="compilationing">Compile...</string>
+    <string name="compilationing">Compile…</string>
     <string name="section">section</string>
     <string name="update_database">Update the dataset using existing mod data.</string>
     <string name="update_off">update</string>
-    <string name="update_on">Update in the...</string>
+    <string name="update_on">Update in the…</string>
     <string name="update_num">%1$s records have been updated.</string>
     <string name="clean_up_code_cache_complete">Code cache cleanup complete.</string>
     <string name="clean">empty</string>
@@ -392,13 +398,30 @@
     <string name="keep_rwmod_file_description">When unpacking the mod, keep the source files.</string>
     <string name="keep_rwmod_file">Keep source files</string>
     <string name="clear_recovery_station">Empty the recycle bin</string>
+    <string name="setting_database_path" translatable="false">DatabasePath</string>
+    <string name="setting_app_language" translatable="false">AppLanguage</string>
+    <string name="setting_database_directory" translatable="false">DatabaseDirectory</string>
+    <string name="setting_developer_mode" translatable="false">DeveloperMode</string>
+    <string name="setting_custom_symbol" translatable="false">CustomSymbol</string>
+    <string name="setting_template_directory" translatable="false">TemplateDirectory</string>
+    <string name="setting_auto_create_nomedia" translatable="false">AutoCreateNomedia</string>
+    <string name="setting_only_load_conant_language_temple" translatable="false">OnlyLoadConantLanguageTemple</string>
+    <string name="setting_night_mode" translatable="false">NightMode</string>
+    <string name="setting_independent_folder" translatable="false">IndependentFolder</string>
+    <string name="setting_app_version" translatable="false">AppVersion</string>
+    <string name="setting_game_package" translatable="false">GamePackage</string>
+    <string name="setting_keep_rwmod_file" translatable="false">KeepRwmodFile</string>
+    <string name="setting_enable_recovery_station" translatable="false">EnableRecoveryStation</string>
+    <string name="setting_recovery_station_file_save_days" translatable="false">RecoveryStationFileSaveDays</string>
+    <string name="setting_recovery_station_folder" translatable="false">RecoveryStationFolder</string>
     <string name="independent_folder_description">Create a separate folder for each unit.</string>
     <string name="independent_folder">Create a separate folder</string>
     <string name="unable_rename">Cannot rename this folder because it contains files in use.</string>
     <string name="unable_cut">Unable to cut this folder because it has files in use.</string>
     <string name="unable_del">Unable to delete this folder because it contains files in use.</string>
     <string name="recovery_prompt">"%1$s" has been moved to the recycle bin.</string>
-    <string name="recoverying_prompt">Moving "%1$s"...</string>
+    <string name="temporarily_unavailable">Not available, please wait for the next version!</string>
+    <string name="recoverying_prompt">Moving "%1$s"…</string>
     <string name="open_directory_of_file">Open the file directory</string>
     <string name="unable_to_detect">Your mods may not be checked by the game.</string>
     <string name="failed_to_check_descripiton">For 1.15 and later, set the storage to Internal(read/write) and External. The game reads and writes internal mods, while external mods are managed by assistants.</string>
@@ -410,16 +433,20 @@
     <string name="no_app_installed">%1$s is not installed.</string>
     <string name="restore_all">All reduction</string>
     <string name="all_saves_are_completed">%1$d files saved.</string>
+    <string name="copyright" translatable="false">Copyright ©coldmint 2020-%1$d All Rights Reserved.</string>
     <string name="about">About</string>
     <string name="libs">Open source license</string>
     <string name="additional_selection">Additional items</string>
     <string name="delete_source_file">Delete the source file after the package is complete</string>
     <string name="packmod">packaging</string>
     <string name="open_tip">Open immediately with %1$.2f yuan</string>
-    <string name="packing">In the packaging...</string>
+    <string name="packing">In the packaging…</string>
     <string name="share_mod">share</string>
+    <string name="share_message">Share</string>
+    <string name="setting_pack_directory" translatable="false">PackDirectory</string>
     <string name="clear_code_cache">Clean up the code cache</string>
     <string name="custom_symbol">Custom symbol bar</string>
+    <string name="setting_identifiers_prompt_number" translatable="false">IdentifiersPromptNumber</string>
     <string name="identifiers_prompt_number">Number of identifier prompts</string>
     <string name="recovery_file">reduction</string>
     <string name="pack_directory">Package directory</string>
@@ -436,6 +463,7 @@
     <string name="add_bookmark_fail">Failed to add bookmark.</string>
     <string name="bookmark_jump_failed">The file the bookmark points to does not exist.</string>
     <string name="unit_directory">The unit directory</string>
+    <string name="setting_user_name" translatable="false">UserName</string>
     <string name="user_name">The user name</string>
     <string name="report_mod">Report mod</string>
     <string name="report_user">To report the user</string>
@@ -443,6 +471,7 @@
     <string name="bookmark_already_exists">The book label already exists. Please change the path.</string>
     <string name="feedback">feedback</string>
     <string name="please_set_main_image">Please set the main image.</string>
+    <string name="setting_use_jetBrains_mono_font" translatable="false">UseJetBrainsMonoFont</string>
     <string name="use_jetBrains_mono_font">Use the JetBrains Mono font</string>
     <string name="use_jetBrains_mono_font_describe">Assistant built-in font, highly recommended.</string>
     <string name="directory_does_not_exist">The directory does not exist.</string>
@@ -457,16 +486,18 @@
     <string name="register_successed">Registered successfully</string>
     <string name="registration_success_message">The account activation code has been sent to your email address. If not, the mailbox may be considered spam. Please check your dustbin.</string>
     <string name="please_login_first">Please log in first.</string>
+    <string name="tourist_pattern">Tourist pattern</string>
     <string name="network_error">Network error.</string>
     <string name="check_update_failure">Failed to check the update.</string>
+    <string name="setting_check_beta_update" translatable="false">CheckBetaUpdate</string>
     <string name="check_beta_update">Check for Beta updates</string>
     <string name="check_beta_update_describe">Only available in Release, Beta, forced update.</string>
-    <string name="loading_values">Loading value...</string>
+    <string name="loading_values">Loading value…</string>
     <string name="value_type_manager_describe">Customize the value type and add it to the prompt.</string>
     <string name="value_type_manager">Value type manager</string>
     <string name="share_tip">The sharing function uses the normal packaging mode. To use the advanced packaging function (such as automatically adding Chinese annotations, removing empty files, etc.), please click \\" packaging \".</string>
     <string name="packaged_mod">Packaged mods</string>
-    <string name="loading_data">Loading in...</string>
+    <string name="loading_data">Loading in…</string>
     <string name="advanced_search">Advanced search</string>
     <string name="remove_empty_file_and_folder">Remove empty files and folders</string>
     <string name="remove_annotation">Remove annotation</string>
@@ -499,7 +530,7 @@
     <string name="value_data_error2">This rule cannot be added because the helper automatically associates section data in the file scope.</string>
     <string name="release">release</string>
     <string name="release_ok">Release success</string>
-    <string name="releaseing">Release...</string>
+    <string name="releaseing">Release…</string>
     <string name="scope_global">global</string>
     <string name="scope_filePath">directory</string>
     <string name="scope_thisfile">document</string>
@@ -514,7 +545,7 @@
     <string name="read_value_tip">This method reads values in the source file in the format \@method readValue. For example, \@method readValue(name) reads the unit name.</string>
     <string name="absolute_section_name">This method reads the absolute name of the section in the source file in the format \@method absoluteSectionName. For example \@method absoluteSectionName(turret) reads the name of the turret.</string>
     <string name="method_file_name">This method returns the file name.</string>
-    <string name="build_database">Build projects...</string>
+    <string name="build_database">Build projects…</string>
     <string name="build_database_complete">Build project complete.</string>
     <string name="rebuild_project">Reconstruction project</string>
     <string name="rebuild_project_tip">Do you want to clean up the cached data and rebuild the index\?</string>
@@ -525,7 +556,6 @@
     <string name="location_info">In line %1$s %2$d:</string>
     <string name="covers_the_import">You are trying to import the lower version of the template package (%1$s), the current version (%2$s), which will overwrite the updated content. Do you want to continue\?</string>
     <string name="covers_the_import_mod">%1$s already exists, this will overwrite the old content. Do you want to continue\?</string>
-    <string name="help">Using document</string>
     <string name="empty_text">Unable to create templates for empty files.</string>
     <string name="value_selector_array_describe">Use \\",\\" to split parameters. You can also use \\"[\\" and \\"]\\" to annotate parameters. For example :[like :like], the like will be displayed to the user, after selected, write like.</string>
     <string name="template_save_complete">Templates have been added. Would you please exit the template maker now\?</string>
@@ -534,6 +564,7 @@
     <string name="file_type_define">Ini files are created by default.</string>
     <string name="file_type_tip2">You might want to type "%1$s"?</string>
     <string name="is_building">Unit data is being loaded. Try using this feature after loading.</string>
+    <string name="setting_english_editing_mode" translatable="false">EnglishEditingMode</string>
     <string name="english_editing_mode_describe">Write your mods in English, with Chinese tips and syntax highlighting.</string>
     <string name="english_editing_mode">Native development model</string>
     <string name="mt_installed">Do you use English as your development language\? Instead of working on \\"MT manager \\", the assistant has English code hints, as well as intelligent hints for the mod environment.</string>
@@ -565,7 +596,7 @@
     <string name="default_tags">Assistant exclusive,%1$S creation</string>
     <string name="mod_id_error2">The mod Id can contain only letters and digits and underscores (_).</string>
     <string name="installation">The installation</string>
-    <string name="installation_ing">In the installation...</string>
+    <string name="installation_ing">In the installation…</string>
     <string name="installated">Has been installed</string>
     <string name="template_community">Template community</string>
     <string name="work_of_home_page">Check the work</string>
@@ -574,7 +605,7 @@
     <string name="infinite">infinite</string>
     <string name="transition_cover">cover</string>
     <string name="fans">fans</string>
-    <string name="not_audit">Pending approval...</string>
+    <string name="not_audit">Pending approval…</string>
     <string name="fans_information">Fans: %1$s| attention:%2$s | praise:%3$s</string>
     <string name="praise_number">praise</string>
     <string name="no_content">No content</string>
@@ -617,7 +648,7 @@
     <string name="database_error">The length of json result set is 0</string>
     <string name="mod_icon_transition">ModIconTransition</string>
     <string name="file_upload_progress">Uploading %1$S %%</string>
-    <string name="file_upload_ok">The file is uploaded and waiting for the processing result...</string>
+    <string name="file_upload_ok">The file is uploaded and waiting for the processing result…</string>
     <string name="file_download_ok">File download completed</string>
     <string name="file_download_fail">File download failure</string>
     <string name="tag_title">Works containing "%1$s"</string>
@@ -637,6 +668,7 @@
     <string name="activate">Activation</string>
     <string name="money">￥%1$.2f</string>
     <string name="discount_prompt">%1$s has saved %2$.2f</string>
+    <string name="setting_night_mode_follow_system" translatable="false">NightModeFollowSystem</string>
     <string name="night_mode_follow_system">Follow the system to turn on the dark mode</string>
     <string name="night_mode_follow_system_tip">Follow the system to turn on or off the dark mode</string>
     <string name="downlod">download</string>
@@ -645,6 +677,7 @@
     <string name="using_mobile_networks">Data network is allowed</string>
     <string name="using_mobile_networks_tip">Uploading and downloading mods over a mobile network may incur additional data charges.</string>
     <string name="using_mobile_networks_msg">Uploading and downloading mods over a mobile network may incur additional data charges. Still going\?</string>
+    <string name="setting_use_mobile_network" translatable="false">usingMobileNetwork</string>
     <string name="no_followers">Please follow your favorite author first</string>
     <string name="my_follow">My attention</string>
     <string name="no_dynamic">There is no dynamic</string>
@@ -662,11 +695,14 @@
     <string name="warehouse">warehouse</string>
     <string name="not_find_map">No map found</string>
     <string name="del_map">delete</string>
+    <string name="setting_map_folder" translatable="false">MapFolder</string>
     <string name="map_folder">Map directory</string>
+    <string name="setting_mod_folder" translatable="false">ModFolder</string>
     <string name="mod_folder">Mod directory</string>
     <string name="edit_map">Map editor</string>
     <string name="edit_map_tip">We recommend NotTiled as a map editing tool.</string>
     <string name="downlod_nottiled">Download NotTiled</string>
+    <string name="setting_use_the_community_as_the_launch_page" translatable="false">UseTheCommunityAsTheLaunchPage</string>
     <string name="use_the_community_as_the_launch_page">Use the community as the launch page</string>
     <string name="use_the_community_as_the_launch_page_tip">Enabled by default</string>
     <string name="renewal">renewal</string>
@@ -687,6 +723,7 @@
     <string name="girl">female</string>
     <string name="search_hint">Please enter your search content</string>
     <string name="report_to_deal">To report to deal with</string>
+    <string name="banned_mod">It was removed by the administrator for reporting</string>
     <string name="unable_to_report">This mod is hidden and cannot be reported.</string>
     <string name="unable_to_report2">You cannot report your own mods. If you want to remove a mod, please go to \"Work Management\".</string>
     <string name="admin">The administrator</string>
@@ -701,8 +738,11 @@
     <string name="payment_reminders">We will charge your order to your account within 24 hours after receiving it, please wait patiently. If your order is not processed within 24 hours, please submit your order number to us for processing.</string>
     <string name="pay">pay</string>
     <string name="pay_type">Payment method:</string>
+    <string name="next">next</string>
+    <string name="last">last</string>
     <string name="pay_tip">Please pay %2$S within %1$s</string>
     <string name="sava_code_and_copy_id">Save the payment code and copy the remarks</string>
+    <string name="paypal_payment">Pay with PayPal</string>
     <string name="pay_tip2">We have stored the QR code image on your device. Would you like to jump to %1$s payment now\?</string>
     <string name="qq">QQ</string>
     <string name="wechat">WeChat</string>
@@ -716,8 +756,9 @@
     <string name="recently_opened">History</string>
     <string name="not_find_history">No historical record was found</string>
     <string name="delete_source_file_check">Deleting source Files</string>
-    <string name="init_all_units">Initialize the unit list...</string>
+    <string name="init_all_units">Initialize the unit list…</string>
     <string name="clear_cache">Clear the cache</string>
+    <string name="setting_clear_cache" translatable="false">ClearCache</string>
     <string name="clear_cache_description">The cache is generated during application use and the helper is accelerated by reading the cache.</string>
     <string name="cache">Cache and storage space</string>
     <string name="history_cache">File opening record</string>
@@ -731,6 +772,7 @@
     <string name="search_unit_name">You want to search by name</string>
     <string name="auto_save_describe">Automatically save the code when you switch to another program.</string>
     <string name="auto_save">Automatically saved</string>
+    <string name="setting_auto_save" translatable="false">AutoSave</string>
     <string name="auto_save_toast">It has been automatically saved.</string>
     <string name="is_code">Is the code</string>
     <string name="search_tip">Cancel the search</string>
@@ -747,15 +789,17 @@
     <string name="export_apk_title">Export the Apk</string>
     <string name="export_apk_failure">Failed to export. Procedure</string>
     <string name="export_apk_path">Exported to %1$s.</string>
-    <string name="export_apk_load">Exporting...</string>
+    <string name="export_apk_load">Exporting…</string>
     <string name="synchronous_ok">The synchronization succeeded. Procedure</string>
     <string name="synchronous_failure">Synchronization failed. Procedure</string>
-    <string name="synchronous_ing">Synchronizing...</string>
+    <string name="synchronous_ing">Synchronizing…</string>
+    <string name="setting_server_address" translatable="false">ServerAddress</string>
     <string name="server_address_configuration">Server Address Configuration</string>
     <string name="associated_tip">Correlation hint from %1$s</string>
     <string name="login_tip">After login, you can :\n- upload, download mods. \n- Chatting with friends in the community. \n- Edit your mods in Chinese! \n- Follow your favorite creators</string>
     <string name="error_description">What were you doing at that time\?</string>
     <string name="no_error">There is no error</string>
+    <string name="setting_see_error_info" translatable="false">SeeErrorInfo</string>
     <string name="see_error_info">Crash logs</string>
     <string name="see_error_info_tip">View crash logs on this device.</string>
     <string name="can_not_tip_value">Sorry, cannot prompt value at present.</string>
@@ -765,6 +809,7 @@
     <string name="version_name_error2">A commit with version number %1$s already exists.</string>
     <string name="update_tip">Write your update log.</string>
     <string name="update_log">Update log</string>
+    <string name="recent_update">Lowest version :%1$s Last updated :%2$s</string>
     <string name="update_record">Update record</string>
     <string name="search_mod_key">Search results for "%1$s"</string>
     <string name="result">The results of</string>
@@ -779,7 +824,7 @@
     <string name="read_mode_append_or_update_tip">If the target has a record, update it, otherwise add it.</string>
     <string name="read_mode_delete_tip">Delete the record that matches the source record</string>
     <string name="read_mode_copy_tip">Empty the database and re-import from the source</string>
-    <string name="reading">Reading...</string>
+    <string name="reading">Reading…</string>
     <string name="read_the_complete">The database has been updated successfully.</string>
     <string name="read_the_fail">Database update failed. Procedure</string>
     <string name="changing_the_server">Changing the server</string>
@@ -787,6 +832,7 @@
     <string name="change_server_complete">The server has changed.</string>
     <string name="order_manager">The order management</string>
     <string name="log_out">logout</string>
+    <string name="user_info">Last login :%1$s ip Home :%2$s</string>
     <string name="use_coupon">Will use coupons to create orders, still continue\? (After creating the order, use the coupon)</string>
     <string name="use">use</string>
     <string name="account_or_email">Account/email</string>
@@ -818,6 +864,8 @@
     <string name="experience_the_plan_describe">Send software crash message anonymously .</string>
     <string name="anonymous_send_completed">An error has been sent anonymously</string>
     <string name="update_and_iteration">Version update and user experience planning</string>
+    <string name="setting_experience_the_plan" translatable="false">experiencePlan</string>
+    <string name="order_timeout" translatable="false">订单超时，无法支付。</string>
     <string name="is_paid">Have you paid yet\? (Unpaid orders will expire and can no longer be paid for).</string>
     <string name="paid_yes">Yes, I did</string>
     <string name="paid_no">Give up the order</string>
@@ -831,6 +879,8 @@
     <string name="confirm_password_error">The passwords are inconsistent.</string>
     <string name="display_source_code">Display source code</string>
     <string name="dynamic_color">Dynamic color</string>
+    <string name="setting_dynamic_color" translatable="false">DynamicColor</string>
+    <string name="setting_clipboard_cue" translatable="false">ClipboardCue</string>
     <string name="dynamic_color_tip">Follow the device wallpaper to change the theme color.</string>
     <string name="dynamic_color_disabled">Dynamic colors are not supported on this device.</string>
     <string name="an_unsupported_file_type">Unsupported file format %1$s.</string>
@@ -848,7 +898,13 @@
     <string name="file_list_action_sort_by_type">type</string>
     <string name="file_list_action_sort_by_size">The size of the</string>
     <string name="file_list_action_sort_by_last_modified">Modify the time</string>
+    <string name="setting_file_list_action_sort_by_name" translatable="false">ByName</string>
+    <string name="setting_file_list_action_sort_by_type" translatable="false">ByType</string>
+    <string name="setting_file_list_action_sort_by_size" translatable="false">BySize</string>
+    <string name="setting_file_list_action_sort_by_last_modified" translatable="false">ByLastModified</string>
     <string name="file_sort_type">File sorting Mode</string>
+    <string name="setting_file_sort_type" translatable="false">FileSortType</string>
+    <string name="setting_simple_display_of_auto_complete_menu" translatable="false">SimpleDisplayOfAutoCompleteMenu</string>
     <string name="template_id">Template id</string>
     <string name="customize_edit_text">Custom edit box</string>
     <string name="subscription">To subscribe to</string>
@@ -879,7 +935,40 @@
     <string name="user_group">The user group</string>
     <string name="discord_group">Discord server</string>
     <string name="search_suggestions_null">No search suggestion.</string>
-    <string name="search_suggestions_loading">Get search suggestions...</string>
+    <string name="search_suggestions_loading">Get search suggestions…</string>
     <string name="search_suggestions_number">Total %1$d search suggestions.</string>
-
+    <string name="simple_display_of_auto_complete_menu_describe">Hide descriptions and images in the Autocomplete menu.</string>
+    <string name="simple_display_of_auto_complete_menu">Short version autocomplete menu</string>
+    <string name="search_key">Search keyword</string>
+    <string name="share_mod_msg">I share the module %1$s, download link: %2$s\n Download Rust assistant to participate in the review, to the work coin. App download link: %3$s</string>
+    <string name="setting_source_file_type" translatable="false">sourceFileType</string>
+    <string name="setting_source_file_type_title">Source file type</string>
+    <string name="setting_source_file_type_describe">Configure the source file type. Files that match the configuration format will be opened in text edit form. Separate different formats with commas.</string>
+    <string name="download_num">Downloads</string>
+    <string name="coin_num">Number of coins</string>
+    <string name="unit_number">One unit number</string>
+    <string name="update_number">Number of updates</string>
+    <string name="click_profile_picture_login">Click avatar to log in</string>
+    <string name="log_in_discover_more">Log in to discover more!</string>
+    <string name="compile_error">Compilation error</string>
+    <string name="compile_error_message">Sorry, the source file failed to compile. The error message is: \n%1$s</string>
+    <string name="follow_introduction">After logging in, you can unlock the attention system</string>
+    <string name="help">Using document</string>
+    <string name="template_help_message">The helper creates units using a template, which is essentially a json description. The helper template parser parses json to build the user interface. You can subscribe to the template you are interested in at \\" Template Community \\". It will be updated at any time after subscribing.</string>
+    <string name="obtain_source_code_msg">Check out the source code of Rust Assistant on Github, Assistant has been open source, welcome secondary development.</string>
+    <string name="obtain_source_code">Get source code</string>
+    <string name="setting_obtain_source_code" translatable="false">ObtainSourceCode</string>
+    <string name="rust_api">Rust Api-Code</string>
+    <string name="search_type_template_package">Template package</string>
+    <string name="public_mod">publicity</string>
+    <string name="private_mod">Privately owned</string>
+    <string name="minVersion">Minimum game version</string>
+    <string name="minVersion_tip">Select the lowest version of the game and leave it blank.</string>
+    <string name="thumbs_up">give a like</string>
+    <string name="github">GitHub</string>
+    <string name="dataset_not_exist">DataBaseManifest.json does not exist and the information cannot be loaded.</string>
+    <string name="dataset_minversion_low">This data set applies only to older versions of the assistant.</string>
+    <string name="code_demo">Sample code</string>
+    <string name="clipboard_cue">Clipboard cue</string>
+    <string name="clipboard_cue_tip">On Android 13 and above, a prompt pops up when the app copies content to the clipboard.</string>
 </resources>
