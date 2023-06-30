@@ -81,15 +81,20 @@ class AllUnitsFragment(
     fun openEditActivity(file: SourceFile) {
         val handler = Handler(Looper.getMainLooper())
         executorService.submit {
-            val bundle = Bundle()
-            val path = file.file.absolutePath
-            bundle.putString("path", path)
-            bundle.putString("modPath", modClass!!.modFile.absolutePath)
-            addFileToHistory(file, handler = handler, whenAddComplete = {
-                val intent = Intent(requireContext(), EditActivity::class.java)
-                intent.putExtra("data", bundle)
-                requireActivity().startActivity(intent)
-            })
+            if (modClass == null) {
+                Snackbar.make(viewBinding.unitList, R.string.file_not_exist, Snackbar.LENGTH_SHORT)
+                    .show()
+            } else {
+                val bundle = Bundle()
+                val path = file.file.absolutePath
+                bundle.putString("path", path)
+                bundle.putString("modPath", modClass?.modFile?.absolutePath)
+                addFileToHistory(file, handler = handler, whenAddComplete = {
+                    val intent = Intent(requireContext(), EditActivity::class.java)
+                    intent.putExtra("data", bundle)
+                    requireActivity().startActivity(intent)
+                })
+            }
         }
     }
 

@@ -136,7 +136,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                     AppSettings.Setting.Token,
                                     userData.data.token
                                 )
-                                GlobalMethod.isActive = userData.data.activation
+                                //从服务器获取用户的激活信息。
+//                                GlobalMethod.isActive = userData.data.activation
                                 //更新本地激活时间
                                 val expirationTime = userData.data.expirationTime
                                 val time = ServerConfiguration.toLongTime(expirationTime)
@@ -181,6 +182,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
                                             }.show()
                                     }
+
                                     "找不到用户" -> {
                                         setErrorAndInput(
                                             viewBinding.accountView,
@@ -189,6 +191,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                         )
 
                                     }
+
                                     "找不到邮箱" -> {
                                         setErrorAndInput(
                                             viewBinding.accountView,
@@ -197,6 +200,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                         )
 
                                     }
+
                                     "密码错误" -> {
                                         setErrorAndInput(
                                             viewBinding.passwordView,
@@ -204,6 +208,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                                             viewBinding.passwordInputLayout
                                         )
                                     }
+
                                     "请更改登录设备" -> {
                                         viewBinding.button.isEnabled = false
                                         verification(
@@ -274,6 +279,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
                                             })
                                     }
+
                                     else -> {
                                         Snackbar.make(
                                             viewBinding.button,

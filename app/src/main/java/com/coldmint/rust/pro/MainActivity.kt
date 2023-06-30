@@ -707,8 +707,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
         startViewModel.isActivationLiveData.observe(this) {
-            GlobalMethod.isActive = it
-            initNavigationMenu(it)
+//            GlobalMethod.isActive = it
+            initNavigationMenu(GlobalMethod.isActive)
         }
 
         startViewModel.verifyErrorMsgLiveData.observe(this) {
