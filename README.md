@@ -1,6 +1,16 @@
 ### 铁锈助手 - Rust Assistant
 安卓端铁锈战争游戏编码辅助工具。
 
+#### 代码编辑器
+
+支持中文和英文的代码联想，自动补全。
+
+Support Chinese and English code association, automatic completion.
+
+![](screenshots/editor.png)
+
+
+
 #### 源码运行问题解决：
 
 ###### 1.打包时报错，缺少SDK路径
