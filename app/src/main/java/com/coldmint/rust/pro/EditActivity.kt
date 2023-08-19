@@ -106,59 +106,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //        EditEndBinding.bind(viewBinding.root)
 //    }
 
-    fun showRenewalTip() {
-        val debugKey = "续费提示"
-        val account = AppSettings.getValue(AppSettings.Setting.Account, "")
-        val time = AppSettings.getValue(AppSettings.Setting.ExpirationTime, 0.toLong())
-        if (time == 0.toLong() || account.isBlank()) {
-            DebugHelper.printLog(debugKey, "没有账号或续费信息，关闭界面。")
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
-            finish()
-        } else {
-            val stringTime = ServerConfiguration.toStringTime(time)
-            if (stringTime == ServerConfiguration.ForeverTime) {
-                DebugHelper.printLog(debugKey, "永久用户无需处理续费提示。")
-            } else {
-                val difference = time - System.currentTimeMillis()
-                if (difference < 0) {
-                    //已经过期
-                    DebugHelper.printLog(debugKey, "此用户的助手已经过期。")
-                    MaterialAlertDialogBuilder(this).setTitle(R.string.activation_app)
-                        .setMessage(
-                            R.string.activation_app_tip
-                        ).setPositiveButton(R.string.activate) { i, i2 ->
-                            finish()
-                            val intent = Intent(this, ActivateActivity::class.java)
-                            startActivity(intent)
-                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
-                            finish()
-                        }.setCancelable(false).show()
-                } else if (difference < 604800000) {
-                    //如果在7天内到期
-                    val day = difference / 86400000 + 1
-                    DebugHelper.printLog(
-                        debugKey,
-                        "显示续费提醒(" + difference + "/86400000)" + day + "天。"
-                    )
-                    MaterialAlertDialogBuilder(this).setTitle(R.string.renewal_tip_title)
-                        .setMessage(
-                            String.format(
-                                getString(R.string.renewal_tip_msg),
-                                account,
-                                day
-                            )
-                        ).setPositiveButton(R.string.renewal) { i, i2 ->
-                            val intent = Intent(this, ActivateActivity::class.java)
-                            startActivity(intent)
-                        }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
-                        }.setCancelable(false).show()
-                } else {
-                    DebugHelper.printLog(debugKey, "还剩余7天以上，无需提示。")
-
-                }
-            }
-        }
-    }
 
     /**
      * 加载主要的观察者
@@ -496,7 +443,6 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             initCodeEditor()
             initStartView()
 //            initEndView()
-            showRenewalTip()
             loadCustomStyle()
             loadSearchLayout()
             turretCoordinateResults =

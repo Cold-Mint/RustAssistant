@@ -17,11 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
-    // 当请求时，此适配器返回一个
-    // representing an object in the collection.
-    private val communityAdapter: CommunityAdapter by lazy {
-        CommunityAdapter(this)
-    }
+
 
 
     fun loadTab() {
@@ -60,7 +56,7 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.pager.adapter = communityAdapter
+        viewBinding.pager.adapter = CommunityAdapter(this)
         viewBinding.pager.isSaveEnabled = false
         loadTab()
     }

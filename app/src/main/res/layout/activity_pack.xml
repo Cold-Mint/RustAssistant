@@ -35,13 +35,12 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/packCard"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,13 +50,14 @@
 
                     <TextView
                         android:id="@+id/packingTitle"
+                        style="@style/TextAppearance.Material3.HeadlineSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/packmod"
-                        android:textSize="16sp" />
+                        android:text="@string/packmod" />
 
                     <TextView
                         android:id="@+id/packingState"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -65,7 +65,7 @@
 
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <com.google.android.material.card.MaterialCardView

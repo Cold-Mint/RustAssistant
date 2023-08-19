@@ -153,8 +153,9 @@ class AllUnitsFragment(
      */
     fun loadFiles(file: File? = modClass?.modFile) {
         if (file == null) {
-            Snackbar.make(viewBinding.unitList, R.string.file_not_exist, Snackbar.LENGTH_SHORT)
-                .show()
+            if (isAdded) {
+                Toast.makeText(requireContext(), R.string.file_not_exist, Toast.LENGTH_SHORT).show()
+            }
             return
         }
         val handler = Handler(Looper.getMainLooper())
