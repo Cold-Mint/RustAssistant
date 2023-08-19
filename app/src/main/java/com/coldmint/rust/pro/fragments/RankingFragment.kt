@@ -30,12 +30,11 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     var webModAdapter: WebModAdapter? = null
     var lastOffset = 0
     var lastPosition = 0
-    val linearLayoutManager by lazy {
-        StableLinearLayoutManager(requireContext())
-    }
+    var linearLayoutManager: StableLinearLayoutManager? = null
     private var sortMode: WebMod.SortMode = WebMod.SortMode.Download_Number
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
+        linearLayoutManager = StableLinearLayoutManager(requireContext())
         viewBinding.recyclerView.layoutManager = linearLayoutManager
         viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -100,7 +99,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                         viewBinding.swipeRefreshLayout.isVisible = true
                         val adapter = createAdapter(list)
                         viewBinding.recyclerView.adapter = adapter
-                        linearLayoutManager.scrollToPositionWithOffset(
+                        linearLayoutManager?.scrollToPositionWithOffset(
                             lastPosition,
                             lastOffset
                         )
