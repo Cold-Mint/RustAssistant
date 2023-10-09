@@ -971,7 +971,7 @@ class WebMod private constructor() {
      * 升级模组
      * @param appId String
      * @param modId String
-     * @param account String
+     * @param token String
      * @param modName String
      * @param describe String
      * @param tags String
@@ -987,7 +987,7 @@ class WebMod private constructor() {
     fun updateMod(
         appId: String,
         modId: String,
-        account: String,
+        token: String,
         modName: String,
         describe: String,
         updateLog: String,
@@ -1003,7 +1003,7 @@ class WebMod private constructor() {
         val builder =
             MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("appID", appId)
                 .addFormDataPart("modId", modId).addFormDataPart("updateLog", updateLog)
-                .addFormDataPart("account", account).addFormDataPart("modName", modName)
+                .addFormDataPart("token", token).addFormDataPart("modName", modName)
                 .addFormDataPart("describe", describe).addFormDataPart("tags", tags)
                 .addFormDataPart("versionName", versionName)
                 .addFormDataPart("unitNumber", unitNum.toString())

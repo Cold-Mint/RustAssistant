@@ -774,7 +774,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                         if (isUpdateMode) {
                             updateModWork(
                                 modId,
-                                account,
+                                AppSettings.getValue(AppSettings.Setting.Token, ""),
                                 modName,
                                 modDescribe,
                                 updateLog,
@@ -795,7 +795,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 if (isUpdateMode) {
                                     updateModWork(
                                         modId,
-                                        account,
+                                        AppSettings.getValue(AppSettings.Setting.Token, ""),
                                         modName,
                                         modDescribe,
                                         updateLog,
@@ -814,7 +814,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                                 if (isUpdateMode) {
                                     updateModWork(
                                         modId,
-                                        account,
+                                        AppSettings.getValue(AppSettings.Setting.Token, ""),
                                         modName,
                                         modDescribe,
                                         updateLog,
@@ -837,7 +837,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
                     if (isUpdateMode) {
                         updateModWork(
                             modId,
-                            account,
+                            AppSettings.getValue(AppSettings.Setting.Token, ""),
                             modName,
                             modDescribe,
                             updateLog,
@@ -964,7 +964,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
      */
     fun updateModWork(
         modId: String,
-        account: String,
+        token: String,
         modName: String,
         modDescribe: String,
         updateLog: String,
@@ -980,7 +980,7 @@ class ReleaseModActivity : BaseActivity<ActivityReleaseModBinding>() {
 
 
         WebMod.instance.updateMod(AppSettings.getValue(AppSettings.Setting.AppID, ""), modId,
-            account,
+            token,
             modName,
             modDescribe,
             updateLog,
