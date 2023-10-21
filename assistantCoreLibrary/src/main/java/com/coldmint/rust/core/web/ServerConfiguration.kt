@@ -1,11 +1,10 @@
 package com.coldmint.rust.core.web
 
 import android.os.Environment
-import android.util.Log
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.tool.FileOperator
 import okhttp3.*
-import java.io.File
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.net.Proxy
 import java.net.ProxySelector
@@ -14,7 +13,6 @@ import java.net.URI
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * 服务器配置
@@ -142,7 +140,9 @@ object ServerConfiguration {
             }
 
         })
-
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        builder.addInterceptor(loggingInterceptor)
         return builder.build()
     }
 
