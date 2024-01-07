@@ -68,8 +68,20 @@ android {
         baseline file('lint-baseline.xml')
     }
     namespace 'com.coldmint.rust.pro'
+    gradle.taskGraph.whenReady {
+        tasks.each { task ->
+            if (task.name.contains("uploadCrashlyticsMappingFileRelease")) {
+                task.enabled = false
+            }
+        }
+    }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+    }
+}
 
 dependencies {
     configurations.all {
