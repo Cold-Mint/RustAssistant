@@ -2,3 +2,4 @@ include ':app'
 rootProject.name = "RustedAssistant"
 include ':assistantCoreLibrary'
 include ':dialog'
+include(':library')

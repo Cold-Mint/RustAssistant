@@ -2,11 +2,10 @@ package com.coldmint.rust.pro.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.BannerItemDataBean
@@ -24,13 +23,10 @@ import com.coldmint.rust.pro.databinding.FragmentRecommendedBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
-import com.coldmint.rust.pro.ui.StableLinearLayoutManager
-import com.google.android.material.color.DynamicColors
+import com.coldmint.rust.pro.ui.ScrollLinearLayoutManager
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
-import com.youth.banner.transformer.AlphaPageTransformer
-import com.youth.banner.transformer.DepthPageTransformer
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
@@ -233,10 +229,10 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     }
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
-        viewBinding.latestReleaseView.layoutManager = StableLinearLayoutManager(requireContext())
+        viewBinding.latestReleaseView.layoutManager = ScrollLinearLayoutManager(requireContext())
         viewBinding.soleRecommendedRecyclerView.layoutManager =
-            StableLinearLayoutManager(requireContext())
-        viewBinding.randomRecommendedView.layoutManager = StableLinearLayoutManager(requireContext())
+            ScrollLinearLayoutManager(requireContext())
+        viewBinding.randomRecommendedView.layoutManager = ScrollLinearLayoutManager(requireContext())
         loadRandomRecommended()
         viewBinding.changeRandomRecommended.setOnClickListener {
             loadRandomRecommended()

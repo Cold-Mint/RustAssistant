@@ -7,8 +7,6 @@
     android:animateLayoutChanges="true"
     android:gravity="center"
     android:orientation="vertical">
-
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -30,7 +28,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:visibility="visible">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -75,7 +72,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="@string/change_random_recommended" />
+                        android:text="@string/change_random_recommended"
+                        card_view:ignore="RelativeOverlap" />
                 </RelativeLayout>
 
 

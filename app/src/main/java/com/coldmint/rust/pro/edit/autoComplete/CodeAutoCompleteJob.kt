@@ -1,6 +1,5 @@
 package com.coldmint.rust.pro.edit.autoComplete
 
-import android.os.Bundle
 import com.coldmint.rust.core.SourceFile
 import com.coldmint.rust.core.database.code.CodeDao
 import com.coldmint.rust.core.database.code.CodeDataBase
@@ -8,14 +7,11 @@ import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.edit.RustAnalyzer
-import com.coldmint.rust.pro.edit.RustAutoComplete
-import com.coldmint.rust.pro.edit.RustCompletionItem
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.CompletionItemConverter
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher
 import io.github.rosemoe.sora.text.CharPosition
 import io.github.rosemoe.sora.text.ContentReference
-import io.github.rosemoe.sora.widget.CodeEditor
 
 /**
  * 代码自动完成项目（来自数据库）

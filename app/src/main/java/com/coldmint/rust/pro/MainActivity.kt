@@ -1,20 +1,17 @@
 package com.coldmint.rust.pro
 
 
-import com.coldmint.rust.pro.base.BaseActivity
-import com.coldmint.rust.pro.tool.GlobalMethod
-import android.content.pm.PackageInfo
-import com.coldmint.rust.pro.tool.AppSettings
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.content.res.Resources
-import com.google.android.material.snackbar.Snackbar
-import android.os.*
-import android.util.Log
-import android.view.*
-import android.widget.Toast
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -33,16 +30,21 @@ import com.coldmint.rust.core.dataBean.template.TemplateInfo
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.UnzipListener
-import com.coldmint.rust.core.tool.*
+import com.coldmint.rust.core.tool.AppOperator
+import com.coldmint.rust.core.tool.DebugHelper
+import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.AppUpdate
 import com.coldmint.rust.core.web.ServerConfiguration
+import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityMainBinding
 import com.coldmint.rust.pro.databinding.HeadLayoutBinding
-import com.coldmint.rust.pro.fragments.UserGroupFragment
+import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.EventRecord
+import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.gyf.immersionbar.ImmersionBar
@@ -331,7 +333,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         intent.putExtra("type", "template")
                         startActivity(intent)
                     }
-
                     else -> {
                     }
                 }
@@ -380,7 +381,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         menu.findItem(R.id.rust_api).setOnMenuItemClickListener {
             val thisIntent = Intent(this, BrowserActivity::class.java)
-            thisIntent.putExtra("link", "https://rustedwarfareapicode.top/")
+            thisIntent.putExtra("link", "https://git.coldmint.top/")
             thisIntent.putExtra("javaScriptEnabled", true)
             startActivity(thisIntent)
             false

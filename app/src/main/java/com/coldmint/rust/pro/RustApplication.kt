@@ -1,23 +1,22 @@
 package com.coldmint.rust.pro
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.os.Environment
-import android.util.Log
+import android.content.pm.ActivityInfo
+import android.os.Bundle
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.debug.LogCatObserver
-import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.tool.AppSettings
-import com.coldmint.rust.pro.tool.CompletionItemConverter
-import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.hjq.language.MultiLanguages
 import com.youth.banner.BuildConfig
-import java.util.*
+
 
 class RustApplication : Application() {
 
@@ -38,7 +37,7 @@ class RustApplication : Application() {
         AppSettings.initAppSettings(this)
         //动态颜色
         val options = DynamicColorsOptions.Builder()
-            .setPrecondition { activity, theme ->
+            .setPrecondition { _, _ ->
                 AppSettings
                     .getValue(
                         AppSettings.Setting.DynamicColor,
@@ -66,8 +65,24 @@ class RustApplication : Application() {
             .errorActivity(ErrorActivity::class.java) //default: null (default error activity)
             .apply()
 
-        MultiLanguages.init(this);
-
+        MultiLanguages.init(this)
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            @SuppressLint("SourceLockedOrientationActivity")
+            override fun onActivityCreated(
+                activity: Activity,
+                savedInstanceState: Bundle?
+            ) {
+//                android:screenOrientation="portrait"
+                //全局强制横屏
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+            override fun onActivityStarted(activity: Activity) {}
+            override fun onActivityResumed(activity: Activity) {}
+            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivityStopped(activity: Activity) {}
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+            override fun onActivityDestroyed(activity: Activity) {}
+        })
     }
 
 

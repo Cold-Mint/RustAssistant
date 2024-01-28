@@ -8,7 +8,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.SubMenu
+import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -17,7 +22,6 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -31,7 +35,6 @@ import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
-import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.pro.adapters.FileAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databean.ErrorInfo
@@ -49,23 +52,16 @@ import com.coldmint.rust.pro.viewmodel.EditStartViewModel
 import com.coldmint.rust.pro.viewmodel.EditViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
-import io.github.rosemoe.sora.lang.completion.CompletionPublisher
-import io.github.rosemoe.sora.text.CharPosition
-import io.github.rosemoe.sora.text.ContentReference
 import io.github.rosemoe.sora.widget.EditorSearcher
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class EditActivity : BaseActivity<ActivityEditBinding>() {
     private val viewModel by lazy {
-        ViewModelProvider(this).get(EditViewModel::class.java)
+        ViewModelProvider(this)[EditViewModel::class.java]
     }
 
     private lateinit var turretCoordinateResults: ActivityResultLauncher<Intent>

@@ -1,9 +1,6 @@
 package com.coldmint.rust.pro.base
 
 import android.content.Context
-import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
-import com.coldmint.rust.pro.tool.AppSettings
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,24 +8,15 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.pro.R
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.color.DynamicColors
-import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.hjq.language.MultiLanguages
-import java.util.*
 
 /*主活动，所有活动都应该继承于此*/
 abstract class BaseActivity<ViewBingType : ViewBinding> :
