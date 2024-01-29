@@ -12,16 +12,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.load.MultiTransformation
@@ -36,8 +32,9 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.permissionx.guolindev.PermissionX
-import jp.wasabeef.glide.transformations.*
-import jp.wasabeef.glide.transformations.internal.Utils
+import jp.wasabeef.glide.transformations.BitmapTransformation
+import jp.wasabeef.glide.transformations.CropCircleTransformation
+import jp.wasabeef.glide.transformations.GrayscaleTransformation
 
 /*全局方法类*/
 object GlobalMethod {

@@ -50,8 +50,14 @@
     <item
         android:id="@+id/reloadFile"
         android:title="@string/reload_files" />
-
-
+<!--
+    <item
+        android:id="@+id/app_bar_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:checked="false"
+        android:title="隐藏文件" />-->
     <item
         android:id="@+id/selectFile"
         android:title="@string/select_file">

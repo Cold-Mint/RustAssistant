@@ -882,6 +882,7 @@ class FileManagerActivity : BaseActivity<ActivityFileBinding>() {
      * 设置排序方式
      * @param sortType SortType
      */
+
     fun setSortType(sortType: FileManagerViewModel.SortType) {
         if (this::menuBinding.isInitialized) {
             when (sortType) {

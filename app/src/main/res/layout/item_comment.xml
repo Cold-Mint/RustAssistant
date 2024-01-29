@@ -55,13 +55,13 @@
         android:id="@+id/thumb_up_image_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_below="@id/contentView"
         android:layout_marginTop="8dp"
-        android:padding="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:src="@drawable/outline_thumb_up_24"
-        android:focusable="true" />
+        android:focusable="true"
+        android:padding="2dp"
+        android:src="@drawable/outline_thumb_up_24" />
 
     <TextView
         android:id="@+id/thumb_up_text_view"

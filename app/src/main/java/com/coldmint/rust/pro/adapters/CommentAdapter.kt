@@ -4,15 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.dataBean.ApiResponse
 import com.coldmint.rust.core.dataBean.mod.WebModCommentData
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.tool.AppOperator
-import com.coldmint.rust.core.web.Dynamic
 import com.coldmint.rust.core.web.ServerConfiguration
 import com.coldmint.rust.core.web.WebMod
 import com.coldmint.rust.pro.R
@@ -68,12 +65,18 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
             ).show()
         }
         viewBinding.shareImageView.setOnClickListener {
-            AppOperator.shareText(context, context.getString(R.string.share_message), data.content);
+            AppOperator.shareText(context, context.getString(R.string.share_message), data.content)
+        }
+        viewBinding.contentView.setOnLongClickListener {
+            GlobalMethod.copyText(context, "", it.rootView)
+
+            false
         }
         viewBinding.moreImageView.setOnClickListener { view ->
             val menu = GlobalMethod.createPopMenu(view)
-            menu.menu.add(R.string.copy)
+//            menu.menu.add(R.string.copy)
             menu.menu.add(R.string.delete_title)
+            menu.menu.add(R.string.report)
             menu.setOnMenuItemClickListener {
                 val title = it.title
                 when (title) {
@@ -129,7 +132,15 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
 
                         }.show()
                     }
+                    context.getString(R.string.report) -> {
+                        Snackbar.make(
+                            context,view,
+                            "暂不可用，请等待下一个版本！",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+
                 true
             }
             menu.show()

@@ -1,28 +1,20 @@
 package com.coldmint.rust.pro.adapters
 
-import android.os.Build
-import android.view.ViewGroup
-import android.view.LayoutInflater
-import com.coldmint.rust.pro.R
 import android.content.Context
-import com.coldmint.rust.pro.tool.GlobalMethod
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.ServerConfiguration
+import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseAdapter
 import com.coldmint.rust.pro.databinding.FileItemBinding
+import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.viewmodel.FileManagerViewModel
-import com.github.promeg.pinyinhelper.Pinyin
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.zhanghai.android.fastscroll.PopupTextProvider
 import java.io.File
-import java.lang.StringBuilder
-import java.text.SimpleDateFormat
-import java.util.ArrayList
 
 class FileAdapter(context: Context, dataList: MutableList<File?>) :
     BaseAdapter<FileItemBinding, File?>(context, dataList), PopupTextProvider {
@@ -89,6 +81,7 @@ class FileAdapter(context: Context, dataList: MutableList<File?>) :
     }
 
     override fun setNewDataList(dataList: MutableList<File?>) {
+//        FileSort(dataList, sortType)
         when (sortType) {
             FileManagerViewModel.SortType.BY_NAME -> {
                 dataList.sortBy {
@@ -125,6 +118,10 @@ class FileAdapter(context: Context, dataList: MutableList<File?>) :
                 }
             }
         }
+        dataList.sortBy {
+            val name = it?.isFile ?: it?.isDirectory
+            name
+        }
         super.setNewDataList(dataList)
     }
 
@@ -139,7 +136,7 @@ class FileAdapter(context: Context, dataList: MutableList<File?>) :
     override fun onBingView(
         data: File?,
         viewBinding: FileItemBinding,
-        viewHolder: BaseAdapter.ViewHolder<FileItemBinding>,
+        viewHolder: ViewHolder<FileItemBinding>,
         position: Int
     ) {
         if (data == null) {
@@ -173,8 +170,7 @@ class FileAdapter(context: Context, dataList: MutableList<File?>) :
                     }
                 }
             } else {
-                val type = FileOperator.getFileType(data)
-                when (type) {
+                when (FileOperator.getFileType(data)) {
                     "ini", "txt", "template", "log" -> viewBinding.fileIcon.setImageDrawable(
                         GlobalMethod.tintDrawable(
                             context.getDrawable(R.drawable.file),

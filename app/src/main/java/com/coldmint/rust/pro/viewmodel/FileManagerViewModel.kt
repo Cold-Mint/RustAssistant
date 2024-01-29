@@ -1,15 +1,12 @@
 package com.coldmint.rust.pro.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.base.BaseViewModel
@@ -18,7 +15,6 @@ import com.coldmint.rust.pro.tool.BookmarkManager
 import com.yalantis.ucrop.util.FileUtils.getPath
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.HashMap
 
 class FileManagerViewModel : BaseViewModel() {
 
@@ -59,7 +55,7 @@ class FileManagerViewModel : BaseViewModel() {
     }
 
     /**
-     * 文件排序方式
+     * 文件排序方式 名称 大小 类型 时间
      */
     enum class SortType {
         BY_NAME, BY_SIZE, BY_TYPE, BY_LAST_MODIFIED

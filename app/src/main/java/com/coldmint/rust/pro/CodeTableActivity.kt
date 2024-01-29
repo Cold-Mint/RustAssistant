@@ -6,9 +6,12 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.SearchView
 import androidx.core.view.isVisible
-import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
@@ -28,14 +31,16 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         }
     }
 
+    /*
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-            ifNeedFinish()
-            return true
+        override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+                ifNeedFinish()
+                return true
+            }
+            return super.onKeyDown(keyCode, event)
         }
-        return super.onKeyDown(keyCode, event)
-    }
+    */
 
 
     fun ifNeedFinish() {
@@ -133,13 +138,14 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 spannableString.setSpan(
                     object : ClickableSpan() {
                         override fun onClick(p0: View) {
+                            sea.setQuery("", false)
                             loadData()
                         }
                     }, start, start + action.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-            viewBinding.displayView.movementMethod = LinkMovementMethod.getInstance();
-            viewBinding.displayView.highlightColor = Color.parseColor("#36969696");
+            viewBinding.displayView.movementMethod = LinkMovementMethod.getInstance()
+            viewBinding.displayView.highlightColor = Color.parseColor("#36969696")
             viewBinding.displayView.text = spannableString
 
         }
@@ -147,11 +153,26 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         viewBinding.expandableListView.isVisible = false
         viewBinding.progressBar.isVisible = false
     }
-
-
+    lateinit var sea: SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_code_table, menu)
+//        val inflater = menuInflater
+        menuInflater.inflate(R.menu.menu_code_table, menu)
+        val findItem = menu.findItem(R.id.filter_units)
+        sea = findItem.actionView as SearchView
+        sea.queryHint = "请输入关键字"
+        sea.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // 在这里执行搜索操作
+                loadData(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // 在这里更新搜索结果列表
+                loadData(newText)
+                return false
+            }
+        })
         return true
     }
 
@@ -159,6 +180,8 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter_units -> {
+//                editisVisible(true)
+                /*
                 InputDialog(this).setTitle(R.string.filter).setMessage(R.string.filter_tip)
                     .setInputCanBeEmpty(false).setMaxNumber(20)
                     .setPositiveButton(R.string.dialog_ok) { text ->
@@ -170,8 +193,9 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                         true
                     }.setNegativeButton(R.string.dialog_close) {
 
-                    }.show()
+                    }.show()*/
             }
+
             android.R.id.home -> {
                 ifNeedFinish()
                 return true
@@ -180,6 +204,14 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    override fun onBackPressed() {
+        if (sea != null && !sea.isIconified) {
+            sea.isIconified = true
+            return
+        }
+        ifNeedFinish()
+    }
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {
         return ActivityCodeTableBinding.inflate(layoutInflater)
     }
