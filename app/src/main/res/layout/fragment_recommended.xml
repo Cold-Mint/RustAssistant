@@ -90,6 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:focusableInTouchMode="false"
+                    android:nestedScrollingEnabled="false"
                     android:visibility="gone" />
             </LinearLayout>
 
@@ -119,6 +121,8 @@
                     android:id="@+id/latestReleaseView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:nestedScrollingEnabled="false"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -148,6 +152,8 @@
                     android:id="@+id/soleRecommendedRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:nestedScrollingEnabled="false"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 

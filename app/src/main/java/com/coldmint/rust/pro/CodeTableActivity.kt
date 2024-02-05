@@ -2,15 +2,17 @@ package com.coldmint.rust.pro
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
@@ -28,6 +30,29 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             title = getString(R.string.code_table)
             setReturnButton()
             loadData()
+            viewBinding.edittext.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+                override fun onTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (a.isNullOrEmpty()) {
+                        loadData()
+                        return
+                    }
+                    loadData(a.toString())
+                }
+                override fun afterTextChanged(a: Editable?) {
+                }
+            })
+            viewBinding.edittext.setOnEditorActionListener { v, p1, _ ->
+                if (p1 == EditorInfo.IME_ACTION_SEARCH) {
+                    if (v?.text.isNullOrEmpty()) {
+                        loadData()
+                    }else
+                    loadData(v?.text.toString())
+                }
+                false
+            }
+
         }
     }
 
@@ -43,7 +68,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     */
 
 
-    fun ifNeedFinish() {
+    private fun ifNeedFinish() {
         if (filterMode) {
             loadData()
         } else {
@@ -97,7 +122,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                     codeDataBase.getCodeDao()
                         .findCodeByCodeOrTranslateFromSection(key, section.code)
                 }
-                if (list == null || list.isEmpty()) {
+                if (list.isNullOrEmpty()) {
                     group.remove(section)
                 } else {
                     item.add(list)
@@ -110,8 +135,12 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 adapter.setTypeNameMap(typeNameMap)
                 adapter.setSectionMap(sectionMap)
                 runOnUiThread {
-                    adapter.labelFunction = { index, view, string ->
-                        loadData(section = string)
+                    adapter.labelFunction = { _, _, string ->
+//                        section = string
+                        if (string.isEmpty()) {
+                            loadData()
+                        }
+                        loadData(string)
                     }
                     viewBinding.displayView.isVisible = false
                     viewBinding.progressBar.isVisible = false
@@ -128,8 +157,8 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
      * 没有找到节
      * @param key String?
      */
-    fun notFindKey(key: String?) {
-        if (key != null && key.isNotBlank()) {
+    private fun notFindKey(key: String?) {
+        if (!key.isNullOrBlank()) {
             val tip = String.format(getString(R.string.not_find_code_name), key)
             val action = getString(R.string.not_find_units_action)
             val start = tip.indexOf(action)
@@ -138,7 +167,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 spannableString.setSpan(
                     object : ClickableSpan() {
                         override fun onClick(p0: View) {
-                            sea.setQuery("", false)
+                            editisVisible(false)
                             loadData()
                         }
                     }, start, start + action.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -153,26 +182,8 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         viewBinding.expandableListView.isVisible = false
         viewBinding.progressBar.isVisible = false
     }
-    lateinit var sea: SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater = menuInflater
         menuInflater.inflate(R.menu.menu_code_table, menu)
-        val findItem = menu.findItem(R.id.filter_units)
-        sea = findItem.actionView as SearchView
-        sea.queryHint = "请输入关键字"
-        sea.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                // 在这里执行搜索操作
-                loadData(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // 在这里更新搜索结果列表
-                loadData(newText)
-                return false
-            }
-        })
         return true
     }
 
@@ -180,7 +191,15 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter_units -> {
-//                editisVisible(true)
+                if (viewBinding.edittext.isVisible) {
+                    if (viewBinding.edittext.text.isNullOrEmpty()) {
+                        loadData()
+                    } else {
+                        loadData(viewBinding.edittext.text.toString())
+                    }
+                } else {
+                    editisVisible(true)
+                }
                 /*
                 InputDialog(this).setTitle(R.string.filter).setMessage(R.string.filter_tip)
                     .setInputCanBeEmpty(false).setMaxNumber(20)
@@ -197,6 +216,10 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             }
 
             android.R.id.home -> {
+                if (viewBinding.edittext.isVisible) {
+                    editisVisible(false)
+                    return true
+                }
                 ifNeedFinish()
                 return true
             }
@@ -204,10 +227,20 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun editisVisible(b: Boolean) {
+        viewBinding.edittext.isVisible = b
+        if (!b) {
+            viewBinding.edittext.setText("")
+            com.coldmint.rust.pro.muqing.gj.ycjp(viewBinding.edittext)
+        } else {
+            com.coldmint.rust.pro.muqing.gj.tcjp(viewBinding.edittext)
+        }
+    }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (sea != null && !sea.isIconified) {
-            sea.isIconified = true
+        if (viewBinding.edittext.isVisible) {
+            editisVisible(false)
             return
         }
         ifNeedFinish()

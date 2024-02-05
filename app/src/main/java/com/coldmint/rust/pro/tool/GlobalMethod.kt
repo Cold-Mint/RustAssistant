@@ -111,14 +111,14 @@ object GlobalMethod {
         //请求设置
         val requestOptions = if (transformations.isNotEmpty()) {
             val multi = MultiTransformation<Bitmap>(
-                transformations
+                    transformations
             )
             RequestOptions.bitmapTransform(multi)
         } else {
             RequestOptions()
         }
         requestOptions.placeholder(R.drawable.image)
-            .error(R.drawable.image_not_supported)
+                .error(R.drawable.image_not_supported)
         return requestOptions
     }
 
@@ -130,10 +130,10 @@ object GlobalMethod {
         val context = view.context;
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             PopupMenu(
-                context,
-                view,
-                Gravity.NO_GRAVITY,
-                0, R.style.Widget_Material3_PopupMenu
+                    context,
+                    view,
+                    Gravity.NO_GRAVITY,
+                    0, R.style.Widget_Material3_PopupMenu
             )
         } else {
             PopupMenu(context, view)
@@ -164,24 +164,24 @@ object GlobalMethod {
      * @param func Function1<String, Unit>
      */
     fun showColorPickerDialog(
-        context: Context,
-        useARGB: Boolean = false, func: ((String) -> Unit)
+            context: Context,
+            useARGB: Boolean = false, func: ((String) -> Unit)
     ) {
         ColorPickerDialogBuilder
-            .with(context).showAlphaSlider(useARGB)
-            .setTitle(context.getString(R.string.choose_color))
-            .initialColor(Color.WHITE)
-            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-            .density(12)
-            .setOnColorSelectedListener {
-                //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-            }
-            .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
-                func.invoke(colorToString(selectedColor, useARGB))
-            }
-            .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
-            .build()
-            .show()
+                .with(context).showAlphaSlider(useARGB)
+                .setTitle(context.getString(R.string.choose_color))
+                .initialColor(Color.WHITE)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener {
+                    //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
+                }
+                .setPositiveButton(R.string.dialog_ok) { dialog, selectedColor, allColors ->
+                    func.invoke(colorToString(selectedColor, useARGB))
+                }
+                .setNegativeButton(R.string.dialog_cancel) { dialog, which -> }
+                .build()
+                .show()
     }
 
     /**
@@ -242,11 +242,11 @@ object GlobalMethod {
                                 stringBuilder.append("\n\n------\n\n")
                             }
                             val title =
-                                context.getString(R.string.update_record) + "(" + data.size + ")"
+                                    context.getString(R.string.update_record) + "(" + data.size + ")"
                             MaterialAlertDialogBuilder(context).setTitle(title)
-                                .setMessage(stringBuilder.toString()).setCancelable(false)
-                                .setPositiveButton(R.string.dialog_ok) { i, i2 ->
-                                }.show()
+                                    .setMessage(stringBuilder.toString()).setCancelable(false)
+                                    .setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                                    }.show()
                         } else {
                             Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                         }
@@ -260,9 +260,9 @@ object GlobalMethod {
 
             override fun onFailure(e: Exception) {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.network_error),
-                    Toast.LENGTH_SHORT
+                        context,
+                        context.getString(R.string.network_error),
+                        Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -277,34 +277,34 @@ object GlobalMethod {
     fun requestStoragePermissions(activity: FragmentActivity, requestCompleted: (Boolean) -> Unit) {
         val list = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             listOf(
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
             )
         } else {
             listOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         }
         PermissionX.init(activity).permissions(
-            list
+                list
         ).onForwardToSettings { scope, deniedList ->
             scope.showForwardToSettingsDialog(
-                deniedList,
-                activity.getString(R.string.dialog_title),
-                activity.getString(R.string.dialog_confirm)
-            )
-        }
-            .onExplainRequestReason { scope, deniedList ->
-                scope.showRequestReasonDialog(
                     deniedList,
                     activity.getString(R.string.dialog_title),
-                    activity.getString(R.string.dialog_confirm),
-                    activity.getString(R.string.dialog_cancel)
-                )
-            }
-            .request { allGranted, grantedList, deniedList ->
-                requestCompleted.invoke(allGranted)
-            }
+                    activity.getString(R.string.dialog_confirm)
+            )
+        }
+                .onExplainRequestReason { scope, deniedList ->
+                    scope.showRequestReasonDialog(
+                            deniedList,
+                            activity.getString(R.string.dialog_title),
+                            activity.getString(R.string.dialog_confirm),
+                            activity.getString(R.string.dialog_cancel)
+                    )
+                }
+                .request { allGranted, grantedList, deniedList ->
+                    requestCompleted.invoke(allGranted)
+                }
     }
 
 
@@ -339,17 +339,34 @@ object GlobalMethod {
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", text))
         if (showView != null) {
             if (AppSettings.getValue(
-                    AppSettings.Setting.ClipboardCue,
-                    Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2
-                )
+                            AppSettings.Setting.ClipboardCue,
+                            Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2
+                    )
             ) {
                 Snackbar.make(
-                    showView,
-                    String.format(context.getText(R.string.copy_complete).toString(), text),
-                    Snackbar.LENGTH_SHORT
+                        showView,
+                        String.format(context.getText(R.string.copy_complete).toString(), text),
+                        Snackbar.LENGTH_SHORT
                 ).show()
             }
         }
+    }
+
+    /**
+     * 复制文本
+     *
+     * @param context  上下文环境
+     * @param text     文本
+     * @param showView 展示的视图（设置为null则不展示提示）
+     */
+    fun copyText(context: Context, text: String) {
+        val clipboardManager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        // When setting the clip board text.
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("", text))
+        Toast.makeText(
+                context,
+                "已复制", Toast.LENGTH_SHORT
+        ).show()
     }
 
     //图像着色

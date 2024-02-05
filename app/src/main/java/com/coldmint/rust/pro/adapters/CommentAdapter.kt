@@ -43,8 +43,8 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
         position: Int
     ) {
         val icon = data.headIcon
-        Log.d("CommentAdapter", "图标路径" + icon)
-        if (icon == null || icon.isBlank()) {
+        Log.d("CommentAdapter", "图标路径$icon")
+        if (icon.isNullOrBlank()) {
             viewBinding.iconView.setImageResource(R.drawable.head_icon)
         } else {
             Glide.with(context).load(ServerConfiguration.getRealLink(icon))
@@ -68,8 +68,7 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
             AppOperator.shareText(context, context.getString(R.string.share_message), data.content)
         }
         viewBinding.contentView.setOnLongClickListener {
-            GlobalMethod.copyText(context, "", it.rootView)
-
+            GlobalMethod.copyText(context, viewBinding.contentView.text.toString())
             false
         }
         viewBinding.moreImageView.setOnClickListener { view ->
@@ -78,8 +77,7 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
             menu.menu.add(R.string.delete_title)
             menu.menu.add(R.string.report)
             menu.setOnMenuItemClickListener {
-                val title = it.title
-                when (title) {
+                when (it.title) {
                     context.getString(R.string.copy) -> {
                         GlobalMethod.copyText(context, data.content, view)
                     }
@@ -91,7 +89,7 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
                             )
                         ).setPositiveButton(R.string.dialog_ok) {
                             val token = AppSettings.getValue(AppSettings.Setting.Token, "")
-                            if (token.isNullOrBlank()) {
+                            if (token.isBlank()) {
                                 Snackbar.make(
                                     view,
                                     context.getString(R.string.please_login_first),
@@ -104,7 +102,8 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
                                     object : ApiCallBack<ApiResponse> {
                                         override fun onResponse(t: ApiResponse) {
                                             if (t.code == ServerConfiguration.Success_Code) {
-                                                removeItem(viewHolder.adapterPosition)
+//                                                removeItem(viewHolder.adapterPosition) 过时的代码
+                                                removeItem(viewHolder.layoutPosition)
                                                 Snackbar.make(
                                                     view,
                                                     t.message,
@@ -145,8 +144,8 @@ class CommentAdapter(context: Context, dataList: MutableList<WebModCommentData.D
             }
             menu.show()
         }
-        TextStyleMaker.instance.load(viewBinding.contentView, data.content) { type, data ->
-            TextStyleMaker.instance.clickEvent(context, type, data)
+        TextStyleMaker.instance.load(viewBinding.contentView, data.content) { type, a ->
+            TextStyleMaker.instance.clickEvent(context, type, a)
         }
     }
 

@@ -5,6 +5,5 @@
         android:id="@+id/filter_units"
         android:title="@string/filter"
         android:icon="@drawable/ic_search_black_24dp"
-        android:showAsAction="ifRoom"
-        android:actionViewClass="android.widget.SearchView"/>
+        android:showAsAction="ifRoom"/>
 </menu>

@@ -142,4 +142,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
 }

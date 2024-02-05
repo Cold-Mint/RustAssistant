@@ -9,6 +9,7 @@ import android.os.Bundle
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.debug.LogCatObserver
+import com.coldmint.rust.pro.muqing.wj
 import com.coldmint.rust.pro.tool.AppSettings
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
@@ -33,6 +34,9 @@ class RustApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        wj(this)
+
+
         instanceObject = this
         AppSettings.initAppSettings(this)
         //动态颜色
