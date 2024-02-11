@@ -2,6 +2,7 @@ package com.coldmint.rust.pro
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -69,13 +70,20 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun additem(string: String) {
-        val indexOf = list.indexOf(string)
-        if (indexOf != -1) {
-            list.remove(string)
-            adapter.notifyItemRemoved(indexOf)
+        // 检查列表中是否已经存在该数据
+        val existingIndex = list.indexOf(string)
+        if (existingIndex != -1) {
+            // 如果已存在，移动到列表最前面
+            list.removeAt(existingIndex)
+            list.add(0, string)
+            adapter.notifyItemMoved(existingIndex, 0)
+        } else {
+            // 如果不存在，添加到列表最前面
+            list.add(0, string)
+            adapter.notifyItemInserted(0)
         }
-        list.add(0, string)
-        adapter.notifyItemInserted(0)
+        // 滚动到顶部
+//        viewBinding.hotSearchView2.scrollToPosition(0)
         // 限制历史记录数量为10
         if (list.size > 10) {
             list.removeAt(list.lastIndex)
@@ -86,9 +94,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     fun search(string: String) {
-        /*        val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
-                intent.putExtra("key",string)
-                startActivity(intent)*/
+        val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
+        intent.putExtra("key", string)
+        startActivity(intent)
         additem(string)
 
     }
@@ -104,14 +112,27 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         override fun onBindViewHolder(holder: VH, position: Int) {
             holder.binding.button.text = list[position]
+
             holder.binding.button.setOnClickListener {
                 val a: Button = it as Button
                 search(a.text.toString())
             }
+            holder.binding.button.setOnLongClickListener {
+                val str = list[holder.bindingAdapterPosition]
+                MaterialAlertDialogBuilder(it.context).setTitle("确定要删除此记录:$str")
+                        .setPositiveButton("确定") { _, _ ->
+                            list.remove(str)
+                            notifyItemRemoved(holder.bindingAdapterPosition)
+                        }.setNegativeButton("取消", null)
+                        .show()
+                false
+            }
         }
 
         override fun getItemCount(): Int {
-            viewBinding.textview1Text1.isVisible = list.isEmpty()
+            val empty = list.isEmpty()
+            viewBinding.textview1Text1.isVisible =empty
+            viewBinding.deleat.isVisible = !empty
             return list.size
         }
 
