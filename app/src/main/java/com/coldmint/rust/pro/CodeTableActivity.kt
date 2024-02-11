@@ -20,6 +20,7 @@ import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.pro.adapters.CodeTableAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
+import com.muqing.muqing.gj
 import java.util.concurrent.Executors
 
 class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
@@ -48,7 +49,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                     if (v?.text.isNullOrEmpty()) {
                         loadData()
                     }else
-                    loadData(v?.text.toString())
+                        loadData(v?.text.toString())
                 }
                 false
             }
@@ -231,9 +232,9 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         viewBinding.edittext.isVisible = b
         if (!b) {
             viewBinding.edittext.setText("")
-            com.coldmint.rust.pro.muqing.gj.ycjp(viewBinding.edittext)
+            gj.ycjp(viewBinding.edittext)
         } else {
-            com.coldmint.rust.pro.muqing.gj.tcjp(viewBinding.edittext)
+            gj.tcjp(viewBinding.edittext)
         }
     }
 

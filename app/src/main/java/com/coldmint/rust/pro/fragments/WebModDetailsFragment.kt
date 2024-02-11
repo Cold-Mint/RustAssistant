@@ -22,7 +22,6 @@ import com.coldmint.rust.pro.databinding.FragmentWebModDetailsBinding
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.coldmint.rust.pro.tool.TextStyleMaker
-import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.coldmint.rust.pro.viewmodel.WebModDetailsViewModel
 import com.google.android.material.chip.Chip
 import com.youth.banner.adapter.BannerImageAdapter
@@ -125,7 +124,7 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
     /**
      * 加载页面信息
      */
-    fun loadInfo() {
+    private fun loadInfo() {
         val token = AppSettings.getValue(AppSettings.Setting.Token, "")
         WebMod.instance.getInfo(token, modId, object : ApiCallBack<WebModInfoData> {
             override fun onResponse(t: WebModInfoData) {

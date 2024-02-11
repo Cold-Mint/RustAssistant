@@ -1,4 +1,4 @@
-package com.coldmint.rust.pro.muqing;
+package com.muqing.muqing;
 import android.content.Context;
 import android.os.Build;
 

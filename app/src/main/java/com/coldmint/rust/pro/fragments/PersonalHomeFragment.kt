@@ -16,6 +16,7 @@ import com.coldmint.rust.pro.WebModInfoActivity
 import com.coldmint.rust.pro.adapters.WebModAdapter
 import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentPersonalHomeBinding
+import com.coldmint.rust.pro.ui.ScrollLinearLayoutManager
 import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 
 /**
@@ -30,30 +31,30 @@ class PersonalHomeFragment(val userId: String) : BaseFragment<FragmentPersonalHo
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.latestWorkRecycleView.layoutManager =
-            StableLinearLayoutManager(requireContext())
+                ScrollLinearLayoutManager(requireContext())
         viewBinding.highestScoreRecycleView.layoutManager =
-            StableLinearLayoutManager(requireContext())
+                ScrollLinearLayoutManager(requireContext())
         viewBinding.highestScoreActionView.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(
-                "title", viewBinding.highestScoreView.text.toString()
+                    "title", viewBinding.highestScoreView.text.toString()
             )
             bundle.putString("action", "user-download")
             bundle.putString("account", userId)
             val thisIntent =
-                Intent(requireContext(), TagActivity::class.java)
+                    Intent(requireContext(), TagActivity::class.java)
             thisIntent.putExtra("data", bundle)
             startActivity(thisIntent)
         }
         viewBinding.latestWorkActionView.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(
-                "title", viewBinding.latestWorkView.text.toString()
+                    "title", viewBinding.latestWorkView.text.toString()
             )
             bundle.putString("action", "user-time")
             bundle.putString("account", userId)
             val thisIntent =
-                Intent(requireContext(), TagActivity::class.java)
+                    Intent(requireContext(), TagActivity::class.java)
             thisIntent.putExtra("data", bundle)
             startActivity(thisIntent)
         }

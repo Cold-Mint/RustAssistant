@@ -24,10 +24,7 @@ class TemplateFragment : BaseFragment<FragmentTemplateBinding>() {
 
     fun loadTab() {
         val mainActivity = requireActivity() as MainActivity
-        val tabLayout: TabLayout? = mainActivity.tabLayout
-        if (tabLayout != null) {
-            tabLayout.isVisible = true
-            TabLayoutMediator(tabLayout, viewBinding.viewPager2)
+            TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager2)
             { tab, position ->
                 when (position) {
                     0 -> {
@@ -38,9 +35,9 @@ class TemplateFragment : BaseFragment<FragmentTemplateBinding>() {
                     }
                 }
             }.attach()
-        } else {
+/*        } else {
             viewBinding.viewPager2.postDelayed({ loadTab() }, MainActivity.linkInterval)
-        }
+        }*/
     }
 
     override fun getViewBindingObject(layoutInflater: LayoutInflater): FragmentTemplateBinding {

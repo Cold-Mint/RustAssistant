@@ -43,7 +43,6 @@ import com.coldmint.rust.pro.viewmodel.StartViewModel
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.gyf.immersionbar.ImmersionBar
 import org.json.JSONObject
@@ -56,14 +55,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var oldLanguage: String? = null
     private var first = true
-    var oldDynamicColor = false
-    var tabLayout: TabLayout? = null
-    val headLayout by lazy {
+    private var oldDynamicColor = false
+    private val headLayout by lazy {
         HeadLayoutBinding.inflate(layoutInflater)
     }
-
     val startViewModel by lazy {
-        ViewModelProvider(this).get(StartViewModel::class.java)
+        ViewModelProvider(this)[StartViewModel::class.java]
     }
 
     companion object {
@@ -75,14 +72,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 将Toolbar设置为ActionBar
      */
-    fun useToolbarSetSupportActionBar() {
-        tabLayout = viewBinding.tabLayout
+    private fun useToolbarSetSupportActionBar() {
     }
 
     /**
      * 初始化导航
      */
-    fun initNav() {
+    private fun initNav() {
         appBarConfiguration = AppBarConfiguration(
                 setOf(R.id.community_item, R.id.mod_item, R.id.database_item, R.id.template_item),
                 viewBinding.drawerlayout
@@ -119,7 +115,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 检查App更新
      */
-    fun checkAppUpdate() {
+    private fun checkAppUpdate() {
         AppUpdate().getUpdate(object : ApiCallBack<AppUpdateData> {
             override fun onResponse(t: AppUpdateData) {
                 val data = t.data
@@ -183,12 +179,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 } else {
                     materialAlertDialogBuilder.setNegativeButton(
                             R.string.dialog_cancel
-                    ) { i, i2 ->
+                    ) { _, _ ->
                     }
                 }
                 materialAlertDialogBuilder.setPositiveButton(
                         R.string.downlod
-                ) { i, i2 ->
+                ) { _, _ ->
                     AppOperator.useBrowserAccessWebPage(this, data.link)
                 }
                 materialAlertDialogBuilder.show()
@@ -200,7 +196,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 显示游戏配置对话框
      */
-    fun showGameConfiguredDialog() {
+    private fun showGameConfiguredDialog() {
         if (!AppSettings.getValue(AppSettings.Setting.SetGameStorage, false)) {
             try {
                 val packageInfo = packageManager.getPackageInfo(
@@ -212,16 +208,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (versionCode >= 159) {
                     MaterialAlertDialogBuilder(this).setTitle(R.string.game_configured)
                             .setMessage(R.string.unable_to_detect)
-                            .setPositiveButton(R.string.show_details) { i, i2 ->
+                            .setPositiveButton(R.string.show_details) { _, _ ->
                                 startActivity(
                                         Intent(
                                                 this@MainActivity,
                                                 GameCheckActivity::class.java
                                         )
                                 )
-                            }.setNeutralButton(R.string.no_longer_prompt) { i, i2 ->
+                            }.setNeutralButton(R.string.no_longer_prompt) { _, _ ->
                                 AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
-                            }.setNeutralButton(R.string.dialog_cancel) { i, i2 ->
+                            }.setNeutralButton(R.string.dialog_cancel) { _, _ ->
                             }.setCancelable(false).show()
                 } else {
                     AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
@@ -260,7 +256,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 初始化导航菜单
      */
-    fun initNavigationMenu(isActive: Boolean = GlobalMethod.isActive) {
+    private fun initNavigationMenu(isActive: Boolean = GlobalMethod.isActive) {
         val menu = viewBinding.navaiagtion.menu
         val dataBase = menu.findItem(R.id.database_item)
         val template = menu.findItem(R.id.template_item)
@@ -292,7 +288,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             //数据库
             dataBase.setOnMenuItemClickListener {
                 viewBinding.mainButton.postOnAnimationDelayed({
-                    viewBinding.tabLayout.isVisible = false
+//                    viewBinding.tabLayout.isVisible = false
                     viewBinding.mainButton.hide()
                 }, hideViewDelay)
                 false
@@ -300,7 +296,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             template.setOnMenuItemClickListener {
                 viewBinding.mainButton.postOnAnimationDelayed({
-                    viewBinding.tabLayout.isVisible = true
+//                    viewBinding.tabLayout.isVisible = true
                     viewBinding.mainButton.show()
                 }, hideViewDelay)
                 false
@@ -339,7 +335,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             GlobalMethod.requestStoragePermissions(this) {
                 if (it) {
                     viewBinding.mainButton.postOnAnimationDelayed({
-                        viewBinding.tabLayout.isVisible = true
+//                        viewBinding.tabLayout.isVisible = true
                         if (isActive) {
                             viewBinding.mainButton.show()
                         }
@@ -348,15 +344,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             false
         }
-
         community.setOnMenuItemClickListener {
             viewBinding.mainButton.postOnAnimationDelayed({
-                viewBinding.tabLayout.isVisible = true
+//                viewBinding.tabLayout.isVisible = true
                 viewBinding.mainButton.hide()
             }, hideViewDelay)
             false
         }
-
         menu.findItem(R.id.startGame).setOnMenuItemClickListener {
             val packName = AppSettings.getValue(
                     AppSettings.Setting.GamePackage,
@@ -480,7 +474,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * @param formFile File 文件
      * @param templateDirectory File 模板文件夹
      */
-    fun importTemplate(formFile: File, templateDirectory: File) {
+    private fun importTemplate(formFile: File, templateDirectory: File) {
         val handler = Handler(Looper.getMainLooper())
         Thread(Runnable {
             //如果建立缓存完成，并且模板文件存在
@@ -533,10 +527,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                             getString(R.string.covers_the_import),
                                             newInfo.versionName, oldInfo.versionName
                                     )
-                            ).setPositiveButton(R.string.dialog_ok) { i, i2 ->
+                            ).setPositiveButton(R.string.dialog_ok) { _, _ ->
                                 FileOperator.delete_files(templateDirectory)
                                 importTemplate(formFile, templateDirectory)
-                            }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
+                            }.setNegativeButton(R.string.dialog_cancel) { _, _ ->
                             }.show()
                         }
                         return@Runnable
@@ -661,7 +655,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 观察启动视图
      */
-    fun observeStartViewModel() {
+    private fun observeStartViewModel() {
         startViewModel.userLiveData.observe(this) {
             headLayout.nameView.text = it.data.userName
             headLayout.emailView.text = it.data.email
@@ -746,7 +740,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     AppSettings.Setting.DynamicColor,
                     DynamicColors.isDynamicColorAvailable()
             )
-            useToolbarSetSupportActionBar()
+//            useToolbarSetSupportActionBar()
             initNav()
             observeStartViewModel()
             //偏移fab

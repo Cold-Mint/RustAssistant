@@ -8,7 +8,10 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:strokeWidth="1dp"
-        android:textColor="@color/dark_background"
+                app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOnSurface"
+        app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+        android:textColor="?attr/colorOnSurface"
+        app:rippleColor="?colorBackgroundFloating"
         android:text="@string/action" />
 </RelativeLayout>

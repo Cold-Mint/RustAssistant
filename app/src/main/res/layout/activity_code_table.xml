@@ -57,7 +57,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:visibility="gone" />
-
-
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

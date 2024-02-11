@@ -1,4 +1,4 @@
-package com.coldmint.rust.pro.muqing;
+package com.muqing.muqing;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;

@@ -1,53 +1,41 @@
 package com.coldmint.rust.pro.fragments
 
-import android.view.LayoutInflater
 import android.os.Bundle
-import android.os.Parcelable
-import android.view.View
-import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.coldmint.rust.pro.MainActivity
+import android.view.LayoutInflater
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.adapters.CommunityAdapter
 import com.coldmint.rust.pro.base.BaseFragment
-import com.coldmint.rust.pro.databinding.*
-import com.google.android.material.tabs.TabLayout
+import com.coldmint.rust.pro.databinding.FragmentCommunityBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
-
-
-
-    fun loadTab() {
+    private fun loadTab() {
         if (!isAdded) {
             return
         }
-        val mainActivity = requireActivity() as MainActivity
-        val tabLayout: TabLayout? = mainActivity.tabLayout
-        if (tabLayout != null) {
-            tabLayout.isVisible = true
-            TabLayoutMediator(tabLayout, viewBinding.pager)
-            { tab, position ->
-                when (position) {
-                    0 -> {
-                        tab.text = getText(R.string.recommended)
-                    }
-                    1 -> {
-                        tab.text = getText(R.string.follow)
-                    }
-                    2 -> {
-                        tab.text = getText(R.string.ranking)
-                    }
-                    3 -> {
-                        tab.text = getText(R.string.my)
-                    }
+        TabLayoutMediator(viewBinding.tabLayout, viewBinding.pager)
+        { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = getText(R.string.recommended)
                 }
-            }.attach()
-        } else {
+
+                1 -> {
+                    tab.text = getText(R.string.follow)
+                }
+
+                2 -> {
+                    tab.text = getText(R.string.ranking)
+                }
+
+                3 -> {
+                    tab.text = getText(R.string.my)
+                }
+            }
+        }.attach()
+        /* else {
             viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
-        }
+        }*/
     }
 
 
@@ -60,6 +48,4 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
         viewBinding.pager.isSaveEnabled = false
         loadTab()
     }
-
-
 }

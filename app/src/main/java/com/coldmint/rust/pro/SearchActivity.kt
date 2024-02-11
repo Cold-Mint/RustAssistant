@@ -2,7 +2,6 @@ package com.coldmint.rust.pro
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -29,7 +28,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  * 搜索界面
  */
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
-
     lateinit var list: MutableList<String>
 
     @SuppressLint("CommitPrefEdits", "NotifyDataSetChanged")
@@ -48,43 +46,54 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         viewBinding.deleat.setOnClickListener {
             MaterialAlertDialogBuilder(this@SearchActivity)
                     .setTitle("清空所有历史记录")
-                    .setPositiveButton("确定"){ _, _ ->
-                        list.clear()
-                                getSharedPreferences("lishi",
-                                        Context.MODE_PRIVATE).edit().putStringSet(
-                                        "data", list.toSet()).apply()
-                        adapter.notifyDataSetChanged()
+                    .setPositiveButton("确定") { _, _ ->
+                        while (list.isNotEmpty()) {
+                            val index = 0
+                            list.removeAt(index)
+                            adapter.notifyItemRemoved(index)
+                        }
+                        getSharedPreferences("lishi",
+                                Context.MODE_PRIVATE).edit().putStringSet(
+                                "data", list.toSet()).apply()
+                        /*                        CoroutineScope(Dispatchers.Main).launch {
+                                                    while (list.isNotEmpty()) {
+                                                        list.removeAt(0) // 删除第一个数据
+                                                        adapter.notifyItemRemoved(0) // 刷新 RecyclerView
+                                                        delay(300) // 每隔一秒执行一次删除操作
+                                                    }
+                                                }*/
                     }
-                    .setNegativeButton("取消"){ _, _ ->
-
-                    }.show()
+                    .setNegativeButton("取消", null).show()
         }
         viewBinding.searchView.onActionViewExpanded()
-
     }
-    @SuppressLint("NotifyDataSetChanged")
+
     private fun additem(string: String) {
-        list.remove(string)
-        list.add(0,string)
-        adapter.notifyDataSetChanged()
+        val indexOf = list.indexOf(string)
+        if (indexOf != -1) {
+            list.remove(string)
+            adapter.notifyItemRemoved(indexOf)
+        }
+        list.add(0, string)
+        adapter.notifyItemInserted(0)
         // 限制历史记录数量为10
         if (list.size > 10) {
             list.removeAt(list.lastIndex)
         }
-
         val editor = getSharedPreferences("lishi", Context.MODE_PRIVATE).edit()
         editor.putStringSet("data", list.toSet())
         editor.apply()
     }
 
     fun search(string: String) {
-        val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
-        intent.putExtra("key",string)
-        startActivity(intent)
+        /*        val intent = Intent(this@SearchActivity, SearchResultActivity::class.java)
+                intent.putExtra("key",string)
+                startActivity(intent)*/
         additem(string)
 
     }
-    val adapter: RecyclerView.Adapter<VH> = object :RecyclerView.Adapter<VH>() {
+
+    val adapter: RecyclerView.Adapter<VH> = object : RecyclerView.Adapter<VH>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
             return VH(ItemStringBinding.bind(
@@ -95,13 +104,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         override fun onBindViewHolder(holder: VH, position: Int) {
             holder.binding.button.text = list[position]
-            holder.binding.button.setOnClickListener{
+            holder.binding.button.setOnClickListener {
                 val a: Button = it as Button
                 search(a.text.toString())
             }
         }
 
-        override fun getItemCount() :Int {
+        override fun getItemCount(): Int {
             viewBinding.textview1Text1.isVisible = list.isEmpty()
             return list.size
         }

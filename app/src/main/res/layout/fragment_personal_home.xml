@@ -52,6 +52,8 @@
                 android:id="@+id/highestScoreRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="8dp" />
 
         </LinearLayout>
@@ -110,6 +112,8 @@
                 android:id="@+id/latestWorkRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
 
