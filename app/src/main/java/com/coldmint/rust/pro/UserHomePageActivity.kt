@@ -1,21 +1,12 @@
 package com.coldmint.rust.pro
 
 import android.annotation.SuppressLint
-import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Shader
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.coldmint.dialog.CoreDialog
@@ -31,13 +22,12 @@ import com.coldmint.rust.pro.dialog.CommentDialog
 import com.coldmint.rust.pro.tool.AnimUtil
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gyf.immersionbar.ImmersionBar
-import com.gyf.immersionbar.ktx.immersionBar
+import kotlin.math.abs
 
 
 class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
@@ -180,14 +170,14 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
         }
         userName = spaceInfoData.data.userName
 
-        viewBinding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        viewBinding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             viewBinding.toolbar.title =
-                if ((Math.abs(verticalOffset) >= appBarLayout.totalScrollRange)) {
-                    spaceInfoData.data.userName
-                } else {
-                    ""
-                }
-        })
+                    if ((abs(verticalOffset) >= appBarLayout.totalScrollRange)) {
+                        spaceInfoData.data.userName
+                    } else {
+                        ""
+                    }
+        }
         viewBinding.nameView.text = spaceInfoData.data.userName
         viewBinding.describeView.text =
             spaceInfoData.data.introduce ?: getString(R.string.defaultIntroduced)
@@ -208,8 +198,7 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
                 .into(viewBinding.genderView)
         }
 
-        val permission = spaceInfoData.data.permission
-        when (permission) {
+        when (spaceInfoData.data.permission) {
             1 -> {
                 viewBinding.cardView.isVisible = true
                 viewBinding.cardView.setCardBackgroundColor(Color.parseColor("#f47920"))
@@ -311,9 +300,8 @@ class UserHomePageActivity : BaseActivity<ActivityUserHomePageBinding>() {
             viewBinding.tabLayout.addOnTabSelectedListener(object :
                 TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    val finalTab = tab
-                    if (finalTab != null) {
-                        val tiltle = finalTab.text
+                    if (tab != null) {
+                        val tiltle = tab.text
                         val dynamic = getString(R.string.dynamic)
                         if (dynamic == tiltle && userId == account) {
                             viewBinding.fab.show()

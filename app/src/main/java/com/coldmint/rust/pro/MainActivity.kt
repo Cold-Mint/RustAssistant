@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +17,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
@@ -53,7 +51,6 @@ import java.io.File
 import java.util.concurrent.Executors
 import java.util.zip.ZipEntry
 
-
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -87,20 +84,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     fun initNav() {
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.community_item, R.id.mod_item, R.id.database_item, R.id.template_item),
-            viewBinding.drawerlayout
+                setOf(R.id.community_item, R.id.mod_item, R.id.database_item, R.id.template_item),
+                viewBinding.drawerlayout
         )
         val navController = findNavController(R.id.baseFragment)
         navController.navInflater.inflate(R.navigation.main_nav).apply {
             val use =
-                AppSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
+                    AppSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
             this.setStartDestination(
-                if (use) {
-                    viewBinding.mainButton.hide()
-                    R.id.community_item
-                } else {
-                    R.id.mod_item
-                }
+                    if (use) {
+                        viewBinding.mainButton.hide()
+                        R.id.community_item
+                    } else {
+                        R.id.mod_item
+                    }
             )
             navController.graph = this
         }
@@ -109,16 +106,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewBinding.navaiagtion.addHeaderView(headLayout.root)
         //actionbar动画
         val actionToggle = ActionBarDrawerToggle(
-            this,
-            viewBinding.drawerlayout,
-            viewBinding.toolbar,
-            R.string.app_name,
-            R.string.app_name
+                this,
+                viewBinding.drawerlayout,
+                viewBinding.toolbar,
+                R.string.app_name,
+                R.string.app_name
         )
         viewBinding.drawerlayout.addDrawerListener(actionToggle)
         actionToggle.syncState()
-
-
     }
 
     /**
@@ -164,7 +159,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             //检查更新
             val packageInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
             val checkBetaUpdate =
-                AppSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
+                    AppSettings.getValue(AppSettings.Setting.CheckBetaUpdate, false)
             var needShowDialog = false
             if (data.versionNumber > packageInfo.versionCode) {
                 if (data.isBeta) {
@@ -181,18 +176,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             //显示对话框
             runOnUiThread {
                 val materialAlertDialogBuilder =
-                    MaterialAlertDialogBuilder(this).setTitle(data.title).setMessage(data.content)
+                        MaterialAlertDialogBuilder(this).setTitle(data.title).setMessage(data.content)
                 if (data.forced) {
                     //禁用点击空白关闭
                     materialAlertDialogBuilder.setCancelable(false)
                 } else {
                     materialAlertDialogBuilder.setNegativeButton(
-                        R.string.dialog_cancel
+                            R.string.dialog_cancel
                     ) { i, i2 ->
                     }
                 }
                 materialAlertDialogBuilder.setPositiveButton(
-                    R.string.downlod
+                        R.string.downlod
                 ) { i, i2 ->
                     AppOperator.useBrowserAccessWebPage(this, data.link)
                 }
@@ -209,25 +204,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (!AppSettings.getValue(AppSettings.Setting.SetGameStorage, false)) {
             try {
                 val packageInfo = packageManager.getPackageInfo(
-                    GlobalMethod.DEFAULT_GAME_PACKAGE,
-                    PackageManager.GET_UNINSTALLED_PACKAGES
+                        GlobalMethod.DEFAULT_GAME_PACKAGE,
+                        PackageManager.GET_UNINSTALLED_PACKAGES
                 )
                 val versionCode = packageInfo.versionCode
                 //如果在1.15 p3及以上 (159)
                 if (versionCode >= 159) {
                     MaterialAlertDialogBuilder(this).setTitle(R.string.game_configured)
-                        .setMessage(R.string.unable_to_detect)
-                        .setPositiveButton(R.string.show_details) { i, i2 ->
-                            startActivity(
-                                Intent(
-                                    this@MainActivity,
-                                    GameCheckActivity::class.java
+                            .setMessage(R.string.unable_to_detect)
+                            .setPositiveButton(R.string.show_details) { i, i2 ->
+                                startActivity(
+                                        Intent(
+                                                this@MainActivity,
+                                                GameCheckActivity::class.java
+                                        )
                                 )
-                            )
-                        }.setNeutralButton(R.string.no_longer_prompt) { i, i2 ->
-                            AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
-                        }.setNeutralButton(R.string.dialog_cancel) { i, i2 ->
-                        }.setCancelable(false).show()
+                            }.setNeutralButton(R.string.no_longer_prompt) { i, i2 ->
+                                AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
+                            }.setNeutralButton(R.string.dialog_cancel) { i, i2 ->
+                            }.setCancelable(false).show()
                 } else {
                     AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                 }
@@ -243,9 +238,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             first = false
         } else {
             val newDynamicColor = AppSettings.getValue(
-                AppSettings.Setting.DynamicColor,
-                DynamicColors.isDynamicColorAvailable()
-            );
+                    AppSettings.Setting.DynamicColor,
+                    DynamicColors.isDynamicColorAvailable()
+            )
             if (oldDynamicColor != newDynamicColor) {
                 recreate()
                 return
@@ -333,6 +328,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         intent.putExtra("type", "template")
                         startActivity(intent)
                     }
+
                     else -> {
                     }
                 }
@@ -363,17 +359,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         menu.findItem(R.id.startGame).setOnMenuItemClickListener {
             val packName = AppSettings.getValue(
-                AppSettings.Setting.GamePackage,
-                GlobalMethod.DEFAULT_GAME_PACKAGE
+                    AppSettings.Setting.GamePackage,
+                    GlobalMethod.DEFAULT_GAME_PACKAGE
             )
             if (AppOperator.isAppInstalled(this, packName)) {
                 AppOperator.openApp(this, packName)
             } else {
                 viewBinding.drawerlayout.closeDrawer(GravityCompat.START)
                 Snackbar.make(
-                    viewBinding.mainButton,
-                    R.string.no_game_installed,
-                    Snackbar.LENGTH_SHORT
+                        viewBinding.mainButton,
+                        R.string.no_game_installed,
+                        Snackbar.LENGTH_SHORT
                 ).show()
             }
             false
@@ -398,17 +394,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         //激活暂时不可用
         val longTime = AppSettings.getValue(
-            AppSettings.Setting.ExpirationTime,
-            0.toLong()
+                AppSettings.Setting.ExpirationTime,
+                0.toLong()
         )
         val loginStatus = AppSettings.getValue(
-            AppSettings.Setting.LoginStatus,
-            false
+                AppSettings.Setting.LoginStatus,
+                false
         )
         val activationItem = menu.findItem(R.id.activation_item)
         if (loginStatus) {
             val time = ServerConfiguration.toStringTime(
-                longTime
+                    longTime
             )
             if (time == ServerConfiguration.ForeverTime) {
                 activationItem.isVisible = false
@@ -441,38 +437,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     val to = File(modDirectory + from.name)
                     if (FileOperator.copyFile(from, to)) {
                         Snackbar.make(
-                            viewBinding.mainButton,
-                            String.format(getString(R.string.import_complete), from.name),
-                            Snackbar.LENGTH_SHORT
+                                viewBinding.mainButton,
+                                String.format(getString(R.string.import_complete), from.name),
+                                Snackbar.LENGTH_SHORT
                         ).show()
                     } else {
                         Snackbar.make(
-                            viewBinding.mainButton,
-                            String.format(getString(R.string.import_failed), from.name),
-                            Snackbar.LENGTH_SHORT
+                                viewBinding.mainButton,
+                                String.format(getString(R.string.import_failed), from.name),
+                                Snackbar.LENGTH_SHORT
                         ).show()
                     }
                 } else {
                     Snackbar.make(
-                        viewBinding.mainButton,
-                        R.string.bad_file_type,
-                        Snackbar.LENGTH_SHORT
+                            viewBinding.mainButton,
+                            R.string.bad_file_type,
+                            Snackbar.LENGTH_SHORT
                     ).show()
                 }
             } else if (requestCode == 2) {
                 if ("rp" == type) {
                     val outputFolder = File(
-                        AppSettings.getValue(
-                            AppSettings.Setting.TemplateDirectory,
-                            this.filesDir.absolutePath + "/template/"
-                        ) + LocalTemplatePackage.getAbsoluteFileName(from)
+                            AppSettings.getValue(
+                                    AppSettings.Setting.TemplateDirectory,
+                                    this.filesDir.absolutePath + "/template/"
+                            ) + LocalTemplatePackage.getAbsoluteFileName(from)
                     )
                     importTemplate(from, outputFolder)
                 } else {
                     Snackbar.make(
-                        viewBinding.mainButton,
-                        R.string.bad_file_type,
-                        Snackbar.LENGTH_SHORT
+                            viewBinding.mainButton,
+                            R.string.bad_file_type,
+                            Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -492,13 +488,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (templateDirectory.exists()) {
                 val gson = Gson()
                 val newInfoData =
-                    compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
+                        compressionManager.readEntry(formFile, LocalTemplatePackage.INFONAME)
                 if (newInfoData == null) {
                     handler.post {
                         Snackbar.make(
-                            viewBinding.mainButton,
-                            getString(R.string.import_failed2),
-                            Snackbar.LENGTH_LONG
+                                viewBinding.mainButton,
+                                getString(R.string.import_failed2),
+                                Snackbar.LENGTH_LONG
                         ).show()
                     }
                     return@Runnable
@@ -509,23 +505,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     if (oldInfo == null) {
                         handler.post {
                             Snackbar.make(
-                                viewBinding.mainButton,
-                                R.string.import_failed2,
-                                Snackbar.LENGTH_SHORT
+                                    viewBinding.mainButton,
+                                    R.string.import_failed2,
+                                    Snackbar.LENGTH_SHORT
                             ).show()
                         }
                         return@Runnable
                     }
                     val thisAppVersion =
-                        AppOperator.getAppVersionNum(this, this.packageName)
+                            AppOperator.getAppVersionNum(this, this.packageName)
                     if (newInfo.versionNum > thisAppVersion) {
                         handler.post {
                             Snackbar.make(
-                                viewBinding.mainButton,
-                                String.format(
-                                    getString(R.string.app_version_error),
-                                    formFile.name
-                                ), Snackbar.LENGTH_LONG
+                                    viewBinding.mainButton,
+                                    String.format(
+                                            getString(R.string.app_version_error),
+                                            formFile.name
+                                    ), Snackbar.LENGTH_LONG
                             ).show()
                         }
                         return@Runnable
@@ -533,10 +529,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     if (newInfo.versionNum < oldInfo.versionNum) {
                         handler.post {
                             MaterialAlertDialogBuilder(this).setTitle(oldInfo.name).setMessage(
-                                String.format(
-                                    getString(R.string.covers_the_import),
-                                    newInfo.versionName, oldInfo.versionName
-                                )
+                                    String.format(
+                                            getString(R.string.covers_the_import),
+                                            newInfo.versionName, oldInfo.versionName
+                                    )
                             ).setPositiveButton(R.string.dialog_ok) { i, i2 ->
                                 FileOperator.delete_files(templateDirectory)
                                 importTemplate(formFile, templateDirectory)
@@ -554,9 +550,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (newInfo == null) {
                     handler.post {
                         Snackbar.make(
-                            viewBinding.mainButton,
-                            getString(R.string.import_failed2),
-                            Snackbar.LENGTH_LONG
+                                viewBinding.mainButton,
+                                getString(R.string.import_failed2),
+                                Snackbar.LENGTH_LONG
                         ).show()
                     }
                     return@Runnable
@@ -564,15 +560,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     val jsonObject = JSONObject(newInfo)
                     val appVersion = jsonObject.getInt("appVersionNum")
                     val thisAppVersion =
-                        AppOperator.getAppVersionNum(this, this.packageName)
+                            AppOperator.getAppVersionNum(this, this.packageName)
                     if (appVersion > thisAppVersion) {
                         handler.post {
                             Snackbar.make(
-                                viewBinding.mainButton,
-                                String.format(
-                                    getString(R.string.app_version_error),
-                                    formFile.name
-                                ), Snackbar.LENGTH_LONG
+                                    viewBinding.mainButton,
+                                    String.format(
+                                            getString(R.string.app_version_error),
+                                            formFile.name
+                                    ), Snackbar.LENGTH_LONG
                             ).show()
                         }
                         return@Runnable
@@ -581,51 +577,61 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
 
             compressionManager.unzip(
-                formFile,
-                templateDirectory,
-                object : UnzipListener {
-                    override fun whenUnzipFile(zipEntry: ZipEntry, file: File): Boolean {
-                        return true
-                    }
+                    formFile,
+                    templateDirectory,
+                    object : UnzipListener {
+                        override fun whenUnzipFile(zipEntry: ZipEntry, file: File): Boolean {
+                            return true
+                        }
 
-                    override fun whenUnzipFolder(zipEntry: ZipEntry, folder: File): Boolean {
-                        return true
-                    }
+                        override fun whenUnzipFolder(zipEntry: ZipEntry, folder: File): Boolean {
+                            return true
+                        }
 
-                    override fun whenUnzipComplete(result: Boolean) {
-                        handler.post {
+                        override fun whenUnzipComplete(result: Boolean) {
                             handler.post {
-                                Snackbar.make(
-                                    viewBinding.mainButton,
-                                    String.format(
-                                        getString(R.string.import_complete),
-                                        formFile.name
-                                    ), Snackbar.LENGTH_LONG
-                                ).show()
+                                handler.post {
+                                    Snackbar.make(
+                                            viewBinding.mainButton,
+                                            String.format(
+                                                    getString(R.string.import_complete),
+                                                    formFile.name
+                                            ), Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
                             }
                         }
-                    }
 
 
-                })
+                    })
         }).start()
     }
 
+
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.baseFragment)
+        //判断是否在第一个导航 社区或者仓库
+        if (navController.currentDestination?.id == navController.graph.startDestinationId) {
+            MaterialAlertDialogBuilder(this).setTitle(R.string.dialog_close).setMessage(
+                    String.format(
+                            getString(R.string.exit_tip),
+                            getString(R.string.app_name)
+                    )
+            ).setPositiveButton(R.string.dialog_ok) { _, _ ->
+                super.onBackPressed()
+            }.setNegativeButton(R.string.dialog_cancel) { _, _ ->
+            }.show()
+        } else {
+            super.onBackPressed()
+        }
+    }
+    /*
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-            MaterialAlertDialogBuilder(this).setTitle(R.string.dialog_close).setMessage(
-                String.format(
-                    getString(R.string.exit_tip),
-                    getString(R.string.app_name)
-                )
-            ).setPositiveButton(R.string.dialog_ok) { i, i2 ->
-                finish()
-            }.setNegativeButton(R.string.dialog_cancel) { i, i2 ->
-            }.show()
             return true
         }
         return super.onKeyDown(keyCode, event)
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -633,11 +639,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return true
     }
 
+/*不知道干什么的代码
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.baseFragment)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
@@ -660,8 +668,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val headIcon = it.data.headIcon
             if (headIcon != null) {
                 Glide.with(this).load(ServerConfiguration.getRealLink(headIcon))
-                    .apply(GlobalMethod.getRequestOptions(true, !it.data.activation))
-                    .into(headLayout.imageView)
+                        .apply(GlobalMethod.getRequestOptions(true, !it.data.activation))
+                        .into(headLayout.imageView)
             }
             val account = it.data.account
             headLayout.imageView.setOnClickListener {
@@ -679,10 +687,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 headLayout.emailView.text = ""
                 headLayout.imageView.setOnClickListener {
                     startActivity(
-                        Intent(
-                            this,
-                            LoginActivity::class.java
-                        )
+                            Intent(
+                                    this,
+                                    LoginActivity::class.java
+                            )
                     )
                 }
             } else {
@@ -700,10 +708,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (it) {
                 //显示签名错误
                 CoreDialog(this).setTitle(R.string.sign_error)
-                    .setMessage(R.string.sign_error_message).setCancelable(false)
-                    .setPositiveButton(R.string.dialog_close) {
-                        finish()
-                    }
+                        .setMessage(R.string.sign_error_message).setCancelable(false)
+                        .setPositiveButton(R.string.dialog_close) {
+                            finish()
+                        }
             }
         }
 
@@ -715,16 +723,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         startViewModel.verifyErrorMsgLiveData.observe(this) {
             if (it.isNotBlank()) {
                 CoreDialog(this).setTitle(R.string.login).setMessage(it)
-                    .setCancelable(false).setPositiveButton(R.string.login) {
-                        startActivity(
-                            Intent(
-                                this,
-                                LoginActivity::class.java
+                        .setCancelable(false).setPositiveButton(R.string.login) {
+                            startActivity(
+                                    Intent(
+                                            this,
+                                            LoginActivity::class.java
+                                    )
                             )
-                        )
-                    }.setNegativeButton(R.string.close) {
-                        finish()
-                    }.show()
+                        }.setNegativeButton(R.string.close) {
+                            finish()
+                        }.show()
             }
         }
 
@@ -735,21 +743,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (canUseView) {
             oldLanguage = AppSettings.getValue(AppSettings.Setting.AppLanguage, "en")
             oldDynamicColor = AppSettings.getValue(
-                AppSettings.Setting.DynamicColor,
-                DynamicColors.isDynamicColorAvailable()
-            );
+                    AppSettings.Setting.DynamicColor,
+                    DynamicColors.isDynamicColorAvailable()
+            )
             useToolbarSetSupportActionBar()
             initNav()
             observeStartViewModel()
             //偏移fab
             if (ImmersionBar.hasNavigationBar(this)) {
                 val layoutParams =
-                    viewBinding.mainButton.layoutParams as CoordinatorLayout.LayoutParams
+                        viewBinding.mainButton.layoutParams as CoordinatorLayout.LayoutParams
                 layoutParams.setMargins(
-                    GlobalMethod.dp2px(16),
-                    GlobalMethod.dp2px(16),
-                    GlobalMethod.dp2px(16),
-                    ImmersionBar.getNavigationBarHeight(this) + GlobalMethod.dp2px(16)
+                        GlobalMethod.dp2px(16),
+                        GlobalMethod.dp2px(16),
+                        GlobalMethod.dp2px(16),
+                        ImmersionBar.getNavigationBarHeight(this) + GlobalMethod.dp2px(16)
                 )
                 DebugHelper.printLog("导航适配", "已调整fab按钮的位置。")
             }

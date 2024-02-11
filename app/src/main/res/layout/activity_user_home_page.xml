@@ -16,8 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:windowBackground">
-
-
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -278,7 +276,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/add"
         android:visibility="gone" />
