@@ -1,37 +1,34 @@
 package com.coldmint.rust.pro
 
-import com.coldmint.rust.pro.base.BaseActivity
-import android.os.Bundle
-import com.coldmint.rust.pro.tool.AppSettings
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.*
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
 import com.bumptech.glide.Glide
-import com.coldmint.rust.core.tool.AppOperator
 import com.coldmint.rust.core.tool.FileOperator
+import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivitySettingsBinding
+import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import rikka.material.preference.MaterialSwitchPreference
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
+import java.util.Locale
 
 class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
-
     class SettingsFragment : PreferenceFragmentCompat() {
-
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             val manager = preferenceManager
@@ -54,8 +51,10 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
                     true
                 }
 
+/*
             val english_editing_mode =
                 manager.findPreference<MaterialSwitchPreference>(requireContext().getString(R.string.setting_english_editing_mode))
+*/
 
             val customizeEdit = manager.findPreference<Preference>("customize_edit")
             customizeEdit!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
@@ -268,7 +267,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
             this.getTheme().applyStyle(
                 rikka.material.preference.R.style.ThemeOverlay_Rikka_Material3_Preference,
                 true
-            );
+            )
             title = getString(R.string.set_up)
             setReturnButton()
             val settingsFragment = SettingsFragment()

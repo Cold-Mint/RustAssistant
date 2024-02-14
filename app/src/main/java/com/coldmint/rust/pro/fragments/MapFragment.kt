@@ -1,17 +1,10 @@
 package com.coldmint.rust.pro.fragments
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View
-import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.dialog.CoreDialog
 import com.coldmint.rust.core.MapClass
 import com.coldmint.rust.core.tool.AppOperator

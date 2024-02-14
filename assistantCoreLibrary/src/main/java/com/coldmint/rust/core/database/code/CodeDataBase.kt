@@ -2,17 +2,15 @@ package com.coldmint.rust.core.database.code
 
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
-import android.util.Log
-import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.Index
-import androidx.room.RenameColumn
-import androidx.room.RenameTable
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.AutoMigrationSpec
 import com.coldmint.rust.core.DataSet
-import com.coldmint.rust.core.dataBean.dataset.*
+import com.coldmint.rust.core.dataBean.dataset.ChainInspectionDataBean
+import com.coldmint.rust.core.dataBean.dataset.CodeDataBean
+import com.coldmint.rust.core.dataBean.dataset.GameVersionDataBean
+import com.coldmint.rust.core.dataBean.dataset.SectionDataBean
+import com.coldmint.rust.core.dataBean.dataset.ValueTypeDataBean
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.tool.FileOperator

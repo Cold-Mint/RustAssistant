@@ -128,14 +128,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 false
             }
         }
-
         override fun getItemCount(): Int {
             val empty = list.isEmpty()
             viewBinding.textview1Text1.isVisible =empty
             viewBinding.deleat.isVisible = !empty
             return list.size
         }
-
     }
 
     class VH(itemView: ItemStringBinding) : RecyclerView.ViewHolder(itemView.root) {

@@ -63,16 +63,12 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     private val viewModel by lazy {
         ViewModelProvider(this)[EditViewModel::class.java]
     }
-
     private lateinit var turretCoordinateResults: ActivityResultLauncher<Intent>
-
-
     private lateinit var rustLanguage: RustLanguage
-
     private var fileAdapter: FileAdapter? = null
 
     //是第一次启动嘛
-    var isFirst = true
+    private var isFirst = true
 
     /**
      * 编辑器左侧视图
@@ -85,9 +81,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
      * 编辑器左侧视图模型
      */
     private val editStartViewModel: EditStartViewModel by lazy {
-        ViewModelProvider(this).get(EditStartViewModel::class.java)
+        ViewModelProvider(this)[EditStartViewModel::class.java]
     }
-
 //    /**
 //     * 编辑器右侧视图模型
 //     */
@@ -102,11 +97,10 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //        EditEndBinding.bind(viewBinding.root)
 //    }
 
-
     /**
      * 加载主要的观察者
      */
-    fun loadMainObserve() {
+    private fun loadMainObserve() {
         viewModel.memberErrorInfoFun = {
             val info = ErrorInfo()
             val saveData = String.format(getString(R.string.compile_error_message), it)
@@ -114,37 +108,38 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             info.activityLog = "EditActivity-编译代码错误"
             info.save()
             CoreDialog(this).setTitle(R.string.compile_error)
-                .setMessage(saveData)
-                .setPositiveButton(R.string.share) {
-                    FileOperator.shareFile(this, info.getLogFile())
-                }.setNegativeButton(R.string.dialog_cancel) {
+                    .setMessage(saveData)
+                    .setPositiveButton(R.string.share) {
+                        FileOperator.shareFile(this, info.getLogFile())
+                    }.setNegativeButton(R.string.dialog_cancel) {
 
-                }.show()
+                    }.show()
         }
         viewModel.needSaveLiveData.observe(this) {
             if (it) {
                 CoreDialog(this).setTitle(R.string.edit_function).setMessage(R.string.text_changed)
-                    .setPositiveButton(R.string.edit_function) {
-                        viewModel.saveAllFile(
-                            viewBinding.tabLayout.selectedTabPosition,
-                            viewBinding.codeEditor.text.toString()
-                        ) {
-                            viewModel.needCheckAutoSave = false
-                            finish()
-                        }
-                    }.setNegativeButton(R.string.dialog_cancel) {
-
-                    }.setNeutralButton(R.string.not_save_exit) {
-                        CoreDialog(this@EditActivity).setTitle(R.string.not_save_exit)
-                            .setMessage(R.string.not_save_exit_tip)
-                            .setNegativeButton(R.string.dialog_cancel) {
-
-                            }
-                            .setPositiveButton(R.string.dialog_ok) {
+                        .setPositiveButton(R.string.edit_function) {
+                            viewModel.saveAllFile(
+                                    viewBinding.tabLayout.selectedTabPosition,
+                                    viewBinding.codeEditor.text.toString()
+                            ) {
                                 viewModel.needCheckAutoSave = false
                                 finish()
-                            }.setCancelable(false).show()
-                    }.setCancelable(false).show()
+                            }
+                        }.setNegativeButton(R.string.dialog_cancel) {
+
+                        }.setNeutralButton(R.string.not_save_exit) {
+
+                            CoreDialog(this@EditActivity).setTitle(R.string.not_save_exit)
+                                    .setMessage(R.string.not_save_exit_tip)
+                                    .setNegativeButton(R.string.dialog_cancel) {
+
+                                    }
+                                    .setPositiveButton(R.string.dialog_ok) {
+                                        viewModel.needCheckAutoSave = false
+                                        finish()
+                                    }.setCancelable(false).show()
+                        }.setCancelable(false).show()
             }
         }
 
@@ -192,33 +187,34 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         {
             viewBinding.tabLayout.removeAllTabs()
             viewBinding.tabLayout.isVisible = true
-            it.forEach {
+            it.forEach { it ->
                 val openedSourceFile = it
                 val tab = viewBinding.tabLayout.newTab()
                 tab.text = if (openedSourceFile.isNeedSave()) {
                     String.format(
-                        getString(R.string.need_save),
-                        openedSourceFile.file.name
+                            getString(R.string.need_save),
+                            openedSourceFile.file.name
                     )
                 } else {
                     openedSourceFile.file.name
                 }
-                tab.view.setOnClickListener { view ->
-                    val path = it.file.absolutePath
+                val file = it.file
+                tab.view.setOnClickListener {
+                    val path = file.absolutePath
                     if (viewModel.getNowOpenFilePath() != path) {
                         //更新Tab文本
                         val selectedTabPosition = viewBinding.tabLayout.selectedTabPosition
                         val oldTab = viewBinding.tabLayout.getTabAt(selectedTabPosition)
                         val oldOpenedSourceFile =
-                            viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
-                                selectedTabPosition
-                            )
+                                viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
+                                        selectedTabPosition
+                                )
                         val isChanged = oldOpenedSourceFile
-                            .isChanged(viewBinding.codeEditor.text.toString())
+                                .isChanged(viewBinding.codeEditor.text.toString())
                         if (isChanged) {
                             oldTab?.text = String.format(
-                                getString(R.string.need_save),
-                                oldOpenedSourceFile.file.name
+                                    getString(R.string.need_save),
+                                    oldOpenedSourceFile.file.name
                             )
                         }
                         viewModel.setNowOpenFilePath(path)
@@ -232,24 +228,24 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         popupMenu.menu.add(R.string.close)
                     }
                     popupMenu.setOnMenuItemClickListener {
-                        when (it.title.toString()) {
+                        when (title.toString()) {
                             getString(R.string.close) -> {
                                 if (openedSourceFile.isNeedSave()) {
                                     CoreDialog(this).setTitle(R.string.edit_function)
-                                        .setMessage(R.string.text_changed)
-                                        .setPositiveButton(R.string.edit_function) {
-                                            viewModel.saveOneFile(openedSourceFile)
-                                            viewModel.closeFile(openedSourceFile)
-                                        }.setNegativeButton(R.string.dialog_cancel) {
-                                            viewModel.closeFile(openedSourceFile)
-                                        }.show()
+                                            .setMessage(R.string.text_changed)
+                                            .setPositiveButton(R.string.edit_function) {
+                                                viewModel.saveOneFile(openedSourceFile)
+                                                viewModel.closeFile(openedSourceFile)
+                                            }.setNegativeButton(R.string.dialog_cancel) {
+                                                viewModel.closeFile(openedSourceFile)
+                                            }.show()
                                 } else {
                                     viewModel.closeFile(openedSourceFile)
                                 }
                             }
                             getString(R.string.open_directory_of_file) -> {
                                 editStartViewModel.loadPathLiveData.value =
-                                    FileOperator.getSuperDirectory(openedSourceFile.file)
+                                        FileOperator.getSuperDirectory(openedSourceFile.file)
                                 viewBinding.editDrawerlayout.openDrawer(GravityCompat.START)
                             }
                         }
@@ -280,7 +276,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             viewBinding.codeEditor.setText(it)
         }
         viewModel.loadingLiveData.observe(
-            this
+                this
         )
         {
             if (it) {
@@ -310,22 +306,23 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             val copyResult = FileOperator.copyFile(file, targetFile)
                             if (!copyResult) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    getText(R.string.copy_file_error),
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        getText(R.string.copy_file_error),
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                             } else {
                                 viewModel.addFileInDataBase(targetFile)
                             }
                         } else {
                             Snackbar.make(
-                                viewBinding.recyclerview,
-                                getText(R.string.bad_file_type),
-                                Snackbar.LENGTH_SHORT
+                                    viewBinding.recyclerview,
+                                    getText(R.string.bad_file_type),
+                                    Snackbar.LENGTH_SHORT
                             ).show()
                         }
                     }
                 }
+
                 2 -> {
                     //新建源文件
                     val path = data?.getStringExtra("File") ?: return
@@ -334,6 +331,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     viewModel.addFileInDataBase(file)
                     editStartViewModel.loadPathLiveData.value = FileOperator.getSuperDirectory(file)
                 }
+
                 3, 4 -> {
 //左侧选择文件(4为相册选择)
                     val path = if (requestCode == 3) {
@@ -347,12 +345,12 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     val file = File(path)
                     val copyFile = File(editStartViewModel.loadPathLiveData.value + "/" + file.name)
                     val copyResult =
-                        FileOperator.copyFile(file, copyFile)
+                            FileOperator.copyFile(file, copyFile)
                     if (!copyResult) {
                         Snackbar.make(
-                            viewBinding.recyclerview,
-                            getText(R.string.copy_file_error),
-                            Snackbar.LENGTH_SHORT
+                                viewBinding.recyclerview,
+                                getText(R.string.copy_file_error),
+                                Snackbar.LENGTH_SHORT
                         ).show()
                     } else {
                         viewModel.addFileInDataBase(copyFile)
@@ -410,8 +408,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             val need = AppSettings.getValue(AppSettings.Setting.AutoSave, true)
             if (need) {
                 viewModel.saveAllFile(
-                    viewBinding.tabLayout.selectedTabPosition,
-                    viewBinding.codeEditor.text.toString()
+                        viewBinding.tabLayout.selectedTabPosition,
+                        viewBinding.codeEditor.text.toString()
                 ) {
                     Toast.makeText(this, R.string.auto_save_toast, Toast.LENGTH_SHORT).show()
                 }
@@ -442,9 +440,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             loadCustomStyle()
             loadSearchLayout()
             turretCoordinateResults =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    viewModel.reloadCode()
-                }
+                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                        viewModel.reloadCode()
+                    }
         } else {
             title = getString(R.string.mod_action1)
             val thisIntent = intent
@@ -502,14 +500,16 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         intent.putExtra("data", bundle)
                         startActivityForResult(intent, 2)
                     }
+
                     getString(R.string.select_the_image_in_the_album) -> {
                         this.startActivityForResult(
-                            Intent(
-                                Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                            ), 4
+                                Intent(
+                                        Intent.ACTION_PICK,
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                                ), 4
                         )
                     }
+
                     getText(R.string.select_file) -> {
                         viewModel.needCheckAutoSave = false
                         val bundle = Bundle()
@@ -519,28 +519,30 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                         intent.putExtra("data", bundle)
                         startActivityForResult(intent, 3)
                     }
+
                     getText(R.string.create_folder) -> {
                         InputDialog(this).setTitle(R.string.create_folder)
-                            .setHint(R.string.file_name)
-                            .setCancelable(false).setInputCanBeEmpty(false).setMaxNumber(255)
-                            .setErrorTip { s, textInputLayout ->
-                                val newFolder =
-                                    File(editStartViewModel.loadPathLiveData.value + "/" + s)
-                                if (newFolder.exists()) {
-                                    textInputLayout.error = getString(R.string.folder_error)
-                                } else {
-                                    textInputLayout.isErrorEnabled = false
-                                }
-                            }.setPositiveButton(R.string.dialog_ok) { i ->
-                                val newFolder =
-                                    File(editStartViewModel.loadPathLiveData.value + "/" + i)
-                                val res = newFolder.mkdirs()
-                                editStartViewModel.reloadList()
-                                res
-                            }.setNegativeButton(R.string.dialog_cancel) {
+                                .setHint(R.string.file_name)
+                                .setCancelable(false).setInputCanBeEmpty(false).setMaxNumber(255)
+                                .setErrorTip { s, textInputLayout ->
+                                    val newFolder =
+                                            File(editStartViewModel.loadPathLiveData.value + "/" + s)
+                                    if (newFolder.exists()) {
+                                        textInputLayout.error = getString(R.string.folder_error)
+                                    } else {
+                                        textInputLayout.isErrorEnabled = false
+                                    }
+                                }.setPositiveButton(R.string.dialog_ok) { i ->
+                                    val newFolder =
+                                            File(editStartViewModel.loadPathLiveData.value + "/" + i)
+                                    val res = newFolder.mkdirs()
+                                    editStartViewModel.reloadList()
+                                    res
+                                }.setNegativeButton(R.string.dialog_cancel) {
 
-                            }.show()
+                                }.show()
                     }
+
                     getText(R.string.copy_to_this) -> {
                         viewModel.executorService.submit {
                             viewModel.processFiles = true
@@ -557,15 +559,16 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             } else {
                                 handler.post {
                                     Toast.makeText(
-                                        this@EditActivity,
-                                        getText(R.string.copy_failed),
-                                        Toast.LENGTH_SHORT
+                                            this@EditActivity,
+                                            getText(R.string.copy_failed),
+                                            Toast.LENGTH_SHORT
                                     ).show()
                                     viewModel.processFiles = false
                                 }
                             }
                         }
                     }
+
                     getText(R.string.cut_to_this) -> {
                         viewModel.executorService.submit {
                             viewModel.processFiles = true
@@ -582,9 +585,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             } else {
                                 handler.post {
                                     Toast.makeText(
-                                        this@EditActivity,
-                                        getText(R.string.cut_failed),
-                                        Toast.LENGTH_SHORT
+                                            this@EditActivity,
+                                            getText(R.string.cut_failed),
+                                            Toast.LENGTH_SHORT
                                     ).show()
                                     viewModel.processFiles = false
                                 }
@@ -619,18 +622,18 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
         //文件列表的数据改变
         editStartViewModel.fileListLiveData.observe(this) {
             val finalFileAdapter: FileAdapter =
-                if (fileAdapter == null) {
-                    fileAdapter = FileAdapter(this, it)
-                    fileAdapter!!
-                } else {
-                    fileAdapter?.setNewDataList(it)
-                    fileAdapter!!
-                }
-            finalFileAdapter.setItemEvent { i, fileItemBinding, viewHolder, file ->
+                    if (fileAdapter == null) {
+                        fileAdapter = FileAdapter(this, it)
+                        fileAdapter!!
+                    } else {
+                        fileAdapter?.setNewDataList(it)
+                        fileAdapter!!
+                    }
+            finalFileAdapter.setItemEvent { _, fileItemBinding, _, file ->
                 fileItemBinding.contentView.setOnClickListener {
                     if (file == null) {
                         editStartViewModel.loadPathLiveData.value = FileOperator.getSuperDirectory(
-                            editStartViewModel.loadPathLiveData.value ?: ""
+                                editStartViewModel.loadPathLiveData.value ?: ""
                         )
                     } else {
                         if (file.isDirectory) {
@@ -642,7 +645,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     }
                 }
 
-                fileItemBinding.more.setOnClickListener {
+                fileItemBinding.more.setOnClickListener { it ->
                     if (file == null) {
                         return@setOnClickListener
                     }
@@ -665,11 +668,11 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     }
                     bookmarksMenu.add(R.string.bookmark_manager)
                     val bookmarkContent: SubMenu? =
-                        if (bookmarkManager.size > 0) {
-                            bookmarksMenu.addSubMenu(R.string.jump_a_bookmark)
-                        } else {
-                            null
-                        }
+                            if (bookmarkManager.size > 0) {
+                                bookmarksMenu.addSubMenu(R.string.jump_a_bookmark)
+                            } else {
+                                null
+                            }
                     //哈希表映射(名称，路径)
                     val bookmarkMap = HashMap<String, String?>()
                     bookmarkManager.fromList(object : BookmarkListener {
@@ -685,45 +688,45 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             val name = file.name
                             GlobalMethod.copyText(
-                                this@EditActivity,
-                                name,
-                                viewBinding.recyclerview
+                                    this@EditActivity,
+                                    name,
+                                    viewBinding.recyclerview
                             )
                         } else if (title == getText(R.string.copy_file_path)) {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             val path = file.absolutePath
                             GlobalMethod.copyText(
-                                this@EditActivity,
-                                path,
-                                viewBinding.recyclerview
+                                    this@EditActivity,
+                                    path,
+                                    viewBinding.recyclerview
                             )
                         } else if (title == getText(R.string.copy_file_absolutely_path)) {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             if (viewModel.modClass == null) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    getText(R.string.copy_file_absolutely_path_error),
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        getText(R.string.copy_file_absolutely_path_error),
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                                 return@OnMenuItemClickListener true
                             }
                             var relative =
-                                FileOperator.getRelativePath(
-                                    file,
-                                    viewModel.modClass!!.modFile
-                                )
-                            if (relative == null || relative.isEmpty()) {
+                                    FileOperator.getRelativePath(
+                                            file,
+                                            viewModel.modClass!!.modFile
+                                    )
+                            if (relative.isNullOrEmpty()) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    getText(R.string.copy_file_absolutely_path_error),
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        getText(R.string.copy_file_absolutely_path_error),
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                             } else {
                                 relative = "ROOT:" + relative.substring(1)
                                 GlobalMethod.copyText(
-                                    this@EditActivity,
-                                    relative,
-                                    viewBinding.recyclerview
+                                        this@EditActivity,
+                                        relative,
+                                        viewBinding.recyclerview
                                 )
                             }
                         } else if (title == getText(R.string.del_mod)) {
@@ -739,9 +742,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             }
                             if (!canDel) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.unable_del,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.unable_del,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                                 return@OnMenuItemClickListener false
                             }
@@ -764,9 +767,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             }
                             if (!canCut) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.unable_cut,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.unable_cut,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                                 return@OnMenuItemClickListener false
                             }
@@ -784,76 +787,76 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                             }
                             if (!canRename) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.unable_rename,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.unable_rename,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                                 return@OnMenuItemClickListener false
                             }
                             val oldName = file.name
                             InputDialog(this).setTitle(R.string.rename).setMaxNumber(255)
-                                .setText(oldName).setPositiveButton(R.string.dialog_ok) { it ->
-                                    val newName = it
-                                    if (newName != oldName) {
-                                        val reNameFile =
-                                            File(editStartViewModel.loadPathLiveData.value + "/" + newName)
-                                        file.renameTo(reNameFile)
-                                        editStartViewModel.reloadList()
-                                    }
-                                    true
-                                }.setNegativeButton(R.string.dialog_close) {
+                                    .setText(oldName).setPositiveButton(R.string.dialog_ok) { it ->
+                                        val newName = it
+                                        if (newName != oldName) {
+                                            val reNameFile =
+                                                    File(editStartViewModel.loadPathLiveData.value + "/" + newName)
+                                            file.renameTo(reNameFile)
+                                            editStartViewModel.reloadList()
+                                        }
+                                        true
+                                    }.setNegativeButton(R.string.dialog_close) {
 
-                                }.show()
+                                    }.show()
                         } else if (title == getString(R.string.remove_bookmark)) {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             val removeBookmark =
-                                bookmarkManager.removeBookmark(file.absolutePath)
+                                    bookmarkManager.removeBookmark(file.absolutePath)
                             if (removeBookmark) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.remove_bookmark_success,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.remove_bookmark_success,
+                                        Snackbar.LENGTH_SHORT
                                 ).setAction(R.string.symbol10) {
                                     bookmarkManager.addBookmark(
-                                        file.absolutePath,
-                                        FileOperator.getPrefixName(file)
+                                            file.absolutePath,
+                                            FileOperator.getPrefixName(file)
                                     )
                                     viewBinding.editDrawerlayout.openDrawer(GravityCompat.START)
                                 }.show()
                             } else {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.remove_bookmark_fail,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.remove_bookmark_fail,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                             }
                         } else if (title == getString(R.string.add_bookmark)) {
                             viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                             val addBookmark = bookmarkManager.addBookmark(
-                                file.absolutePath,
-                                FileOperator.getPrefixName(file)
+                                    file.absolutePath,
+                                    FileOperator.getPrefixName(file)
                             )
                             if (addBookmark) {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.add_bookmark_success,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.add_bookmark_success,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                             } else {
                                 Snackbar.make(
-                                    viewBinding.recyclerview,
-                                    R.string.add_bookmark_fail,
-                                    Snackbar.LENGTH_SHORT
+                                        viewBinding.recyclerview,
+                                        R.string.add_bookmark_fail,
+                                        Snackbar.LENGTH_SHORT
                                 ).show()
                             }
                         } else if (title == getString(R.string.bookmark_manager)) {
                             bookmarkManager.save()
                             viewModel.needCheckAutoSave = false
                             startActivity(
-                                Intent(
-                                    this@EditActivity,
-                                    BookmarkManagerActivity::class.java
-                                )
+                                    Intent(
+                                            this@EditActivity,
+                                            BookmarkManagerActivity::class.java
+                                    )
                             )
                         } else {
                             if (bookmarkMap.containsKey(title)) {
@@ -867,9 +870,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                                 } else {
                                     viewBinding.editDrawerlayout.closeDrawer(GravityCompat.START)
                                     Snackbar.make(
-                                        viewBinding.recyclerview,
-                                        R.string.bookmark_jump_failed,
-                                        Snackbar.LENGTH_SHORT
+                                            viewBinding.recyclerview,
+                                            R.string.bookmark_jump_failed,
+                                            Snackbar.LENGTH_SHORT
                                     ).show()
                                 }
                             }
@@ -887,7 +890,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     /**
      * 初始化代码工具栏
      */
-    fun initCodeToolbar() {
+    private fun initCodeToolbar() {
         val items = ArrayList<String>()
         items.add(getString(R.string.symbol1))
         items.add(getString(R.string.symbol9))
@@ -896,8 +899,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
 //        items.add(getString(R.string.code_language_on))
         items.add(getString(R.string.symbol11))
         val customSymbol = AppSettings.getValue(
-            AppSettings.Setting.CustomSymbol,
-            "[],:='*_$%@#{}()"
+                AppSettings.Setting.CustomSymbol,
+                "[],:='*_$%@#{}()"
         )
         val chars = customSymbol.toCharArray()
         if (chars.isNotEmpty()) {
@@ -906,7 +909,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             }
         }
         val codeToolAdapter = CodeToolAdapter(this, items)
-        codeToolAdapter.setItemEvent { i, codeToolItemBinding, viewHolder, item ->
+        codeToolAdapter.setItemEvent { _, codeToolItemBinding, _, item ->
             codeToolItemBinding.codeTextItemView.setOnClickListener {
                 if (item == getString(R.string.symbol11)) {
                     GlobalMethod.showColorPickerDialog(this) {
@@ -922,14 +925,14 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 } else if (item == getString(R.string.symbol9)) {
                     if (!viewBinding.codeEditor.formatCodeAsync()) {
                         Snackbar.make(
-                            viewBinding.codeEditor,
-                            R.string.format_failed,
-                            Snackbar.LENGTH_SHORT
+                                viewBinding.codeEditor,
+                                R.string.format_failed,
+                                Snackbar.LENGTH_SHORT
                         ).show()
                     }
                 } else if (item == getString(R.string.code_tip)) {
                     viewBinding.codeEditor.getComponent(EditorAutoCompletion::class.java)
-                        .requireCompletion()
+                            .requireCompletion()
                     //                    viewModel.executorService.submit {
 //                        try {
 //                            val list = ArrayList<CompletionItem>()
@@ -1045,37 +1048,37 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     }
 
     //初始化编辑器
-    fun initCodeEditor() {
+    private fun initCodeEditor() {
         //CodEditor初始化
         viewBinding.codeEditor.isWordwrap = true
         val useFont = AppSettings.getValue(AppSettings.Setting.UseJetBrainsMonoFont, true)
         if (useFont) {
             viewBinding.codeEditor.typefaceText = Typeface.createFromAsset(
-                assets,
-                "JetBrainsMono-Regular.ttf"
+                    assets,
+                    "JetBrainsMono-Regular.ttf"
             )
         }
         rustLanguage = RustLanguage()
         rustLanguage.setCodeDataBase(CodeDataBase.getInstance(this))
         rustLanguage.setFileDataBase(
-            FileDataBase.getInstance(
-                this,
-                viewModel.modClass!!.modName
-            )
+                FileDataBase.getInstance(
+                        this,
+                        viewModel.modClass!!.modName
+                )
         )
         rustLanguage.setCodeEditor(viewBinding.codeEditor)
 
         val codeEditBackGroundEnable =
-            AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
+                AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
         val rustCompletionAdapter = RustCompletionAdapter()
         rustCompletionAdapter.setEditBackground(codeEditBackGroundEnable)
         viewBinding.codeEditor.setAutoCompletionItemAdapter(rustCompletionAdapter)
         viewBinding.codeEditor.isVerticalScrollBarEnabled = false
         val path = viewModel.modClass?.modFile?.absolutePath ?: ""
         CompletionItemConverter.configurationFileConversion(
-            path,
-            "ROOT",
-            path
+                path,
+                "ROOT",
+                path
         )
         viewBinding.codeEditor.setEditorLanguage(rustLanguage)
     }
@@ -1084,97 +1087,97 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     /**
      * 加载自动
      */
-    fun loadCustomStyle() {
+    private fun loadCustomStyle() {
         val key = "加载自定义编辑框样式"
         val editorColorScheme = EditorColorScheme()
         val codeEditBackGroundEnable =
-            AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
+                AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
         val backgroundColor =
-            if (codeEditBackGroundEnable) {
-                DebugHelper.printLog(key, "启用背景图像，设置背景为透明。")
-                Color.TRANSPARENT
-            } else {
-                DebugHelper.printLog(key, "未启用背景图像，设置背景为窗口颜色。")
-                GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
-            }
+                if (codeEditBackGroundEnable) {
+                    DebugHelper.printLog(key, "启用背景图像，设置背景为透明。")
+                    Color.TRANSPARENT
+                } else {
+                    DebugHelper.printLog(key, "未启用背景图像，设置背景为窗口颜色。")
+                    GlobalMethod.getThemeColor(this, android.R.attr.windowBackground)
+                }
         val darkMode = AppSettings.getValue(AppSettings.Setting.NightMode, false)
         if (darkMode) {
             //代码（可识别的关键字）
             editorColorScheme.setColor(
-                EditorColorScheme.KEYWORD,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColorDark, ""))
+                    EditorColorScheme.KEYWORD,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColorDark, ""))
             )
             //默认文本
             editorColorScheme.setColor(
-                EditorColorScheme.TEXT_NORMAL,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColorDark, ""))
+                    EditorColorScheme.TEXT_NORMAL,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColorDark, ""))
             )
             //注释
             editorColorScheme.setColor(
-                EditorColorScheme.COMMENT,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColorDark, ""))
+                    EditorColorScheme.COMMENT,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColorDark, ""))
             )
             //节
             editorColorScheme.setColor(
-                EditorColorScheme.FUNCTION_NAME,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColorDark, ""))
+                    EditorColorScheme.FUNCTION_NAME,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColorDark, ""))
             )
         } else {
             //代码（可识别的关键字）
             editorColorScheme.setColor(
-                EditorColorScheme.KEYWORD,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColor, ""))
+                    EditorColorScheme.KEYWORD,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.KeywordColor, ""))
             )
             //默认文本
             editorColorScheme.setColor(
-                EditorColorScheme.TEXT_NORMAL,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColor, ""))
+                    EditorColorScheme.TEXT_NORMAL,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.TextColor, ""))
             )
             //注释
             editorColorScheme.setColor(
-                EditorColorScheme.COMMENT,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColor, ""))
+                    EditorColorScheme.COMMENT,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.AnnotationColor, ""))
             )
             //节
             editorColorScheme.setColor(
-                EditorColorScheme.FUNCTION_NAME,
-                Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColor, ""))
+                    EditorColorScheme.FUNCTION_NAME,
+                    Color.parseColor(AppSettings.getValue(AppSettings.Setting.SectionColor, ""))
             )
         }
         editorColorScheme.setColor(
-            EditorColorScheme.WHOLE_BACKGROUND,
-            backgroundColor
+                EditorColorScheme.WHOLE_BACKGROUND,
+                backgroundColor
         )
         editorColorScheme.setColor(
-            EditorColorScheme.LINE_NUMBER_BACKGROUND,
-            backgroundColor
+                EditorColorScheme.LINE_NUMBER_BACKGROUND,
+                backgroundColor
         )
         editorColorScheme.setColor(EditorColorScheme.COMPLETION_WND_BACKGROUND, backgroundColor)
         if (codeEditBackGroundEnable) {
             //设置自定义背景图
             Glide.with(this)
-                .load(AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundPath, "")).apply(
-                    RequestOptions.bitmapTransform(
-                        BlurTransformation(
-                            AppSettings.getValue(
-                                AppSettings.Setting.BlurTransformationValue,
-                                1
+                    .load(AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundPath, "")).apply(
+                            RequestOptions.bitmapTransform(
+                                    BlurTransformation(
+                                            AppSettings.getValue(
+                                                    AppSettings.Setting.BlurTransformationValue,
+                                                    1
+                                            )
+                                    )
                             )
-                        )
-                    )
-                ).into(object : CustomTarget<Drawable>() {
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        window.setBackgroundDrawable(resource)
-                    }
+                    ).into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                        ) {
+                            window.setBackgroundDrawable(resource)
+                        }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
+                        override fun onLoadCleared(placeholder: Drawable?) {
 
-                    }
+                        }
 
-                })
+                    })
 
         }
         viewBinding.codeEditor.colorScheme = editorColorScheme
@@ -1190,9 +1193,9 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
             if (viewModel.checkFilesIfNeedSave(
-                    viewBinding.tabLayout.selectedTabPosition,
-                    viewBinding.codeEditor.text.toString()
-                )
+                            viewBinding.tabLayout.selectedTabPosition,
+                            viewBinding.codeEditor.text.toString()
+                    )
             ) {
                 return true
             }
@@ -1205,21 +1208,22 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             android.R.id.home -> {
                 editStartViewModel.bookmarkManager.save()
                 if (viewModel.checkFilesIfNeedSave(
-                        viewBinding.tabLayout.selectedTabPosition,
-                        viewBinding.codeEditor.text.toString()
-                    )
+                                viewBinding.tabLayout.selectedTabPosition,
+                                viewBinding.codeEditor.text.toString()
+                        )
                 ) {
                     return true
                 }
             }
+
             R.id.turret_design -> {
                 val needSave = viewModel.checkOneFileIfNeedSave(
-                    viewBinding.tabLayout.selectedTabPosition,
-                    viewBinding.codeEditor.text.toString()
+                        viewBinding.tabLayout.selectedTabPosition,
+                        viewBinding.codeEditor.text.toString()
                 )
                 if (needSave) {
                     Snackbar.make(viewBinding.codeEditor, R.string.save_tip, Snackbar.LENGTH_SHORT)
-                        .show()
+                            .show()
                 } else {
                     val goIntent = Intent(this, TurretDesignActivity::class.java)
                     val modPath = viewModel.modClass!!.modFile.absolutePath
@@ -1229,32 +1233,35 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                     turretCoordinateResults.launch(goIntent)
                 }
             }
+
             R.id.display_source_code -> {
                 val file = File(viewModel.getNowOpenFilePath())
                 val code = FileOperator.readFile(file)
                 MaterialAlertDialogBuilder(this).setTitle(file.name).setMessage(code)
-                    .setNegativeButton(R.string.dialog_ok) { i, i2 ->
-                    }.setCancelable(false).show()
+                        .setNegativeButton(R.string.dialog_ok) { _, _ ->
+                        }.setCancelable(false).show()
             }
+
             R.id.clear_code_cache -> {
                 Snackbar.make(
-                    viewBinding.recyclerview,
-                    getString(R.string.clean_up_code_cache_complete),
-                    Snackbar.LENGTH_SHORT
+                        viewBinding.recyclerview,
+                        getString(R.string.clean_up_code_cache_complete),
+                        Snackbar.LENGTH_SHORT
                 ).show()
             }
+
             R.id.open_game_test -> {
                 val packName = AppSettings.getValue(
-                    AppSettings.Setting.GamePackage,
-                    GlobalMethod.DEFAULT_GAME_PACKAGE
+                        AppSettings.Setting.GamePackage,
+                        GlobalMethod.DEFAULT_GAME_PACKAGE
                 )
                 if (AppOperator.isAppInstalled(this@EditActivity, packName)) {
                     AppOperator.openApp(this@EditActivity, packName)
                 } else {
                     Snackbar.make(
-                        viewBinding.recyclerview,
-                        R.string.no_game_installed,
-                        Snackbar.LENGTH_SHORT
+                            viewBinding.recyclerview,
+                            R.string.no_game_installed,
+                            Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -1306,55 +1313,61 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             R.id.save_text -> {
                 try {
                     val openedSourceFile =
-                        viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition)
+                            viewModel.openedSourceFileListLiveData.getOpenedSourceFile(viewBinding.tabLayout.selectedTabPosition)
                     val needSave =
-                        openedSourceFile.isChanged(viewBinding.codeEditor.text.toString())
+                            openedSourceFile.isChanged(viewBinding.codeEditor.text.toString())
                     if (needSave) {
                         viewModel.compilerFile(openedSourceFile) {
                             viewModel.openedSourceFileListLiveData.getOpenedSourceFile(
-                                viewBinding.tabLayout.selectedTabPosition
+                                    viewBinding.tabLayout.selectedTabPosition
                             ).save(it)
                         }
                     }
                     Snackbar.make(
-                        viewBinding.recyclerview,
-                        R.string.save_complete2,
-                        Snackbar.LENGTH_SHORT
+                            viewBinding.recyclerview,
+                            R.string.save_complete2,
+                            Snackbar.LENGTH_SHORT
                     ).show()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
+
             R.id.show_line_number -> {
                 viewBinding.codeEditor.isLineNumberEnabled =
-                    !viewBinding.codeEditor.isLineNumberEnabled
+                        !viewBinding.codeEditor.isLineNumberEnabled
                 item.isChecked = viewBinding.codeEditor.isLineNumberEnabled
             }
+
             R.id.word_wrap -> {
                 viewBinding.codeEditor.isWordwrap = !viewBinding.codeEditor.isWordwrap
                 item.isChecked = viewBinding.codeEditor.isWordwrap
             }
+
             R.id.convertToTemplate -> {
                 viewModel.needCheckAutoSave = false
                 val intent = Intent(this@EditActivity, TemplateMakerActivity::class.java)
 
                 val file = File(viewModel.getNowOpenFilePath())
                 intent.putExtra(
-                    "path",
-                    viewModel.getNowOpenFilePath()
+                        "path",
+                        viewModel.getNowOpenFilePath()
                 )
                 intent.putExtra(
-                    "name",
-                    FileOperator.getPrefixName(file)
+                        "name",
+                        FileOperator.getPrefixName(file)
                 )
                 startActivity(intent)
             }
+
             R.id.text_undo -> {
                 viewBinding.codeEditor.undo()
             }
+
             R.id.text_redo -> {
                 viewBinding.codeEditor.redo()
             }
+
             R.id.search_view -> {
                 viewBinding.searchLayout.isVisible = true
                 viewBinding.allButton.isVisible = false
@@ -1370,7 +1383,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     /**
      * 加载搜索布局
      */
-    fun loadSearchLayout() {
+    private fun loadSearchLayout() {
         viewBinding.closeButton.setOnClickListener {
             viewBinding.searchLayout.isVisible = false
             viewBinding.codeEditor.searcher.stopSearch()
@@ -1379,8 +1392,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             val find = viewBinding.findEditText.text.toString()
             if (find.isNotBlank()) {
                 viewBinding.codeEditor.searcher.search(
-                    find,
-                    EditorSearcher.SearchOptions(false, false)
+                        find,
+                        EditorSearcher.SearchOptions(false, false)
                 )
                 viewBinding.codeEditor.searcher.gotoNext()
             }
@@ -1389,8 +1402,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             val find = viewBinding.findEditText.text.toString()
             if (find.isNotBlank()) {
                 viewBinding.codeEditor.searcher.search(
-                    find,
-                    EditorSearcher.SearchOptions(false, false)
+                        find,
+                        EditorSearcher.SearchOptions(false, false)
                 )
                 viewBinding.codeEditor.searcher.gotoPrevious()
             }
@@ -1400,8 +1413,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
             val re = viewBinding.replaceEditText.text.toString()
             if (find.isNotBlank() && re.isNotBlank()) {
                 viewBinding.codeEditor.searcher.search(
-                    find,
-                    EditorSearcher.SearchOptions(false, false)
+                        find,
+                        EditorSearcher.SearchOptions(false, false)
                 )
                 viewBinding.codeEditor.searcher.replaceAll(re)
             }
@@ -1413,8 +1426,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 val re = viewBinding.replaceEditText.text.toString()
                 if (find.isNotBlank() && re.isNotBlank()) {
                     viewBinding.codeEditor.searcher.search(
-                        find,
-                        EditorSearcher.SearchOptions(false, false)
+                            find,
+                            EditorSearcher.SearchOptions(false, false)
                     )
                     viewBinding.codeEditor.searcher.replaceThis(re)
                     viewBinding.codeEditor.searcher.gotoNext()
@@ -1429,7 +1442,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     /**
      * 打开侧滑
      */
-    fun openDrawer(gravity: Int) {
+    private fun openDrawer(gravity: Int) {
         viewBinding.editDrawerlayout.openDrawer(gravity)
         viewBinding.codeEditor.hideAutoCompleteWindow()
         viewBinding.codeEditor.hideSoftInput()

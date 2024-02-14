@@ -1,14 +1,9 @@
 package com.coldmint.rust.pro
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.BooleanCallback
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
@@ -22,7 +17,6 @@ import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityUserListBinding
 import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.google.android.material.snackbar.Snackbar
 
 class UserListActivity : BaseActivity<ActivityUserListBinding>() {
 

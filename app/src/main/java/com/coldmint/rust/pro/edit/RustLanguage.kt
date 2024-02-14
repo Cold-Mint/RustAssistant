@@ -1,24 +1,21 @@
 package com.coldmint.rust.pro.edit
 
 
-import android.content.Context
 import android.os.Bundle
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.file.FileDataBase
 import com.coldmint.rust.core.interfaces.EnglishMode
-import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.pro.edit.autoComplete.CodeAutoCompleteJob
 import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.lang.analysis.AnalyzeManager
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher
-import io.github.rosemoe.sora.lang.completion.IdentifierAutoComplete
 import io.github.rosemoe.sora.lang.format.Formatter
 import io.github.rosemoe.sora.lang.smartEnter.NewlineHandleResult
 import io.github.rosemoe.sora.lang.smartEnter.NewlineHandler
+import io.github.rosemoe.sora.lang.styling.Styles
 import io.github.rosemoe.sora.text.CharPosition
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.text.ContentReference
-import io.github.rosemoe.sora.text.TextRange
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SymbolPairMatch
 import java.util.*
@@ -32,9 +29,8 @@ class RustLanguage() : Language, EnglishMode {
     private val codeAutoCompleteJob: CodeAutoCompleteJob by lazy {
         CodeAutoCompleteJob()
     }
-
     private val newlineHandler: Array<NewlineHandler> by lazy {
-        arrayOf<NewlineHandler>(object : NewlineHandler {
+        arrayOf(object : NewlineHandler {
             override fun matchesRequirement(beforeText: String?, afterText: String?): Boolean {
                 return true
             }
@@ -58,6 +54,29 @@ class RustLanguage() : Language, EnglishMode {
 
         })
     }
+/*
+    private val newlineHandler: Array<NewlineHandler> by lazy {
+        arrayOf(object : NewlineHandler {
+            override fun matchesRequirement(text: Content, position: CharPosition, style: Styles?): Boolean {
+                // 判断是否需要进行换行操作
+                return true
+            }
+
+            override fun handleNewline(text: Content, position: CharPosition, style: Styles?, tabSize: Int): NewlineHandleResult {
+                var newText = "\n"
+                val beforeText = text.toString()
+                if (beforeText.startsWith("[")) {
+                    if (beforeText.endsWith("_")) {
+                        newText = "name]"
+                    } else if (!beforeText.endsWith("]")) {
+                        newText = "]"
+                    }
+                }
+                return NewlineHandleResult(newText, 0)
+            }
+        })
+    }*/
+
 
 
     private val autoCompleteProvider: RustAutoCompleteProvider by lazy {

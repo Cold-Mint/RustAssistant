@@ -3,26 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/editDrawerlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@android:color/transparent"
-            android:fitsSystemWindows="true">
-
+            android:background="@android:color/transparent">
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
-
             <com.google.android.material.tabs.TabLayout
                 android:id="@id/tabLayout"
                 android:layout_width="match_parent"
@@ -34,16 +31,12 @@
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/TabLayoutTextStyle" />
         </com.google.android.material.appbar.AppBarLayout>
-
-
         <ProgressBar
             android:id="@+id/myProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
-
-
         <io.github.rosemoe.sora.widget.CodeEditor
             android:id="@+id/codeEditor"
             android:layout_width="match_parent"
@@ -51,8 +44,6 @@
             android:layout_above="@id/searchLayout"
             android:layout_below="@id/appBarLayout"
             android:visibility="visible" />
-
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/searchLayout"
             style="@style/Widget.Material3.CardView.Elevated"
@@ -62,8 +53,6 @@
             android:layout_margin="8dp"
             android:orientation="vertical"
             android:visibility="gone">
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -89,8 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:hint="@string/replace">
+                    android:hint="@string/replace"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/replaceEditText"
@@ -150,21 +139,15 @@
 
 
             </LinearLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:visibility="invisible" />
-
-
     </RelativeLayout>
-
-    <!--    <include layout="@layout/edit_end" />-->
-
-    <include layout="@layout/edit_start" />
+<!--        <include layout="@layout/edit_end" />-->
+    <include
+        layout="@layout/edit_start" />
 </androidx.drawerlayout.widget.DrawerLayout>

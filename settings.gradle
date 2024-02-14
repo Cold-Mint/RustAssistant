@@ -3,3 +3,5 @@ rootProject.name = "RustedAssistant"
 include ':assistantCoreLibrary'
 include ':dialog'
 include(':library')
+include 'imageactivity'
+include('editor')

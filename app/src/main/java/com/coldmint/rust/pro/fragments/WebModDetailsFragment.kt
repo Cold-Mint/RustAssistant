@@ -1,8 +1,10 @@
 package com.coldmint.rust.pro.fragments
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -139,19 +141,19 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
                     viewBinding.loadLayout.isVisible = false
                     viewBinding.contentLayout.isVisible = true
                     val icon = t.data.icon
-                    if (icon != null && icon.isNotBlank()) {
+                    if (!icon.isNullOrBlank()) {
                         Glide.with(requireContext())
                             .load(ServerConfiguration.getRealLink(icon))
                             .apply(GlobalMethod.getRequestOptions())
                             .into(viewBinding.iconView)
                     }
                     val screenshotListData = t.data.screenshots
-                    if (screenshotListData != null && screenshotListData.isNotBlank()) {
+                    if (!screenshotListData.isNullOrBlank()) {
                         val list = ArrayList<String>()
                         val lineParser = LineParser()
                         lineParser.symbol = ","
                         lineParser.text = screenshotListData
-                        lineParser.analyse { lineNum, lineData, isEnd ->
+                        lineParser.analyse { _, lineData, _ ->
                             list.add(lineData)
                             true
                         }
@@ -167,9 +169,18 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
                                         .load(ServerConfiguration.getRealLink(data))
                                         .apply(GlobalMethod.getRequestOptions())
                                         .into(holder.imageView)
+                                    holder.imageView.setOnClickListener {v ->
+                                        val bitmap = (v as ImageView).
+                                        drawable?.let { (it as BitmapDrawable).bitmap }
+                                        com.imageactivity.Image.start(requireActivity(), v, bitmap)
+                                    }
                                 }
                             }
+
                         }
+
+//                        com.imageactivity.Image
+
                         viewBinding.banner.setAdapter(adapter)
                         viewBinding.banner.addBannerLifecycleObserver(requireActivity())
                         viewBinding.banner.indicator = CircleIndicator(requireActivity())
@@ -182,7 +193,7 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
                     val lineParser = LineParser(tags)
                     val tagList = ArrayList<String>()
                     lineParser.symbol = ","
-                    lineParser.analyse { lineNum, lineData, isEnd ->
+                    lineParser.analyse { _, lineData, _ ->
                         val tag = lineData.subSequence(1, lineData.length - 1).toString()
                         tagList.add(tag)
                         true

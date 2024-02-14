@@ -11,9 +11,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -44,7 +42,7 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.gyf.immersionbar.ImmersionBar
+//import com.gyf.immersionbar.ImmersionBar
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.Executors
@@ -89,7 +87,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     AppSettings.getValue(AppSettings.Setting.UseTheCommunityAsTheLaunchPage, true)
             this.setStartDestination(
                     if (use) {
-                        viewBinding.mainButton.hide()
+//                        viewBinding.mainButton.hide()
                         R.id.community_item
                     } else {
                         R.id.mod_item
@@ -125,7 +123,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     AppSettings.forceSetValue(AppSettings.Setting.UpdateData, gson.toJson(data))
                     ifNeedShowUpdate(data)
                 } else {
-                    Snackbar.make(viewBinding.mainButton, t.message, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(viewBinding.root, t.message, Snackbar.LENGTH_SHORT).show()
+
                 }
             }
 
@@ -282,31 +281,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //        help.isVisible = isActive
         codeTable.isVisible = isActive
         if (mod.isChecked) {
-            viewBinding.mainButton.isVisible = isActive
+//            viewBinding.mainButton.isVisible = isActive
         }
         if (isActive) {
             //数据库
-            dataBase.setOnMenuItemClickListener {
+/*            dataBase.setOnMenuItemClickListener {
                 viewBinding.mainButton.postOnAnimationDelayed({
 //                    viewBinding.tabLayout.isVisible = false
                     viewBinding.mainButton.hide()
                 }, hideViewDelay)
                 false
-            }
+            }*/
 
-            template.setOnMenuItemClickListener {
+/*            template.setOnMenuItemClickListener {
                 viewBinding.mainButton.postOnAnimationDelayed({
 //                    viewBinding.tabLayout.isVisible = true
                     viewBinding.mainButton.show()
                 }, hideViewDelay)
                 false
-            }
+            }*/
 
             codeTable.setOnMenuItemClickListener {
                 startActivity(Intent(this@MainActivity, CodeTableActivity::class.java))
                 false
             }
-
+/*重要部分
             viewBinding.mainButton.setOnClickListener {
                 val item = viewBinding.navaiagtion.checkedItem.toString()
                 val warehouseItem = getString(R.string.warehouse)
@@ -328,10 +327,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     else -> {
                     }
                 }
-            }
+            }*/
         }
 
-        mod.setOnMenuItemClickListener {
+/*        mod.setOnMenuItemClickListener {
             GlobalMethod.requestStoragePermissions(this) {
                 if (it) {
                     viewBinding.mainButton.postOnAnimationDelayed({
@@ -343,12 +342,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
             false
-        }
+        }*/
         community.setOnMenuItemClickListener {
-            viewBinding.mainButton.postOnAnimationDelayed({
-//                viewBinding.tabLayout.isVisible = true
-                viewBinding.mainButton.hide()
-            }, hideViewDelay)
             false
         }
         menu.findItem(R.id.startGame).setOnMenuItemClickListener {
@@ -361,7 +356,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             } else {
                 viewBinding.drawerlayout.closeDrawer(GravityCompat.START)
                 Snackbar.make(
-                        viewBinding.mainButton,
+                        viewBinding.root,
                         R.string.no_game_installed,
                         Snackbar.LENGTH_SHORT
                 ).show()
@@ -431,20 +426,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     val to = File(modDirectory + from.name)
                     if (FileOperator.copyFile(from, to)) {
                         Snackbar.make(
-                                viewBinding.mainButton,
+                                viewBinding.root,
                                 String.format(getString(R.string.import_complete), from.name),
                                 Snackbar.LENGTH_SHORT
                         ).show()
                     } else {
                         Snackbar.make(
-                                viewBinding.mainButton,
+                                viewBinding.root,
                                 String.format(getString(R.string.import_failed), from.name),
                                 Snackbar.LENGTH_SHORT
                         ).show()
                     }
                 } else {
                     Snackbar.make(
-                            viewBinding.mainButton,
+                            viewBinding.root,
                             R.string.bad_file_type,
                             Snackbar.LENGTH_SHORT
                     ).show()
@@ -460,7 +455,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     importTemplate(from, outputFolder)
                 } else {
                     Snackbar.make(
-                            viewBinding.mainButton,
+                            viewBinding.root,
                             R.string.bad_file_type,
                             Snackbar.LENGTH_SHORT
                     ).show()
@@ -486,7 +481,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (newInfoData == null) {
                     handler.post {
                         Snackbar.make(
-                                viewBinding.mainButton,
+                                viewBinding.root,
                                 getString(R.string.import_failed2),
                                 Snackbar.LENGTH_LONG
                         ).show()
@@ -499,7 +494,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     if (oldInfo == null) {
                         handler.post {
                             Snackbar.make(
-                                    viewBinding.mainButton,
+                                    viewBinding.root,
                                     R.string.import_failed2,
                                     Snackbar.LENGTH_SHORT
                             ).show()
@@ -511,7 +506,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     if (newInfo.versionNum > thisAppVersion) {
                         handler.post {
                             Snackbar.make(
-                                    viewBinding.mainButton,
+                                    viewBinding.root,
                                     String.format(
                                             getString(R.string.app_version_error),
                                             formFile.name
@@ -544,7 +539,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (newInfo == null) {
                     handler.post {
                         Snackbar.make(
-                                viewBinding.mainButton,
+                                viewBinding.root,
                                 getString(R.string.import_failed2),
                                 Snackbar.LENGTH_LONG
                         ).show()
@@ -558,7 +553,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     if (appVersion > thisAppVersion) {
                         handler.post {
                             Snackbar.make(
-                                    viewBinding.mainButton,
+                                    viewBinding.root,
                                     String.format(
                                             getString(R.string.app_version_error),
                                             formFile.name
@@ -586,7 +581,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             handler.post {
                                 handler.post {
                                     Snackbar.make(
-                                            viewBinding.mainButton,
+                                            viewBinding.root,
                                             String.format(
                                                     getString(R.string.import_complete),
                                                     formFile.name
@@ -694,7 +689,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         startViewModel.dataSetMsgLiveData.observe(this) {
             if (it.isNotBlank()) {
-                Snackbar.make(viewBinding.mainButton, it, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(viewBinding.root, it, Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -744,7 +739,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initNav()
             observeStartViewModel()
             //偏移fab
-            if (ImmersionBar.hasNavigationBar(this)) {
+/*            if (ImmersionBar.hasNavigationBar(this)) {
                 val layoutParams =
                         viewBinding.mainButton.layoutParams as CoordinatorLayout.LayoutParams
                 layoutParams.setMargins(
@@ -754,7 +749,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         ImmersionBar.getNavigationBarHeight(this) + GlobalMethod.dp2px(16)
                 )
                 DebugHelper.printLog("导航适配", "已调整fab按钮的位置。")
-            }
+            }*/
             checkAppUpdate()
         } else {
             startViewModel.initAllData()

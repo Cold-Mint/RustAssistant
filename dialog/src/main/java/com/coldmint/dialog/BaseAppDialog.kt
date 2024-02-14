@@ -1,6 +1,5 @@
 package com.coldmint.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AlertDialog

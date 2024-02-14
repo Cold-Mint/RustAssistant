@@ -8,5 +8,5 @@
         android:topRightRadius="16dp" />
     <stroke
         android:width="1dp"
-        android:color="?attr/textFillColor" />
+        android:color="?attr/colorOnSecondaryContainer" />
 </shape>

@@ -76,44 +76,59 @@ android {
         }
     }
 }
-
+/*
 configurations.all {
     resolutionStrategy {
         force 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
     }
 }
+*/
 
 dependencies {
-    configurations.all {
+    configurations.configureEach {
         exclude group: 'androidx.appcompat', module: 'appcompat'
     }
+//    implementation('org.jetbrains.kotlin:kotlin-stdlib:1.8.0')
     implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
 
-    api 'androidx.appcompat:appcompat:1.6.1'
-    api 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
-//    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
-    api project(path: ':library')
-    def nav_version = "2.5.1"
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
+    implementation project(path: ':library')
+    implementation project(':imageactivity')
+//    implementation project(':editor')
+    implementation 'io.github.Rosemoe.sora-editor:editor:0.16.5'
 
+
+//    这个依赖项提供了一个有趣的功能，
+//    可以在应用程序中实现 Emoji 下雨效果。在用户界面上添加此效果可以增加应用程序的趣味性。
 //    implementation 'com.luolc:emoji-rain:0.1.1'
     implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
     // 语种切换框架：https://github.com/getActivity/MultiLanguages
     implementation 'com.github.getActivity:MultiLanguages:8.0'
     //权限申请
-    implementation 'com.guolindev.permissionx:permissionx:1.6.1'
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
+
     implementation "androidx.room:room-runtime:2.4.0"
     //注释处理器加上Room
+//这是 Android Jetpack 中的 Room 数据库框架的依赖项，
+//它提供了 SQLite 数据库的抽象层，可以帮助你在 Android 应用中进行数据持久化操作。
     annotationProcessor "androidx.room:room-compiler:2.4.0"
     kapt "androidx.room:room-compiler:2.4.0"
 
+//    这个依赖项提供了简单菜单样式的偏好设置项，
+//    让你可以轻松地创建包含多个选项的设置菜单。使用该库可以帮助你快速构建应用的设置界面，并处理用户的设置选择。
     implementation "dev.rikka.rikkax.preference:simplemenu-preference:1.0.3"
+//    这个依赖项提供了 Material Design 风格的偏好设置项，使你的设置界面更符合现代设计标准。
+//    该库基于 Material Components 库，
+//    提供了一些常见的控件和样式，如开关按钮、颜色选择器等，有助于提升用户体验。
     implementation "dev.rikka.rikkax.material:material-preference:2.0.0"
 
     //沉浸式状态栏
@@ -121,27 +136,49 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
 
     // TinyPinyin核心包，约80KB
-    implementation 'com.github.promeg:tinypinyin:2.0.3'
+    implementation 'com.github.promeg:tinypinyin:2.0.3'//模组id ReleaseModActivity 中用到了
+//    这是一个轮播图（Banner）库，用于在应用中实现图片轮播展示功能，通常用于展示广告、推荐内容等。
     implementation 'io.github.youth5201314:banner:2.2.2'
+//    这是 AndroidX 核心 Kotlin 扩展库，提供了许多 Kotlin 语言的扩展函数和属性，能够简化 Android 开发中的代码编写。
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'com.google.code.gson:gson:2.9.1'
+//    这是一个用于图片裁剪的库，可以用于在应用中实现对图片的裁剪操作，并提供了丰富的裁剪功能和界面。
     implementation 'com.github.yalantis:ucrop:2.2.8-native'
-    implementation 'io.github.Rosemoe.sora-editor:editor:0.16.5'
+
     implementation project(path: ':assistantCoreLibrary')
     implementation project(path: ':dialog')
+
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
+
+//    这是一个流行的图片加载和缓存库，用于在 Android 应用中加载和显示图片。
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+//    这是 Glide 库的一个扩展库，提供了各种图像转换效果（如圆形、模糊等），可用于对 Glide 加载的图片进行处理。
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
+//    这也是 Glide 库的一个扩展库，用于从图片中提取颜色信息，以便在应用程序中进行颜色匹配和设计。
     implementation 'com.github.florent37:glidepalette:2.1.2'
+//    这是一个用于在应用程序崩溃时提供自定义处理的库，可以在应用崩溃时显示自定义的崩溃界面或执行其他操作。
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'dev.rikka.rikkax.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+//    SwipeRefreshLayout 是一个用于实现下拉刷新功能的 UI 组件，它提供了一个可滑动的刷新视图和相应的刷新事件处理机制，使得开发者可以轻松地实现下拉刷新的交互效果。
+//    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+//    是一个自定义的 AppCompat 库，它是基于 Google 的 AppCompat 库进行扩展和优化的。
+//    该库的主要功能是提供一些 UI 元素和主题样式，以使应用程序的 UI 更加现代化、美观。
+    implementation 'dev.rikka.rikkax.appcompat:appcompat:1.6.1'//不要删除请注意设置会崩的代码
+    // 在R.xml.root_preferences
+
+
+//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    def nav_version = "2.5.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+//    是指在 Android 项目中引入 AndroidX Preference 组件的 Kotlin 扩展库的依赖。
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
+/*    Flexbox 是一个用于实现灵活且可自适应的布局的库，
+    它基于 CSS 的 Flexbox 布局模型，能够帮助开发者更容易地创建复杂的布局结构，并实现各种灵活的布局需求。*/
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
 }

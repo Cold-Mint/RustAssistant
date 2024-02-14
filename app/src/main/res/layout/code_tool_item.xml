@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+    android:layout_height="wrap_content">
     <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
         android:id="@+id/codeTextItemView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
