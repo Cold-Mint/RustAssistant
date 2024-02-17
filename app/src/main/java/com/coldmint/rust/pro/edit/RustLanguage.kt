@@ -29,7 +29,7 @@ class RustLanguage() : Language, EnglishMode {
     private val codeAutoCompleteJob: CodeAutoCompleteJob by lazy {
         CodeAutoCompleteJob()
     }
-    private val newlineHandler: Array<NewlineHandler> by lazy {
+/*    private val newlineHandler: Array<NewlineHandler> by lazy {
         arrayOf(object : NewlineHandler {
             override fun matchesRequirement(beforeText: String?, afterText: String?): Boolean {
                 return true
@@ -53,8 +53,7 @@ class RustLanguage() : Language, EnglishMode {
             }
 
         })
-    }
-/*
+    }*/
     private val newlineHandler: Array<NewlineHandler> by lazy {
         arrayOf(object : NewlineHandler {
             override fun matchesRequirement(text: Content, position: CharPosition, style: Styles?): Boolean {
@@ -75,7 +74,7 @@ class RustLanguage() : Language, EnglishMode {
                 return NewlineHandleResult(newText, 0)
             }
         })
-    }*/
+    }
 
 
 

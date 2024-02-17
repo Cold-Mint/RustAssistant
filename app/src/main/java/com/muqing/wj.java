@@ -1,4 +1,4 @@
-package com.muqing.muqing;
+package com.muqing;
 import android.content.Context;
 import android.os.Build;
 

@@ -103,8 +103,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation project(path: ':library')
     implementation project(':imageactivity')
-//    implementation project(':editor')
-    implementation 'io.github.Rosemoe.sora-editor:editor:0.16.5'
+
+    implementation project(':editor')
+//    implementation 'io.github.Rosemoe.sora-editor:editor:0.16.5'
 
 
 //    这个依赖项提供了一个有趣的功能，

@@ -1072,7 +1072,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
                 AppSettings.getValue(AppSettings.Setting.CodeEditBackGroundEnable, false)
         val rustCompletionAdapter = RustCompletionAdapter()
         rustCompletionAdapter.setEditBackground(codeEditBackGroundEnable)
-        viewBinding.codeEditor.setAutoCompletionItemAdapter(rustCompletionAdapter)
+//        viewBinding.codeEditor.setAutoCompletionItemAdapter(rustCompletionAdapter)
         viewBinding.codeEditor.isVerticalScrollBarEnabled = false
         val path = viewModel.modClass?.modFile?.absolutePath ?: ""
         CompletionItemConverter.configurationFileConversion(

@@ -9,7 +9,7 @@ import android.os.Bundle
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.debug.LogCatObserver
-import com.muqing.muqing.wj
+import com.muqing.wj
 import com.coldmint.rust.pro.tool.AppSettings
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions

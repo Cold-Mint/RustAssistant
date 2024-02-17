@@ -80,7 +80,8 @@ public class EditorTextActionWindow extends EditorPopupWindow implements View.On
 
         // Since popup window does provide decor view, we have to pass null to this method
         @SuppressLint("InflateParams")
-        View root = this.rootView = LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_panel, null);
+        View root = this.rootView = LayoutInflater.from(editor.getContext()).
+                inflate(R.layout.text_compose_panel, null);
         ImageButton selectAll = root.findViewById(R.id.panel_btn_select_all);
         cutBtn = root.findViewById(R.id.panel_btn_cut);
         copyBtn = root.findViewById(R.id.panel_btn_copy);

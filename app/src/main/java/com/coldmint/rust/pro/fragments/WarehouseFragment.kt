@@ -46,13 +46,6 @@ class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
                 .onForwardToSettings { scope, deniedList ->
                     scope.showForwardToSettingsDialog(deniedList, "您需要手动允许设置中的必要权限", "授权", "取消")
                 }
-                .request { allGranted, _, _ ->
-                    if (allGranted) {
-//                        Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
-                    } else {
-//                        Toast.makeText(this, "These permissions are denied: $deniedList", Toast.LENGTH_LONG).show()
-                    }
-                }
 
         if (isAdded) {
             val mainActivity = activity as MainActivity

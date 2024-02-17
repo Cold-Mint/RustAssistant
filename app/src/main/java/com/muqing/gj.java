@@ -1,4 +1,4 @@
-package com.muqing.muqing;
+package com.muqing;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;

@@ -20,7 +20,7 @@ import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.pro.adapters.CodeTableAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
-import com.muqing.muqing.gj
+import com.muqing.gj
 import java.util.concurrent.Executors
 
 class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
