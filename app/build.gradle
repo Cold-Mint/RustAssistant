@@ -32,8 +32,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 28
-        versionName "2.1.1 Bata6(2023-7-20)"
-
+        versionName "2.1.1 Bata6(2024-2-17)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -124,11 +123,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.4.0"
     kapt "androidx.room:room-compiler:2.4.0"
 
-//    这个依赖项提供了简单菜单样式的偏好设置项，
 //    让你可以轻松地创建包含多个选项的设置菜单。使用该库可以帮助你快速构建应用的设置界面，并处理用户的设置选择。
     implementation "dev.rikka.rikkax.preference:simplemenu-preference:1.0.3"
-//    这个依赖项提供了 Material Design 风格的偏好设置项，使你的设置界面更符合现代设计标准。
-//    该库基于 Material Components 库，
 //    提供了一些常见的控件和样式，如开关按钮、颜色选择器等，有助于提升用户体验。
     implementation "dev.rikka.rikkax.material:material-preference:2.0.0"
 

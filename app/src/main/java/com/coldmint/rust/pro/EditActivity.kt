@@ -66,10 +66,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>() {
     private lateinit var turretCoordinateResults: ActivityResultLauncher<Intent>
     private lateinit var rustLanguage: RustLanguage
     private var fileAdapter: FileAdapter? = null
-
     //是第一次启动嘛
     private var isFirst = true
-
     /**
      * 编辑器左侧视图
      */

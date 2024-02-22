@@ -58,7 +58,8 @@ class RustLanguage() : Language, EnglishMode {
         arrayOf(object : NewlineHandler {
             override fun matchesRequirement(text: Content, position: CharPosition, style: Styles?): Boolean {
                 // 判断是否需要进行换行操作
-                return true
+                return false
+
             }
 
             override fun handleNewline(text: Content, position: CharPosition, style: Styles?, tabSize: Int): NewlineHandleResult {

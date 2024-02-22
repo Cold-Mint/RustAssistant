@@ -5012,5 +5012,4 @@ public class CodeEditor extends View implements ContentListener, Formatter.Forma
     public void onRemove(@NonNull Content content, @NonNull ContentLine line) {
         layout.onRemove(content, line);
     }
-
 }
