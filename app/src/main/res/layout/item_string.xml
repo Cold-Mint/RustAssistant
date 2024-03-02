@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
+
     <Button
         android:id="@+id/button"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-                app:strokeWidth="1dp"
-        app:strokeColor="?attr/colorOnSurface"
-        app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+        android:text="@string/action"
         android:textColor="?attr/colorOnSurface"
         app:rippleColor="?colorBackgroundFloating"
-        android:text="@string/action" />
+        app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
+        app:strokeColor="?attr/colorOnSurface"
+        app:strokeWidth="1dp" />
 </RelativeLayout>

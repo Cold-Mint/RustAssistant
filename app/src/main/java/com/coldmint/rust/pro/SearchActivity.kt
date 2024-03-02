@@ -30,6 +30,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     lateinit var list: MutableList<String>
+    val sharedPreferencesKey = "search_history"
 
     @SuppressLint("CommitPrefEdits", "NotifyDataSetChanged")
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
@@ -39,32 +40,27 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         viewBinding.hotSearchView.layoutManager = StableLinearLayoutManager(this)
         loadSearchView()
         loadHotSearch()
-        list = getSharedPreferences("lishi", Context.MODE_PRIVATE)
+        list = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
                 .getStringSet("data", mutableSetOf())
                 ?.toMutableList() ?: mutableListOf()
         viewBinding.hotSearchView2.layoutManager = FlexboxLayoutManager(this)
         viewBinding.hotSearchView2.adapter = adapter
         viewBinding.deleat.setOnClickListener {
-            MaterialAlertDialogBuilder(this@SearchActivity)
-                    .setTitle("清空所有历史记录")
-                    .setPositiveButton("确定") { _, _ ->
-                        while (list.isNotEmpty()) {
-                            val index = 0
-                            list.removeAt(index)
-                            adapter.notifyItemRemoved(index)
-                        }
-                        getSharedPreferences("lishi",
-                                Context.MODE_PRIVATE).edit().putStringSet(
-                                "data", list.toSet()).apply()
-                        /*                        CoroutineScope(Dispatchers.Main).launch {
-                                                    while (list.isNotEmpty()) {
-                                                        list.removeAt(0) // 删除第一个数据
-                                                        adapter.notifyItemRemoved(0) // 刷新 RecyclerView
-                                                        delay(300) // 每隔一秒执行一次删除操作
-                                                    }
-                                                }*/
-                    }
-                    .setNegativeButton("取消", null).show()
+            val dialog = MaterialAlertDialogBuilder(this@SearchActivity);
+            dialog.setTitle(R.string.search_history)
+            dialog.setMessage(R.string.clear_all_history)
+            dialog.setPositiveButton(R.string.dialog_ok) { _, _ ->
+                while (list.isNotEmpty()) {
+                    val index = 0
+                    list.removeAt(index)
+                    adapter.notifyItemRemoved(index)
+                }
+                getSharedPreferences(sharedPreferencesKey,
+                        Context.MODE_PRIVATE).edit().putStringSet(
+                        "data", list.toSet()).apply()
+            }
+            dialog.setNegativeButton(R.string.dialog_cancel, null)
+            dialog.show()
         }
         viewBinding.searchView.onActionViewExpanded()
     }
@@ -88,7 +84,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         if (list.size > 10) {
             list.removeAt(list.lastIndex)
         }
-        val editor = getSharedPreferences("lishi", Context.MODE_PRIVATE).edit()
+        val editor = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE).edit()
         editor.putStringSet("data", list.toSet())
         editor.apply()
     }
@@ -101,6 +97,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     }
 
+    //TODO:将适配器继承自BaseAdapter，使其不再过度依赖SearchActivity。
     val adapter: RecyclerView.Adapter<VH> = object : RecyclerView.Adapter<VH>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -128,9 +125,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 false
             }
         }
+
         override fun getItemCount(): Int {
             val empty = list.isEmpty()
-            viewBinding.textview1Text1.isVisible =empty
+            viewBinding.textview1Text1.isVisible = empty
             viewBinding.deleat.isVisible = !empty
             return list.size
         }

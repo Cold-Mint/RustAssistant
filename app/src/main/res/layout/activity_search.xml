@@ -60,7 +60,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="历史记录"
+                    android:text="@string/search_history"
                     card_view:ignore="HardcodedText" />
 
                 <ImageView
@@ -68,7 +68,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="6dp"
-                    android:src="@drawable/auto_delete"
+                    android:src="@drawable/baseline_delete_24"
                     card_view:ignore="ContentDescription" />
             </LinearLayout>
 
@@ -109,8 +109,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="6dp"
         android:background="?android:colorBackground"
+        android:paddingHorizontal="6dp"
         android:paddingTop="6dp"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
