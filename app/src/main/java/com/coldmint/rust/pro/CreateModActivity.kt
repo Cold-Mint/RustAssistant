@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.coldmint.rust.pro.databinding.ActivityCreateModBinding
+import com.coldmint.rust.pro.tool.GlobalMethod
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -32,22 +33,22 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
             val name = it.toString()
             if (name.isBlank()) {
                 setErrorAndInput(
-                    viewBinding.modNameEdit,
-                    String.format(
-                        getString(R.string.please_input_value),
-                        viewBinding.modDescribeInputLayout.hint.toString()
-                    ),
-                    viewBinding.modNameInputLayout, false
+                        viewBinding.modNameEdit,
+                        String.format(
+                                getString(R.string.please_input_value),
+                                viewBinding.modDescribeInputLayout.hint.toString()
+                        ),
+                        viewBinding.modNameInputLayout, false
                 )
                 return@addTextChangedListener
             }
             val mod_directory =
-                File(Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/" + name)
+                    File(Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/" + name)
             if (mod_directory.exists()) {
                 setErrorAndInput(
-                    viewBinding.modNameEdit,
-                    getString(R.string.directory_error),
-                    viewBinding.modNameInputLayout, false
+                        viewBinding.modNameEdit,
+                        getString(R.string.directory_error),
+                        viewBinding.modNameInputLayout, false
                 )
             } else {
                 viewBinding.modNameInputLayout.isErrorEnabled = false
@@ -67,9 +68,9 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (s.toString().contains("\n")) {
                     setErrorAndInput(
-                        viewBinding.modDescribeEdit,
-                        getString(R.string.describe_error2),
-                        viewBinding.modDescribeInputLayout
+                            viewBinding.modDescribeEdit,
+                            getString(R.string.describe_error2),
+                            viewBinding.modDescribeInputLayout
                     )
                 }
             }
@@ -78,28 +79,28 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
             val name: String = viewBinding.modNameEdit.text.toString()
             if (name.isBlank()) {
                 setErrorAndInput(
-                    viewBinding.modNameEdit,
-                    String.format(
-                        getString(R.string.please_input_value),
-                        viewBinding.modNameInputLayout.hint.toString()
-                    ),
-                    viewBinding.modNameInputLayout
+                        viewBinding.modNameEdit,
+                        String.format(
+                                getString(R.string.please_input_value),
+                                viewBinding.modNameInputLayout.hint.toString()
+                        ),
+                        viewBinding.modNameInputLayout
                 )
                 return@OnClickListener
             }
             val describe: String = viewBinding.modDescribeEdit.text.toString()
             if (describe.isEmpty()) {
                 setErrorAndInput(
-                    viewBinding.modDescribeEdit,
-                    getString(R.string.describe_error),
-                    viewBinding.modDescribeInputLayout
+                        viewBinding.modDescribeEdit,
+                        getString(R.string.describe_error),
+                        viewBinding.modDescribeInputLayout
                 )
                 return@OnClickListener
             } else if (describe.contains("\n")) {
                 setErrorAndInput(
-                    viewBinding.modDescribeEdit,
-                    getString(R.string.describe_error2),
-                    viewBinding.modDescribeInputLayout
+                        viewBinding.modDescribeEdit,
+                        getString(R.string.describe_error2),
+                        viewBinding.modDescribeInputLayout
                 )
                 return@OnClickListener
             }
@@ -108,34 +109,34 @@ class CreateModActivity : BaseActivity<ActivityCreateModBinding>() {
             stringBuilder.append(name)
             stringBuilder.append("\ndescription: ")
             stringBuilder.append(describe)
-            val minVersion:String = viewBinding.minVersionEdit.text.toString()
-            if (minVersion.isNotBlank()){
+            val minVersion: String = viewBinding.minVersionEdit.text.toString()
+            if (minVersion.isNotBlank()) {
                 stringBuilder.append("\nminVersion: ")
                 stringBuilder.append(minVersion)
             }
-            val mod_directory =
-                File(Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/" + name)
-            if (mod_directory.exists()) {
-                setErrorAndInput(
-                    viewBinding.modNameEdit,
-                    getString(R.string.directory_error),
-                    viewBinding.modNameInputLayout
-                )
-            } else {
-                if (mod_directory.mkdirs()) {
-                    try {
+            GlobalMethod.requestStoragePermissions(this@CreateModActivity) {
+                if (!it) {
+                    return@requestStoragePermissions
+                }
+                val mod_directory =
+                        File(Environment.getExternalStorageDirectory().absolutePath + "/rustedWarfare/units/" + name)
+                if (mod_directory.exists()) {
+                    setErrorAndInput(
+                            viewBinding.modNameEdit,
+                            getString(R.string.directory_error),
+                            viewBinding.modNameInputLayout
+                    )
+                } else {
+                    if (mod_directory.mkdirs()) {
                         val fileWriter = FileWriter(mod_directory.absolutePath + "/mod-info.txt")
                         fileWriter.write(stringBuilder.toString())
                         fileWriter.close()
                         setResult(RESULT_OK)
                         finish()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
                     }
-                } else {
-                    Toast.makeText(this@CreateModActivity, "你的手机拒绝创建目录", Toast.LENGTH_SHORT).show()
                 }
             }
+
         })
     }
 
