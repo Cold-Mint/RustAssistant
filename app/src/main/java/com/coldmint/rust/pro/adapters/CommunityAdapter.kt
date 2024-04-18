@@ -1,9 +1,13 @@
 package com.coldmint.rust.pro.adapters
 
-import android.os.Parcelable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.coldmint.rust.pro.fragments.*
+import com.coldmint.rust.pro.fragments.FollowFragment
+import com.coldmint.rust.pro.fragments.NullFragment
+import com.coldmint.rust.pro.fragments.RankingFragment
+import com.coldmint.rust.pro.fragments.RecommendedFragment
+import com.coldmint.rust.pro.fragments.UserInfoFragment
 
 class CommunityAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {

@@ -37,7 +37,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      */
     var targetFile: File? = null
 
-    val codeTranslate by lazy {
+    private val codeTranslate by lazy {
         val c = CodeTranslate(getApplication())
         c.setCompileErrorRecordFun {
             //将信息上传至FireBase
@@ -70,6 +70,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
     /**
      * 获取当前使用的apk包存放目录
      */
+    @Suppress("unused")
     val apkFolder by lazy {
         GameSynchronizer.getPackAgeFolder(
             getApplication(), AppSettings.getValue(
@@ -97,12 +98,13 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
      * @return String?
      */
     fun getNowOpenFilePath(): String {
-        val temPath = nowFilePath
+/*        val temPath = nowFilePath
         return if (temPath == null) {
             ""
         } else {
             temPath
-        }
+        }*/
+        return nowFilePath ?: ""
     }
 
 
@@ -403,7 +405,7 @@ class EditViewModel(application: Application) : BaseAndroidViewModel(application
                         Locale.getDefault().language
                     )
                 ) + " (" + file.file.name + ")"
-                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 val historyDao = fileDataBase.getHistoryDao()
                 val newHistoryRecord = HistoryRecord(
                     path,

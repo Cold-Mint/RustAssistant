@@ -46,7 +46,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         viewBinding.hotSearchView2.layoutManager = FlexboxLayoutManager(this)
         viewBinding.hotSearchView2.adapter = adapter
         viewBinding.deleat.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(this@SearchActivity);
+            val dialog = MaterialAlertDialogBuilder(this@SearchActivity)
             dialog.setTitle(R.string.search_history)
             dialog.setMessage(R.string.clear_all_history)
             dialog.setPositiveButton(R.string.dialog_ok) { _, _ ->
@@ -87,6 +87,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         val editor = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE).edit()
         editor.putStringSet("data", list.toSet())
         editor.apply()
+        if (!viewBinding.searchView.isVisible) {
+            viewBinding.searchLayout.isVisible = true
+        }
     }
 
     fun search(string: String) {
@@ -128,7 +131,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         override fun getItemCount(): Int {
             val empty = list.isEmpty()
-            viewBinding.textview1Text1.isVisible = empty
+            viewBinding.searchLayout.isVisible = !empty
             viewBinding.deleat.isVisible = !empty
             return list.size
         }

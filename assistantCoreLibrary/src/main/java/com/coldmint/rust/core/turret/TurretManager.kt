@@ -1,6 +1,5 @@
 package com.coldmint.rust.core.turret
 
-import android.util.Log
 import android.view.ViewGroup
 import com.coldmint.rust.core.SourceFile
 import com.coldmint.rust.core.debug.LogCat
@@ -12,7 +11,7 @@ import java.io.File
  * 此类用于管理源文件内的炮塔数据
  * @constructor
  */
-class TurretManager(val sourceFile: SourceFile) {
+class TurretManager(private val sourceFile: SourceFile) {
 
 
     /**
@@ -47,6 +46,7 @@ class TurretManager(val sourceFile: SourceFile) {
     }
 
     init {
+        turretList.clear()
         val allSection = sourceFile.allSection
         val size = allSection.size
         if (size > 0) {
@@ -54,7 +54,7 @@ class TurretManager(val sourceFile: SourceFile) {
                 sourceFile.findResourceFilesFromSection("image_turret", "graphics", false)
             var defaultImageFile: File? = null
             if (!defaultImageList.isNullOrEmpty()) {
-                defaultImageFile = defaultImageList.get(0)
+                defaultImageFile = defaultImageList[0]
                 LogCat.d("炮塔管理器-默认图像", defaultImageFile.absolutePath)
             }
             allSection.forEach {
@@ -65,17 +65,17 @@ class TurretManager(val sourceFile: SourceFile) {
                     var x = 0
                     var y = 0
                     val xData = sourceFile.readValueFromSection("x", it)
-                    if (xData != null && xData.isNotBlank()) {
+                    if (!xData.isNullOrBlank()) {
                         x = xData.toFloat().toInt()
                     }
                     val yData = sourceFile.readValueFromSection("y", it)
-                    if (yData != null&& yData.isNotBlank()) {
+                    if (!yData.isNullOrBlank()) {
                         y = yData.toFloat().toInt()
                     }
                     val turretData = TurretData(name, CoordinateData(x, y))
                     val fileList = sourceFile.findResourceFilesFromSection("image", it, false)
                     if (!fileList.isNullOrEmpty()) {
-                        val file = fileList.get(0)
+                        val file = fileList[0]
                         turretData.imageFile = file
                         LogCat.d("炮塔管理器-$name", "设置炮塔图像" + file.absolutePath)
                     } else {
@@ -153,7 +153,7 @@ class TurretManager(val sourceFile: SourceFile) {
      * @param frameLayout FrameLayout
      * @param sourceFile SourceFile
      */
-    fun installerTurret(
+    private fun installerTurret(
         viewGroup: ViewGroup,
         turretData: TurretData,
         turretSketchpadView: TurretSketchpadView

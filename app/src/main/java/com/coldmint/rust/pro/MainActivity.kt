@@ -1,6 +1,5 @@
 package com.coldmint.rust.pro
 
-
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -27,7 +26,6 @@ import com.coldmint.rust.core.debug.LogCat
 import com.coldmint.rust.core.interfaces.ApiCallBack
 import com.coldmint.rust.core.interfaces.UnzipListener
 import com.coldmint.rust.core.tool.AppOperator
-import com.coldmint.rust.core.tool.DebugHelper
 import com.coldmint.rust.core.tool.FileOperator
 import com.coldmint.rust.core.web.AppUpdate
 import com.coldmint.rust.core.web.ServerConfiguration
@@ -42,11 +40,11 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-//import com.gyf.immersionbar.ImmersionBar
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.zip.ZipEntry
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -293,13 +291,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 false
             }*/
 
-/*            template.setOnMenuItemClickListener {
-                viewBinding.mainButton.postOnAnimationDelayed({
-//                    viewBinding.tabLayout.isVisible = true
-                    viewBinding.mainButton.show()
-                }, hideViewDelay)
-                false
-            }*/
+            /*            template.setOnMenuItemClickListener {
+                            viewBinding.mainButton.postOnAnimationDelayed({
+            //                    viewBinding.tabLayout.isVisible = true
+                                viewBinding.mainButton.show()
+                            }, hideViewDelay)
+                            false
+                        }*/
 
             codeTable.setOnMenuItemClickListener {
                 startActivity(Intent(this@MainActivity, CodeTableActivity::class.java))
@@ -628,13 +626,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return true
     }
 
-/*不知道干什么的代码
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.baseFragment)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
-*/
+    /*不知道干什么的代码
+        override fun onSupportNavigateUp(): Boolean {
+            val navController = findNavController(R.id.baseFragment)
+            return navController.navigateUp(appBarConfiguration)
+                    || super.onSupportNavigateUp()
+        }
+    */
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
@@ -755,6 +753,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             startViewModel.initAllData()
         }
     }
-
-
 }

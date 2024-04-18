@@ -1,13 +1,10 @@
 package com.coldmint.rust.core.turret
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import com.coldmint.rust.core.R
 import com.coldmint.rust.core.debug.LogCat
 
@@ -15,10 +12,9 @@ import com.coldmint.rust.core.debug.LogCat
  * 炮塔画板
  * @constructor
  */
+@SuppressLint("CustomViewStyleable")
 class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) :
     View(context, attributeSet) {
-
-
     companion object {
         /**
          * 缩放图像
@@ -37,8 +33,8 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
                 bitmap,
                 0,
                 0,
-                bitmap.getWidth(),
-                bitmap.getHeight(),
+                bitmap.width,
+                bitmap.height,
                 matrix,
                 true
             )
@@ -268,6 +264,17 @@ class TurretSketchpadView(context: Context, attributeSet: AttributeSet? = null) 
             canvas.drawBitmap(temBitmap, startX.toFloat(), startY.toFloat(), paint)
             temBitmap.recycle()
         }
+/*        val canvasWidth = width.toFloat()
+        val canvasHeight = height.toFloat()
+        val bitmapW = bitmap.width
+        val bitmapH = bitmap.height
+
+        // 计算图像要在画布上居中的坐标
+        val centerX = (canvasWidth - bitmapW) / 2
+        val centerY = (canvasHeight - bitmapH) / 2
+        // 绘制居中位图
+        canvas.drawBitmap(bitmap, centerX, centerY, paint)
+        bitmap.recycle()*/
     }
 
     override fun onDraw(canvas: Canvas?) {

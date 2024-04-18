@@ -3,16 +3,12 @@ package com.coldmint.rust.core.turret
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Bitmap.createBitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
-import com.coldmint.rust.core.R
 import com.coldmint.rust.core.debug.LogCat
 
 /**
@@ -20,7 +16,7 @@ import com.coldmint.rust.core.debug.LogCat
  * @constructor
  */
 class TurretView(context: Context, attributeSet: AttributeSet? = null) :
-    View(context, attributeSet) {
+        View(context, attributeSet) {
 
     private var debugKey = "炮塔视图"
     private lateinit var turretData: TurretData
@@ -104,7 +100,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
      * 设置炮塔坐标数据
      * @param coordinateData
      */
-    fun setTurretGameCoordinateData(coordinateData: CoordinateData) {
+    private fun setTurretGameCoordinateData(coordinateData: CoordinateData) {
         if (this::turretData.isInitialized) {
             turretData.gameCoordinateData = coordinateData
         }
@@ -116,6 +112,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
      * @param event MotionEvent
      * @return Boolean 返回true已被处理
      */
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
             val action = event.action
@@ -123,6 +120,7 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                 MotionEvent.ACTION_DOWN -> {
                     return canDrag
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     LogCat.d(debugKey, "收到移动${turretData.name} 可拖动状态${canDrag}")
                     if (canDrag) {
@@ -144,6 +142,10 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        if (!turretData.isImage) {
+            //不可显示图像
+            return
+        }
         if (this::turretData.isInitialized) {
             if (turretSketchpadView == null) {
                 LogCat.e(debugKey, "未绑定画板，停止绘制。")
@@ -159,20 +161,23 @@ class TurretView(context: Context, attributeSet: AttributeSet? = null) :
                 LogCat.e(debugKey, "无法加载炮塔图像。")
                 return
             } else {
-                if (turretData.scaleValue != 1f) {
-                    bitmap = TurretSketchpadView.scaleBitmap(
-                        bitmap, turretData.scaleValue
-                    )
-                }
+                /*                if (turretData.scaleValue != 1f) {
+                                    bitmap = TurretSketchpadView.scaleBitmap(
+                                            bitmap, turretData.scaleValue
+                                    )
+                                }*/
+                bitmap = TurretSketchpadView.scaleBitmap(
+                        bitmap, 10F
+                )
                 val androidCoordinate =
-                    turretSketchpadView!!.toAndroidCoordinate(turretData.gameCoordinateData)
+                        turretSketchpadView!!.toAndroidCoordinate(turretData.gameCoordinateData)
                 bitmapW = bitmap!!.width
-                bitmapH = bitmap!!.height
+                bitmapH = bitmap.height
                 canvas?.drawBitmap(
-                    bitmap,
-                    (androidCoordinate.x - bitmapW / 2).toFloat(),
-                    (androidCoordinate.y - bitmapH / 2).toFloat(),
-                    paint
+                        bitmap,
+                        (androidCoordinate.x - bitmapW / 2).toFloat(),
+                        (androidCoordinate.y - bitmapH / 2).toFloat(),
+                        paint
                 )
                 if (!bitmap.isRecycled) {
                     bitmap.recycle()

@@ -8,8 +8,9 @@ import java.io.File
  * @constructor
  */
 data class TurretData(
-    val name: String,
-    var gameCoordinateData: CoordinateData,
-    var scaleValue: Float = 1f,
-    var imageFile: File? = null
+        val name: String,
+        var gameCoordinateData: CoordinateData,
+        var scaleValue: Float = 1f,
+        var imageFile: File? = null,
+        var isImage: Boolean = true
 )

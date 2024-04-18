@@ -7,27 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.coldmint.rust.core.turret.CoordinateData
-import com.coldmint.rust.core.turret.TurretData
 import com.coldmint.rust.core.turret.TurretView
 import com.coldmint.rust.pro.R
-import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentEditTurretInfoBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
  * 编辑炮塔信息碎片
  * @property fragmentEditTurretInfoBinding FragmentEditTurretInfoBinding
  */
-class EditTurretInfoFragment(val turretView: TurretView) : BottomSheetDialogFragment() {
+class EditTurretInfoFragment(private val turretView: TurretView, private val buttonclick: ButtonClick) : BottomSheetDialogFragment() {
     private lateinit var fragmentEditTurretInfoBinding: FragmentEditTurretInfoBinding
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View {
         fragmentEditTurretInfoBinding =
-            FragmentEditTurretInfoBinding.inflate(layoutInflater, container, false)
+                FragmentEditTurretInfoBinding.inflate(layoutInflater, container, false)
         return fragmentEditTurretInfoBinding.root
     }
 
@@ -53,7 +50,7 @@ class EditTurretInfoFragment(val turretView: TurretView) : BottomSheetDialogFrag
                 val text = s.toString()
                 if (text.isBlank()) {
                     fragmentEditTurretInfoBinding.xInputEditLayout.error =
-                        getString(R.string.please_enter_the_x_coordinate)
+                            getString(R.string.please_enter_the_x_coordinate)
                 } else {
                     fragmentEditTurretInfoBinding.xInputEditLayout.isErrorEnabled = false
                 }
@@ -73,7 +70,7 @@ class EditTurretInfoFragment(val turretView: TurretView) : BottomSheetDialogFrag
                 val text = s.toString()
                 if (text.isBlank()) {
                     fragmentEditTurretInfoBinding.yInputEditLayout.error =
-                        getString(R.string.please_enter_the_y_coordinate)
+                            getString(R.string.please_enter_the_y_coordinate)
                 } else {
                     fragmentEditTurretInfoBinding.yInputEditLayout.isErrorEnabled = false
                 }
@@ -84,8 +81,12 @@ class EditTurretInfoFragment(val turretView: TurretView) : BottomSheetDialogFrag
             val x = fragmentEditTurretInfoBinding.xInputEditText.text.toString().toInt()
             val y = fragmentEditTurretInfoBinding.yInputEditText.text.toString().toInt()
             turretView.setGameCoordinateData(CoordinateData(x, y))
-
+            buttonclick.onSaveButtonClick(x, y)
             dialog?.dismiss()
         }
+    }
+
+    interface ButtonClick {
+        fun onSaveButtonClick(x: Int, y: Int)
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".TurretDesignActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,30 +18,31 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            tools:itemCount="1"
+            android:layout_width="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content" />
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingTop="8dp"
-        android:paddingRight="16dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/cardView"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center">
-
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent">
             <com.coldmint.rust.core.turret.TurretSketchpadView
                 android:id="@+id/turretSketchpadView"
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
         </FrameLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -50,9 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent">
 
 
             <LinearLayout
@@ -67,21 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/control_panel" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/turret"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:inputType="none"
-                        android:id="@+id/autoCompleteText"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -103,25 +88,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/edit" />
-
                 </RelativeLayout>
-
             </LinearLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
-
-
-    </RelativeLayout>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:layout_width="wrap_content"-->
     <!--        android:layout_height="wrap_content"-->
     <!--        android:layout_gravity="right|bottom"-->
     <!--        android:layout_margin="16dp"-->
     <!--        android:src="@drawable/add" />-->
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

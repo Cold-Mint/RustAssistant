@@ -50,9 +50,11 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/searchLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:ignore="UseCompoundDrawables">
+                card_view:ignore="UseCompoundDrawables"
+                android:layout_marginBottom="9dp">
 
                 <TextView
                     android:id="@+id/textview1"
@@ -71,15 +73,6 @@
                     android:src="@drawable/baseline_delete_24"
                     card_view:ignore="ContentDescription" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textview1_text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="没有任何记录"
-                android:textSize="20sp"
-                card_view:ignore="HardcodedText" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/hotSearchView2"

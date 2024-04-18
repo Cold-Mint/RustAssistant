@@ -56,7 +56,6 @@ abstract class BaseActivity<ViewBingType : ViewBinding> :
                 finish()
             }
             dialog.show()
-
         }
     }
 

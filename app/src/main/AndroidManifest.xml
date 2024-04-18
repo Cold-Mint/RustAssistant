@@ -43,6 +43,8 @@
         <activity
             android:name=".CustomizeEditTextActivity"
             android:exported="false"/>
+<!--        模组界面-->
+        <activity android:name=".fragments.WarehouseFragment" />
         <activity
             android:name=".SearchActivity"
             android:exported="false"/>

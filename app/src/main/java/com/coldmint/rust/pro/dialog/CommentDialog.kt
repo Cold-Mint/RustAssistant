@@ -4,20 +4,13 @@ import android.R
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
-import com.coldmint.dialog.AppDialog
 import com.coldmint.dialog.BaseAppDialog
-import com.coldmint.dialog.BaseBottomDialog
-import com.coldmint.dialog.InputDialog
 import com.coldmint.rust.pro.databinding.DialogCommentBinding
-import com.coldmint.rust.pro.tool.LinkAutoCompleteHelper
 import com.coldmint.rust.pro.tool.TextStyleMaker
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -68,7 +61,7 @@ class CommentDialog(context: Context) : BaseAppDialog<CommentDialog>(context) {
                                 //已闭合{}。
                             }else{
                                 //正在输入内容
-                                adapter.add(text + '}')
+                                adapter.add("$text}")
                             }
                         } else {
                             //没有指定{开始位置

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mod_item">
+
+    <fragment
+        android:id="@+id/community_item"
+        android:name="com.coldmint.rust.pro.fragments.CommunityFragment"
+        android:label="@string/community"
+        tools:layout="@layout/fragment_community" />
+
+    <fragment
+        android:id="@+id/mod_item"
+        android:name="com.coldmint.rust.pro.fragments.WarehouseFragment"
+        android:label="@string/warehouse"
+        tools:layout="@layout/fragment_mod" />
+
+    <fragment
+        android:id="@+id/database_item"
+        android:name="com.coldmint.rust.pro.fragments.DatabaseFragment"
+        android:label="@string/menu_title3"
+        tools:layout="@layout/fragment_database" />
+
+    <fragment
+        android:id="@+id/template_item"
+        android:name="com.coldmint.rust.pro.fragments.TemplateFragment"
+        android:label="@string/template_title"
+        tools:layout="@layout/fragment_local_template" />
+
+
+</navigation>

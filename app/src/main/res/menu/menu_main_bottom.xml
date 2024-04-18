@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_recommended"
+        android:icon="@drawable/home"
+        android:title="@string/recommended" />
+    <item
+        android:id="@+id/action_follow"
+        android:icon="@drawable/group"
+        android:title="@string/follow" />
+    <item
+        android:id="@+id/action_ranking"
+        android:icon="@drawable/leaderboard"
+        android:title="@string/ranking" />
+    <item
+        android:id="@+id/action_my"
+        android:icon="@drawable/head_icon"
+        android:title="@string/my" />
+
+</menu>

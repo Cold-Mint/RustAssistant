@@ -20,7 +20,7 @@ import java.util.Collections;
 /** @noinspection unused*/
 public class gj {
 
-    public static String log_TAB = "打印";
+    public final static String log_TAB = "输出";
 
     public static void ts(Context a, Object b) {
         Toast.makeText(a, b.toString(), Toast.LENGTH_SHORT).show();
