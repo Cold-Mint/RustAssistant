@@ -12,8 +12,6 @@ import com.coldmint.rust.pro.base.BaseFragment
 import com.coldmint.rust.pro.databinding.FragmentWarehouseBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.permissionx.guolindev.PermissionX
-import com.permissionx.guolindev.callback.RequestCallback
-import javax.security.auth.callback.Callback
 
 
 /**
@@ -21,22 +19,8 @@ import javax.security.auth.callback.Callback
  * @date 2022/1/5 10:18
  */
 class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
-
     private fun loadTab() {
 // 在需要申请权限的地方调用如下方法
-        /*
-                PermissionX.init(this)
-                        .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .request { allGranted, _, _ ->
-                            // 在这里处理权限请求结果
-                            if (allGranted) {
-                                // 所有权限都已授予，可以进行文件操作
-                            } else {
-                                // 至少有一个权限被拒绝
-                            }
-                        }
-        */
         PermissionX.init(this)
                 .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -50,10 +34,6 @@ class WarehouseFragment : BaseFragment<FragmentWarehouseBinding>() {
                     }
                 }
         if (isAdded) {
-            val mainActivity = activity as MainActivity
-            /*            if (tableLayout == null) {
-                            viewBinding.pager.postDelayed({ loadTab() }, MainActivity.linkInterval)
-                        } else {*/
             TabLayoutMediator(viewBinding.tabLayout, viewBinding.pager) { tab, position ->
                 when (position) {
                     0 -> {

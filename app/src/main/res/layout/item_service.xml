@@ -9,9 +9,10 @@
 
     <ImageView
         android:id="@+id/iconView"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:src="@drawable/image"
+        android:scaleType="fitXY"
         app:tint="?attr/colorControlNormal" />
 
     <TextView

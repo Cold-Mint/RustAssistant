@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
@@ -29,6 +30,8 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     override fun whenCreateActivity(savedInstanceState: Bundle?, canUseView: Boolean) {
         if (canUseView) {
             title = getString(R.string.code_table)
+            viewBinding.edittext.hint = title
+
             setReturnButton()
             loadData()
             viewBinding.edittext.addTextChangedListener(object : TextWatcher {
@@ -53,7 +56,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 }
                 false
             }
-
+            viewBinding.back.setOnClickListener { finish() }
         }
     }
 
@@ -131,22 +134,25 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             }
 
             if (group.isNotEmpty()) {
-                val adapter = CodeTableAdapter(this, group, item)
+                adapter = CodeTableAdapter(this, group, item, viewBinding.codeRecyclerB)
                 adapter.setVersionMap(versionMap)
                 adapter.setTypeNameMap(typeNameMap)
                 adapter.setSectionMap(sectionMap)
                 runOnUiThread {
-                    adapter.labelFunction = { _, _, string ->
+/*                    adapter.labelFunction = { _, _, string ->
 //                        section = string
                         if (string.isEmpty()) {
                             loadData()
                         }
                         loadData(string)
-                    }
+                    }*/
                     viewBinding.displayView.isVisible = false
                     viewBinding.progressBar.isVisible = false
                     viewBinding.expandableListView.isVisible = true
+                    viewBinding.expandableListView.layoutManager = LinearLayoutManager(this)
                     viewBinding.expandableListView.setAdapter(adapter)
+//                    viewBinding.expandableListView.swapAdapter(adapter, true)
+
                 }
             } else {
                 notFindKey(key)
@@ -154,6 +160,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         }
     }
 
+    lateinit var adapter: CodeTableAdapter
     /**
      * 没有找到节
      * @param key String?
@@ -229,22 +236,22 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     }
 
     private fun editisVisible(b: Boolean) {
-        viewBinding.edittext.isVisible = b
-        if (!b) {
-            viewBinding.edittext.setText("")
-            gj.ycjp(viewBinding.edittext)
-        } else {
-            gj.tcjp(viewBinding.edittext)
-        }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (viewBinding.edittext.isVisible) {
-            editisVisible(false)
+        if (viewBinding.expandableListView.adapter !is CodeTableAdapter) {
+            viewBinding.expandableListView.adapter = adapter
             return
         }
-        ifNeedFinish()
+        if (viewBinding.edittext.text.isNotEmpty()) {
+            viewBinding.edittext.setText("")
+            gj.ycjp(viewBinding.edittext)
+        } else {
+            gj.tcjp(viewBinding.edittext)
+            finish()
+//            ifNeedFinish()
+        }
     }
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {
         return ActivityCodeTableBinding.inflate(layoutInflater)

@@ -43,27 +43,6 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:src="@drawable/baseline_help_outline_24" />
-
-<!--    <TextView-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:id="@+id/DemoTitleView"-->
-<!--        style="@style/TextAppearance.Material3.BodySmall"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/descriptionView"-->
-<!--        android:text="示例代码:"-->
-<!--        android:textColor="?attr/colorSecondary" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/demoView"-->
-<!--        style="@style/TextAppearance.Material3.BodySmall"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/descriptionView"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:text="demo"-->
-<!--        android:visibility="gone" />-->
-
     <TextView
         android:id="@+id/valueTypeView"
         style="@style/TextAppearance.Material3.BodySmall"
@@ -82,7 +61,7 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/valueTypeView"
         android:text="版本信息" />
-
+<!--
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
         android:layout_width="match_parent"
@@ -90,8 +69,7 @@
         android:layout_below="@id/valueTypeView"
         android:layout_marginTop="8dp"
         app:singleLine="false">
-
-    </com.google.android.material.chip.ChipGroup>
+    </com.google.android.material.chip.ChipGroup>-->
 
 
 </RelativeLayout>

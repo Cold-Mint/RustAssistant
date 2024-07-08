@@ -154,7 +154,7 @@
     <string name="loading_bookmarks">加载书签...</string>
     <string name="calculating">正在计算...</string>
     <string name="no_bookmark">没有书签</string>
-    <string name="filenum">共 %1$s 个项目</string>
+    <string name="filenum">%1$s个</string>
     <string name="not_find_database">没有找到数据集</string>
     <string name="use_database">使用</string>
     <string name="unuse_dataabse">已使用</string>

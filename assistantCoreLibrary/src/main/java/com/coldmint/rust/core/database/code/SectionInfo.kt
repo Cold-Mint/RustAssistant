@@ -12,11 +12,12 @@ import com.google.gson.annotations.SerializedName
  */
 @Entity(tableName = "section")
 data class SectionInfo(
-    @PrimaryKey val code: String = "",
-    @ColumnInfo(name = "translate") val translate: String = "",
-    @ColumnInfo(name = "need_name") val needName: Boolean = false,
-    @ColumnInfo(name = "is_visible") val isVisible: Boolean = true,
-    @ColumnInfo(name = "is_available") val isAvailable: Boolean = true
+        @PrimaryKey val code: String = "",
+        @ColumnInfo(name = "translate") val translate: String = "",
+        @ColumnInfo(name = "need_name") val needName: Boolean = false,
+        @ColumnInfo(name = "is_visible") val isVisible: Boolean = true,
+        @ColumnInfo(name = "is_available") val isAvailable: Boolean = true,
+//        var isShow: Boolean = false
 ) {
     @Ignore
     constructor() : this("")

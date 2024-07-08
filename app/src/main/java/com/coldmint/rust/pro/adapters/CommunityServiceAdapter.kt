@@ -32,8 +32,10 @@ class CommunityServiceAdapter(
         viewHolder: BaseAdapter.ViewHolder<ItemServiceBinding>,
         position: Int
     ) {
-        Glide.with(context).load(data.iconRes).apply(GlobalMethod.getRequestOptions())
-            .into(viewBinding.iconView)
+        viewBinding.iconView.setImageResource(data.iconRes)
+//
+//        Glide.with(context).load(data.iconRes).apply(GlobalMethod.getRequestOptions())
+//            .into(viewBinding.iconView)
         viewBinding.titleView.setText(data.titleRes)
 //        holder.itemView.setOnClickListener {
 //            val listener = itemListener

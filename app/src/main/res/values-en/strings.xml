@@ -154,7 +154,7 @@
     <string name="loading_bookmarks">Loading bookmarks…</string>
     <string name="calculating">Calculating…</string>
     <string name="no_bookmark">No bookmark</string>
-    <string name="filenum">Total %1$s items</string>
+    <string name="filenum">%1$sitems</string>
     <string name="not_find_database">No data set was found</string>
     <string name="use_database">use</string>
     <string name="unuse_dataabse">Has been used</string>

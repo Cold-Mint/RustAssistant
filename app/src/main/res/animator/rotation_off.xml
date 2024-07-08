@@ -4,4 +4,3 @@
     android:propertyName="rotation"
     android:valueFrom="180"
     android:valueTo="360" />
-

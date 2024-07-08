@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="90dp"
     android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:background="?attr/selectableItemBackgroundBorderless"
         android:id="@+id/headIconView"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        app:round="36dp"
         android:src="@drawable/head_icon" />
 
     <TextView

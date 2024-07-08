@@ -3,8 +3,6 @@ package com.coldmint.rust.pro.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -224,9 +222,9 @@ class FollowFragment : BaseFragment<FragmentFollowBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewBinding.rootLayout.layoutTransition.setAnimateParentHierarchy(false)
         viewBinding.linearLayout2.layoutTransition.setAnimateParentHierarchy(false)
-        val linearLayoutManager = StableLinearLayoutManager(requireContext())
-        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         viewBinding.headRecyclerView.layoutManager = linearLayoutManager
+        viewBinding.headRecyclerView.isNestedScrollingEnabled = false
         val linearLayoutManager2 = StableLinearLayoutManager(requireContext())
         viewBinding.recyclerView.layoutManager = linearLayoutManager2
         loadViewIfNeed()

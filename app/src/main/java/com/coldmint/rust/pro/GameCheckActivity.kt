@@ -24,22 +24,22 @@ class GameCheckActivity : BaseActivity<ActivityGameCheckBinding>() {
         if (canUseView) {
             setReturnButton()
             setTitle(R.string.game_configured)
-            viewBinding.startButton.setOnClickListener(View.OnClickListener {
+            viewBinding.startButton.setOnClickListener {
                 if (AppOperator.isAppInstalled(
-                        this@GameCheckActivity,
-                        GlobalMethod.DEFAULT_GAME_PACKAGE
-                    )
+                                this@GameCheckActivity,
+                                GlobalMethod.DEFAULT_GAME_PACKAGE
+                        )
                 ) {
                     AppOperator.openApp(this@GameCheckActivity, GlobalMethod.DEFAULT_GAME_PACKAGE)
                 } else {
                     Snackbar.make(
-                        viewBinding.startButton,
-                        R.string.no_game_installed,
-                        Snackbar.LENGTH_SHORT
+                            viewBinding.startButton,
+                            R.string.no_game_installed,
+                            Snackbar.LENGTH_SHORT
                     )
-                        .show()
+                            .show()
                 }
-            })
+            }
             viewBinding.completionButton.setOnClickListener(View.OnClickListener {
                 AppSettings.setValue(AppSettings.Setting.SetGameStorage, true)
                 finish()

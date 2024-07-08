@@ -60,6 +60,7 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
 
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         viewModel.modId = modId
+        viewBinding.cardView.isVisible = false
         viewModel.modNameLiveData = modNameLiveData
         loadInfo()
     }
@@ -90,7 +91,7 @@ class WebModDetailsFragment(val modId: String, val modNameLiveData: MutableLiveD
                     viewBinding.userInfoView.text = info
                     viewBinding.cardView.postDelayed({
                         viewBinding.cardView.isVisible = true
-                        viewBinding.openUserSpace.setOnClickListener {
+                        viewBinding.cardView.setOnClickListener {
                             gotoUserPage(t.data.account)
                         }
                     }, 300)

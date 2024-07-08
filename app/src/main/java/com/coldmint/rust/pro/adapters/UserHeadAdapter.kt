@@ -38,7 +38,7 @@ class UserHeadAdapter( context: Context, list: MutableList<FollowUserListData.Da
         } else {
             val headIcon = data.headIcon
             if (headIcon != null) {
-                Glide.with(context).load(ServerConfiguration.getRealLink(headIcon)).apply(GlobalMethod.getRequestOptions(true))
+                Glide.with(context).load(ServerConfiguration.getRealLink(headIcon))
                     .into(viewBinding.headIconView)
             }
         }

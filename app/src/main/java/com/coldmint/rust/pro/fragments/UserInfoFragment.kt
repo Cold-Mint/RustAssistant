@@ -32,6 +32,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
         val layoutManager = GridLayoutManager(RustApplication.getInstance(), 4)
         viewBinding.recyclerView.layoutManager = layoutManager
+        viewBinding.recyclerView.isNestedScrollingEnabled = false
         val dataList = ArrayList<CommunityServiceInfo>()
         dataList.add(CommunityServiceInfo(R.string.work_management, R.drawable.work_management))
 //        dataList.add(CommunityServiceInfo(R.string.little_black_house, R.drawable.ban))
@@ -113,7 +114,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
             viewBinding.progressBar.isVisible = false
             viewBinding.loginLayout.root.isVisible = false
             viewBinding.contentLayout.isVisible = true
-            viewBinding.root.isFillViewport = false
+//            viewBinding.root.isFillViewport = false
             account = AppSettings.getValue(AppSettings.Setting.Account, "")
             viewBinding.myHomeView.setOnClickListener {
                 val intent = Intent(
@@ -164,7 +165,7 @@ class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
             viewBinding.progressBar.isVisible = false
             viewBinding.loginLayout.root.isVisible = true
             viewBinding.contentLayout.isVisible = false
-            viewBinding.root.isFillViewport = true
+//            viewBinding.root.isFillViewport = true
         }
     }
 

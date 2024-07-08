@@ -76,6 +76,9 @@ class RustApplication : Application() {
                 activity: Activity,
                 savedInstanceState: Bundle?
             ) {
+                if (activity is CodeTableActivity){
+                    return
+                }
 //                android:screenOrientation="portrait"
                 //全局强制横屏
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
