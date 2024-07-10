@@ -5,11 +5,17 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.coldmint.rust.core.database.code.CodeDataBase
@@ -19,10 +25,11 @@ import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.databinding.CodeTableItemBinding
 import com.coldmint.rust.pro.databinding.ItemCodetableBinding
+import com.coldmint.rust.pro.dialog.MaterialBottomDialog
 import com.coldmint.rust.pro.tool.AppSettings
 import com.coldmint.rust.pro.tool.GlobalMethod
+import com.google.android.gms.common.internal.Objects
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.muqing.VH
 import java.util.concurrent.Executors
 
@@ -204,7 +211,13 @@ class CodeTableAdapter(
         lineParser.symbol = ","
     }
 
-    var i: Int = -1
+    companion object {
+        var i: String = null.toString()
+        var pick: Int = -1
+        var pickString: String = ""
+
+    }
+
     @SuppressLint("StringFormatInvalid")
     override fun onBindViewHolder(holder: VH<ItemCodetableBinding>, position: Int) {
         holder.binging.title.text = group[position].translate
@@ -214,19 +227,14 @@ class CodeTableAdapter(
         )
         holder.binging.message.text = format
         holder.itemView.setOnClickListener {
-            val p: Int = holder.absoluteAdapterPosition
-            i = if (i == p) {
-                -1
-            } else {
-                p
-            }
-            recyclerView.adapter = ITEM(itemList[position])
+            i = group[position].translate
+            item = ITEM(itemList[position])
+            recyclerView.adapter = item
             notifyDataSetChanged()
 //            notifyItemChanged(p)
         }
-        if (i == position) {
+        if (Objects.equal(group[position].translate, i)) {
             //背景高亮
-//
             holder.binging.root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_dark_onSecondaryContainer))
         } else {
             //背景恢复
@@ -234,7 +242,25 @@ class CodeTableAdapter(
         }
 
     }
+
+    var item: ITEM? = null
+
     inner class ITEM(val list: List<CodeInfo>) : RecyclerView.Adapter<VH<CodeTableItemBinding>>() {
+
+        //在list查找是否有这个关键字
+        fun search(keyword: String) {
+            pickString = keyword
+            for (i in list.indices) {
+                if (list[i].translate.contains(keyword) || list[i].description.contains(keyword) || list[i].code.contains(keyword)) {
+                    //找到后列表定位 到顶部
+                    pick = i
+                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i, 0)
+                    notifyDataSetChanged()
+                    break
+                }
+            }
+
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<CodeTableItemBinding> {
             return VH(CodeTableItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -244,34 +270,57 @@ class CodeTableAdapter(
             return list.size
         }
 
+        private fun contains(string: String, textView: TextView) {
+            if (string.contains(pickString)) {
+                val spannableText = SpannableStringBuilder(string)
+                val highlightWord = pickString
+                val start = string.indexOf(highlightWord)
+                val end = start + highlightWord.length
+                if (start != -1) {
+                    // 设置文字颜色
+                    val colorSpan = ForegroundColorSpan(Color.RED)
+                    spannableText.setSpan(colorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    // 设置背景颜色
+                    val backgroundSpan = BackgroundColorSpan(Color.YELLOW)
+                    spannableText.setSpan(backgroundSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+                textView.text = spannableText
+            } else {
+                textView.text = string
+            }
+            com.muqing.gj.sc(pickString)
+        }
+
         @SuppressLint("StringFormatInvalid")
         override fun onBindViewHolder(holder: VH<CodeTableItemBinding>, position: Int) {
             val resultView: CodeTableItemBinding = holder.binging
             val codeInfo = list[position]
-            resultView.descriptionView.text = codeInfo.description
+
+            contains(codeInfo.description, resultView.descriptionView)
             resultView.descriptionView.setOnClickListener {
                 GlobalMethod.copyText(it.context, codeInfo.description, it)
             }
-            resultView.titleView.text = codeInfo.translate
+
+            contains(codeInfo.translate, resultView.titleView)
             resultView.titleView.setOnClickListener {
                 GlobalMethod.copyText(it.context, codeInfo.translate, it)
             }
             val demo = codeInfo.demo
             resultView.imageView.isVisible = demo.isNotBlank()
             resultView.imageView.setOnClickListener {
-                val dialog = MaterialAlertDialogBuilder(it.context)
-                dialog.setTitle(R.string.code_demo)
-                dialog.setMessage(demo)
-                dialog.setPositiveButton(R.string.dialog_ok, null)
-                dialog.show()
+                val materialBottomDialog = MaterialBottomDialog(it.context)
+                materialBottomDialog.setTitle(R.string.code_demo)
+                materialBottomDialog.setMessage(demo)
+                materialBottomDialog.show()
             }
 
-            resultView.subTitleView.text = codeInfo.code
+            contains(codeInfo.code, resultView.subTitleView)
             resultView.subTitleView.setOnClickListener {
                 GlobalMethod.copyText(it.context, codeInfo.code, it)
             }
             resultView.valueTypeView.text = typeNameMap?.get(codeInfo.type) ?: codeInfo.type
             lineParser.text = codeInfo.section
+
 //            resultView.chipGroup.removeAllViews()
             var isNotEmpty = false
             lineParser.analyse { lineNum, lineData, isEnd ->
@@ -292,6 +341,7 @@ class CodeTableAdapter(
                 executorService.submit {
                     val codeDataBase = CodeDataBase.getInstance(context)
                     val typeInfo = codeDataBase.getValueTypeDao().findTypeByType(codeInfo.type)
+
                     if (typeInfo == null) {
                         handler.post {
                             handler.post {
@@ -350,6 +400,8 @@ class CodeTableAdapter(
             }
             resultView.versionView.text =
                     versionMap?.get(codeInfo.addVersion) ?: codeInfo.addVersion.toString()
+
+
         }
     }
 

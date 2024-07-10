@@ -27,7 +27,7 @@
             android:id="@+id/imageview"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/visibility" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.database.code.CodeDataBase
@@ -21,7 +22,6 @@ import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.pro.adapters.CodeTableAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
-import com.muqing.gj
 import java.util.concurrent.Executors
 
 class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
@@ -38,11 +38,15 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 override fun beforeTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
                 override fun onTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (a.isNullOrEmpty()) {
+/*                    if (a.isNullOrEmpty()) {
                         loadData()
                         return
                     }
-                    loadData(a.toString())
+                    loadData(a.toString())*/
+                    if (a.isNullOrEmpty()) {
+                        viewBinding.searchPick.isVisible = false
+                        loadData()
+                    }
                 }
                 override fun afterTextChanged(a: Editable?) {
                 }
@@ -51,8 +55,16 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 if (p1 == EditorInfo.IME_ACTION_SEARCH) {
                     if (v?.text.isNullOrEmpty()) {
                         loadData()
-                    }else
-                        loadData(v?.text.toString())
+                    }else{
+                        var toString = v?.text.toString()
+                        if (toString.startsWith("/")) {
+                            toString = toString.substring(1)
+                            loadData(toString)
+                        }else{
+                            viewBinding.searchPick.isVisible = true
+                            adapter.item?.search(toString)
+                        }
+                    }
                 }
                 false
             }
@@ -86,6 +98,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
      * @param section String? 节
      */
     fun loadData(key: String? = null, section: String? = null) {
+        //如果 key start 有 / 则取后的string
         executorService.submit {
             filterMode = key != null || section != null
             val sectionMap = HashMap<String, String>()
@@ -175,7 +188,6 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 spannableString.setSpan(
                     object : ClickableSpan() {
                         override fun onClick(p0: View) {
-                            editisVisible(false)
                             loadData()
                         }
                     }, start, start + action.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -195,63 +207,9 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         return true
     }
 
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.filter_units -> {
-                if (viewBinding.edittext.isVisible) {
-                    if (viewBinding.edittext.text.isNullOrEmpty()) {
-                        loadData()
-                    } else {
-                        loadData(viewBinding.edittext.text.toString())
-                    }
-                } else {
-                    editisVisible(true)
-                }
-                /*
-                InputDialog(this).setTitle(R.string.filter).setMessage(R.string.filter_tip)
-                    .setInputCanBeEmpty(false).setMaxNumber(20)
-                    .setPositiveButton(R.string.dialog_ok) { text ->
-                        var key = text
-                        if (key.length > 20) {
-                            key = key.substring(0, 20)
-                        }
-                        loadData(key)
-                        true
-                    }.setNegativeButton(R.string.dialog_close) {
-
-                    }.show()*/
-            }
-
-            android.R.id.home -> {
-                if (viewBinding.edittext.isVisible) {
-                    editisVisible(false)
-                    return true
-                }
-                ifNeedFinish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun editisVisible(b: Boolean) {
-    }
-
-    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (viewBinding.expandableListView.adapter !is CodeTableAdapter) {
-            viewBinding.expandableListView.adapter = adapter
-            return
-        }
-        if (viewBinding.edittext.text.isNotEmpty()) {
-            viewBinding.edittext.setText("")
-            gj.ycjp(viewBinding.edittext)
-        } else {
-            gj.tcjp(viewBinding.edittext)
             finish()
 //            ifNeedFinish()
-        }
     }
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {
         return ActivityCodeTableBinding.inflate(layoutInflater)

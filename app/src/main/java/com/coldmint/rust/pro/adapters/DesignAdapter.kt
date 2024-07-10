@@ -37,14 +37,13 @@ class DesignAdapter(private val onclick: Click) : RecyclerView.Adapter<VH<ItemTa
 
         if (string == list[position]) {
             holder.binging.root.isEnabled = false
-            holder.binging.root.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.material_grey_200))
-        } else {
-            holder.binging.root.isEnabled = true
             val typedValue = TypedValue()
             holder.itemView.context.theme.resolveAttribute(R.attr.colorPrimaryContainer, typedValue, true)
             val colorPrimary = typedValue.data
             holder.binging.root.setCardBackgroundColor(colorPrimary)
-
+        } else {
+            holder.binging.root.isEnabled = true
+            holder.binging.root.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.material_grey_200))
         }
         holder.binging.root.setOnClickListener {
             string = list[holder.absoluteAdapterPosition]

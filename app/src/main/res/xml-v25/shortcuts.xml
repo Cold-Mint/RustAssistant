@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/table"
+        android:shortcutDisabledMessage="@string/code_table"
+        android:shortcutId="id1"
+        android:shortcutLongLabel="@string/code_table"
+        android:shortcutShortLabel="@string/code_table">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.coldmint.rust.pro.CodeTableActivity"
+            android:targetPackage="com.coldmint.rust.pro" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

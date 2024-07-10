@@ -25,17 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.rust.Concept"
         android:usesCleartextTraffic="true"
-        android:screenOrientation="portrait"
         tools:targetApi="tiramisu">
         <activity
             android:name=".FeedbackActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ChangePasswordActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NetworkTemplatePackageDetailsActivity"
@@ -141,6 +138,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".ImporterActivity"
@@ -283,7 +283,12 @@
             android:name=".CreateTemplateActivity"/>
         <activity
             android:name=".CodeTableActivity"
-            android:exported="false"/>
+            android:launchMode="singleTask"
+            android:icon="@drawable/table"
+            android:taskAffinity="@string/code_table"
+            android:documentLaunchMode="intoExisting"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="false"/>

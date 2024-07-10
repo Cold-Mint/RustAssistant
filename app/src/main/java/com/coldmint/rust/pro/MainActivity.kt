@@ -1,8 +1,13 @@
 package com.coldmint.rust.pro
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -42,6 +47,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.io.File
+import java.util.Arrays
 import java.util.concurrent.Executors
 import java.util.zip.ZipEntry
 
@@ -300,7 +306,34 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         }*/
 
             codeTable.setOnMenuItemClickListener {
-                startActivity(Intent(this@MainActivity, CodeTableActivity::class.java))
+/*                // 获取上下文，通常是Activity的this或者Application的getApplicationContext()
+                val context: Context = this@MainActivity // 假设在Activity内部
+// 创建Intent，指定目标Activity
+                val shortcutIntent = Intent(context, CodeTableActivity::class.java)
+                shortcutIntent.setAction("com.coldmint.rust.pro.ACTION_CODE_TABLE") // 自定义Action，可选
+                shortcutIntent.putExtra("extra", "value") // 可选的额外数据
+// 添加标志，确保快捷方式启动新任务
+                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
+                shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+// 构建ShortcutInfo
+                val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    ShortcutInfo.Builder(context, "code_table_shortcut_id")
+                            .setShortLabel(context.getString(com.coldmint.rust.pro.R.string.code_table))
+                            .setLongLabel(context.getString(com.coldmint.rust.pro.R.string.code_table))
+                            .setIcon(Icon.createWithResource(context, com.coldmint.rust.pro.R.drawable.table))
+                            .setIntent(shortcutIntent)
+                            .build()
+                } else {
+                    TODO("VERSION.SDK_INT < N_MR1")
+                }
+// 获取ShortcutManager
+                val shortcutManager: ShortcutManager = context.getSystemService(ShortcutManager::class.java)
+// 添加动态快捷方式
+                shortcutManager.addDynamicShortcuts(listOf(info))*/
+                val intent = Intent(this@MainActivity, CodeTableActivity::class.java)
+/*                intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)*/
+                startActivity(intent)
                 false
             }
 /*重要部分

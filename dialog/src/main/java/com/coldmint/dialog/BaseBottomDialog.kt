@@ -18,7 +18,6 @@ abstract class BaseBottomDialog<ViewBindingType : ViewBinding>(val context: Cont
 
    protected val bottomSheetDialog: BottomSheetDialog by lazy {
         BottomSheetDialog(context)
-
    }
 
    protected val layoutInflater by lazy {
