@@ -178,4 +178,9 @@ dependencies {
     它基于 CSS 的 Flexbox 布局模型，能够帮助开发者更容易地创建复杂的布局结构，并实现各种灵活的布局需求。*/
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
+//    Android智能下拉刷新框架-SmartRefreshLayout
+    implementation  'io.github.scwang90:refresh-layout-kernel:2.1.0'      //核心必须依赖
+    implementation  'io.github.scwang90:refresh-header-classics:2.1.0'    //经典刷新头
+    implementation  'io.github.scwang90:refresh-footer-classics:2.1.0'    //经典加载
+
 }

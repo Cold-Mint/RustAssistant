@@ -17,6 +17,7 @@ import com.coldmint.rust.pro.databinding.FragmentRankingBinding
 import com.coldmint.rust.pro.ui.StableLinearLayoutManager
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
+
 /**
  * 排行榜
  */
@@ -30,7 +31,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     override fun whenViewCreated(inflater: LayoutInflater, savedInstanceState: Bundle?) {
         linearLayoutManager = StableLinearLayoutManager(requireContext())
         viewBinding.recyclerView.layoutManager = linearLayoutManager
-        viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+/*        viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val layoutManager = viewBinding.recyclerView.layoutManager
@@ -43,11 +44,18 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                     }
                 }
             }
-        })
-        viewBinding.swipeRefreshLayout.setOnRefreshListener {
+        })*/
+        viewBinding.refreshLayout.setOnRefreshListener {
+            it.finishRefresh(true)//传入false表示刷新失败
+            loadMods()
+        }
+        viewBinding.refreshLayout.setOnLoadMoreListener {
+            it.finishLoadMore(false) //传入false表示加载失败
+        }
+/*        viewBinding.swipeRefreshLayout.setOnRefreshListener {
             loadMods()
             viewBinding.swipeRefreshLayout.isRefreshing = false
-        }
+        }*/
         viewBinding.downloadChip.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 sortMode = WebMod.SortMode.Download_Number
@@ -79,7 +87,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
     private fun loadMods() {
         viewBinding.progressBar.isVisible = true
         viewBinding.textview.isVisible = false
-        viewBinding.swipeRefreshLayout.isVisible = false
+//        viewBinding.swipeRefreshLayout.isVisible = false
         WebMod.instance.list(object : ApiCallBack<WebModListData> {
             override fun onResponse(t: WebModListData) {
                 if (!isAdded) {
@@ -90,15 +98,15 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                     if (!list.isNullOrEmpty()) {
                         viewBinding.progressBar.isVisible = false
                         viewBinding.textview.isVisible = false
-                        viewBinding.swipeRefreshLayout.isVisible = true
+//                        viewBinding.swipeRefreshLayout.isVisible = true
                         val adapter = createAdapter(list)
                         viewBinding.recyclerView.adapter = adapter
                         linearLayoutManager?.scrollToPositionWithOffset(
                                 lastPosition,
                                 lastOffset
                         )
-                        FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
-                                .setPopupTextProvider(adapter).build()
+                        /*                        FastScrollerBuilder(viewBinding.recyclerView).useMd2Style()
+                                                        .setPopupTextProvider(adapter).build()*/
                     } else {
                         showInfoToView(R.string.network_error)
                     }
@@ -111,7 +119,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
                 showInfoToView(R.string.network_error)
             }
 
-        }, sortMode = sortMode, limit = "100")
+        }, sortMode = sortMode, limit = "10", sum = "0")
     }
 
 
@@ -148,7 +156,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
      */
     fun showInfoToView(textRes: Int? = null, text: String? = null) {
         viewBinding.progressBar.isVisible = false
-        viewBinding.swipeRefreshLayout.isVisible = false
+//        viewBinding.swipeRefreshLayout.isVisible = false
         viewBinding.textview.isVisible = true
         if (textRes == null) {
             viewBinding.textview.text = textRes

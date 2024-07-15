@@ -68,7 +68,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 }
                 false
             }
-            viewBinding.back.setOnClickListener { finish() }
+            viewBinding.back.setOnClickListener { moveTaskToBack(true) }
         }
     }
 
@@ -208,7 +208,8 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     }
 
     override fun onBackPressed() {
-            finish()
+        //显示桌面
+        moveTaskToBack(true);
 //            ifNeedFinish()
     }
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {

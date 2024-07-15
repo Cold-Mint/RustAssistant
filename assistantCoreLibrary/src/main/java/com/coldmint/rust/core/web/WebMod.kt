@@ -831,7 +831,8 @@ class WebMod private constructor() {
         apiCallBack: ApiCallBack<WebModListData>,
         tag: String? = null,
         sortMode: SortMode? = null,
-        limit: String? = null
+        limit: String? = null,
+        sum : String?=null
     ) {
         val okHttpClient = ServerConfiguration.initOkHttpClient()
         val requestBodyBuilder: FormBody.Builder =
