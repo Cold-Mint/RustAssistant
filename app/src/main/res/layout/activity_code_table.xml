@@ -68,15 +68,19 @@
                     tools:visibility="visible">
 
                     <ImageView
+                        android:id="@+id/listTop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
                         android:padding="9dp"
+                        android:background="?selectableItemBackground"
                         android:src="@drawable/animator_expand_on" />
 
                     <ImageView
+                        android:id="@+id/listButtom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
                         android:padding="9dp"
                         android:src="@drawable/animator_expand_off" />
                 </LinearLayout>

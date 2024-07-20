@@ -10,18 +10,19 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coldmint.rust.core.database.code.CodeDataBase
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
 import com.coldmint.rust.pro.adapters.CodeTableAdapter
+import com.coldmint.rust.pro.adapters.CodeTableItemAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
+import com.google.rpc.Code
+import com.muqing.gj
 import java.util.concurrent.Executors
 
 class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
@@ -34,20 +35,42 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
 
             setReturnButton()
             loadData()
+            //设置上下选择按钮
+            viewBinding.listTop.setOnClickListener {
+                if (--CodeTableAdapter.pick < 0) {
+                    CodeTableAdapter.pick = 0
+                }
+                val get = CodeTableAdapter.picklist[CodeTableAdapter.pick]
+                (viewBinding.codeRecyclerB.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(get, 0)
+                adapter.item?.notifyDataSetChanged()
+            }
+            viewBinding.listButtom.setOnClickListener {
+                val size = CodeTableAdapter.picklist.size
+
+                if (++CodeTableAdapter.pick == size - 1) {
+                    CodeTableAdapter.pick = 0
+                }
+                val get = CodeTableAdapter.picklist[CodeTableAdapter.pick]
+                (viewBinding.codeRecyclerB.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(get,
+                        0)
+                adapter.item?.notifyDataSetChanged()
+            }
             viewBinding.edittext.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
+
                 override fun onTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {
-/*                    if (a.isNullOrEmpty()) {
-                        loadData()
-                        return
-                    }
-                    loadData(a.toString())*/
+                    /*                    if (a.isNullOrEmpty()) {
+                                            loadData()
+                                            return
+                                        }
+                                        loadData(a.toString())*/
                     if (a.isNullOrEmpty()) {
                         viewBinding.searchPick.isVisible = false
-                        loadData()
+//                        loadData()
                     }
                 }
+
                 override fun afterTextChanged(a: Editable?) {
                 }
             })
@@ -55,12 +78,12 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 if (p1 == EditorInfo.IME_ACTION_SEARCH) {
                     if (v?.text.isNullOrEmpty()) {
                         loadData()
-                    }else{
+                    } else {
                         var toString = v?.text.toString()
                         if (toString.startsWith("/")) {
                             toString = toString.substring(1)
                             loadData(toString)
-                        }else{
+                        } else {
                             viewBinding.searchPick.isVisible = true
                             adapter.item?.search(toString)
                         }
@@ -137,7 +160,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                     codeDataBase.getCodeDao().findCodeBySection(section.code)
                 } else {
                     codeDataBase.getCodeDao()
-                        .findCodeByCodeOrTranslateFromSection(key, section.code)
+                            .findCodeByCodeOrTranslateFromSection(key, section.code)
                 }
                 if (list.isNullOrEmpty()) {
                     group.remove(section)
@@ -147,25 +170,33 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             }
 
             if (group.isNotEmpty()) {
-                adapter = CodeTableAdapter(this, group, item, viewBinding.codeRecyclerB)
+                adapter = CodeTableAdapter(this, group, item, viewBinding)
                 adapter.setVersionMap(versionMap)
                 adapter.setTypeNameMap(typeNameMap)
                 adapter.setSectionMap(sectionMap)
+                if (adapter.item == null) {
+
+                    adapter.item = CodeTableItemAdapter(viewBinding.codeRecyclerB, item[0])
+                    adapter.item!!.versionMap = versionMap
+                    adapter.item!!.typeNameMap = typeNameMap
+                    adapter.item!!.sectionMap = sectionMap
+                    CodeTableAdapter.i = group[0].translate
+                }
                 runOnUiThread {
-/*                    adapter.labelFunction = { _, _, string ->
-//                        section = string
-                        if (string.isEmpty()) {
-                            loadData()
-                        }
-                        loadData(string)
-                    }*/
+                    viewBinding.codeRecyclerB.adapter = adapter.item
+                    /*                    adapter.labelFunction = { _, _, string ->
+                    //                        section = string
+                                            if (string.isEmpty()) {
+                                                loadData()
+                                            }
+                                            loadData(string)
+                                        }*/
                     viewBinding.displayView.isVisible = false
                     viewBinding.progressBar.isVisible = false
                     viewBinding.expandableListView.isVisible = true
                     viewBinding.expandableListView.layoutManager = LinearLayoutManager(this)
-                    viewBinding.expandableListView.setAdapter(adapter)
+                    viewBinding.expandableListView.adapter = adapter
 //                    viewBinding.expandableListView.swapAdapter(adapter, true)
-
                 }
             } else {
                 notFindKey(key)
@@ -174,6 +205,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
     }
 
     lateinit var adapter: CodeTableAdapter
+
     /**
      * 没有找到节
      * @param key String?
@@ -186,11 +218,11 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             val spannableString = SpannableString(tip)
             if (start > -1) {
                 spannableString.setSpan(
-                    object : ClickableSpan() {
-                        override fun onClick(p0: View) {
-                            loadData()
-                        }
-                    }, start, start + action.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        object : ClickableSpan() {
+                            override fun onClick(p0: View) {
+                                loadData()
+                            }
+                        }, start, start + action.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
             viewBinding.displayView.movementMethod = LinkMovementMethod.getInstance()
@@ -202,6 +234,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         viewBinding.expandableListView.isVisible = false
         viewBinding.progressBar.isVisible = false
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_code_table, menu)
         return true
@@ -212,6 +245,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         moveTaskToBack(true);
 //            ifNeedFinish()
     }
+
     override fun getViewBindingObject(layoutInflater: LayoutInflater): ActivityCodeTableBinding {
         return ActivityCodeTableBinding.inflate(layoutInflater)
     }
