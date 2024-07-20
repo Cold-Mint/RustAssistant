@@ -64,10 +64,10 @@
             android:icon="@drawable/github"
             android:title="@string/github" />
 
-        <item
-            android:id="@+id/rust_api"
-            android:icon="@drawable/outline_book_24"
-            android:title="@string/rust_api" />
+<!--        <item-->
+<!--            android:id="@+id/rust_api"-->
+<!--            android:icon="@drawable/outline_book_24"-->
+<!--            android:title="@string/rust_api" />-->
 
 
         <item

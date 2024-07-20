@@ -13,6 +13,7 @@ import com.coldmint.rust.core.tool.LineParser
 import com.coldmint.rust.pro.R
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
 import com.coldmint.rust.pro.databinding.ItemCodetableBinding
+import com.coldmint.rust.pro.tool.GlobalMethod
 import com.google.android.gms.common.internal.Objects
 import com.muqing.VH
 
@@ -208,8 +209,8 @@ class CodeTableAdapter(
     override fun onBindViewHolder(holder: VH<ItemCodetableBinding>, position: Int) {
         holder.binging.title.text = group[position].translate
         val format = String.format(
-                context.getString(R.string.filenum),
-                itemList[position].size
+            context.getString(R.string.filenum),
+            itemList[position].size
         )
         holder.binging.message.text = format
         holder.itemView.setOnClickListener {
@@ -226,10 +227,10 @@ class CodeTableAdapter(
         }
         if (Objects.equal(group[position].translate, i)) {
             //背景高亮
-            holder.binging.root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_dark_onSecondaryContainer))
+            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorPrimaryContainer))
         } else {
             //背景恢复
-            holder.binging.root.setCardBackgroundColor(Color.parseColor("#FBEEF5"))
+            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorSecondaryContainer))
         }
 
     }
