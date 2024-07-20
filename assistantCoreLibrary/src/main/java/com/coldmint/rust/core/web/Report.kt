@@ -92,7 +92,7 @@ class Report private constructor() {
         val requestBody = requestBodyBuilder.build()
         val request =
             Request.Builder()
-                .url(ServerConfiguration.website + "php/report.php?action=list")
+                .url(ServerConfiguration.website + "php/report.php?action=reportRecordList")
                 .post(requestBody).build()
         val call = okHttpClient.newCall(request)
         val handler = Handler(Looper.getMainLooper())
