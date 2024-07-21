@@ -37,15 +37,21 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
             loadData()
             //设置上下选择按钮
             viewBinding.listTop.setOnClickListener {
+                if (CodeTableAdapter.picklist.isEmpty()) {
+                    return@setOnClickListener
+                }
+
                 if (--CodeTableAdapter.pick < 0) {
                     CodeTableAdapter.pick = 0
                 }
                 val get = CodeTableAdapter.picklist[CodeTableAdapter.pick]
                 (viewBinding.codeRecyclerB.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(get, 0)
-                adapter.item?.notifyDataSetChanged()
             }
             viewBinding.listButtom.setOnClickListener {
                 val size = CodeTableAdapter.picklist.size
+                if (CodeTableAdapter.picklist.isEmpty()) {
+                    return@setOnClickListener
+                }
 
                 if (++CodeTableAdapter.pick == size - 1) {
                     CodeTableAdapter.pick = 0
@@ -53,7 +59,6 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 val get = CodeTableAdapter.picklist[CodeTableAdapter.pick]
                 (viewBinding.codeRecyclerB.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(get,
                         0)
-                adapter.item?.notifyDataSetChanged()
             }
             viewBinding.edittext.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(a: CharSequence?, p1: Int, p2: Int, p3: Int) {

@@ -4,7 +4,6 @@
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@null"
     app:cardUseCompatPadding="true">
 
     <LinearLayout

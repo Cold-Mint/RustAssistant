@@ -230,7 +230,7 @@ class CodeTableAdapter(
             holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorPrimaryContainer))
         } else {
             //背景恢复
-            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorSecondaryContainer))
+            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorSurface))
         }
 
     }
