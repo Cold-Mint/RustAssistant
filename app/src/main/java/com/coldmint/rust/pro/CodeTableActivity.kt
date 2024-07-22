@@ -1,5 +1,6 @@
 package com.coldmint.rust.pro
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -21,8 +22,6 @@ import com.coldmint.rust.pro.adapters.CodeTableAdapter
 import com.coldmint.rust.pro.adapters.CodeTableItemAdapter
 import com.coldmint.rust.pro.base.BaseActivity
 import com.coldmint.rust.pro.databinding.ActivityCodeTableBinding
-import com.google.rpc.Code
-import com.muqing.gj
 import java.util.concurrent.Executors
 
 class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
@@ -48,10 +47,10 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                 (viewBinding.codeRecyclerB.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(get, 0)
             }
             viewBinding.listButtom.setOnClickListener {
-                val size = CodeTableAdapter.picklist.size
                 if (CodeTableAdapter.picklist.isEmpty()) {
                     return@setOnClickListener
                 }
+                val size = CodeTableAdapter.picklist.size
 
                 if (++CodeTableAdapter.pick == size - 1) {
                     CodeTableAdapter.pick = 0
@@ -72,7 +71,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
                                         loadData(a.toString())*/
                     if (a.isNullOrEmpty()) {
                         viewBinding.searchPick.isVisible = false
-//                        loadData()
+                        loadData()
                     }
                 }
 
@@ -111,14 +110,6 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         }
     */
 
-
-    private fun ifNeedFinish() {
-        if (filterMode) {
-            loadData()
-        } else {
-            finish()
-        }
-    }
 
     /**
      * 加载数据
@@ -215,6 +206,7 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
      * 没有找到节
      * @param key String?
      */
+    @SuppressLint("StringFormatInvalid")
     private fun notFindKey(key: String?) {
         if (!key.isNullOrBlank()) {
             val tip = String.format(getString(R.string.not_find_code_name), key)
@@ -245,9 +237,10 @@ class CodeTableActivity : BaseActivity<ActivityCodeTableBinding>() {
         return true
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("moveTaskToBack(true)"))
     override fun onBackPressed() {
         //显示桌面
-        moveTaskToBack(true);
+        moveTaskToBack(true)
 //            ifNeedFinish()
     }
 

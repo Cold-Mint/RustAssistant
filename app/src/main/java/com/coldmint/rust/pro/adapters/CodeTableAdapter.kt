@@ -2,10 +2,8 @@ package com.coldmint.rust.pro.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.coldmint.rust.core.database.code.CodeInfo
 import com.coldmint.rust.core.database.code.SectionInfo
@@ -205,32 +203,32 @@ class CodeTableAdapter(
         lineParser.symbol = ","
     }
 
-    @SuppressLint("StringFormatInvalid")
+    @SuppressLint("NotifyDataSetChanged", "StringFormatInvalid")
     override fun onBindViewHolder(holder: VH<ItemCodetableBinding>, position: Int) {
         holder.binging.title.text = group[position].translate
         val format = String.format(
-            context.getString(R.string.filenum),
-            itemList[position].size
+                context.getString(R.string.filenum),
+                itemList[position].size
         )
         holder.binging.message.text = format
         holder.itemView.setOnClickListener {
             i = group[position].translate
+            pick = 0
+            pickString = ""
+            picklist.clear()
             if (item != null) {
                 item!!.list = itemList[position]
                 binding.codeRecyclerB.adapter = item
                 notifyDataSetChanged()
             }
-            if (!binding.edittext.text.isNullOrEmpty())
-                binding.edittext.setText("")
-
 //            notifyItemChanged(p)
         }
         if (Objects.equal(group[position].translate, i)) {
             //背景高亮
-            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorPrimaryContainer))
+            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context, R.attr.colorPrimaryContainer))
         } else {
             //背景恢复
-            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context,R.attr.colorSurface))
+            holder.binging.root.setCardBackgroundColor(GlobalMethod.getThemeColor(context, R.attr.colorSurface))
         }
 
     }

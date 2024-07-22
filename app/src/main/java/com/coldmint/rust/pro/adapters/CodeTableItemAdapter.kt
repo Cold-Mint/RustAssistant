@@ -52,6 +52,8 @@ class CodeTableItemAdapter(val recyclerView: RecyclerView,
     //在list查找是否有这个关键字
     fun search(keyword: String) {
         CodeTableAdapter.pickString = keyword
+        CodeTableAdapter.pick = 0
+        CodeTableAdapter.picklist.clear()
         for (i in list.indices) {
             if (list[i].translate.contains(keyword) || list[i].description.contains(keyword) || list[i].code.contains(keyword)) {
                 CodeTableAdapter.picklist.add(i)
