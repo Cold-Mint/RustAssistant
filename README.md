@@ -7,10 +7,6 @@
 
 Support Chinese and English code association, automatic completion.
 
-![](screenshots/editor.png)
-
-
-
 #### 源码运行问题解决：
 
 ###### 1.打包时报错，缺少SDK路径
@@ -24,3 +20,7 @@ SDK location not found.
 ```
 sdk.dir=(安卓SDK路径)
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Cold-Mint/RustAssistant&type=Date)](https://star-history.com/#Cold-Mint/RustAssistant&Date)
